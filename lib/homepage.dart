@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homeaccountantapp/speed_dial.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -9,7 +10,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   List options = [
     {'name': 'Home', 'icon': Icons.home},
@@ -18,6 +19,16 @@ class _MyHomePageState extends State<MyHomePage> {
     {'name': 'Analyze', 'icon': Icons.show_chart},
     {'name': 'About us', 'icon': Icons.info_outline}
   ];
+
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller = new AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +41,28 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              onPressed: () {
+                if (_controller.isDismissed) {
+                  _controller.forward();
+                } else {
+                  _controller.reverse();
+                }
+              },
+              child: new AnimatedBuilder(
+                animation: _controller,
+                builder: (BuildContext context, Widget child) {
+                  return new Icon(Icons.more_vert);
+                }
+              )
+            )
+          )
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -38,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
             DrawerHeader(
               child: null,
               decoration: BoxDecoration(
-                color: Colors.grey
+                color: Colors.grey[850]
               ),
             ),
             ListView.builder(
@@ -65,12 +98,16 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
+        child: Stack(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+          ),
+          SpeedDialButton(_controller),
+        ])
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {print('Pressed');},
+        onPressed: () {print('Add Transaction Pressed');},
         child: Icon(Icons.add),
       ),
     );
