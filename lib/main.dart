@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Home Accountant',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.grey[850],
+        accentColor: Colors.grey[900]
       ),
       home: MyHomePage(title: 'Home Accountant'),
     );
