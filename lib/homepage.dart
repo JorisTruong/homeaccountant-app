@@ -16,7 +16,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     {'name': 'Home', 'icon': Icons.home},
     {'name': 'Categories', 'icon': Icons.category},
     {'name': 'Graphs', 'icon': Icons.pie_chart},
-    {'name': 'Analyze', 'icon': Icons.show_chart},
+    {'name': 'Charts', 'icon': Icons.show_chart},
     {'name': 'About us', 'icon': Icons.info_outline}
   ];
 
