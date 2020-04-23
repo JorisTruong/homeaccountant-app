@@ -61,7 +61,9 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                               heroTag: null,
                               mini: true,
                               child: new Icon(buttons[index]['icon']),
-                              onPressed: () {},
+                              onPressed: () {
+                                print("${buttons[index]['name']} pressed");
+                              },
                             )
                           ],
                         )
