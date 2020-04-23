@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:homeaccountantapp/speed_dial.dart';
+import 'package:homeaccountantapp/main_card.dart';
+
+final String currency = "HKD";
+final String amount = "250,000";
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -100,8 +104,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: Center(
         child: Stack(
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MainCard(currency, amount)
+              ],
+            )
           ),
           SpeedDialButton(_controller),
         ])
