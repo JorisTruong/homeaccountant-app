@@ -70,8 +70,8 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                             mini: true,
                             child: new Icon(buttons[index]['icon']),
                             onPressed: () {
-                              print("${buttons[index]['name']} pressed");
                               StoreProvider.of<AppState>(context).dispatch(UpdateDateRange(buttons[index]['name']));
+                              print("${StoreProvider.of<AppState>(context).state.dateRange} pressed");
                             },
                           )
                         ],
