@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             panel: Center(child: Text("This is the sliding Widget"),),
             backdropEnabled: true,
             minHeight: 0.0,
-            maxHeight: 650.0,
+            maxHeight: 0.8 * MediaQuery.of(context).size.height,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.0),
               topRight: Radius.circular(24.0)
