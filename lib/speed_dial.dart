@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:homeaccountantapp/redux/models/models.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 const List buttons = [
   {'name': 'All', 'icon': Icons.visibility},
@@ -12,8 +13,9 @@ const List buttons = [
 
 class SpeedDialButton extends StatefulWidget {
   AnimationController _controller;
+  PanelController _pc;
 
-  SpeedDialButton(this._controller);
+  SpeedDialButton(this._controller, this._pc);
 
   @override
   _SpeedDialButtonState createState() => new _SpeedDialButtonState();
@@ -72,6 +74,17 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                             onPressed: () {
                               StoreProvider.of<AppState>(context).dispatch(UpdateDateRange(buttons[index]['name']));
                               print("${StoreProvider.of<AppState>(context).state.dateRange} pressed");
+                              if (StoreProvider.of<AppState>(context).state.dateRange == 'Month') {
+                                if (widget._pc.isAttached) {
+                                  if (widget._pc.isPanelOpen) {
+                                    widget._pc.close();
+                                  } else {
+                                    widget._pc.open();
+                                  }
+                                } else {
+                                  print(widget._pc.isAttached);
+                                }
+                              }
                             },
                           )
                         ],

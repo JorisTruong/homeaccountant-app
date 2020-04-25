@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
 import 'package:homeaccountantapp/speed_dial.dart';
 import 'package:homeaccountantapp/main_card.dart';
 
@@ -25,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
 
   AnimationController _controller;
+  PanelController _pc = new PanelController();
 
   @override
   void initState() {
@@ -112,7 +115,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               ],
             )
           ),
-          SpeedDialButton(_controller),
+          SpeedDialButton(_controller, _pc),
+          SlidingUpPanel(
+            controller: _pc,
+            panel: Center(child: Text("This is the sliding Widget"),),
+            backdropEnabled: true,
+            minHeight: 0.0,
+            maxHeight: 650.0,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.0),
+              topRight: Radius.circular(24.0)
+            ),
+          )
         ])
       ),
       floatingActionButton: FloatingActionButton(
