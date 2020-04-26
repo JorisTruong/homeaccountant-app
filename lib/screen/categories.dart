@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/main_card.dart';
-import 'package:homeaccountantapp/speed_dial.dart';
 
 
-final String currency = 'HKD';
-final String amount = '250,000';
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+class CategoriesPage extends StatefulWidget {
+  CategoriesPage({Key key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _CategoriesPageState createState() => _CategoriesPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStateMixin {
 
   List options = [
     {'name': 'Home', 'icon': Icons.home, 'route': AppRoutes.home},
@@ -30,17 +24,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     {'name': 'Charts', 'icon': Icons.show_chart, 'route': AppRoutes.charts},
     {'name': 'About us', 'icon': Icons.info_outline, 'route': AppRoutes.about}
   ];
-
-  AnimationController _controller;
-  PanelController _pc = new PanelController();
-
-  @override
-  void initState() {
-    _controller = new AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,33 +39,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           child: Scaffold(
             appBar: AppBar(
               title: Text(
-                'Home Accountant',
+                'Categories',
                 style: TextStyle(
                   fontSize: 24
                 ),
               ),
               centerTitle: true,
               actions: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    onPressed: () {
-                      if (_controller.isDismissed) {
-                        _controller.forward();
-                      } else {
-                        _controller.reverse();
-                      }
-                    },
-                    child: new AnimatedBuilder(
-                      animation: _controller,
-                      builder: (BuildContext context, Widget child) {
-                        return new Icon(Icons.more_vert);
-                      }
-                    )
-                  )
-                )
               ],
             ),
             drawer: Drawer(
@@ -112,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         onTap: () {
                           print('${item['name']} pressed');
                           Navigator.pop(context);
-                          if (item['route'] != AppRoutes.home) {
+                          if (item['route'] != AppRoutes.categories) {
                             StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(item['route']));
                           }
                           print(StoreProvider.of<AppState>(context).state);
@@ -124,34 +87,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               )
             ),
             body: Center(
-              child: Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MainCard(currency, amount)
-                    ],
-                  )
-                ),
-                SpeedDialButton(_controller, _pc),
-                SlidingUpPanel(
-                  controller: _pc,
-                  panel: Center(child: Text("This is the sliding Widget"),),
-                  backdropEnabled: true,
-                  minHeight: 0.0,
-                  maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0)
-                  ),
-                )
-              ])
-            ),
-            floatingActionButton: FloatingActionButton(
-              heroTag: null,
-              onPressed: () {print('Add Transaction Pressed');},
-              child: Icon(Icons.add),
             ),
           )
         );

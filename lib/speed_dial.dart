@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
