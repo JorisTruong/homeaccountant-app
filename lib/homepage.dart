@@ -32,7 +32,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
 
   AnimationController _controller;
-  PanelController _pc = new PanelController();
+  PanelController _pcAccount = new PanelController();
+  PanelController _pcDate = new PanelController();
 
   @override
   void initState() {
@@ -134,16 +135,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     ],
                   )
                 ),
-                SpeedDialButton(_controller, _pc),
+                SpeedDialButton(_controller, _pcAccount, _pcDate),
                 SlidingUpPanel(
-                  controller: _pc,
-                  panel: Center(child: Text("This is the sliding Widget"),),
+                  controller: _pcAccount,
+                  panel: Center(child: Text("This is the sliding Widget for Account"),),
                   backdropEnabled: true,
                   minHeight: 0.0,
                   maxHeight: 0.8 * MediaQuery.of(context).size.height,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24.0),
                     topRight: Radius.circular(24.0)
+                  ),
+                ),
+                SlidingUpPanel(
+                  controller: _pcDate,
+                  panel: Center(child: Text("This is the sliding Widget for Date Range"),),
+                  backdropEnabled: true,
+                  minHeight: 0.0,
+                  maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)
                   ),
                 )
               ])

@@ -1,3 +1,9 @@
+class ChangeAccount {
+  final String account;
+
+  ChangeAccount(this.account);
+}
+
 class UpdateDateRange {
   final String dateRange;
 

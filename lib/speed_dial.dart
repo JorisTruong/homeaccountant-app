@@ -7,15 +7,16 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 const List buttons = [
-  {'name': 'All', 'icon': Icons.visibility},
-  {'name': 'Month', 'icon': Icons.date_range}
+  {'name': 'Account', 'icon': Icons.account_balance_wallet},
+  {'name': 'Date range', 'icon': Icons.date_range}
 ];
 
 class SpeedDialButton extends StatefulWidget {
   AnimationController _controller;
-  PanelController _pc;
+  PanelController _pcAccount;
+  PanelController _pcDate;
 
-  SpeedDialButton(this._controller, this._pc);
+  SpeedDialButton(this._controller, this._pcAccount, this._pcDate);
 
   @override
   _SpeedDialButtonState createState() => new _SpeedDialButtonState();
@@ -72,17 +73,31 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                             mini: true,
                             child: new Icon(buttons[index]['icon']),
                             onPressed: () {
-                              StoreProvider.of<AppState>(context).dispatch(UpdateDateRange(buttons[index]['name']));
-                              print("${StoreProvider.of<AppState>(context).state.dateRange} pressed");
-                              if (StoreProvider.of<AppState>(context).state.dateRange == 'Month') {
-                                if (widget._pc.isAttached) {
-                                  if (widget._pc.isPanelOpen) {
-                                    widget._pc.close();
+                              print("${buttons[index]['name']} pressed");
+                              if (buttons[index]['name'] == 'Account') {
+                                StoreProvider.of<AppState>(context).dispatch(ChangeAccount(buttons[index]['name']));
+                                print(StoreProvider.of<AppState>(context).state.account);
+                                if (widget._pcAccount.isAttached) {
+                                  if (widget._pcAccount.isPanelOpen) {
+                                    widget._pcAccount.close();
                                   } else {
-                                    widget._pc.open();
+                                    widget._pcAccount.open();
                                   }
                                 } else {
-                                  print(widget._pc.isAttached);
+                                  print(widget._pcAccount.isAttached);
+                                }
+                              }
+                              if (buttons[index]['name'] == 'Date range') {
+                                StoreProvider.of<AppState>(context).dispatch(UpdateDateRange(buttons[index]['name']));
+                                print(StoreProvider.of<AppState>(context).state.dateRange);
+                                if (widget._pcDate.isAttached) {
+                                  if (widget._pcDate.isPanelOpen) {
+                                    widget._pcDate.close();
+                                  } else {
+                                    widget._pcDate.open();
+                                  }
+                                } else {
+                                  print(widget._pcDate.isAttached);
                                 }
                               }
                             },
