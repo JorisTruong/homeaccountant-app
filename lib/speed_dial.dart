@@ -54,7 +54,7 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                         children: [
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-                            margin: EdgeInsets.only(right: 18.0),
+                            margin: EdgeInsets.only(right: 15.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.all(Radius.circular(6.0)),

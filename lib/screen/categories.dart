@@ -1,10 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'dart:math';
 
+import 'package:homeaccountantapp/components/categories_card.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
+
+
+final random = new Random();
+
+var categories = {
+  'Category 1': [
+    {'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 3', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 4', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 5', 'icon_id': random.nextInt(985)}
+  ],
+  'Category 2': [
+    {'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 3', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 4', 'icon_id': random.nextInt(985)}
+  ],
+  'Category 3': [
+    {'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 3', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 4', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 5', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 6', 'icon_id': random.nextInt(985)}
+  ],
+  'Category 4': [
+    {'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
+    {'name': 'Subcategory 3', 'icon_id': random.nextInt(985)}
+  ],
+  'Category 5': []
+};
 
 
 class CategoriesPage extends StatefulWidget {
@@ -86,8 +121,20 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                 ]
               )
             ),
-            body: Center(
-            ),
+            body: SingleChildScrollView(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: new List.generate(categories.length, (int index) {
+                  var category = categories.keys.toList()[index];
+                  var subcategories = categories.values.toList()[index];
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 25.0),
+                    child: CategoryCard(category, subcategories)
+                  );
+                })
+              )
+            )
           )
         );
       }
