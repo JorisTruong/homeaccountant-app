@@ -11,7 +11,10 @@ import 'package:homeaccountantapp/speed_dial.dart';
 
 
 final String currency = 'HKD';
-final String amount = '250,000';
+final String balance = '250,000';
+final String expenses = '80,000';
+final String revenue = '330,000';
+final String transactionNumber = '42';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -131,7 +134,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MainCard(currency, amount)
+                      MainCard('Balance', currency, balance, Colors.blueAccent, 'left'),
+                      MainCard('Revenue', Icons.call_made, revenue, Colors.green, 'right'),
+                      MainCard('Expenses', Icons.call_received, expenses, Colors.redAccent, 'left'),
+                      MainCard('Number of transactions', currency, transactionNumber, Colors.amberAccent, 'right')
                     ],
                   )
                 ),

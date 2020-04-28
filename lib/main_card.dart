@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:homeaccountantapp/currency_icon.dart';
+import 'package:homeaccountantapp/main_card_icon.dart';
 
 class MainCard extends StatelessWidget {
-  final String currency;
+  final String title;
+  final dynamic icon;
   final String amount;
+  final dynamic color;
+  final String direction;
 
-  MainCard(this.currency, this.amount);
+  MainCard(this.title, this.icon, this.amount, this.color, this.direction);
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +23,35 @@ class MainCard extends StatelessWidget {
           padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 50.0, right: 50.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Balance",
-                      style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 16)
-                    ),
-                    Text(
-                      amount,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)
-                    )
-                  ]
-                )
+            children: direction == 'left' ? <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16)
+                  ),
+                  Text(
+                    amount,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)
+                  )
+                ]
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: CurrencyIcon(currency)
+              MainCardIcon(icon, color)
+            ] : <Widget>[
+              MainCardIcon(icon, color),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  Text(
+                    amount,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)
+                  )
+                ]
               )
             ],
           )

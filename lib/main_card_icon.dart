@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CurrencyIcon extends StatelessWidget {
-  final String currency;
+class MainCardIcon extends StatelessWidget {
+  final dynamic icon;
+  final dynamic color;
 
-  CurrencyIcon(this.currency);
+  MainCardIcon(this.icon, this.color);
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +12,17 @@ class CurrencyIcon extends StatelessWidget {
       height: 60.0,
       width: 60.0,
       decoration: new BoxDecoration(
-        color: Colors.blueAccent,
+        color: color,
         borderRadius: BorderRadius.all(Radius.circular(22.5))
       ),
       child: Center(
-        child: Text(
-          currency,
+        child: (icon is String) ? Text(
+          icon,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)
+        ) : Icon(
+          icon,
+          color: Colors.white,
+          size: 30.0,
         )
       )
     );
