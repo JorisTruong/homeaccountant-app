@@ -88,6 +88,11 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
               ),
               body: Center(
               ),
+              floatingActionButton: FloatingActionButton(
+                heroTag: null,
+                onPressed: () {print('Add Transaction Pressed');},
+                child: Icon(Icons.add),
+              ),
             )
           );
         }

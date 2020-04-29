@@ -168,11 +168,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 )
               ])
             ),
-            floatingActionButton: FloatingActionButton(
-              heroTag: null,
-              onPressed: () {print('Add Transaction Pressed');},
-              child: Icon(Icons.add),
-            ),
           )
         );
       }
