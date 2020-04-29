@@ -8,6 +8,7 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/main_card.dart';
 import 'package:homeaccountantapp/speed_dial.dart';
+import 'package:homeaccountantapp/components/line_chart.dart';
 
 
 final String currency = 'HKD';
@@ -137,7 +138,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       MainCard('Balance', currency, balance, Colors.blueAccent, 'left'),
                       MainCard('Revenue', Icons.call_made, revenue, Colors.green, 'right'),
                       MainCard('Expenses', Icons.call_received, expenses, Colors.redAccent, 'left'),
-                      MainCard('Number of transactions', currency, transactionNumber, Colors.amberAccent, 'right')
+                      MainCard('Number of transactions', currency, transactionNumber, Colors.amberAccent, 'right'),
+                      LineChartCard(title: 'Transactions', durationType: 'week')
                     ],
                   )
                 ),
