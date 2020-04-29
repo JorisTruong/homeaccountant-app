@@ -5,6 +5,7 @@ import 'package:redux/redux.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
+import 'package:homeaccountantapp/components/line_chart.dart';
 
 
 class ChartsPage extends StatefulWidget {
@@ -86,8 +87,7 @@ class _ChartsPageState extends State<ChartsPage> with TickerProviderStateMixin {
                       ]
                   )
               ),
-              body: Center(
-              ),
+              body: LineChartCard(title: 'Transactions', durationType: 'week',)
             )
           );
         }
