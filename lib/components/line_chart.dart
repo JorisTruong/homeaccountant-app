@@ -76,14 +76,7 @@ class LineChartCardState extends State<LineChartCard> {
                 ),
               ),
             ],
-            gradient: LinearGradient(
-              colors: const [
-                Color(0xffffffff),
-                Color(0xffffffff),
-              ],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            ),
+            color: Colors.white
           ),
           child: Stack(
             children: <Widget>[
@@ -120,16 +113,20 @@ class LineChartCardState extends State<LineChartCard> {
                   ),
                 ],
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.refresh,
-                  color: Colors.grey[850]
-                ),
-                onPressed: () {
-                  setState(() {
-                    switchData = switchFlag(switchData, 4);
-                  });
-                },
+              Material(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.white,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.refresh,
+                    color: Colors.grey[850]
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      switchData = switchFlag(switchData, 4);
+                    });
+                  },
+                )
               )
             ],
           ),

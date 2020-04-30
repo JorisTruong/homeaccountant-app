@@ -7,12 +7,16 @@ import 'indicator.dart';
 class PieChartCard extends StatefulWidget {
   PieChartCard({
     Key key,
-    this.title,
-    this.data
+    this.title1,
+    this.title2,
+    this.expenses,
+    this.revenue
   });
 
-  final String title;
-  final List<Map<String, dynamic>> data;
+  final String title1;
+  final String title2;
+  final List<Map<String, dynamic>> expenses;
+  final List<Map<String, dynamic>> revenue;
 
   @override
   State<StatefulWidget> createState() => PieChartCardState();
@@ -20,6 +24,7 @@ class PieChartCard extends StatefulWidget {
 
 class PieChartCardState extends State<PieChartCard> {
   int touchedIndex;
+  bool switchData = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,34 +47,27 @@ class PieChartCardState extends State<PieChartCard> {
                   ),
                 ),
               ],
-              gradient: LinearGradient(
-                colors: const [
-                  Color(0xffffffff),
-                  Color(0xffffffff),
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
+              color: Colors.white
             ),
             child: Stack(
               children: <Widget>[
                 Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 10,
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      switchData ? widget.title1 : widget.title2,
+                      style: TextStyle(
+                        color: Colors.grey[850],
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2
                       ),
-                      Text(
-                        widget.title,
-                        style: TextStyle(
-                            color: Colors.grey[850],
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 2
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                    ],
+                      textAlign: TextAlign.center,
+                    )
+                  ],
                 ),
                 Row(
                   children: <Widget>[
@@ -105,10 +103,10 @@ class PieChartCardState extends State<PieChartCard> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: new List.generate(widget.data.length, (int index) {
+                      children: new List.generate(switchData ? widget.expenses.length : widget.revenue.length, (int index) {
                         return Indicator(
-                          color: widget.data[index]['color'],
-                          text: widget.data[index]['name'],
+                          color: switchData ? widget.expenses[index]['color'] : widget.revenue[index]['color'],
+                          text: switchData ? widget.expenses[index]['name'] : widget.revenue[index]['name'],
                           isSquare: false
                         );
                       })..add(SizedBox(height: 18)),
@@ -117,6 +115,21 @@ class PieChartCardState extends State<PieChartCard> {
                       width: 28,
                     ),
                   ],
+                ),
+                Material(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.white,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Colors.grey[850]
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        switchData = !switchData;
+                      });
+                    },
+                  )
                 )
               ]
             ),
@@ -127,14 +140,14 @@ class PieChartCardState extends State<PieChartCard> {
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(widget.data.length, (i) {
+    return List.generate(switchData ? widget.expenses.length : widget.revenue.length, (i) {
       final isTouched = i == touchedIndex;
       final double fontSize = isTouched ? 25 : 16;
       final double radius = isTouched ? 60 : 50;
       return PieChartSectionData(
-        color: widget.data[i]['color'],
-        value: widget.data[i]['percentage'].toDouble(),
-        title: widget.data[i]['percentage'].toString() + '%',
+        color: switchData ? widget.expenses[i]['color'] : widget.revenue[i]['color'],
+        value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.revenue[i]['percentage'].toDouble(),
+        title: (switchData ? widget.expenses[i]['percentage'].toString() : widget.revenue[i]['percentage'].toString()) + '%',
         radius: radius,
         titleStyle: TextStyle(
             fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),

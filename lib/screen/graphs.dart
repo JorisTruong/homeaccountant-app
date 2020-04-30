@@ -141,8 +141,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                 children: <Widget>[
                   Column(
                     children: [
-                      PieChartCard(data: expenses, title: 'Expenses'),
-                      PieChartCard(data: revenue, title: 'Revenue')
+                      PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
                     ],
                   ),
                   SpeedDialButton(_controller, _pcAccount, _pcDate),
