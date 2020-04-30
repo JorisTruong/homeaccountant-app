@@ -65,11 +65,21 @@ class LineChartCardState extends State<LineChartCard> {
         aspectRatio: 1.23,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(18)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              new BoxShadow(
+                color: Colors.grey[600],
+                blurRadius: 10.0,
+                offset: Offset(
+                  0.0,
+                  5.0,
+                ),
+              ),
+            ],
             gradient: LinearGradient(
               colors: const [
-                Color(0xff303030),
-                Color(0xff212121),
+                Color(0xffffffff),
+                Color(0xffffffff),
               ],
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
@@ -86,7 +96,7 @@ class LineChartCardState extends State<LineChartCard> {
                   Text(
                     widget.title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.grey[850],
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2
@@ -113,7 +123,7 @@ class LineChartCardState extends State<LineChartCard> {
               IconButton(
                 icon: Icon(
                   Icons.refresh,
-                  color: Colors.white
+                  color: Colors.grey[850]
                 ),
                 onPressed: () {
                   setState(() {
@@ -143,7 +153,7 @@ class LineChartCardState extends State<LineChartCard> {
           showTitles: true,
           reservedSize: 22,
           textStyle: const TextStyle(
-            color: Color(0xffffffff),
+            color: Color(0xff303030),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -155,22 +165,22 @@ class LineChartCardState extends State<LineChartCard> {
         leftTitles: SideTitles(
           showTitles: true,
           textStyle: const TextStyle(
-            color: Color(0xffffffff),
+            color: Color(0xff303030),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
           getTitles: (value) {
             return getYAxis(value, 0);
           },
-          margin: 8,
-          reservedSize: 30,
+          margin: 10,
+          reservedSize: 40,
         ),
       ),
       borderData: FlBorderData(
         show: true,
         border: const Border(
           bottom: BorderSide(
-            color: Color(0xffffffff),
+            color: Color(0xff212121),
             width: 2,
           ),
           left: BorderSide(

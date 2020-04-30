@@ -29,74 +29,97 @@ class PieChartCardState extends State<PieChartCard> {
         aspectRatio: 1.3,
         child: Card(
           color: Colors.white,
-          child: Stack(
-            children: <Widget>[
-              Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                new BoxShadow(
+                  color: Colors.grey[500],
+                  blurRadius: 10.0,
+                  offset: Offset(
+                    0.0,
+                    5.0,
+                  ),
+                ),
+              ],
+              gradient: LinearGradient(
+                colors: const [
+                  Color(0xffffffff),
+                  Color(0xffffffff),
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+            child: Stack(
+              children: <Widget>[
+                Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        widget.title,
+                        style: TextStyle(
+                            color: Colors.grey[850],
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                ),
+                Row(
                   children: <Widget>[
                     const SizedBox(
-                      height: 10,
+                      height: 18,
                     ),
-                    Text(
-                      widget.title,
-                      style: TextStyle(
-                          color: Colors.grey[850],
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2
-                      ),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-              ),
-              Row(
-                children: <Widget>[
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: PieChart(
-                        PieChartData(
-                          pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                            setState(() {
-                              if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                                  pieTouchResponse.touchInput is FlPanEnd) {
-                                touchedIndex = -1;
-                              } else {
-                                touchedIndex = pieTouchResponse.touchedSectionIndex;
-                              }
-                            });
-                          }),
-                          borderData: FlBorderData(
-                            show: false,
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: PieChart(
+                          PieChartData(
+                            pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                              setState(() {
+                                if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                    pieTouchResponse.touchInput is FlPanEnd) {
+                                  touchedIndex = -1;
+                                } else {
+                                  touchedIndex = pieTouchResponse.touchedSectionIndex;
+                                }
+                              });
+                            }),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            sectionsSpace: 0,
+                            centerSpaceRadius: 40,
+                            sections: showingSections()
                           ),
-                          sectionsSpace: 0,
-                          centerSpaceRadius: 40,
-                          sections: showingSections()
                         ),
                       ),
                     ),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: new List.generate(widget.data.length, (int index) {
-                      return Indicator(
-                        color: widget.data[index]['color'],
-                        text: widget.data[index]['name'],
-                        isSquare: false
-                      );
-                    })..add(SizedBox(height: 18)),
-                  ),
-                  const SizedBox(
-                    width: 28,
-                  ),
-                ],
-              )
-            ]
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: new List.generate(widget.data.length, (int index) {
+                        return Indicator(
+                          color: widget.data[index]['color'],
+                          text: widget.data[index]['name'],
+                          isSquare: false
+                        );
+                      })..add(SizedBox(height: 18)),
+                    ),
+                    const SizedBox(
+                      width: 28,
+                    ),
+                  ],
+                )
+              ]
+            ),
           ),
         ),
       )
