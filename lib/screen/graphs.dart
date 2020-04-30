@@ -7,7 +7,24 @@ import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/speed_dial.dart';
+import 'package:homeaccountantapp/components/pie_chart.dart';
 
+
+final expenses = [
+  {'name': 'Category 1', 'color': Color(0xff0293ee), 'percentage': 40},
+  {'name': 'Category 2', 'color': Color(0xfff8b250), 'percentage': 10},
+  {'name': 'Category 3', 'color': Color(0xff845bef), 'percentage': 17},
+  {'name': 'Category 4', 'color': Color(0xff13d38e), 'percentage': 13},
+  {'name': 'Category 5', 'color': Color(0xfff293ee), 'percentage': 20}
+];
+
+final revenue = [
+  {'name': 'Category 1', 'color': Color(0xff0293ee), 'percentage': 90},
+  {'name': 'Category 2', 'color': Color(0xfff8b250), 'percentage': 10},
+  {'name': 'Category 3', 'color': Color(0xff845bef), 'percentage': 0},
+  {'name': 'Category 4', 'color': Color(0xff13d38e), 'percentage': 0},
+  {'name': 'Category 5', 'color': Color(0xfff293ee), 'percentage': 0}
+];
 
 class GraphsPage extends StatefulWidget {
   GraphsPage({Key key}) : super(key: key);
@@ -120,34 +137,38 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                       ]
                   )
               ),
-              body: Center(
-                child: Stack(
-                  children: <Widget>[
-                    SpeedDialButton(_controller, _pcAccount, _pcDate),
-                    SlidingUpPanel(
-                      controller: _pcAccount,
-                      panel: Center(child: Text("This is the sliding Widget for Account"),),
-                      backdropEnabled: true,
-                      minHeight: 0.0,
-                      maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24.0),
-                        topRight: Radius.circular(24.0)
-                      ),
+              body: Stack(
+                children: <Widget>[
+                  Column(
+                    children: [
+                      PieChartCard(data: expenses, title: 'Expenses'),
+                      PieChartCard(data: revenue, title: 'Revenue')
+                    ],
+                  ),
+                  SpeedDialButton(_controller, _pcAccount, _pcDate),
+                  SlidingUpPanel(
+                    controller: _pcAccount,
+                    panel: Center(child: Text("This is the sliding Widget for Account"),),
+                    backdropEnabled: true,
+                    minHeight: 0.0,
+                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)
                     ),
-                    SlidingUpPanel(
-                      controller: _pcDate,
-                      panel: Center(child: Text("This is the sliding Widget for Date Range"),),
-                      backdropEnabled: true,
-                      minHeight: 0.0,
-                      maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24.0),
-                        topRight: Radius.circular(24.0)
-                      ),
-                    )
-                  ]
-                )
+                  ),
+                  SlidingUpPanel(
+                    controller: _pcDate,
+                    panel: Center(child: Text("This is the sliding Widget for Date Range"),),
+                    backdropEnabled: true,
+                    minHeight: 0.0,
+                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)
+                    ),
+                  )
+                ]
               ),
             )
           );
