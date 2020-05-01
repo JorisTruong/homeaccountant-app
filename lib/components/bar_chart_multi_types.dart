@@ -33,7 +33,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
     super.initState();
 
     switchData = false;
-    maxValue = getMaxRevenueExpenses2(widget.data);
+    maxValue = getMaxRevenueExpenses(widget.data);
     barGroups = makeBarChart();
   }
 

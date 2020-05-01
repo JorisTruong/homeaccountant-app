@@ -28,16 +28,6 @@ final revenue = [
   {'name': 'Category 5', 'color': Color(0xfff293ee), 'percentage': 0}
 ];
 
-final transactions = [
-  {'revenue': 200000.0, 'expenses': 50000.0},
-  {'revenue': 100000.0, 'expenses': 67000.0},
-  {'revenue': 30000.0, 'expenses': 20000.0},
-  {'revenue': 120000.0, 'expenses': 180000.0},
-  {'revenue': 180000.0, 'expenses': 15000.0},
-  {'revenue': 30000.0, 'expenses': 50000.0},
-  {'revenue': 20000.0, 'expenses': 10000.0}
-];
-
 final transactionsDetailed = [
   {'revenue': [120000.0, 5000.0, 24000.0, 0.0, 51000.0], 'expenses': [50000.0, 0.0, 0.0, 0.0, 0.0]},
   {'revenue': [20000.0, 20000.0, 20000.0, 20000.0, 20000.0], 'expenses': [13000.0, 7000.0, 0.0, 30000.0, 17000.0]},
@@ -165,7 +155,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
-                        BarChartDualCard(title: 'Transactions', durationType: 'week', data: transactions),
+                        BarChartDualCard(title: 'Transactions', durationType: 'week', data: transactionsDetailed),
                         BarChartMultiTypesCard(durationType: 'week', data: transactionsDetailed)
                       ],
                     ),

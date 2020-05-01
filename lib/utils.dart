@@ -10,17 +10,7 @@ int switchFlag(int flag, int max) {
   }
 }
 
-double getMaxRevenueExpenses(List<Map<String, double>> map) {
-  var maxRevenue = map.map<double>((e) => e['revenue']).reduce(max);
-  var maxExpenses = map.map<double>((e) => e['expenses']).reduce(max);
-  if (maxRevenue > maxExpenses) {
-    return maxRevenue;
-  } else {
-    return maxExpenses;
-  }
-}
-
-double getMaxRevenueExpenses2(List<Map<String, List<double>>> map) {
+double getMaxRevenueExpenses(List<Map<String, List<double>>> map) {
   var maxRevenue = map.map<double>((e) => e['revenue'].reduce((a, b) => a + b)).reduce(max);
   var maxExpenses = map.map<double>((e) => e['expenses'].reduce((a, b) => a + b)).reduce(max);
   if (maxRevenue > maxExpenses) {

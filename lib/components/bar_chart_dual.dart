@@ -13,7 +13,7 @@ class BarChartDualCard extends StatefulWidget {
 
   final String title;
   final String durationType;
-  final List<Map<String, double>> data;
+  final List<Map<String, List<double>>> data;
 
   @override
   State<StatefulWidget> createState() => BarChartDualCardState();
@@ -213,8 +213,8 @@ class BarChartDualCardState extends State<BarChartDualCard> {
     return List.generate(widget.data.length, (int i) {
       return makeGroupData(
           i,
-          makeBarValue(widget.data[i]['revenue'], maxValue),
-          makeBarValue(widget.data[i]['expenses'], maxValue)
+          makeBarValue(widget.data[i]['revenue'].reduce((a, b) => a+b), maxValue),
+          makeBarValue(widget.data[i]['expenses'].reduce((a, b) => a+b), maxValue)
       );
     });
   }
