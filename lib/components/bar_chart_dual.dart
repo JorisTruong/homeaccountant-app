@@ -22,27 +22,22 @@ class BarChartDualCard extends StatefulWidget {
 class BarChartDualCardState extends State<BarChartDualCard> {
   final Color leftBarColor = Colors.blueAccent;
   final Color rightBarColor = Colors.redAccent;
-  final double width = 10;
+  double width;
 
   List<BarChartGroupData> barGroups;
 
   int touchedGroupIndex;
   double maxValue;
+  int switchData;
 
   @override
   void initState() {
     super.initState();
 
+    switchData = 0;
+    width = 10;
     maxValue = getMaxRevenueExpenses(widget.data);
-    final items = new List.generate(widget.data.length, (int i) {
-      return makeGroupData(
-          i,
-          makeBarValue(widget.data[i]['revenue'], maxValue),
-          makeBarValue(widget.data[i]['expenses'], maxValue)
-      );
-    });
-
-    barGroups = items;
+    barGroups = makeBarChart();
   }
 
   @override
@@ -70,89 +65,114 @@ class BarChartDualCardState extends State<BarChartDualCard> {
               ],
               color: Colors.white
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
+            child: Stack(
+              children: <Widget>[
+                Row(
+                  children: [
+                    Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white,
+                      child: IconButton(
+                        icon: Icon(
+                            Icons.refresh,
+                            color: Colors.grey[850]
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            switchData = switchFlag(switchData, 3);
+                            switchData == 1 || switchData == 2 ? width = 20 : width = 10;
+                            barGroups = makeBarChart();
+                          });
+                        },
+                      )
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      const SizedBox(
-                        width: 38,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(
+                            width: 38,
+                          ),
+                          Text(
+                            widget.title,
+                            style: TextStyle(color: Colors.grey[850], fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: 2),
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                        ],
                       ),
-                      Text(
-                        widget.title,
-                        style: TextStyle(color: Colors.grey[850], fontSize: 28, fontWeight: FontWeight.bold, letterSpacing: 2),
+                      const SizedBox(
+                        height: 38,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: BarChart(
+                            BarChartData(
+                              barTouchData: BarTouchData(
+                                touchTooltipData: BarTouchTooltipData(
+                                  tooltipBgColor: Colors.grey[850],
+                                  getTooltipItem: (_a, _b, _c, _d) {
+                                    var realValue = valueFromBar(_c.y, maxValue);
+                                    return BarTooltipItem(
+                                        (_d == 0 ? 'Expenses : \n' : 'Revenue : \n') + realValue.toString(),
+                                        TextStyle(color: Colors.white)
+                                    );
+                                  },
+                                ),
+                              ),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                bottomTitles: SideTitles(
+                                  showTitles: true,
+                                  textStyle: TextStyle(
+                                      color: Colors.grey[850],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                  margin: 20,
+                                  getTitles: (double value) {
+                                    return getXAxis(value, widget.durationType);
+                                  },
+                                ),
+                                leftTitles: SideTitles(
+                                  showTitles: true,
+                                  textStyle: TextStyle(
+                                      color: Colors.grey[850],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                  margin: 20,
+                                  reservedSize: 20,
+                                  getTitles: (value) {
+                                    return getYAxis(value, 0);
+                                  },
+                                ),
+                              ),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              barGroups: barGroups,
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(
-                        width: 4,
+                        height: 12,
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 38,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: BarChart(
-                        BarChartData(
-                          barTouchData: BarTouchData(
-                            touchTooltipData: BarTouchTooltipData(
-                              tooltipBgColor: Colors.grey[850],
-                              getTooltipItem: (_a, _b, _c, _d) {
-                                var realValue = valueFromBar(_c.y, maxValue);
-                                return BarTooltipItem(
-                                    (_d == 0 ? 'Expenses : \n' : 'Revenue : \n') + realValue.toString(),
-                                    TextStyle(color: Colors.white)
-                                );
-                              },
-                            ),
-                          ),
-                          titlesData: FlTitlesData(
-                            show: true,
-                            bottomTitles: SideTitles(
-                              showTitles: true,
-                              textStyle: TextStyle(
-                                  color: Colors.grey[850],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
-                              margin: 20,
-                              getTitles: (double value) {
-                                return getXAxis(value, widget.durationType);
-                              },
-                            ),
-                            leftTitles: SideTitles(
-                              showTitles: true,
-                              textStyle: TextStyle(
-                                  color: Colors.grey[850],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
-                              margin: 20,
-                              reservedSize: 20,
-                              getTitles: (value) {
-                                return getYAxis(value, 0);
-                              },
-                            ),
-                          ),
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          barGroups: barGroups,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                ],
-              ),
+                ),
+              ]
             ),
           ),
         ),
@@ -161,18 +181,42 @@ class BarChartDualCardState extends State<BarChartDualCard> {
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-      BarChartRodData(
-        y: y1,
-        color: leftBarColor,
-        width: width,
-      ),
-      BarChartRodData(
-        y: y2,
-        color: rightBarColor,
-        width: width,
-      ),
-    ]);
+    var revenue = BarChartRodData(
+      y: y1,
+      color: leftBarColor,
+      width: width,
+    );
+
+    var expenses = BarChartRodData(
+    y: y2,
+    color: rightBarColor,
+    width: width,
+    );
+
+    if (switchData == 1) {
+      return BarChartGroupData(barsSpace: 4, x: x, barRods: [
+        revenue
+      ]);
+    } else if (switchData == 2) {
+      return BarChartGroupData(barsSpace: 4, x: x, barRods: [
+        expenses
+      ]);
+    } else {
+      return BarChartGroupData(barsSpace: 4, x: x, barRods: [
+        revenue,
+        expenses
+      ]);
+    }
+  }
+
+  List<BarChartGroupData> makeBarChart() {
+    return List.generate(widget.data.length, (int i) {
+      return makeGroupData(
+          i,
+          makeBarValue(widget.data[i]['revenue'], maxValue),
+          makeBarValue(widget.data[i]['expenses'], maxValue)
+      );
+    });
   }
 }
 
