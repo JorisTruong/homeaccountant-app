@@ -8,6 +8,7 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/speed_dial.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
+import 'package:homeaccountantapp/components/bar_chart_dual.dart';
 
 
 final expenses = [
@@ -24,6 +25,16 @@ final revenue = [
   {'name': 'Category 3', 'color': Color(0xff845bef), 'percentage': 0},
   {'name': 'Category 4', 'color': Color(0xff13d38e), 'percentage': 0},
   {'name': 'Category 5', 'color': Color(0xfff293ee), 'percentage': 0}
+];
+
+final transactions = [
+  {'revenue': 200000.0, 'expenses': 50000.0},
+  {'revenue': 100000.0, 'expenses': 67000.0},
+  {'revenue': 30000.0, 'expenses': 20000.0},
+  {'revenue': 120000.0, 'expenses': 180000.0},
+  {'revenue': 180000.0, 'expenses': 15000.0},
+  {'revenue': 30000.0, 'expenses': 50000.0},
+  {'revenue': 20000.0, 'expenses': 10000.0}
 ];
 
 class GraphsPage extends StatefulWidget {
@@ -100,49 +111,52 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                 ],
               ),
               drawer: Drawer(
-                  child: ListView(
-                      padding: const EdgeInsets.all(0.0),
-                      children: <Widget>[
-                        DrawerHeader(
-                          child: null,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[850]
+                child: ListView(
+                  padding: const EdgeInsets.all(0.0),
+                  children: <Widget>[
+                    DrawerHeader(
+                      child: null,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[850]
+                      ),
+                    ),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: options.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Map item = options[index];
+                        return ListTile(
+                          leading: Icon(item['icon']),
+                          title: Text(
+                            item['name'],
+                            style: TextStyle(
+                              fontSize: 20,
+                            )
                           ),
-                        ),
-                        ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: options.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Map item = options[index];
-                            return ListTile(
-                              leading: Icon(item['icon']),
-                              title: Text(
-                                  item['name'],
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  )
-                              ),
-                              onTap: () {
-                                print('${item['name']} pressed');
-                                Navigator.pop(context);
-                                if (item['route'] != AppRoutes.graphs) {
-                                  StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(item['route']));
-                                }
-                                print(StoreProvider.of<AppState>(context).state);
-                              },
-                            );
+                          onTap: () {
+                            print('${item['name']} pressed');
+                            Navigator.pop(context);
+                            if (item['route'] != AppRoutes.graphs) {
+                              StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(item['route']));
+                            }
+                            print(StoreProvider.of<AppState>(context).state);
                           },
-                        )
-                      ]
-                  )
+                        );
+                      },
+                    )
+                  ]
+                )
               ),
               body: Stack(
                 children: <Widget>[
-                  Column(
-                    children: [
-                      PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
-                    ],
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
+                        BarChartDualCard(title: 'Transactions', durationType: 'week', data: transactions),
+                      ],
+                    ),
                   ),
                   SpeedDialButton(_controller, _pcAccount, _pcDate),
                   SlidingUpPanel(
