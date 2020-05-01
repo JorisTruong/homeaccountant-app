@@ -140,7 +140,7 @@ class LineChartCardState extends State<LineChartCard> {
       extraLinesData: ExtraLinesData(extraLinesOnTop: true),
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+          tooltipBgColor: Colors.grey[850],
         ),
         touchCallback: (LineTouchResponse touchResponse) {},
         handleBuiltInTouches: true,
