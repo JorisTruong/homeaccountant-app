@@ -9,6 +9,7 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/speed_dial.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/bar_chart_dual.dart';
+import 'package:homeaccountantapp/components/bar_chart_multi_types.dart';
 
 
 final expenses = [
@@ -35,6 +36,16 @@ final transactions = [
   {'revenue': 180000.0, 'expenses': 15000.0},
   {'revenue': 30000.0, 'expenses': 50000.0},
   {'revenue': 20000.0, 'expenses': 10000.0}
+];
+
+final transactionsDetailed = [
+  {'revenue': [120000.0, 5000.0, 24000.0, 0.0, 51000.0], 'expenses': [50000.0, 0.0, 0.0, 0.0, 0.0]},
+  {'revenue': [20000.0, 20000.0, 20000.0, 20000.0, 20000.0], 'expenses': [13000.0, 7000.0, 0.0, 30000.0, 17000.0]},
+  {'revenue': [0.0, 0.0, 30000.0, 0.0, 0.0], 'expenses': [0.0, 10000.0, 0.0, 0.0, 10000.0]},
+  {'revenue': [54000.0, 0.0, 6000.0, 28000.0, 32000.0], 'expenses': [0.0, 100000.0, 80000.0, 0.0, 0.0]},
+  {'revenue': [0.0, 0.0, 60000.0, 60000.0, 60000.0], 'expenses': [7500.0, 0.0, 500.0, 10.0, 6990.0]},
+  {'revenue': [20000.0, 0.0, 0.0, 0.0, 10000.0], 'expenses': [10.0000, 10000.0, 10000.0, 10000.0, 10000.0]},
+  {'revenue': [1000.0, 1000.0, 8000.0, 0.0, 10000.0], 'expenses': [500.0, 500.0, 6500.0, 1500.0, 1000.0]}
 ];
 
 class GraphsPage extends StatefulWidget {
@@ -155,6 +166,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                       children: [
                         PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
                         BarChartDualCard(title: 'Transactions', durationType: 'week', data: transactions),
+                        BarChartMultiTypesCard(durationType: 'week', data: transactionsDetailed)
                       ],
                     ),
                   ),

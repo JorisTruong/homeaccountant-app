@@ -20,10 +20,20 @@ double getMaxRevenueExpenses(List<Map<String, double>> map) {
   }
 }
 
+double getMaxRevenueExpenses2(List<Map<String, List<double>>> map) {
+  var maxRevenue = map.map<double>((e) => e['revenue'].reduce((a, b) => a + b)).reduce(max);
+  var maxExpenses = map.map<double>((e) => e['expenses'].reduce((a, b) => a + b)).reduce(max);
+  if (maxRevenue > maxExpenses) {
+    return maxRevenue;
+  } else {
+    return maxExpenses;
+  }
+}
+
 double makeBarValue(double value, double maxValue) {
   return value * 20 / maxValue;
 }
 
 double valueFromBar(double barValue, double maxValue) {
-  return barValue * maxValue / 20;
+  return double.parse((barValue * maxValue / 20).toStringAsFixed(2));
 }
