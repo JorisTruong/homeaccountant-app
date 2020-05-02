@@ -145,7 +145,7 @@ class PieChartCardState extends State<PieChartCard> {
     return List.generate(switchData ? widget.expenses.length : widget.revenue.length, (i) {
       final isTouched = i == touchedIndex;
       final double fontSize = isTouched ? 25 : 16;
-      final double radius = isTouched ? 60 : 50;
+      final double radius = isTouched ? MediaQuery.of(context).size.width/10 +10 : MediaQuery.of(context).size.width/10;
       return PieChartSectionData(
         color: getCategoryColor(i),
         value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.revenue[i]['percentage'].toDouble(),
