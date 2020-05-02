@@ -69,7 +69,7 @@ class LineChartCardState extends State<LineChartCard> {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             boxShadow: [
               new BoxShadow(
-                color: Colors.grey[600],
+                color: Colors.grey[700],
                 blurRadius: 10.0,
                 offset: Offset(
                   0.0,

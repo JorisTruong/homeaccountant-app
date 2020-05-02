@@ -41,7 +41,7 @@ class PieChartCardState extends State<PieChartCard> {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
                 new BoxShadow(
-                  color: Colors.grey[500],
+                  color: Colors.grey[600],
                   blurRadius: 10.0,
                   offset: Offset(
                     0.0,
