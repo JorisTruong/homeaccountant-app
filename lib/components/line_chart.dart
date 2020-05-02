@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/const.dart';
 
 
 final revenueWeek = [
@@ -89,7 +90,7 @@ class LineChartCardState extends State<LineChartCard> {
                   Text(
                     widget.title,
                     style: TextStyle(
-                      color: Colors.grey[850],
+                      color: baseColors.mainColor,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2
@@ -119,7 +120,7 @@ class LineChartCardState extends State<LineChartCard> {
                 child: IconButton(
                   icon: Icon(
                     Icons.refresh,
-                    color: Colors.grey[850]
+                    color: baseColors.mainColor
                   ),
                   onPressed: () {
                     setState(() {
@@ -140,7 +141,7 @@ class LineChartCardState extends State<LineChartCard> {
       extraLinesData: ExtraLinesData(extraLinesOnTop: true),
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.grey[850],
+          tooltipBgColor: baseColors.mainColor,
         ),
         touchCallback: (LineTouchResponse touchResponse) {},
         handleBuiltInTouches: true,
@@ -149,8 +150,8 @@ class LineChartCardState extends State<LineChartCard> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: const TextStyle(
-            color: Color(0xff303030),
+          textStyle: TextStyle(
+            color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -161,8 +162,8 @@ class LineChartCardState extends State<LineChartCard> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: const TextStyle(
-            color: Color(0xff303030),
+          textStyle: TextStyle(
+            color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -175,19 +176,19 @@ class LineChartCardState extends State<LineChartCard> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: const Border(
+        border: Border(
           bottom: BorderSide(
-            color: Color(0xff212121),
+            color: baseColors.mainColor,
             width: 2,
           ),
           left: BorderSide(
-            color: Colors.transparent,
+            color: baseColors.transparent,
           ),
           right: BorderSide(
-            color: Colors.transparent,
+            color: baseColors.transparent,
           ),
           top: BorderSide(
-            color: Colors.transparent,
+            color: baseColors.transparent,
           ),
         ),
       ),
@@ -204,7 +205,7 @@ class LineChartCardState extends State<LineChartCard> {
       spots: revenueWeek,
       isCurved: false,
       colors: [
-        Colors.green,
+        baseColors.green,
       ],
       barWidth: 5,
       isStrokeCapRound: true,
@@ -219,7 +220,7 @@ class LineChartCardState extends State<LineChartCard> {
       spots: expensesWeek,
       isCurved: false,
       colors: [
-        Colors.redAccent,
+        baseColors.red,
       ],
       barWidth: 5,
       isStrokeCapRound: switchData != 0,
@@ -233,8 +234,8 @@ class LineChartCardState extends State<LineChartCard> {
     final LineChartBarData balance = LineChartBarData(
       spots: balanceWeek,
       isCurved: false,
-      colors: const [
-        Colors.blueAccent,
+      colors: [
+        baseColors.blue,
       ],
       barWidth: 5,
       isStrokeCapRound: true,

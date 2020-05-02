@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/const.dart';
 
 class BarChartMultiTypesCard extends StatefulWidget {
   const BarChartMultiTypesCard({
@@ -18,8 +19,8 @@ class BarChartMultiTypesCard extends StatefulWidget {
 }
 
 class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
-  final Color leftBarColor = Colors.blueAccent;
-  final Color rightBarColor = Colors.redAccent;
+  final Color leftBarColor = baseColors.blue;
+  final Color rightBarColor = baseColors.red;
   final double width = 20;
 
   List<BarChartGroupData> barGroups;
@@ -47,7 +48,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
             elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)),
-            color: const Color(0xffffffff),
+            color: Colors.white,
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -73,7 +74,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                             child: IconButton(
                               icon: Icon(
                                   Icons.refresh,
-                                  color: Colors.grey[850]
+                                  color: baseColors.mainColor
                               ),
                               onPressed: () {
                                 setState(() {
@@ -102,7 +103,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                               ),
                               Text(
                                 switchData ? 'Expenses' : 'Revenue',
-                                style: TextStyle(color: Colors.grey[850],
+                                style: TextStyle(color: baseColors.mainColor,
                                     fontSize: 28,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 2),
@@ -123,7 +124,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                                 BarChartData(
                                   barTouchData: BarTouchData(
                                     touchTooltipData: BarTouchTooltipData(
-                                      tooltipBgColor: Colors.grey[850],
+                                      tooltipBgColor: baseColors.mainColor,
                                       getTooltipItem: (_a, _b, _c, _d) {
                                         var realValues = List.generate(_c.rodStackItem.length, (int i) {
                                           return valueFromBar(_c.rodStackItem[i].toY - _c.rodStackItem[i].fromY, maxValue);
@@ -140,7 +141,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                                     bottomTitles: SideTitles(
                                       showTitles: true,
                                       textStyle: TextStyle(
-                                          color: Colors.grey[850],
+                                          color: baseColors.mainColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
                                       margin: 20,
@@ -152,7 +153,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                                     leftTitles: SideTitles(
                                       showTitles: true,
                                       textStyle: TextStyle(
-                                          color: Colors.grey[850],
+                                          color: baseColors.mainColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
                                       margin: 20,
@@ -196,11 +197,11 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
         color: leftBarColor,
         width: width,
         rodStackItem: [
-          BarChartRodStackItem(0, value1, const Color(0xff0293ee)),
-          BarChartRodStackItem(value1, value2, const Color(0xfff8b250)),
-          BarChartRodStackItem(value2, value3, const Color(0xff845bef)),
-          BarChartRodStackItem(value3, value4, const Color(0xff13d38e)),
-          BarChartRodStackItem(value4, barMaxValue, const Color(0xfff293ee)),
+          BarChartRodStackItem(0, value1, baseColors.category1),
+          BarChartRodStackItem(value1, value2, baseColors.category2),
+          BarChartRodStackItem(value2, value3, baseColors.category3),
+          BarChartRodStackItem(value3, value4, baseColors.category4),
+          BarChartRodStackItem(value4, barMaxValue, baseColors.category5),
         ],
       )
     ]);

@@ -7,6 +7,7 @@ import 'package:homeaccountantapp/components/categories_card.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
+import 'package:homeaccountantapp/const.dart';
 
 
 final random = new Random();
@@ -90,7 +91,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                   DrawerHeader(
                     child: null,
                     decoration: BoxDecoration(
-                      color: Colors.grey[850]
+                      color: baseColors.mainColor
                     ),
                   ),
                   ListView.builder(

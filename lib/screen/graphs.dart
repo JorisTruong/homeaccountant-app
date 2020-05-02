@@ -10,22 +10,23 @@ import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/bar_chart_dual.dart';
 import 'package:homeaccountantapp/components/bar_chart_multi_types.dart';
+import 'package:homeaccountantapp/const.dart';
 
 
 final expenses = [
-  {'name': 'Category 1', 'color': Color(0xff0293ee), 'percentage': 40},
-  {'name': 'Category 2', 'color': Color(0xfff8b250), 'percentage': 10},
-  {'name': 'Category 3', 'color': Color(0xff845bef), 'percentage': 17},
-  {'name': 'Category 4', 'color': Color(0xff13d38e), 'percentage': 13},
-  {'name': 'Category 5', 'color': Color(0xfff293ee), 'percentage': 20}
+  {'name': 'Category 1', 'percentage': 40},
+  {'name': 'Category 2', 'percentage': 10},
+  {'name': 'Category 3', 'percentage': 17},
+  {'name': 'Category 4', 'percentage': 13},
+  {'name': 'Category 5', 'percentage': 20}
 ];
 
 final revenue = [
-  {'name': 'Category 1', 'color': Color(0xff0293ee), 'percentage': 90},
-  {'name': 'Category 2', 'color': Color(0xfff8b250), 'percentage': 10},
-  {'name': 'Category 3', 'color': Color(0xff845bef), 'percentage': 0},
-  {'name': 'Category 4', 'color': Color(0xff13d38e), 'percentage': 0},
-  {'name': 'Category 5', 'color': Color(0xfff293ee), 'percentage': 0}
+  {'name': 'Category 1', 'percentage': 90},
+  {'name': 'Category 2', 'percentage': 10},
+  {'name': 'Category 3', 'percentage': 0},
+  {'name': 'Category 4', 'percentage': 0},
+  {'name': 'Category 5', 'percentage': 0}
 ];
 
 final transactionsDetailed = [
@@ -93,7 +94,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                     padding: EdgeInsets.all(8.0),
                     child: FloatingActionButton(
                       elevation: 0,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: baseColors.transparent,
                       onPressed: () {
                         if (_controller.isDismissed) {
                           _controller.forward();
@@ -118,7 +119,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                     DrawerHeader(
                       child: null,
                       decoration: BoxDecoration(
-                        color: Colors.grey[850]
+                        color: baseColors.mainColor
                       ),
                     ),
                     ListView.builder(

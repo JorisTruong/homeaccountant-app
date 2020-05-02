@@ -9,6 +9,7 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/components/main_card.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
+import 'package:homeaccountantapp/const.dart';
 
 
 final String currency = 'HKD';
@@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   padding: EdgeInsets.all(8.0),
                   child: FloatingActionButton(
                     elevation: 0,
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: baseColors.mainColor,
                     onPressed: () {
                       if (_controller.isDismissed) {
                         _controller.forward();
@@ -97,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   DrawerHeader(
                     child: null,
                     decoration: BoxDecoration(
-                      color: Colors.grey[850]
+                      color: baseColors.mainColor
                     ),
                   ),
                   ListView.builder(
@@ -135,10 +136,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MainCard('Balance', currency, balance, Colors.blueAccent, 'left'),
-                      MainCard('Revenue', Icons.call_made, revenue, Colors.green, 'right'),
-                      MainCard('Expenses', Icons.call_received, expenses, Colors.redAccent, 'left'),
-                      MainCard('Number of transactions', currency, transactionNumber, Colors.amberAccent, 'right'),
+                      MainCard('Balance', currency, balance, baseColors.blue, 'left'),
+                      MainCard('Revenue', Icons.call_made, revenue, baseColors.green, 'right'),
+                      MainCard('Expenses', Icons.call_received, expenses, baseColors.red, 'left'),
+                      MainCard('Number of transactions', currency, transactionNumber, baseColors.yellow, 'right'),
                       LineChartCard(title: 'Transactions', durationType: 'week')
                     ],
                   )

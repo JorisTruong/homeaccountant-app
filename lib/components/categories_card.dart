@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:homeaccountantapp/icons_list.dart';
+import 'package:homeaccountantapp/const.dart';
 
 class CategoryCard extends StatelessWidget {
   final String category;
@@ -26,7 +27,7 @@ class CategoryCard extends StatelessWidget {
                   children: [
                     Text(
                       category,
-                      style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold, fontSize: 20)
+                      style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: 20)
                     ),
                     GridView.count(
                       padding: EdgeInsets.only(top: 50.0),

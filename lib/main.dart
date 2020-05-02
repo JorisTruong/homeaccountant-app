@@ -9,11 +9,12 @@ import 'screen/categories.dart';
 import 'screen/graphs.dart';
 import 'screen/charts.dart';
 import 'screen/about.dart';
-import 'package:homeaccountantapp/navigation/app_routes.dart';
-import 'package:homeaccountantapp/navigation/route_aware_widget.dart';
-import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/redux/reducers/app_reducer.dart';
-import 'package:homeaccountantapp/redux/middleware/navigation_middleware.dart';
+import 'navigation/app_routes.dart';
+import 'navigation/route_aware_widget.dart';
+import 'redux/models/models.dart';
+import 'redux/reducers/app_reducer.dart';
+import 'redux/middleware/navigation_middleware.dart';
+import 'const.dart';
 
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
@@ -59,8 +60,8 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings settings) => _getRoute(settings),
       title: 'Home Accountant',
       theme: ThemeData(
-        primaryColor: Colors.grey[850],
-        accentColor: Colors.grey[900]
+        primaryColor: baseColors.mainColor,
+        accentColor: baseColors.mainColor
       ),
       home: MyHomePage(),
     );

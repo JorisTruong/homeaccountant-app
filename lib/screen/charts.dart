@@ -8,6 +8,7 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
+import 'package:homeaccountantapp/const.dart';
 
 
 class ChartsPage extends StatefulWidget {
@@ -65,7 +66,7 @@ class _ChartsPageState extends State<ChartsPage> with TickerProviderStateMixin {
                     padding: EdgeInsets.all(8.0),
                     child: FloatingActionButton(
                       elevation: 0,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: baseColors.transparent,
                       onPressed: () {
                         if (_controller.isDismissed) {
                           _controller.forward();
@@ -90,7 +91,7 @@ class _ChartsPageState extends State<ChartsPage> with TickerProviderStateMixin {
                         DrawerHeader(
                           child: null,
                           decoration: BoxDecoration(
-                              color: Colors.grey[850]
+                              color: baseColors.mainColor
                           ),
                         ),
                         ListView.builder(

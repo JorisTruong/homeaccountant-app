@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'const.dart';
 
 int switchFlag(int flag, int max) {
   if (flag == max-1) {
@@ -26,4 +28,21 @@ double makeBarValue(double value, double maxValue) {
 
 double valueFromBar(double barValue, double maxValue) {
   return double.parse((barValue * maxValue / 20).toStringAsFixed(2));
+}
+
+Color getCategoryColor(int index) {
+  switch (index) {
+    case 0:
+      return baseColors.category1;
+    case 1:
+      return baseColors.category2;
+    case 2:
+      return baseColors.category3;
+    case 3:
+      return baseColors.category4;
+    case 4:
+      return baseColors.category5;
+    default:
+      return baseColors.mainColor;
+  }
 }

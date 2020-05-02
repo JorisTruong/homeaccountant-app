@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:homeaccountantapp/utils.dart';
 
 import 'indicator.dart';
+import 'package:homeaccountantapp/const.dart';
 
 
 class PieChartCard extends StatefulWidget {
@@ -60,7 +62,7 @@ class PieChartCardState extends State<PieChartCard> {
                     Text(
                       switchData ? widget.title1 : widget.title2,
                       style: TextStyle(
-                        color: Colors.grey[850],
+                        color: baseColors.mainColor,
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2
@@ -105,7 +107,7 @@ class PieChartCardState extends State<PieChartCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: new List.generate(switchData ? widget.expenses.length : widget.revenue.length, (int index) {
                         return Indicator(
-                          color: switchData ? widget.expenses[index]['color'] : widget.revenue[index]['color'],
+                          color: getCategoryColor(index),
                           text: switchData ? widget.expenses[index]['name'] : widget.revenue[index]['name'],
                           isSquare: false
                         );
@@ -122,7 +124,7 @@ class PieChartCardState extends State<PieChartCard> {
                   child: IconButton(
                     icon: Icon(
                       Icons.refresh,
-                      color: Colors.grey[850]
+                      color: baseColors.mainColor
                     ),
                     onPressed: () {
                       setState(() {
@@ -145,12 +147,12 @@ class PieChartCardState extends State<PieChartCard> {
       final double fontSize = isTouched ? 25 : 16;
       final double radius = isTouched ? 60 : 50;
       return PieChartSectionData(
-        color: switchData ? widget.expenses[i]['color'] : widget.revenue[i]['color'],
+        color: getCategoryColor(i),
         value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.revenue[i]['percentage'].toDouble(),
         title: (switchData ? widget.expenses[i]['percentage'].toString() : widget.revenue[i]['percentage'].toString()) + '%',
         radius: radius,
         titleStyle: TextStyle(
-            fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),
       );
     });
   }

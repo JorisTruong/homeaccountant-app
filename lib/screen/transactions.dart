@@ -7,6 +7,7 @@ import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
+import 'package:homeaccountantapp/const.dart';
 
 
 class TransactionsPage extends StatefulWidget {
@@ -64,7 +65,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                     padding: EdgeInsets.all(8.0),
                     child: FloatingActionButton(
                       elevation: 0,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: baseColors.transparent,
                       onPressed: () {
                         if (_controller.isDismissed) {
                           _controller.forward();
@@ -89,7 +90,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                         DrawerHeader(
                           child: null,
                           decoration: BoxDecoration(
-                              color: Colors.grey[850]
+                              color: baseColors.mainColor
                           ),
                         ),
                         ListView.builder(
