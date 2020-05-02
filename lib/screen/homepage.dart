@@ -6,8 +6,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/main_card.dart';
-import 'package:homeaccountantapp/speed_dial.dart';
+import 'package:homeaccountantapp/components/main_card.dart';
+import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
 
 

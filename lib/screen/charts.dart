@@ -7,7 +7,7 @@ import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
-import 'package:homeaccountantapp/speed_dial.dart';
+import 'package:homeaccountantapp/components/speed_dial.dart';
 
 
 class ChartsPage extends StatefulWidget {

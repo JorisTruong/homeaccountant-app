@@ -6,7 +6,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/speed_dial.dart';
+import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/bar_chart_dual.dart';
 import 'package:homeaccountantapp/components/bar_chart_multi_types.dart';

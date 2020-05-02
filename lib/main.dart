@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'homepage.dart';
+import 'screen/homepage.dart';
 import 'screen/transactions.dart';
 import 'screen/categories.dart';
 import 'screen/graphs.dart';

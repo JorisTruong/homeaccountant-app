@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:homeaccountantapp/main_card_icon.dart';
+import 'package:homeaccountantapp/components/main_card_icon.dart';
 
 class MainCard extends StatelessWidget {
   final String title;
