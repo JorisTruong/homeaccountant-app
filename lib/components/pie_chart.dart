@@ -63,7 +63,7 @@ class PieChartCardState extends State<PieChartCard> {
                       switchData ? widget.title1 : widget.title2,
                       style: TextStyle(
                         color: baseColors.mainColor,
-                        fontSize: 28,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2
                       ),
@@ -95,7 +95,7 @@ class PieChartCardState extends State<PieChartCard> {
                               show: false,
                             ),
                             sectionsSpace: 0,
-                            centerSpaceRadius: 40,
+                            centerSpaceRadius: MediaQuery.of(context).size.width / 15,
                             sections: showingSections()
                           ),
                         ),
@@ -144,7 +144,7 @@ class PieChartCardState extends State<PieChartCard> {
   List<PieChartSectionData> showingSections() {
     return List.generate(switchData ? widget.expenses.length : widget.revenue.length, (i) {
       final isTouched = i == touchedIndex;
-      final double fontSize = isTouched ? 25 : 16;
+      final double fontSize = isTouched ? 16 : 12;
       final double radius = isTouched ? MediaQuery.of(context).size.width/10 +10 : MediaQuery.of(context).size.width/10;
       return PieChartSectionData(
         color: getCategoryColor(i),

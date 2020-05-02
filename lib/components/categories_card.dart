@@ -42,6 +42,7 @@ class CategoryCard extends StatelessWidget {
                             Text(
                               subcategories[index]['name'],
                               textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 10),
                             )
                           ]
                         );

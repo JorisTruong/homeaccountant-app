@@ -85,13 +85,13 @@ class LineChartCardState extends State<LineChartCard> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   const SizedBox(
-                    height: 37,
+                    height: 16,
                   ),
                   Text(
                     widget.title,
                     style: TextStyle(
                       color: baseColors.mainColor,
-                      fontSize: 32,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2
                     ),
@@ -153,7 +153,7 @@ class LineChartCardState extends State<LineChartCard> {
           textStyle: TextStyle(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontSize: 12,
           ),
           margin: 10,
           getTitles: (value) {

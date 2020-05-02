@@ -37,7 +37,7 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
               children: new List.generate(buttons.length, (int index) {
                 Widget child = new Container(
                   height: 70.0,
-                  width: 150.0,
+                  width: 200.0,
                   alignment: FractionalOffset.bottomCenter,
                   child: new ScaleTransition(
                       alignment: Alignment.centerRight,

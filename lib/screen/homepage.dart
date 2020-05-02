@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               title: Text(
                 'Home Accountant',
                 style: TextStyle(
-                  fontSize: 24
+                  fontSize: 18
                 ),
               ),
               centerTitle: true,
@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         title: Text(
                           item['name'],
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 16,
                           )
                         ),
                         onTap: () {
@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       MainCard('Balance', currency, balance, baseColors.blue, 'left'),
                       MainCard('Revenue', Icons.call_made, revenue, baseColors.green, 'right'),
                       MainCard('Expenses', Icons.call_received, expenses, baseColors.red, 'left'),
-                      MainCard('Number of transactions', currency, transactionNumber, baseColors.yellow, 'right'),
+                      MainCard('Number of\ntransactions', currency, transactionNumber, baseColors.yellow, 'right'),
                       LineChartCard(title: 'Transactions', durationType: 'week')
                     ],
                   )

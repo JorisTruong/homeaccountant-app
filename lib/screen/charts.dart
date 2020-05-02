@@ -57,7 +57,7 @@ class _ChartsPageState extends State<ChartsPage> with TickerProviderStateMixin {
                 title: Text(
                   'Charts',
                   style: TextStyle(
-                      fontSize: 24
+                      fontSize: 18
                   ),
                 ),
                 centerTitle: true,

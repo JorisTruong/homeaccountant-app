@@ -77,7 +77,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
               title: Text(
                 'Categories',
                 style: TextStyle(
-                  fontSize: 24
+                  fontSize: 18
                 ),
               ),
               centerTitle: true,

@@ -49,7 +49,7 @@ class MainCard extends StatelessWidget {
                   ),
                   Text(
                     amount,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
                   )
                 ]
               )
