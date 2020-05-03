@@ -3,11 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import 'package:homeaccountantapp/navigation/app_routes.dart';
+import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/components/speed_dial.dart';
+import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/components/speed_dial.dart';
-import 'package:homeaccountantapp/const.dart';
 
 
 class TransactionsPage extends StatefulWidget {
@@ -18,15 +18,6 @@ class TransactionsPage extends StatefulWidget {
 }
 
 class _TransactionsPageState extends State<TransactionsPage> with TickerProviderStateMixin {
-
-  List options = [
-    {'name': 'Home', 'icon': Icons.home, 'route': AppRoutes.home},
-    {'name': 'Transactions', 'icon': Icons.done_all, 'route': AppRoutes.transactions},
-    {'name': 'Categories', 'icon': Icons.category, 'route': AppRoutes.categories},
-    {'name': 'Graphs', 'icon': Icons.pie_chart, 'route': AppRoutes.graphs},
-    {'name': 'Charts', 'icon': Icons.show_chart, 'route': AppRoutes.charts},
-    {'name': 'About us', 'icon': Icons.info_outline, 'route': AppRoutes.about}
-  ];
 
   AnimationController _controller;
   PanelController _pcAccount = new PanelController();
@@ -83,44 +74,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                   )
                 ],
               ),
-              drawer: Drawer(
-                  child: ListView(
-                      padding: const EdgeInsets.all(0.0),
-                      children: <Widget>[
-                        DrawerHeader(
-                          child: null,
-                          decoration: BoxDecoration(
-                              color: baseColors.mainColor
-                          ),
-                        ),
-                        ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: options.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Map item = options[index];
-                            return ListTile(
-                              leading: Icon(item['icon']),
-                              title: Text(
-                                  item['name'],
-                                  style: TextStyle(
-                                    fontSize: baseFontSize.title2,
-                                  )
-                              ),
-                              onTap: () {
-                                print('${item['name']} pressed');
-                                Navigator.pop(context);
-                                if (item['route'] != AppRoutes.transactions) {
-                                  StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(item['route']));
-                                }
-                                print(StoreProvider.of<AppState>(context).state);
-                              },
-                            );
-                          },
-                        )
-                      ]
-                  )
-              ),
+              drawer: NavigationDrawer(),
               body: Center(
                 child: Stack(
                   children: <Widget>[
