@@ -124,7 +124,13 @@ class _ChartsPageState extends State<ChartsPage> with TickerProviderStateMixin {
               ),
               body: Stack(
                 children: <Widget>[
-                  LineChartCard(title: 'Transactions', durationType: 'week',),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        LineChartCard(title: 'Transactions', durationType: 'week',),
+                      ],
+                    ),
+                  ),
                   SpeedDialButton(_controller, _pcAccount, _pcDate),
                   SlidingUpPanel(
                     controller: _pcAccount,
