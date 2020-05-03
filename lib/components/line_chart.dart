@@ -91,7 +91,7 @@ class LineChartCardState extends State<LineChartCard> {
                     widget.title,
                     style: TextStyle(
                       color: baseColors.mainColor,
-                      fontSize: 16,
+                      fontSize: baseFontSize.title2,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2
                     ),
@@ -153,7 +153,7 @@ class LineChartCardState extends State<LineChartCard> {
           textStyle: TextStyle(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
-            fontSize: 12,
+            fontSize: baseFontSize.text,
           ),
           margin: 10,
           getTitles: (value) {
@@ -165,7 +165,7 @@ class LineChartCardState extends State<LineChartCard> {
           textStyle: TextStyle(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: baseFontSize.text,
           ),
           getTitles: (value) {
             return getYAxis(value, 0);

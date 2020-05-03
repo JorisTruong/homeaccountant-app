@@ -14,4 +14,12 @@ class BaseColors {
   Color category5 = Color(0xfff293ee);
 }
 
+class BaseFontSize {
+  double title = 18;
+  double title2 = 16;
+  double subtitle = 14;
+  double text = 12;
+}
+
 final baseColors = BaseColors();
+final baseFontSize = BaseFontSize();

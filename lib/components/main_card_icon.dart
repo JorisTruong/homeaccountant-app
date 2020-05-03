@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:homeaccountantapp/const.dart';
+
 class MainCardIcon extends StatelessWidget {
   final dynamic icon;
   final dynamic color;
@@ -18,7 +20,7 @@ class MainCardIcon extends StatelessWidget {
       child: Center(
         child: (icon is String) ? Text(
           icon,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: baseFontSize.title)
         ) : Icon(
           icon,
           color: Colors.white,

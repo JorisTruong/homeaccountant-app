@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:homeaccountantapp/components/main_card_icon.dart';
+import 'package:homeaccountantapp/const.dart';
 
 class MainCard extends StatelessWidget {
   final String title;
@@ -29,11 +30,11 @@ class MainCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16)
+                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: baseFontSize.title2)
                   ),
                   Text(
                     amount,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
                   )
                 ]
               ),
@@ -45,11 +46,11 @@ class MainCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: baseFontSize.title2),
                   ),
                   Text(
                     amount,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
                   )
                 ]
               )

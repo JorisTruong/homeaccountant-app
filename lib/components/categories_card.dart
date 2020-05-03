@@ -30,7 +30,7 @@ class CategoryCard extends StatelessWidget {
                       style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: 20)
                     ),
                     GridView.count(
-                      padding: EdgeInsets.only(top: 50.0),
+                      padding: EdgeInsets.only(top: 20.0),
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ? 5 : 3,

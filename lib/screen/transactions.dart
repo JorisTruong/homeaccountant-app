@@ -56,7 +56,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                 title: Text(
                   'Transactions',
                   style: TextStyle(
-                      fontSize: 18
+                      fontSize: baseFontSize.title
                   ),
                 ),
                 centerTitle: true,
@@ -104,7 +104,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                               title: Text(
                                   item['name'],
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: baseFontSize.title2,
                                   )
                               ),
                               onTap: () {

@@ -42,7 +42,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 title: Text(
                   'About us',
                   style: TextStyle(
-                      fontSize: 18
+                      fontSize: baseFontSize.title
                   ),
                 ),
                 centerTitle: true,
@@ -70,7 +70,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                               title: Text(
                                   item['name'],
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: baseFontSize.title2,
                                   )
                               ),
                               onTap: () {

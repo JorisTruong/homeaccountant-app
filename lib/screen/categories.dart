@@ -77,7 +77,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
               title: Text(
                 'Categories',
                 style: TextStyle(
-                  fontSize: 18
+                  fontSize: baseFontSize.title
                 ),
               ),
               centerTitle: true,
@@ -105,7 +105,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                         title: Text(
                           item['name'],
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: baseFontSize.title2,
                           )
                         ),
                         onTap: () {

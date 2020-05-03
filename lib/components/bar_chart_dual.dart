@@ -106,7 +106,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                           ),
                           Text(
                             widget.title,
-                            style: TextStyle(color: baseColors.mainColor, fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 2),
+                            style: TextStyle(color: baseColors.mainColor, fontSize: baseFontSize.title2, fontWeight: FontWeight.bold, letterSpacing: 2),
                           ),
                           const SizedBox(
                             width: 4,
@@ -140,7 +140,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                   textStyle: TextStyle(
                                       color: baseColors.mainColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 12),
+                                      fontSize: baseFontSize.text),
                                   margin: 20,
                                   getTitles: (double value) {
                                     return getXAxis(value, widget.durationType);
@@ -151,7 +151,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                   textStyle: TextStyle(
                                       color: baseColors.mainColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                      fontSize: baseFontSize.text),
                                   margin: 20,
                                   reservedSize: 20,
                                   getTitles: (value) {

@@ -104,7 +104,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                               Text(
                                 switchData ? 'Expenses' : 'Revenue',
                                 style: TextStyle(color: baseColors.mainColor,
-                                    fontSize: 16,
+                                    fontSize: baseFontSize.title2,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 2),
                               ),
@@ -143,7 +143,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                                       textStyle: TextStyle(
                                           color: baseColors.mainColor,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 12),
+                                          fontSize: baseFontSize.text),
                                       margin: 20,
                                       getTitles: (double value) {
                                         return getXAxis(
@@ -155,7 +155,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                                       textStyle: TextStyle(
                                           color: baseColors.mainColor,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14),
+                                          fontSize: baseFontSize.text),
                                       margin: 20,
                                       reservedSize: 20,
                                       getTitles: (value) {

@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               title: Text(
                 'Home Accountant',
                 style: TextStyle(
-                  fontSize: 18
+                  fontSize: baseFontSize.title
                 ),
               ),
               centerTitle: true,
@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         title: Text(
                           item['name'],
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: baseFontSize.title2,
                           )
                         ),
                         onTap: () {
