@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:redux/redux.dart';
 import 'dart:math';
 
@@ -83,9 +84,10 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                 children: new List.generate(categories.length, (int index) {
                   var category = categories.keys.toList()[index];
                   var subcategories = categories.values.toList()[index];
+                  var color = getCategoryColor(index);
                   return Padding(
                     padding: EdgeInsets.only(bottom: 25.0),
-                    child: CategoryCard(category, subcategories)
+                    child: CategoryCard(category, subcategories, color)
                   );
                 })
               )

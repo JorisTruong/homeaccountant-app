@@ -6,8 +6,9 @@ import 'package:homeaccountantapp/const.dart';
 class CategoryCard extends StatelessWidget {
   final String category;
   final List<dynamic> subcategories;
+  final Color color;
 
-  CategoryCard(this.category, this.subcategories);
+  CategoryCard(this.category, this.subcategories, this.color);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class CategoryCard extends StatelessWidget {
                   children: [
                     Text(
                       category,
-                      style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: 20)
+                      style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
                     ),
                     GridView.count(
                       padding: EdgeInsets.only(top: 20.0),
@@ -38,11 +39,11 @@ class CategoryCard extends StatelessWidget {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(icons_list[subcategories[index]['icon_id']]),
+                            Icon(icons_list[subcategories[index]['icon_id']], color: color),
                             Text(
                               subcategories[index]['name'],
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 10),
+                              style: TextStyle(fontSize: baseFontSize.text2),
                             )
                           ]
                         );

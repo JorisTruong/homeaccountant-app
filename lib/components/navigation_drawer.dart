@@ -8,6 +8,7 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/const.dart';
 
 class NavigationDrawer extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
