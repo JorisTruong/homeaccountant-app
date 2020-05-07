@@ -44,6 +44,40 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                   ],
                 ),
                 body: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            new BoxShadow(
+                              color: Colors.grey[500],
+                              blurRadius: 10.0,
+                              offset: Offset(
+                                0.0,
+                                5.0,
+                              ),
+                            ),
+                          ],
+                          color: Colors.white
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Row(
+
+                              )
+                            ],
+                          )
+                        )
+                      )
+                    )
+                  )
                 ),
               )
           );
