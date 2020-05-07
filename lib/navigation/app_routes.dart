@@ -6,4 +6,5 @@ class AppRoutes {
   static const charts = '/charts';
   static const about = '/about';
   static const transaction = '/transaction';
+  static const category = '/category';
 }

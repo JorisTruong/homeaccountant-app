@@ -4,7 +4,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import 'screen/homepage.dart';
 import 'screen/transactions.dart';
+import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
+import 'screen/category_info.dart';
 import 'screen/graphs.dart';
 import 'screen/charts.dart';
 import 'screen/about.dart';
@@ -43,6 +45,10 @@ class MyApp extends StatelessWidget {
         return MainRoute(ChartsPage(), settings: settings);
       case AppRoutes.about:
         return MainRoute(AboutPage(), settings: settings);
+      case AppRoutes.transaction:
+        return AddRoute(TransactionInfoPage(), settings: settings);
+      case AppRoutes.category:
+        return AddRoute(CategoryInfoPage(), settings: settings);
       default:
         return MainRoute(MyHomePage(), settings: settings);
     }
@@ -76,5 +82,27 @@ class MainRoute<T> extends MaterialPageRoute<T> {
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return FadeTransition(opacity: animation, child: child);
+  }
+}
+
+class AddRoute<T> extends MaterialPageRoute<T> {
+  AddRoute(Widget widget, {RouteSettings settings}) :
+        super(
+          builder: (_) => RouteAwareWidget(child: widget),
+          settings: settings
+      );
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    var tween = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).chain(CurveTween(curve: Curves.ease));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
   }
 }

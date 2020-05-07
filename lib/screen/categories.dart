@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -74,22 +75,37 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
               ),
               centerTitle: true,
               actions: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                    elevation: 0,
+                    backgroundColor: baseColors.transparent,
+                    onPressed: () {
+                      StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.category));
+                    },
+                    child: Icon(Icons.add)
+                  )
+                )
               ],
             ),
             drawer: NavigationDrawer(),
             body: SingleChildScrollView(
               padding: EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: new List.generate(categories.length, (int index) {
-                  var category = categories.keys.toList()[index];
-                  var subcategories = categories.values.toList()[index];
-                  var color = getCategoryColor(index);
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 25.0),
-                    child: CategoryCard(category, subcategories, color)
-                  );
-                })
+              child: Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: new List.generate(categories.length, (int index) {
+                      var category = categories.keys.toList()[index];
+                      var subcategories = categories.values.toList()[index];
+                      var color = getCategoryColor(index);
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 25.0),
+                        child: CategoryCard(category, subcategories, color)
+                      );
+                    })
+                  ),
+                ]
               )
             )
           )

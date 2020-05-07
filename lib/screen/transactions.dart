@@ -7,6 +7,7 @@ import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/transaction_card.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -184,7 +185,9 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
             ),
             floatingActionButton: FloatingActionButton(
               heroTag: null,
-              onPressed: () {print('Add Transaction Pressed');},
+              onPressed: () {
+                StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.transaction));
+              },
               child: Icon(Icons.add),
             ),
           )
