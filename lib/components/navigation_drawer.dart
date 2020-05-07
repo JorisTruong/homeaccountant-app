@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/const.dart';
@@ -40,9 +39,7 @@ class NavigationDrawer extends StatelessWidget {
                     onTap: () {
                       print('${item['name']} pressed');
                       Navigator.pop(context);
-                      if (item['route'] != AppRoutes.about) {
-                        StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(item['route']));
-                      }
+                      StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(item['route']));
                       print(StoreProvider.of<AppState>(context).state);
                     },
                   );
