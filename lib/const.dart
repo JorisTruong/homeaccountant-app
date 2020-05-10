@@ -4,6 +4,7 @@ import 'package:homeaccountantapp/navigation/app_routes.dart';
 
 class BaseColors {
   Color mainColor = Colors.grey[850];
+  Color secondaryColor = Colors.grey[650];
   Color blue = Colors.blueAccent;
   Color red = Colors.redAccent;
   Color yellow = Colors.amberAccent;
@@ -14,6 +15,7 @@ class BaseColors {
   Color category3 = Color(0xff845bef);
   Color category4 = Color(0xff13d38e);
   Color category5 = Color(0xfff293ee);
+  Color borderColor = Colors.grey[400];
 }
 
 class BaseFontSize {
