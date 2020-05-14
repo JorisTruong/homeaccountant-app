@@ -7,6 +7,7 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'dart:math' as math;
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -35,8 +36,6 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
   TextEditingController _descriptionController;
   TextEditingController _dateController;
   String accountValue;
-  String categoryValue;
-  String subcategoryValue;
   bool isExpense;
 
   void initState() {
@@ -51,8 +50,20 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
     _nameController.dispose();
     _amountController.dispose();
     _descriptionController.dispose();
-    _dateController = TextEditingController();
+    _dateController.dispose();
     super.dispose();
+  }
+
+  void resetSubcategory(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(null));
+    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryText(TextEditingController()));
+    StoreProvider.of<AppState>(context).dispatch(SelectSubcategory(null));
+  }
+
+  void leaveScreen(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+    StoreProvider.of<AppState>(context).dispatch(SelectCategory(null));
+    resetSubcategory(context);
   }
 
   @override
@@ -64,7 +75,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
-            StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+            leaveScreen(context);
             print(StoreProvider.of<AppState>(context).state);
             return new Future(() => true);
           },
@@ -81,7 +92,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                 leading: IconButton(
                   icon: Icon(Icons.close),
                   onPressed: () {
-                    StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                    leaveScreen(context);
                     Navigator.of(context).pop();
                   },
                 ),
@@ -277,9 +288,9 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                     SizedBox(width: 15.0),
                                                     Icon(Icons.label, size: 18.0),
                                                     Expanded(
-                                                      child: DropdownButton<String>(
+                                                      child: DropdownButton<int>(
                                                         icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: categoryValue,
+                                                        value: StoreProvider.of<AppState>(context).state.categoryIndex,
                                                         hint: Text(
                                                           'Category',
                                                           textAlign: TextAlign.center,
@@ -291,18 +302,18 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                             currentFocus.unfocus();
                                                           }
                                                         },
-                                                        onChanged: (String newValue) {
+                                                        onChanged: (int newValue) {
                                                           setState(() {
-                                                            subcategoryValue = null;
-                                                            categoryValue = newValue;
+                                                            resetSubcategory(context);
+                                                            StoreProvider.of<AppState>(context).dispatch(SelectCategory(newValue));
                                                           });
                                                         },
-                                                        items: categories.keys.map((key){
-                                                          return DropdownMenuItem<String>(
-                                                            value: key.toString(),
-                                                            child: Text(key.toString()),
+                                                        items: List.generate(categories.length, (int index) {
+                                                          return DropdownMenuItem<int>(
+                                                            value: index,
+                                                            child: Text(categories.keys.toList()[index])
                                                           );
-                                                        }).toList(),
+                                                        })
                                                       ),
                                                     ),
                                                     SizedBox(width: 15.0)
@@ -314,53 +325,31 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                           SizedBox(
                                             height: 12.0,
                                           ),
-                                          DropdownButtonHideUnderline(
-                                            child: ButtonTheme(
-                                              alignedDropdown: true,
-                                              child: Card(
-                                                margin: EdgeInsets.zero,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(40.0),
-                                                    side: BorderSide(color: baseColors.borderColor)
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(width: 15.0),
-                                                    Icon(Icons.turned_in, size: 18.0),
-                                                    Expanded(
-                                                      child: DropdownButton<String>(
-                                                        icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: subcategoryValue,
-                                                        hint: Text(
-                                                          'Subcategory',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(color: baseColors.secondaryColor)
-                                                        ),
-                                                        isDense: false,
-                                                        onTap: () {
-                                                          if (!currentFocus.hasPrimaryFocus) {
-                                                            currentFocus.unfocus();
-                                                          }
-                                                        },
-                                                        onChanged: (String newValue) {
-                                                          setState(() {
-                                                            subcategoryValue = newValue;
-                                                          });
-                                                        },
-                                                        items: categoryValue == null ? null :
-                                                          categories[categoryValue].map((key) {
-                                                            return DropdownMenuItem<String>(
-                                                              value: key['name'],
-                                                              child: Text(key['name']),
-                                                            );
-                                                          }).toList(),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 15.0)
-                                                  ],
-                                                )
-                                              )
-                                            )
+                                          TextField(
+                                            readOnly: true,
+                                            controller: StoreProvider.of<AppState>(context).state.subcategoryText,
+                                            decoration: InputDecoration(
+                                                isDense: true,
+                                                alignLabelWithHint: true,
+                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
+                                                contentPadding: EdgeInsets.only(right: 20.0),
+                                                labelText: 'Subcategory',
+                                                prefixIcon: StoreProvider.of<AppState>(context).state.subcategoryIcon == null ?
+                                                  Icon(Icons.turned_in,
+                                                    color: baseColors.mainColor
+                                                  ) :
+                                                  StoreProvider.of<AppState>(context).state.subcategoryIcon,
+                                            ),
+                                            onTap: () {
+                                              if (!currentFocus.hasPrimaryFocus) {
+                                                currentFocus.unfocus();
+                                              }
+                                              if (StoreProvider.of<AppState>(context).state.categoryIndex != null) {
+                                                StoreProvider.of<AppState>(context).dispatch(
+                                                  NavigatePushAction(AppRoutes.subcategory)
+                                                );
+                                              }
+                                            },
                                           ),
                                           SizedBox(
                                             height: 12.0,
@@ -400,7 +389,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             children: [
                                               RaisedButton(
                                                 onPressed: () {
-                                                  StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                                                  leaveScreen(context);
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
@@ -421,7 +410,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               ),
                                               RaisedButton(
                                                 onPressed: () {
-                                                  StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                                                  leaveScreen(context);
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(

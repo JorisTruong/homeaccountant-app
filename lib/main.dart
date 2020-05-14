@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homeaccountantapp/screen/subcategory.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
         return AddRoute(TransactionInfoPage(), settings: settings);
       case AppRoutes.category:
         return AddRoute(CategoryInfoPage(), settings: settings);
+      case AppRoutes.subcategory:
+        return AddRoute(SubcategoryPage(), settings: settings);
       default:
         return MainRoute(MyHomePage(), settings: settings);
     }

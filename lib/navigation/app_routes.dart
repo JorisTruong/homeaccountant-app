@@ -7,4 +7,5 @@ class AppRoutes {
   static const about = '/about';
   static const transaction = '/transaction';
   static const category = '/category';
+  static const subcategory = '/subcategory';
 }
