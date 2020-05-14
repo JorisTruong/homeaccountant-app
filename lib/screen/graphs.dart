@@ -71,75 +71,82 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
               print(StoreProvider.of<AppState>(context).state);
               return new Future(() => true);
             },
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  'Graphs',
-                  style: TextStyle(
-                      fontSize: baseFontSize.title
+            child: GestureDetector(
+              onTap: () {
+                if (!_controller.isDismissed) {
+                  _controller.reverse();
+                }
+              },
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    'Graphs',
+                    style: TextStyle(
+                        fontSize: baseFontSize.title
+                    ),
                   ),
-                ),
-                centerTitle: true,
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: FloatingActionButton(
-                      elevation: 0,
-                      backgroundColor: baseColors.transparent,
-                      onPressed: () {
-                        if (_controller.isDismissed) {
-                          _controller.forward();
-                        } else {
-                          _controller.reverse();
-                        }
-                      },
-                      child: new AnimatedBuilder(
-                        animation: _controller,
-                        builder: (BuildContext context, Widget child) {
-                          return new Icon(Icons.more_vert);
-                        }
+                  centerTitle: true,
+                  actions: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: FloatingActionButton(
+                        elevation: 0,
+                        backgroundColor: baseColors.transparent,
+                        onPressed: () {
+                          if (_controller.isDismissed) {
+                            _controller.forward();
+                          } else {
+                            _controller.reverse();
+                          }
+                        },
+                        child: new AnimatedBuilder(
+                          animation: _controller,
+                          builder: (BuildContext context, Widget child) {
+                            return new Icon(Icons.more_vert);
+                          }
+                        )
                       )
                     )
-                  )
-                ],
-              ),
-              drawer: NavigationDrawer(),
-              body: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
-                        BarChartDualCard(title: 'Transactions', durationType: 'week', data: transactionsDetailed),
-                        BarChartMultiTypesCard(durationType: 'week', data: transactionsDetailed)
-                      ],
+                  ],
+                ),
+                drawer: NavigationDrawer(),
+                body: Stack(
+                  children: <Widget>[
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
+                          BarChartDualCard(title: 'Transactions', durationType: 'week', data: transactionsDetailed),
+                          BarChartMultiTypesCard(durationType: 'week', data: transactionsDetailed)
+                        ],
+                      ),
                     ),
-                  ),
-                  SpeedDialButton(_controller, _pcAccount, _pcDate),
-                  SlidingUpPanel(
-                    controller: _pcAccount,
-                    panel: Center(child: Text("This is the sliding Widget for Account"),),
-                    backdropEnabled: true,
-                    minHeight: 0.0,
-                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.0),
-                      topRight: Radius.circular(24.0)
+                    SpeedDialButton(_controller, _pcAccount, _pcDate),
+                    SlidingUpPanel(
+                      controller: _pcAccount,
+                      panel: Center(child: Text("This is the sliding Widget for Account"),),
+                      backdropEnabled: true,
+                      minHeight: 0.0,
+                      maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24.0),
+                        topRight: Radius.circular(24.0)
+                      ),
                     ),
-                  ),
-                  SlidingUpPanel(
-                    controller: _pcDate,
-                    panel: Center(child: Text("This is the sliding Widget for Date Range"),),
-                    backdropEnabled: true,
-                    minHeight: 0.0,
-                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.0),
-                      topRight: Radius.circular(24.0)
-                    ),
-                  )
-                ]
-              ),
+                    SlidingUpPanel(
+                      controller: _pcDate,
+                      panel: Center(child: Text("This is the sliding Widget for Date Range"),),
+                      backdropEnabled: true,
+                      minHeight: 0.0,
+                      maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24.0),
+                        topRight: Radius.circular(24.0)
+                      ),
+                    )
+                  ]
+                ),
+              )
             )
           );
         }

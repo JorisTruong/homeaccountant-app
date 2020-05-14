@@ -50,79 +50,86 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             print(StoreProvider.of<AppState>(context).state);
             return new Future(() => true);
           },
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Home Accountant',
-                style: TextStyle(
-                  fontSize: baseFontSize.title
+          child: GestureDetector(
+            onTap: () {
+              if (!_controller.isDismissed) {
+                _controller.reverse();
+              }
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Home Accountant',
+                  style: TextStyle(
+                    fontSize: baseFontSize.title
+                  ),
                 ),
-              ),
-              centerTitle: true,
-              actions: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    elevation: 0,
-                    backgroundColor: baseColors.mainColor,
-                    onPressed: () {
-                      if (_controller.isDismissed) {
-                        _controller.forward();
-                      } else {
-                        _controller.reverse();
-                      }
-                    },
-                    child: new AnimatedBuilder(
-                      animation: _controller,
-                      builder: (BuildContext context, Widget child) {
-                        return new Icon(Icons.more_vert);
-                      }
+                centerTitle: true,
+                actions: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: FloatingActionButton(
+                      elevation: 0,
+                      backgroundColor: baseColors.mainColor,
+                      onPressed: () {
+                        if (_controller.isDismissed) {
+                          _controller.forward();
+                        } else {
+                          _controller.reverse();
+                        }
+                      },
+                      child: new AnimatedBuilder(
+                        animation: _controller,
+                        builder: (BuildContext context, Widget child) {
+                          return new Icon(Icons.more_vert);
+                        }
+                      )
                     )
                   )
-                )
-              ],
-            ),
-            drawer: NavigationDrawer(),
-            body: Center(
-              child: Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MainCard('Balance', currency, balance, baseColors.blue, 'left'),
-                      MainCard('Revenue', Icons.call_made, revenue, baseColors.green, 'right'),
-                      MainCard('Expenses', Icons.call_received, expenses, baseColors.red, 'left'),
-                      MainCard('Number of\ntransactions', currency, transactionNumber, baseColors.yellow, 'right'),
-                      LineChartCard(title: 'Transactions', durationType: 'week')
-                    ],
-                  )
-                ),
-                SpeedDialButton(_controller, _pcAccount, _pcDate),
-                SlidingUpPanel(
-                  controller: _pcAccount,
-                  panel: Center(child: Text("This is the sliding Widget for Account"),),
-                  backdropEnabled: true,
-                  minHeight: 0.0,
-                  maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0)
+                ],
+              ),
+              drawer: NavigationDrawer(),
+              body: Center(
+                child: Stack(
+                children: <Widget>[
+                  SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MainCard('Balance', currency, balance, baseColors.blue, 'left'),
+                        MainCard('Revenue', Icons.call_made, revenue, baseColors.green, 'right'),
+                        MainCard('Expenses', Icons.call_received, expenses, baseColors.red, 'left'),
+                        MainCard('Number of\ntransactions', currency, transactionNumber, baseColors.yellow, 'right'),
+                        LineChartCard(title: 'Transactions', durationType: 'week')
+                      ],
+                    )
                   ),
-                ),
-                SlidingUpPanel(
-                  controller: _pcDate,
-                  panel: Center(child: Text("This is the sliding Widget for Date Range"),),
-                  backdropEnabled: true,
-                  minHeight: 0.0,
-                  maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                  borderRadius: BorderRadius.only(
+                  SpeedDialButton(_controller, _pcAccount, _pcDate),
+                  SlidingUpPanel(
+                    controller: _pcAccount,
+                    panel: Center(child: Text("This is the sliding Widget for Account"),),
+                    backdropEnabled: true,
+                    minHeight: 0.0,
+                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24.0),
                       topRight: Radius.circular(24.0)
+                    ),
                   ),
-                )
-              ])
-            ),
+                  SlidingUpPanel(
+                    controller: _pcDate,
+                    panel: Center(child: Text("This is the sliding Widget for Date Range"),),
+                    backdropEnabled: true,
+                    minHeight: 0.0,
+                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24.0),
+                        topRight: Radius.circular(24.0)
+                    ),
+                  )
+                ])
+              ),
+            )
           )
         );
       }
