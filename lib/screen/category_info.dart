@@ -30,23 +30,28 @@ class CategoryInfoPage extends StatefulWidget {
 
 class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
-  TextEditingController _subcategoryController;
-  int categoryValue;
-  IconData _iconData;
-  Color iconColor;
 
-  void initState() {
-    super.initState();
-    _subcategoryController = TextEditingController();
+  void resetState(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatch(SelectCategory(null));
+    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(null));
+    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryText(TextEditingController()));
   }
 
-  void dispose() {
-    _subcategoryController.dispose();
-    super.dispose();
+  changeIcon(_iconData, color) {
+    var icon = Icon(
+        _iconData,
+        size: MediaQuery.of(context).size.width * 0.3,
+        color: color
+    );
+    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(icon));
   }
 
   _pickIcon() async {
-    _iconData = await FlutterIconPicker.showIconPicker(context);
+    final _iconData = await FlutterIconPicker.showIconPicker(context);
+    final color = getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex) == null ?
+      baseColors.mainColor :
+      getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex);
+    changeIcon(_iconData, color);
   }
 
   @override
@@ -58,6 +63,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
+            resetState(context);
             StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
             print(StoreProvider.of<AppState>(context).state);
             return new Future(() => true);
@@ -75,6 +81,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                 leading: IconButton(
                   icon: Icon(Icons.close),
                   onPressed: () {
+                    resetState(context);
                     StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
                     Navigator.of(context).pop();
                   },
@@ -82,7 +89,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                 title: Text(
                   'Category Info',
                   style: TextStyle(
-                      fontSize: baseFontSize.title
+                    fontSize: baseFontSize.title
                   ),
                 ),
                 centerTitle: true,
@@ -146,7 +153,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                     Expanded(
                                                       child: DropdownButton<int>(
                                                         icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: categoryValue,
+                                                        value: StoreProvider.of<AppState>(context).state.categoryIndex,
                                                         hint: Text(
                                                           'Category',
                                                           textAlign: TextAlign.center,
@@ -159,10 +166,13 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                           }
                                                         },
                                                         onChanged: (int newValue) {
-                                                          setState(() {
-                                                            categoryValue = newValue;
-                                                            iconColor = getCategoryColor(categoryValue);
-                                                          });
+                                                          StoreProvider.of<AppState>(context).dispatch(SelectCategory(newValue));
+                                                          if (StoreProvider.of<AppState>(context).state.subcategoryIcon != null) {
+                                                            var color = getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex) == null ?
+                                                                baseColors.mainColor :
+                                                                getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex);
+                                                            changeIcon(StoreProvider.of<AppState>(context).state.subcategoryIcon.icon, color);
+                                                          }
                                                         },
                                                         items: List.generate(categories.length, (int index) {
                                                           return DropdownMenuItem<int>(
@@ -182,7 +192,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             height: 12.0,
                                           ),
                                           TextField(
-                                            controller: _subcategoryController,
+                                            controller: StoreProvider.of<AppState>(context).state.subcategoryText,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -193,14 +203,10 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             ),
                                           ),
                                           SizedBox(height: 12.0),
-                                          _iconData == null ? SizedBox(height: 12.0) : Column(
+                                          StoreProvider.of<AppState>(context).state.subcategoryIcon == null ? SizedBox(height: 12.0) : Column(
                                             children: [
                                               SizedBox(height: 12.0),
-                                              Icon(
-                                                _iconData,
-                                                size: MediaQuery.of(context).size.width * 0.3,
-                                                color: iconColor == null ? baseColors.mainColor : iconColor
-                                              )
+                                              StoreProvider.of<AppState>(context).state.subcategoryIcon
                                             ]
                                           ),
                                           SizedBox(height: 12.0),
@@ -226,6 +232,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             children: [
                                               RaisedButton(
                                                 onPressed: () {
+                                                  resetState(context);
                                                   StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
                                                   Navigator.of(context).pop();
                                                 },
@@ -246,6 +253,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               ),
                                               RaisedButton(
                                                 onPressed: () {
+                                                  resetState(context);
                                                   StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
                                                   Navigator.of(context).pop();
                                                 },

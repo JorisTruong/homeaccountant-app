@@ -4,16 +4,18 @@ import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 class CategoryCard extends StatelessWidget {
+  final int categoryIndex;
   final String category;
   final List<dynamic> subcategories;
   final Color color;
   final bool select;
 
-  CategoryCard(this.category, this.subcategories, this.color, this.select);
+  CategoryCard(this.categoryIndex, this.category, this.subcategories, this.color, this.select);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,18 @@ class CategoryCard extends StatelessWidget {
                                       StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
                                       Navigator.of(context).pop();
                                     } else {
-                                      print('Update subcategory info');
+                                      StoreProvider.of<AppState>(context).dispatch(SelectCategory(categoryIndex));
+                                      var subcategoryText = TextEditingController();
+                                      subcategoryText.text = subcategories[index]['name'];
+                                      StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryText(subcategoryText));
+                                      StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(
+                                        Icon(
+                                          icons_list[subcategories[index]['icon_id']],
+                                          color: color,
+                                          size: MediaQuery.of(context).size.width * 0.3
+                                        )
+                                      ));
+                                      StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.category));
                                     }
                                   },
                                   child: Column(

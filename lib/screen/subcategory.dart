@@ -72,6 +72,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                       Padding(
                         padding: EdgeInsets.only(bottom: 25.0),
                         child: CategoryCard(
+                          StoreProvider.of<AppState>(context).state.categoryIndex,
                           categories.keys.toList()[StoreProvider.of<AppState>(context).state.categoryIndex],
                           categories.values.toList()[StoreProvider.of<AppState>(context).state.categoryIndex],
                           getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex),

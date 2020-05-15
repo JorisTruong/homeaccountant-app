@@ -101,7 +101,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                       var color = getCategoryColor(index);
                       return Padding(
                         padding: EdgeInsets.only(bottom: 25.0),
-                        child: CategoryCard(category, subcategories, color, false)
+                        child: CategoryCard(index, category, subcategories, color, false)
                       );
                     })
                   ),
