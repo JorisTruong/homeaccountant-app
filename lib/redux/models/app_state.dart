@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 class AppState {
   final String account;
   final TextEditingController transactionName;
-  final String transactionAccount;
+  final int transactionAccountId;
   final TextEditingController transactionDate;
   final bool transactionIsExpense;
   final int categoryIndex;
@@ -20,7 +20,7 @@ class AppState {
   const AppState({
     @required this.account,
     this.transactionName,
-    this.transactionAccount,
+    this.transactionAccountId,
     this.transactionDate,
     this.transactionIsExpense,
     this.categoryIndex,

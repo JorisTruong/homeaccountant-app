@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 
 final transactionNameReducer = TypedReducer<TextEditingController, TransactionName>(_transactionName);
-final transactionAccountReducer = TypedReducer<String, TransactionAccount>(_transactionAccount);
+final transactionAccountIdReducer = TypedReducer<int, TransactionAccount>(_transactionAccountId);
 final transactionDateReducer = TypedReducer<TextEditingController, TransactionDate>(_transactionDate);
 final transactionIsExpenseReducer = TypedReducer<bool, TransactionIsExpense>(_transactionIsExpense);
 final transactionAmountReducer = TypedReducer<TextEditingController, TransactionAmount>(_transactionAmount);
@@ -14,8 +14,8 @@ TextEditingController _transactionName(TextEditingController name, TransactionNa
   return action.name;
 }
 
-String _transactionAccount(String account, TransactionAccount action) {
-  return action.account;
+int _transactionAccountId(int accountId, TransactionAccount action) {
+  return action.accountId;
 }
 
 TextEditingController _transactionDate(TextEditingController date, TransactionDate action) {

@@ -19,9 +19,9 @@ class TransactionName {
 }
 
 class TransactionAccount {
-  final String account;
+  final int accountId;
 
-  TransactionAccount(this.account);
+  TransactionAccount(this.accountId);
 }
 
 class TransactionDate {

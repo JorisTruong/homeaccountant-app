@@ -15,11 +15,11 @@ import 'categories.dart';
 
 
 final accounts = [
-  'Account 1',
-  'Account 2',
-  'Account 3',
-  'Account 4',
-  'Account 5'
+  {'id': 0, 'name': 'Account 1'},
+  {'id': 1, 'name': 'Account 2'},
+  {'id': 2, 'name': 'Account 3'},
+  {'id': 3, 'name': 'Account 4'},
+  {'id': 4, 'name': 'Account 5'}
 ];
 
 class TransactionInfoPage extends StatefulWidget {
@@ -158,10 +158,10 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                     SizedBox(width: 15.0),
                                                     Icon(Icons.account_box, size: 18.0),
                                                     Expanded(
-                                                      child: DropdownButton<String>(
+                                                      child: DropdownButton<int>(
                                                         autofocus: true,
                                                         icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: StoreProvider.of<AppState>(context).state.transactionAccount,
+                                                        value: StoreProvider.of<AppState>(context).state.transactionAccountId,
                                                         hint: Text(
                                                           'Account',
                                                           textAlign: TextAlign.center,
@@ -173,15 +173,15 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                             currentFocus.unfocus();
                                                           }
                                                         },
-                                                        onChanged: (String newValue) {
+                                                        onChanged: (int newValue) {
                                                           setState(() {
                                                             StoreProvider.of<AppState>(context).dispatch(TransactionAccount(newValue));
                                                           });
                                                         },
-                                                        items: accounts.map((key){
-                                                          return DropdownMenuItem<String>(
-                                                            value: key.toString(),
-                                                            child: Text(key.toString()),
+                                                        items: accounts.map((key) {
+                                                          return DropdownMenuItem<int>(
+                                                            value: key['id'],
+                                                            child: Text(key['name']),
                                                           );
                                                         }).toList(),
                                                       ),
@@ -396,7 +396,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               RaisedButton(
                                                 onPressed: () {
                                                   print(StoreProvider.of<AppState>(context).state.transactionName.text);
-                                                  print(StoreProvider.of<AppState>(context).state.transactionAccount);
+                                                  print(StoreProvider.of<AppState>(context).state.transactionAccountId);
                                                   print(StoreProvider.of<AppState>(context).state.transactionDate.text);
                                                   print(StoreProvider.of<AppState>(context).state.transactionIsExpense);
                                                   print(StoreProvider.of<AppState>(context).state.categoryIndex);

@@ -9,7 +9,7 @@ AppState appReducer(AppState state, action) {
   return AppState(
     account: accountReducer(state.account, action),
     transactionName: transactionNameReducer(state.transactionName, action),
-    transactionAccount: transactionAccountReducer(state.transactionAccount, action),
+    transactionAccountId: transactionAccountIdReducer(state.transactionAccountId, action),
     transactionDate: transactionDateReducer(state.transactionDate, action),
     transactionIsExpense: transactionIsExpenseReducer(state.transactionIsExpense, action),
     categoryIndex: categoryReducer(state.categoryIndex, action),
