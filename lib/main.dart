@@ -24,7 +24,16 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 void main() {
   final store = Store<AppState>(
     appReducer,
-    initialState: AppState(account: 'Account 1', dateRange: "ALL", route: [AppRoutes.home]),
+    initialState: AppState(
+      account: 'Account 1',
+      transactionName: TextEditingController(),
+      transactionDate: TextEditingController(),
+      subcategoryText: TextEditingController(),
+      transactionAmount: TextEditingController(),
+      transactionDescription: TextEditingController(),
+      dateRange: "ALL",
+      route: [AppRoutes.home]
+    ),
     middleware: createNavigationMiddleware()
   );
 

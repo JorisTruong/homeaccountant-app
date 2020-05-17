@@ -31,38 +31,21 @@ class TransactionInfoPage extends StatefulWidget {
 
 class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
-  TextEditingController _nameController;
-  TextEditingController _amountController;
-  TextEditingController _descriptionController;
-  TextEditingController _dateController;
-  String accountValue;
-  bool isExpense;
-
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController();
-    _amountController = TextEditingController();
-    _descriptionController = TextEditingController();
-    _dateController = TextEditingController();
-  }
-
-  void dispose() {
-    _nameController.dispose();
-    _amountController.dispose();
-    _descriptionController.dispose();
-    _dateController.dispose();
-    super.dispose();
-  }
 
   void resetSubcategory(BuildContext context) {
     StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(null));
-    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryText(TextEditingController()));
+    StoreProvider.of<AppState>(context).dispatch(SubcategoryText(TextEditingController()));
     StoreProvider.of<AppState>(context).dispatch(SelectSubcategory(null));
   }
 
   void leaveScreen(BuildContext context) {
     StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
     StoreProvider.of<AppState>(context).dispatch(SelectCategory(null));
+    StoreProvider.of<AppState>(context).dispatch(TransactionName(TextEditingController()));
+    StoreProvider.of<AppState>(context).dispatch(TransactionAccount(null));
+    StoreProvider.of<AppState>(context).dispatch(TransactionDate(TextEditingController()));
+    StoreProvider.of<AppState>(context).dispatch(TransactionAmount(TextEditingController()));
+    StoreProvider.of<AppState>(context).dispatch(TransactionDescription(TextEditingController()));
     resetSubcategory(context);
   }
 
@@ -148,7 +131,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                       return Column(
                                         children: [
                                           TextField(
-                                            controller: _nameController,
+                                            controller: StoreProvider.of<AppState>(context).state.transactionName,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -178,7 +161,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                       child: DropdownButton<String>(
                                                         autofocus: true,
                                                         icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: accountValue,
+                                                        value: StoreProvider.of<AppState>(context).state.transactionAccount,
                                                         hint: Text(
                                                           'Account',
                                                           textAlign: TextAlign.center,
@@ -192,7 +175,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         },
                                                         onChanged: (String newValue) {
                                                           setState(() {
-                                                            accountValue = newValue;
+                                                            StoreProvider.of<AppState>(context).dispatch(TransactionAccount(newValue));
                                                           });
                                                         },
                                                         items: accounts.map((key){
@@ -221,7 +204,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               builder: (context) =>
                                                 TextField(
                                                   readOnly: true,
-                                                  controller: _dateController,
+                                                  controller: StoreProvider.of<AppState>(context).state.transactionDate,
                                                   decoration: InputDecoration(
                                                     isDense: true,
                                                     alignLabelWithHint: true,
@@ -238,7 +221,9 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                       lastDate: DateTime.now(),
                                                     );
                                                     if (pickedDate != null) {
-                                                      _dateController.text = pickedDate.toString().split(' ')[0];
+                                                      var date = TextEditingController();
+                                                      date.text = pickedDate.toString().split(' ')[0];
+                                                      StoreProvider.of<AppState>(context).dispatch(TransactionDate(date));
                                                     }
                                                   },
                                                 )
@@ -251,20 +236,20 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             children: [
                                               Radio(
                                                 value: true,
-                                                groupValue: isExpense,
+                                                groupValue: StoreProvider.of<AppState>(context).state.transactionIsExpense,
                                                 onChanged: (bool value) {
                                                   setState(() {
-                                                    isExpense = value;
+                                                    StoreProvider.of<AppState>(context).dispatch(TransactionIsExpense(value));
                                                   });
                                                 }
                                               ),
                                               Text('Expense'),
                                               Radio(
                                                   value: false,
-                                                  groupValue: isExpense,
+                                                  groupValue: StoreProvider.of<AppState>(context).state.transactionIsExpense,
                                                   onChanged: (bool value) {
                                                     setState(() {
-                                                      isExpense = value;
+                                                      StoreProvider.of<AppState>(context).dispatch(TransactionIsExpense(value));
                                                     });
                                                   }
                                               ),
@@ -357,7 +342,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                           TextField(
                                             inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
                                             keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                            controller: _amountController,
+                                            controller: StoreProvider.of<AppState>(context).state.transactionAmount,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -371,7 +356,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             height: 12.0,
                                           ),
                                           TextField(
-                                            controller: _descriptionController,
+                                            controller: StoreProvider.of<AppState>(context).state.transactionDescription,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -410,6 +395,14 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               ),
                                               RaisedButton(
                                                 onPressed: () {
+                                                  print(StoreProvider.of<AppState>(context).state.transactionName.text);
+                                                  print(StoreProvider.of<AppState>(context).state.transactionAccount);
+                                                  print(StoreProvider.of<AppState>(context).state.transactionDate.text);
+                                                  print(StoreProvider.of<AppState>(context).state.transactionIsExpense);
+                                                  print(StoreProvider.of<AppState>(context).state.categoryIndex);
+                                                  print(StoreProvider.of<AppState>(context).state.subcategoryText.text);
+                                                  print(StoreProvider.of<AppState>(context).state.transactionAmount.text);
+                                                  print(StoreProvider.of<AppState>(context).state.transactionDescription.text);
                                                   leaveScreen(context);
                                                   Navigator.of(context).pop();
                                                 },

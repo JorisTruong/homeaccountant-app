@@ -5,7 +5,7 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 
 final categoryReducer = TypedReducer<int, SelectCategory>(_selectCategory);
 final subcategoryReducer = TypedReducer<Map<String, dynamic>, SelectSubcategory>(_selectSubcategory);
-final subcategoryTextReducer = TypedReducer<TextEditingController, SelectSubcategoryText>(_subcategoryText);
+final subcategoryTextReducer = TypedReducer<TextEditingController, SubcategoryText>(_subcategoryText);
 final subcategoryIconReducer = TypedReducer<Icon, SelectSubcategoryIcon>(_subcategoryIcon);
 
 
@@ -17,7 +17,7 @@ Map<String, dynamic> _selectSubcategory(Map<String, dynamic> subcategory, Select
   return action.subcategory;
 }
 
-TextEditingController _subcategoryText(TextEditingController subcategory, SelectSubcategoryText action) {
+TextEditingController _subcategoryText(TextEditingController subcategory, SubcategoryText action) {
   return action.subcategory;
 }
 

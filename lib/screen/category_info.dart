@@ -34,7 +34,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
   void resetState(BuildContext context) {
     StoreProvider.of<AppState>(context).dispatch(SelectCategory(null));
     StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(null));
-    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryText(TextEditingController()));
+    StoreProvider.of<AppState>(context).dispatch(SubcategoryText(TextEditingController()));
   }
 
   changeIcon(_iconData, color) {

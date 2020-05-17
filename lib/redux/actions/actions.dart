@@ -12,6 +12,30 @@ class UpdateDateRange {
   UpdateDateRange(this.dateRange);
 }
 
+class TransactionName {
+  final TextEditingController name;
+
+  TransactionName(this.name);
+}
+
+class TransactionAccount {
+  final String account;
+
+  TransactionAccount(this.account);
+}
+
+class TransactionDate {
+  final TextEditingController date;
+
+  TransactionDate(this.date);
+}
+
+class TransactionIsExpense {
+  final bool isExpense;
+
+  TransactionIsExpense(this.isExpense);
+}
+
 class SelectCategory {
   final int categoryIndex;
 
@@ -24,16 +48,28 @@ class SelectSubcategory {
   SelectSubcategory(this.subcategory);
 }
 
-class SelectSubcategoryText {
+class SubcategoryText {
   final TextEditingController subcategory;
 
-  SelectSubcategoryText(this.subcategory);
+  SubcategoryText(this.subcategory);
 }
 
 class SelectSubcategoryIcon {
   final Icon subcategoryIcon;
 
   SelectSubcategoryIcon(this.subcategoryIcon);
+}
+
+class TransactionAmount {
+  final TextEditingController amount;
+
+  TransactionAmount(this.amount);
+}
+
+class TransactionDescription {
+  final TextEditingController description;
+
+  TransactionDescription(this.description);
 }
 
 class NavigateReplaceAction {

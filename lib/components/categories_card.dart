@@ -69,7 +69,7 @@ class CategoryCard extends StatelessWidget {
                                       StoreProvider.of<AppState>(context).dispatch(SelectSubcategory(subcategories[index]));
                                       var subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
-                                      StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryText(subcategoryText));
+                                      StoreProvider.of<AppState>(context).dispatch(SubcategoryText(subcategoryText));
                                       StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(
                                         Icon(
                                           icons_list[subcategories[index]['icon_id']],
@@ -82,7 +82,7 @@ class CategoryCard extends StatelessWidget {
                                       StoreProvider.of<AppState>(context).dispatch(SelectCategory(categoryIndex));
                                       var subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
-                                      StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryText(subcategoryText));
+                                      StoreProvider.of<AppState>(context).dispatch(SubcategoryText(subcategoryText));
                                       StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(
                                         Icon(
                                           icons_list[subcategories[index]['icon_id']],
