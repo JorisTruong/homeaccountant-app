@@ -6,7 +6,7 @@ import 'package:homeaccountantapp/components/transaction_item.dart';
 
 class TransactionCard extends StatelessWidget {
   final String month;
-  final Map<String, List<dynamic>> transactions;
+  final List<Map<String, dynamic>> transactions;
 
   TransactionCard(this.month, this.transactions);
 
@@ -34,7 +34,7 @@ class TransactionCard extends StatelessWidget {
             color: Colors.white
           ),
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0, bottom: 10.0),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -49,23 +49,16 @@ class TransactionCard extends StatelessWidget {
                             style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title),
                           ),
                         ),
-                        ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                        Padding(
                           padding: EdgeInsets.only(top: 20.0),
-                          shrinkWrap: true,
-                          itemCount: transactions.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            var day = transactions.keys.elementAt(index);
-                            return Container(
-                              padding: EdgeInsets.only(bottom: transactions[day].isNotEmpty ? 30.0 : 0.0),
-                              child: Center(
-                                child: transactions[day].isNotEmpty ?
-                                  TransactionItem(
-                                    month + ' ' + day, transactions[day]
-                                  ) : null
-                              )
-                            );
-                          },
+                          child: Container(
+                            padding: EdgeInsets.only(bottom: transactions.isNotEmpty ? 15.0 : 0.0),
+                            child: Center(
+                              child: transactions.isNotEmpty ?
+                                TransactionItem(transactions) :
+                                null
+                            )
+                          )
                         )
                       ]
                     )

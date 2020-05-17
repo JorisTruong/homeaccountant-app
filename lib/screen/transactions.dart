@@ -13,71 +13,75 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 
 
 final transactions = {
-  'March': {
-    '1': [],
-    '2': [
-      {
-        'id': 0,
-        'transaction_name': 'Salary',
-        'isExpense': 0,
-        'amount': 3000,
-        'description': '',
-        'category_id': 1,
-        'subcategory_id': 80
-      }
-    ],
-    '31': [
-      {
-        'id': 1,
-        'transaction_name': 'Shoes',
-        'isExpense': 1,
-        'amount': 80,
-        'description': '',
-        'category_id': 2,
-        'subcategory_id': 3
-      },
-      {
-        'id': 2,
-        'transaction_name': 'Clothes',
-        'isExpense': 1,
-        'amount': 200,
-        'description': '',
-        'category_id': 2,
-      }
-    ]
-  },
-  'April': {
-    '1': [
-      {
-        'id': 3,
-        'transaction_name': 'Pho',
-        'isExpense': 1,
-        'amount': 10,
-        'description': '',
-        'category_id': 1,
-        'subcategory_id': 1
-      },
-      {
-        'id': 4,
-        'transaction_name': 'KBBQ',
-        'isExpense': 1,
-        'amount': 30,
-        'description': '',
-        'category_id': 1,
-        'subcategory_id': 1
-      },
-      {
-        'id': 5,
-        'transaction_name': 'Sandwich',
-        'isExpense': 1,
-        'amount': 5,
-        'description': '',
-        'category_id': 1,
-        'subcategory_id': 2
-      },
-    ],
-    '15': []
-  }
+  'March 2020': [
+    {
+      'id': 0,
+      'transaction_name': 'Salary',
+      'account_id': 0,
+      'date': '2020-03-02',
+      'isExpense': 0,
+      'amount': 3000,
+      'description': '',
+      'category_id': 1,
+      'subcategory_id': 80
+    },
+    {
+      'id': 1,
+      'transaction_name': 'Shoes',
+      'account_id': 1,
+      'date': '2020-03-31',
+      'isExpense': 1,
+      'amount': 80,
+      'description': '',
+      'category_id': 2,
+      'subcategory_id': 3
+    },
+    {
+      'id': 2,
+      'transaction_name': 'Clothes',
+      'account_id': 0,
+      'date': '2020-03-31',
+      'isExpense': 1,
+      'amount': 200,
+      'description': '',
+      'category_id': 2,
+    }
+  ],
+  'April 2020': [
+    {
+      'id': 3,
+      'transaction_name': 'Pho',
+      'account_id': 1,
+      'date': '2020-04-01',
+      'isExpense': 1,
+      'amount': 10,
+      'description': '',
+      'category_id': 1,
+      'subcategory_id': 1
+    },
+    {
+      'id': 4,
+      'transaction_name': 'KBBQ',
+      'account_id': 1,
+      'date': '2020-04-01',
+      'isExpense': 1,
+      'amount': 30,
+      'description': '',
+      'category_id': 1,
+      'subcategory_id': 1
+    },
+    {
+      'id': 5,
+      'transaction_name': 'Sandwich',
+      'account_id': 1,
+      'date': '2020-04-01',
+      'isExpense': 1,
+      'amount': 5,
+      'description': 'Triangle',
+      'category_id': 1,
+      'subcategory_id': 2
+    },
+  ]
 };
 
 class TransactionsPage extends StatefulWidget {
