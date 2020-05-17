@@ -16,7 +16,7 @@ final random = new Random();
 
 var categories = {
   'Category 1': [
-    {'id': 0, 'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
+    {'id': 0, 'name': 'Subcategory 1', 'icon_id': 80},
     {'id': 1, 'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
     {'id': 2, 'name': 'Subcategory 3', 'icon_id': random.nextInt(985)},
     {'id': 3, 'name': 'Subcategory 4', 'icon_id': random.nextInt(985)},

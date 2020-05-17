@@ -46,3 +46,13 @@ Color getCategoryColor(int index) {
       return baseColors.mainColor;
   }
 }
+
+Map<String, dynamic> findSubcategoryFromId(int subcategoryId, Map<String, List<dynamic>> categories) {
+  for(final category in categories.keys.toList()) {
+    for(final subcategory in categories[category]) {
+      if (subcategory['id'] == subcategoryId) {
+        return subcategory;
+      }
+    }
+  }
+}
