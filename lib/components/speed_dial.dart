@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+
 
 const List buttons = [
   {'name': 'Account', 'icon': Icons.account_balance_wallet},
@@ -73,10 +74,7 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                             mini: true,
                             child: new Icon(buttons[index]['icon']),
                             onPressed: () {
-                              print("${buttons[index]['name']} pressed");
                               if (buttons[index]['name'] == 'Account') {
-                                StoreProvider.of<AppState>(context).dispatch(ChangeAccount(buttons[index]['name']));
-                                print(StoreProvider.of<AppState>(context).state.account);
                                 if (widget._pcAccount.isAttached) {
                                   if (widget._pcAccount.isPanelOpen) {
                                     widget._pcAccount.close();
@@ -99,6 +97,9 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                                 } else {
                                   print(widget._pcDate.isAttached);
                                 }
+                              }
+                              if (!widget._controller.isDismissed) {
+                                widget._controller.reverse();
                               }
                             },
                           )

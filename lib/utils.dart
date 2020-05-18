@@ -56,3 +56,11 @@ Map<String, dynamic> findSubcategoryFromId(int subcategoryId, Map<String, List<d
     }
   }
 }
+
+String findAccountFromId(int accountId, List<Map<String, dynamic>> accounts) {
+  for(final account in accounts) {
+    if (account['id'] == accountId) {
+      return account['name'];
+    }
+  }
+}

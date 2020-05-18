@@ -25,7 +25,7 @@ void main() {
   final store = Store<AppState>(
     appReducer,
     initialState: AppState(
-      account: 'Account 1',
+      accountId: 0,
       transactionName: TextEditingController(),
       transactionDate: TextEditingController(),
       subcategoryText: TextEditingController(),

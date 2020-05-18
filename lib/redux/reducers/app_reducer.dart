@@ -7,7 +7,7 @@ import 'package:homeaccountantapp/redux/reducers/transaction_reducer.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
-    account: accountReducer(state.account, action),
+    accountId: accountIdReducer(state.accountId, action),
     transactionName: transactionNameReducer(state.transactionName, action),
     transactionAccountId: transactionAccountIdReducer(state.transactionAccountId, action),
     transactionDate: transactionDateReducer(state.transactionDate, action),

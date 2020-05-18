@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ChangeAccount {
-  final String account;
+  final int accountId;
 
-  ChangeAccount(this.account);
+  ChangeAccount(this.accountId);
 }
 
 class UpdateDateRange {

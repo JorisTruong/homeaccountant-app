@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 class AppState {
-  final String account;
+  final int accountId;
   final TextEditingController transactionName;
   final int transactionAccountId;
   final TextEditingController transactionDate;
@@ -18,7 +18,7 @@ class AppState {
   final List<String> route;
 
   const AppState({
-    @required this.account,
+    @required this.accountId,
     this.transactionName,
     this.transactionAccountId,
     this.transactionDate,
@@ -35,6 +35,6 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState: {account: $account, categoryIndex: $categoryIndex, subcategory: $subcategory, dateRange: $dateRange, route: $route}';
+    return 'AppState: {accountId: $accountId, categoryIndex: $categoryIndex, subcategory: $subcategory, dateRange: $dateRange, route: $route}';
   }
 }
