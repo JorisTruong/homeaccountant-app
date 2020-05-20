@@ -24,6 +24,7 @@ class BaseFontSize {
   double subtitle = 14;
   double text = 12;
   double text2 = 10;
+  double selected = 24;
 }
 
 final baseColors = BaseColors();

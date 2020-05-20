@@ -7,7 +7,7 @@ class ChangeAccount {
 }
 
 class UpdateDateRange {
-  final String dateRange;
+  final Map<String, String> dateRange;
 
   UpdateDateRange(this.dateRange);
 }

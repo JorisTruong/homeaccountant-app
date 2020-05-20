@@ -64,3 +64,41 @@ String findAccountFromId(int accountId, List<Map<String, dynamic>> accounts) {
     }
   }
 }
+
+String DayOrMonthToString(int month) {
+  if (month < 10) {
+    return '0' + month.toString();
+  } else {
+    return month.toString();
+  }
+}
+
+Map<String, String> datetoDateRange(String type, DateTime dateTime) {
+  if (type == 'Year') {
+    return {
+      'from': dateTime.year.toString() + '-01-01',
+      'to': dateTime.year.toString() + '-12-31'
+    };
+  }
+  else if (type == 'Month') {
+    var endDate = DateTime(dateTime.year, dateTime.month+1, 0);
+    return {
+      'from': dateTime.year.toString() + '-' + DayOrMonthToString(dateTime.month) + '-01',
+      'to': endDate.year.toString() + '-' + DayOrMonthToString(endDate.month) + '-' + DayOrMonthToString(endDate.day)
+    };
+  }
+  else if (type == 'Week') {
+    var startDate = dateTime.subtract(Duration(days: dateTime.weekday-1));
+    var endDate = dateTime.add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
+    return {
+      'from': startDate.year.toString() + '-' + DayOrMonthToString(startDate.month) + '-' + DayOrMonthToString(startDate.day),
+      'to': endDate.year.toString() + '-' + DayOrMonthToString(endDate.month) + '-' + DayOrMonthToString(endDate.day)
+    };
+  }
+  else {
+    return {
+      'from': DateTime.now().year.toString() + '-01-01',
+      'to': DateTime.now().year.toString() + '12-31'
+    };
+  }
+}

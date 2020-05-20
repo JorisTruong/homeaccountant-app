@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:homeaccountantapp/screen/subcategory.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'screen/homepage.dart';
 import 'screen/transactions.dart';
@@ -31,7 +33,7 @@ void main() {
       subcategoryText: TextEditingController(),
       transactionAmount: TextEditingController(),
       transactionDescription: TextEditingController(),
-      dateRange: "ALL",
+      dateRange: datetoDateRange(null, null),
       route: [AppRoutes.home]
     ),
     middleware: createNavigationMiddleware()
@@ -70,6 +72,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: [
+        const Locale('en', 'GB'),
+      ],
       navigatorKey: navigatorKey,
       navigatorObservers: [routeObserver],
       onGenerateRoute: (RouteSettings settings) => _getRoute(settings),

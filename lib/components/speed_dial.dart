@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
@@ -27,9 +26,9 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, String>(
-      converter: (Store<AppState> store) => store.state.dateRange,
-      builder: (BuildContext context, String dateRange) {
+    return new StoreConnector<AppState, List<String>>(
+      converter: (Store<AppState> store) => store.state.route,
+      builder: (BuildContext context, List<String> route) {
         return Padding(
           padding: EdgeInsets.only(right: 10.0),
           child: Align(
@@ -86,8 +85,6 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                                 }
                               }
                               if (buttons[index]['name'] == 'Date range') {
-                                StoreProvider.of<AppState>(context).dispatch(UpdateDateRange(buttons[index]['name']));
-                                print(StoreProvider.of<AppState>(context).state.dateRange);
                                 if (widget._pcDate.isAttached) {
                                   if (widget._pcDate.isPanelOpen) {
                                     widget._pcDate.close();

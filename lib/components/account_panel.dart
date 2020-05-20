@@ -119,9 +119,9 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                     child: Text(
                         'CANCEL',
                         style: TextStyle(
-                            fontSize: baseFontSize.text,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
+                          fontSize: baseFontSize.text,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
                         )
                     ),
                     color: baseColors.red,
@@ -141,9 +141,9 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                     child: Text(
                         'VALIDATE',
                         style: TextStyle(
-                            fontSize: baseFontSize.text,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
+                          fontSize: baseFontSize.text,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
                         )
                     ),
                     color: baseColors.green,

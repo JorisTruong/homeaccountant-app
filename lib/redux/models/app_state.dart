@@ -14,7 +14,7 @@ class AppState {
   final Icon subcategoryIcon;
   final TextEditingController transactionAmount;
   final TextEditingController transactionDescription;
-  final String dateRange;
+  final Map<String, String> dateRange;
   final List<String> route;
 
   const AppState({
