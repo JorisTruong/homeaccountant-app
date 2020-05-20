@@ -6,6 +6,18 @@ class ChangeAccount {
   ChangeAccount(this.accountId);
 }
 
+class UpdateDateRangeType {
+  final String dateRangeType;
+
+  UpdateDateRangeType(this.dateRangeType);
+}
+
+class UpdateSelectedDate {
+  final DateTime selectedDate;
+
+  UpdateSelectedDate(this.selectedDate);
+}
+
 class UpdateDateRange {
   final Map<String, String> dateRange;
 

@@ -25,8 +25,6 @@ class DateRangePanel extends StatefulWidget {
 
 class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
-  String dateRangeType = 'Year';
-  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                           child: DropdownButton<String>(
                             autofocus: true,
                             icon: Icon(Icons.keyboard_arrow_down),
-                            value: dateRangeType,
+                            value: StoreProvider.of<AppState>(context).state.dateRangeType,
                             hint: Text(
                               'Type',
                               textAlign: TextAlign.center,
@@ -70,9 +68,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                               }
                             },
                             onChanged: (String newValue) {
-                              setState(() {
-                                dateRangeType = newValue;
-                              });
+                              StoreProvider.of<AppState>(context).dispatch(UpdateDateRangeType(newValue));
                             },
                             items: dateRangeTypes.map((key) {
                               return DropdownMenuItem<String>(
@@ -88,7 +84,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                   )
                 )
               ),
-              if (dateRangeType == 'Year')
+              if (StoreProvider.of<AppState>(context).state.dateRangeType == 'Year')
                 Material(
                   color: baseColors.transparent,
                   child: Container(
@@ -96,37 +92,31 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: MediaQuery.of(context).size.width,
                     child: yp.YearPicker(
-                      selectedDate: selectedDate,
+                      selectedDate: StoreProvider.of<AppState>(context).state.selectedDate,
                       firstDate: DateTime(1900),
                       lastDate: DateTime.now(),
                       onChanged: (datePeriod) {
-                        setState(() {
-                          selectedDate = datePeriod;
-                        });
+                        StoreProvider.of<AppState>(context).dispatch(UpdateSelectedDate(datePeriod));
                       },
                     )
                   )
                 ),
-              if (dateRangeType == 'Month')
+              if (StoreProvider.of<AppState>(context).state.dateRangeType == 'Month')
                 dp.MonthPicker(
-                  selectedDate: selectedDate,
+                  selectedDate: StoreProvider.of<AppState>(context).state.selectedDate,
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
                   onChanged: (datePeriod) {
-                    setState(() {
-                      selectedDate = datePeriod;
-                    });
+                    StoreProvider.of<AppState>(context).dispatch(UpdateSelectedDate(datePeriod));
                   },
                 ),
-              if (dateRangeType == 'Week')
+              if (StoreProvider.of<AppState>(context).state.dateRangeType == 'Week')
                 dp.WeekPicker(
-                  selectedDate: selectedDate,
+                  selectedDate: StoreProvider.of<AppState>(context).state.selectedDate,
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
                   onChanged: (datePeriod) {
-                    setState(() {
-                      selectedDate = datePeriod.start;
-                    });
+                    StoreProvider.of<AppState>(context).dispatch(UpdateSelectedDate(datePeriod.start));
                   },
                 ),
               Row(
@@ -154,7 +144,20 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                   ),
                   RaisedButton(
                     onPressed: () {
-                      StoreProvider.of<AppState>(context).dispatch(UpdateDateRange(datetoDateRange(dateRangeType, selectedDate)));
+                      print(
+                        datetoDateRange(
+                          StoreProvider.of<AppState>(context).state.dateRangeType,
+                          StoreProvider.of<AppState>(context).state.selectedDate
+                        )
+                      );
+                      StoreProvider.of<AppState>(context).dispatch(
+                        UpdateDateRange(
+                          datetoDateRange(
+                            StoreProvider.of<AppState>(context).state.dateRangeType,
+                            StoreProvider.of<AppState>(context).state.selectedDate
+                          )
+                        )
+                      );
                       widget._pcDate.close();
                     },
                     child: Text(

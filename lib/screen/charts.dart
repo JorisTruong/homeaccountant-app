@@ -5,6 +5,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
+import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
@@ -106,7 +107,7 @@ class _ChartsPageState extends State<ChartsPage> with TickerProviderStateMixin {
                     ),
                     SlidingUpPanel(
                       controller: _pcDate,
-                      panel: Center(child: Text("This is the sliding Widget for Date Range"),),
+                      panel: DateRangePanel(_pcDate),
                       backdropEnabled: true,
                       minHeight: 0.0,
                       maxHeight: 0.8 * MediaQuery.of(context).size.height,

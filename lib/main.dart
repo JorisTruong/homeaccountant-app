@@ -33,6 +33,8 @@ void main() {
       subcategoryText: TextEditingController(),
       transactionAmount: TextEditingController(),
       transactionDescription: TextEditingController(),
+      dateRangeType: 'Year',
+      selectedDate: DateTime.now(),
       dateRange: datetoDateRange(null, null),
       route: [AppRoutes.home]
     ),

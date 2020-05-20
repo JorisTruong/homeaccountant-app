@@ -14,6 +14,8 @@ class AppState {
   final Icon subcategoryIcon;
   final TextEditingController transactionAmount;
   final TextEditingController transactionDescription;
+  final String dateRangeType;
+  final DateTime selectedDate;
   final Map<String, String> dateRange;
   final List<String> route;
 
@@ -29,6 +31,8 @@ class AppState {
     this.subcategoryIcon,
     this.transactionAmount,
     this.transactionDescription,
+    this.dateRangeType,
+    this.selectedDate,
     @required this.dateRange,
     @required this.route
   });

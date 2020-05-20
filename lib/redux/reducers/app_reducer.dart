@@ -18,6 +18,8 @@ AppState appReducer(AppState state, action) {
     subcategoryIcon: subcategoryIconReducer(state.subcategoryIcon, action),
     transactionAmount: transactionAmountReducer(state.transactionAmount, action),
     transactionDescription: transactionDescriptionReducer(state.transactionDescription, action),
+    dateRangeType: dateRangeReducer(state.dateRangeType, action),
+    selectedDate: selectedDateReducer(state.selectedDate, action),
     dateRange: dateReducer(state.dateRange, action),
     route: navigationReducer(state.route, action)
   );
