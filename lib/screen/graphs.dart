@@ -52,15 +52,15 @@ class GraphsPage extends StatefulWidget {
 class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
 
   AnimationController _controller;
-  PanelController _pcAccount = new PanelController();
-  PanelController _pcDate = new PanelController();
+  PanelController _pcAccount = PanelController();
+  PanelController _pcDate = PanelController();
 
   @override
   void initState() {
     super.initState();
-    _controller = new AnimationController(
+    _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 500),
     );
   }
 
@@ -68,14 +68,14 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
         converter: (Store<AppState> store) => store.state.route,
         builder: (BuildContext context, List<String> route) {
           return WillPopScope(
             onWillPop: () {
               _store.dispatch(NavigatePopAction());
               print(_store.state);
-              return new Future(() => true);
+              return Future(() => true);
             },
             child: GestureDetector(
               onTap: () {
@@ -105,10 +105,10 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                             _controller.reverse();
                           }
                         },
-                        child: new AnimatedBuilder(
+                        child: AnimatedBuilder(
                           animation: _controller,
                           builder: (BuildContext context, Widget child) {
-                            return new Icon(Icons.more_vert);
+                            return Icon(Icons.more_vert);
                           }
                         )
                       )

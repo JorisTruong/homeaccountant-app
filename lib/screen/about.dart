@@ -22,14 +22,14 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
         converter: (Store<AppState> store) => store.state.route,
         builder: (BuildContext context, List<String> route) {
           return WillPopScope(
             onWillPop: () {
               _store.dispatch(NavigatePopAction());
               print(_store.state);
-              return new Future(() => true);
+              return Future(() => true);
             },
             child: Scaffold(
               appBar: AppBar(

@@ -15,7 +15,7 @@ class MainCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: new EdgeInsets.all(15.0),
+      margin: EdgeInsets.all(15.0),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -58,10 +58,10 @@ class MainCard extends StatelessWidget {
           )
         )
       ),
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
-          new BoxShadow(
+          BoxShadow(
             color: Colors.grey[400].withOpacity(0.7),
             blurRadius: 5.0,
             offset: Offset(

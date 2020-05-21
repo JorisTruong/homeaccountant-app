@@ -19,7 +19,7 @@ List<String> _navigateReplace(
 List<String> _navigatePush(
   List<String> route,
   NavigatePushAction action) {
-  var result = List<String>.from(route);
+  List<String> result = List<String>.from(route);
   if (action.routeName != result.last) {
     result.add(action.routeName);
   }
@@ -29,7 +29,7 @@ List<String> _navigatePush(
 List<String> _navigatePop(
   List<String> route,
   NavigatePopAction action) {
-  var result = List<String>.from(route);
+  List<String> result = List<String>.from(route);
   if (result.isNotEmpty) {
     result.removeLast();
   }

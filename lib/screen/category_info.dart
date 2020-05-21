@@ -38,7 +38,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
   }
 
   changeIcon(_iconData, color) {
-    var icon = Icon(
+    Icon icon = Icon(
         _iconData,
         size: MediaQuery.of(context).size.width * 0.3,
         color: color
@@ -58,7 +58,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
   Widget build(BuildContext context) {
     currentFocus = FocusScope.of(context);
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
@@ -66,7 +66,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
             resetState(context);
             StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
             print(StoreProvider.of<AppState>(context).state);
-            return new Future(() => true);
+            return Future(() => true);
           },
           child: GestureDetector(
             onTap: () {
@@ -115,10 +115,10 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                             ),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
+                                borderRadius: BorderRadius.all(
                                   Radius.circular(10)),
                                 boxShadow: [
-                                  new BoxShadow(
+                                  BoxShadow(
                                     color: Colors.grey[500],
                                     blurRadius: 10.0,
                                     offset: Offset(
@@ -168,7 +168,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                         onChanged: (int newValue) {
                                                           StoreProvider.of<AppState>(context).dispatch(SelectCategory(newValue));
                                                           if (StoreProvider.of<AppState>(context).state.subcategoryIcon != null) {
-                                                            var color = getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex) == null ?
+                                                            Color color = getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex) == null ?
                                                                 baseColors.mainColor :
                                                                 getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex);
                                                             changeIcon(StoreProvider.of<AppState>(context).state.subcategoryIcon.icon, color);

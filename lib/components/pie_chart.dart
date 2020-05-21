@@ -38,9 +38,9 @@ class PieChartCardState extends State<PieChartCard> {
           color: Colors.white,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: [
-                new BoxShadow(
+                BoxShadow(
                   color: Colors.grey[600],
                   blurRadius: 10.0,
                   offset: Offset(
@@ -56,7 +56,7 @@ class PieChartCardState extends State<PieChartCard> {
                 Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Text(
                       switchData ? widget.title1 : widget.title2,
                       style: TextStyle(
@@ -71,7 +71,7 @@ class PieChartCardState extends State<PieChartCard> {
                 ),
                 Row(
                   children: <Widget>[
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18),
                     Expanded(
                       child: AspectRatio(
                         aspectRatio: 1,
@@ -101,7 +101,7 @@ class PieChartCardState extends State<PieChartCard> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: new List.generate(switchData ? widget.expenses.length : widget.revenue.length, (int index) {
+                      children: List.generate(switchData ? widget.expenses.length : widget.revenue.length, (int index) {
                         return Indicator(
                           color: getCategoryColor(index),
                           text: switchData ? widget.expenses[index]['name'] : widget.revenue[index]['name'],
@@ -109,9 +109,7 @@ class PieChartCardState extends State<PieChartCard> {
                         );
                       })..add(SizedBox(height: 18)),
                     ),
-                    const SizedBox(
-                      width: 28,
-                    ),
+                    SizedBox(width: 28),
                   ],
                 ),
                 Material(

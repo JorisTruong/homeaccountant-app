@@ -19,7 +19,7 @@ class AppState {
   final Map<String, String> dateRange;
   final List<String> route;
 
-  const AppState({
+  AppState({
     @required this.accountId,
     this.transactionName,
     this.transactionAccountId,

@@ -12,9 +12,9 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
-final random = new Random();
+final random = Random();
 
-var categories = {
+Map<String, List<dynamic>> categories = {
   'Category 1': [
     {'id': 0, 'name': 'Subcategory 1', 'icon_id': 80},
     {'id': 1, 'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
@@ -58,14 +58,14 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
             _store.dispatch(NavigatePopAction());
             print(_store.state);
-            return new Future(() => true);
+            return Future(() => true);
           },
           child: Scaffold(
             appBar: AppBar(
@@ -97,10 +97,10 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: new List.generate(categories.length, (int index) {
-                      var category = categories.keys.toList()[index];
-                      var subcategories = categories.values.toList()[index];
-                      var color = getCategoryColor(index);
+                    children: List.generate(categories.length, (int index) {
+                      String category = categories.keys.toList()[index];
+                      List<dynamic> subcategories = categories.values.toList()[index];
+                      Color color = getCategoryColor(index);
                       return Padding(
                         padding: EdgeInsets.only(bottom: 25.0),
                         child: CategoryCard(index, category, subcategories, color, false)

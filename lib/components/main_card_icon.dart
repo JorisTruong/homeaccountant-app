@@ -10,10 +10,10 @@ class MainCardIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return Container(
       height: 60.0,
       width: 60.0,
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(22.5))
       ),

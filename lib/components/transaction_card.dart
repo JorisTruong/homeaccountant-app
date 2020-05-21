@@ -20,9 +20,9 @@ class TransactionCard extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             boxShadow: [
-              new BoxShadow(
+              BoxShadow(
                 color: Colors.grey[600],
                 blurRadius: 10.0,
                 offset: Offset(

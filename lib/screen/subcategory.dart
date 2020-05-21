@@ -25,14 +25,14 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
 
-    return new StoreConnector<AppState, int>(
+    return StoreConnector<AppState, int>(
       converter: (Store<AppState> store) => store.state.categoryIndex,
       builder: (BuildContext context, int categoryIndex) {
         return WillPopScope(
           onWillPop: () {
             _store.dispatch(NavigatePopAction());
             print(_store.state);
-            return new Future(() => true);
+            return Future(() => true);
           },
           child: Scaffold(
             appBar: AppBar(

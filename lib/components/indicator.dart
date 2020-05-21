@@ -7,7 +7,7 @@ class Indicator extends StatelessWidget {
   final double size;
   final Color textColor;
 
-  const Indicator({
+  Indicator({
     Key key,
     this.color,
     this.text,
@@ -28,7 +28,7 @@ class Indicator extends StatelessWidget {
             color: color,
           ),
         ),
-        const SizedBox(width: 4),
+        SizedBox(width: 4),
         Text(
           text,
           style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor),

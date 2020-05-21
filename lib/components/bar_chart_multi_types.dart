@@ -5,7 +5,7 @@ import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/const.dart';
 
 class BarChartMultiTypesCard extends StatefulWidget {
-  const BarChartMultiTypesCard({
+  BarChartMultiTypesCard({
     Key key,
     this.durationType,
     this.data
@@ -51,9 +51,9 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
           color: Colors.white,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: [
-                new BoxShadow(
+                BoxShadow(
                   color: Colors.grey[700],
                   blurRadius: 10.0,
                   offset: Offset(
@@ -87,7 +87,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +98,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          const SizedBox(width: 38,),
+                          SizedBox(width: 38),
                           Text(
                             switchData ? 'Expenses' : 'Revenue',
                             style: TextStyle(color: baseColors.mainColor,
@@ -107,13 +107,13 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                               letterSpacing: 2
                             ),
                           ),
-                          const SizedBox(width: 4,),
+                          SizedBox(width: 4),
                         ],
                       ),
-                      const SizedBox(height: 38,),
+                      SizedBox(height: 38),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 8.0
                           ),
                           child: BarChart(
@@ -122,7 +122,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                                 touchTooltipData: BarTouchTooltipData(
                                   tooltipBgColor: baseColors.mainColor,
                                   getTooltipItem: (_a, _b, _c, _d) {
-                                    var realValues = List.generate(_c.rodStackItem.length, (int i) {
+                                    List<double> realValues = List.generate(_c.rodStackItem.length, (int i) {
                                       return valueFromBar(_c.rodStackItem[i].toY - _c.rodStackItem[i].fromY, maxValue);
                                     });
                                     return BarTooltipItem(
@@ -167,7 +167,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                     ],
                   ),
                 ),
@@ -180,11 +180,11 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
   }
 
   BarChartGroupData makeGroupData(int x, List<double> l) {
-    var barMaxValue = makeBarValue(l.reduce((a, b) => a + b), maxValue);
-    var value1 = makeBarValue(l[0], maxValue);
-    var value2 = value1 + makeBarValue(l[1], maxValue);
-    var value3 = value2 + makeBarValue(l[2], maxValue);
-    var value4 = value3 + makeBarValue(l[3], maxValue);
+    double barMaxValue = makeBarValue(l.reduce((a, b) => a + b), maxValue);
+    double value1 = makeBarValue(l[0], maxValue);
+    double value2 = value1 + makeBarValue(l[1], maxValue);
+    double value3 = value2 + makeBarValue(l[2], maxValue);
+    double value4 = value3 + makeBarValue(l[3], maxValue);
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
         y: barMaxValue,

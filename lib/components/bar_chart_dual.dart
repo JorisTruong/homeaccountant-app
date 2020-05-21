@@ -5,7 +5,7 @@ import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/const.dart';
 
 class BarChartDualCard extends StatefulWidget {
-  const BarChartDualCard({
+  BarChartDualCard({
     Key key,
     this.title,
     this.durationType,
@@ -53,9 +53,9 @@ class BarChartDualCardState extends State<BarChartDualCard> {
           color: Colors.white,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: [
-                new BoxShadow(
+                BoxShadow(
                   color: Colors.grey[700],
                   blurRadius: 10.0,
                   offset: Offset(
@@ -90,7 +90,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -101,31 +101,25 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          const SizedBox(
-                            width: 38,
-                          ),
+                          SizedBox(width: 38),
                           Text(
                             widget.title,
                             style: TextStyle(color: baseColors.mainColor, fontSize: baseFontSize.title2, fontWeight: FontWeight.bold, letterSpacing: 2),
                           ),
-                          const SizedBox(
-                            width: 4,
-                          ),
+                          SizedBox(width: 4),
                         ],
                       ),
-                      const SizedBox(
-                        height: 38,
-                      ),
+                      SizedBox(height: 38),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: BarChart(
                             BarChartData(
                               barTouchData: BarTouchData(
                                 touchTooltipData: BarTouchTooltipData(
                                   tooltipBgColor: baseColors.mainColor,
                                   getTooltipItem: (_a, _b, _c, _d) {
-                                    var realValue = valueFromBar(_c.y, maxValue);
+                                    double realValue = valueFromBar(_c.y, maxValue);
                                     return BarTooltipItem(
                                       (_d == 0 ? 'Expenses : \n' : 'Revenue : \n') + realValue.toString(),
                                       TextStyle(color: Colors.white)
@@ -165,7 +159,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 12,),
+                      SizedBox(height: 12),
                     ],
                   ),
                 ),
@@ -178,13 +172,13 @@ class BarChartDualCardState extends State<BarChartDualCard> {
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    var revenue = BarChartRodData(
+    BarChartRodData revenue = BarChartRodData(
       y: y1,
       color: leftBarColor,
       width: width,
     );
 
-    var expenses = BarChartRodData(
+    BarChartRodData expenses = BarChartRodData(
     y: y2,
     color: rightBarColor,
     width: width,

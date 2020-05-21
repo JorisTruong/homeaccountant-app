@@ -40,7 +40,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
       accounts
     );
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return Padding(

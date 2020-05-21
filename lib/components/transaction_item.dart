@@ -21,7 +21,7 @@ class TransactionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return Column(
@@ -29,9 +29,9 @@ class TransactionItem extends StatelessWidget {
             Card(
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
-                    new BoxShadow(
+                    BoxShadow(
                       color: Colors.grey[500],
                       blurRadius: 10.0,
                       offset: Offset(
@@ -87,13 +87,13 @@ class TransactionItem extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   print('Tapped tile ' + transactions[index]['id'].toString());
-                                  var transactionName = TextEditingController();
+                                  TextEditingController transactionName = TextEditingController();
                                   transactionName.text = transactions[index]['transaction_name'];
-                                  var transactionDate = TextEditingController();
+                                  TextEditingController transactionDate = TextEditingController();
                                   transactionDate.text = transactions[index]['date'];
-                                  var subcategory = findSubcategoryFromId(transactions[index]['subcategory_id'], categories);
-                                  var subcategoryText = TextEditingController();
-                                  var subcategoryIcon;
+                                  Map<String, dynamic> subcategory = findSubcategoryFromId(transactions[index]['subcategory_id'], categories);
+                                  TextEditingController subcategoryText = TextEditingController();
+                                  Icon subcategoryIcon;
                                   if (subcategory != null) {
                                     subcategoryText.text = subcategory['name'];
                                     subcategoryIcon = Icon(
@@ -106,9 +106,9 @@ class TransactionItem extends StatelessWidget {
                                       color: getCategoryColor(transactions[index]['category_id'])
                                     );
                                   }
-                                  var transactionAmount = TextEditingController();
+                                  TextEditingController transactionAmount = TextEditingController();
                                   transactionAmount.text = transactions[index]['amount'].toString();
-                                  var transactionDescription = TextEditingController();
+                                  TextEditingController transactionDescription = TextEditingController();
                                   transactionDescription.text = transactions[index]['description'];
                                   _store.dispatch(TransactionName(transactionName));
                                   _store.dispatch(TransactionAccount(transactions[index]['account_id']));

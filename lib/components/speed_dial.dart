@@ -6,7 +6,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
-const List buttons = [
+List<Map<String, dynamic>> buttons = [
   {'name': 'Account', 'icon': Icons.account_balance_wallet},
   {'name': 'Date range', 'icon': Icons.date_range}
 ];
@@ -19,14 +19,14 @@ class SpeedDialButton extends StatefulWidget {
   SpeedDialButton(this._controller, this._pcAccount, this._pcDate);
 
   @override
-  _SpeedDialButtonState createState() => new _SpeedDialButtonState();
+  _SpeedDialButtonState createState() => _SpeedDialButtonState();
 }
 
 class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return Padding(
@@ -34,22 +34,22 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
           child: Align(
             alignment: Alignment.topRight,
             child: Column(
-              children: new List.generate(buttons.length, (int index) {
-                Widget child = new Container(
+              children: List.generate(buttons.length, (int index) {
+                Widget child = Container(
                   height: 70.0,
                   width: 200.0,
                   alignment: FractionalOffset.bottomCenter,
-                  child: new ScaleTransition(
+                  child: ScaleTransition(
                     alignment: Alignment.centerRight,
-                    scale: new CurvedAnimation(
+                    scale: CurvedAnimation(
                       parent: widget._controller,
-                      curve: new Interval(
+                      curve: Interval(
                         0.0,
                         1.0 - index / buttons.length / 2.0,
                         curve: Curves.bounceOut
                       ),
                     ),
-                    child: new Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
@@ -71,7 +71,7 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                         FloatingActionButton(
                           heroTag: null,
                           mini: true,
-                          child: new Icon(buttons[index]['icon']),
+                          child: Icon(buttons[index]['icon']),
                           onPressed: () {
                             if (buttons[index]['name'] == 'Account') {
                               if (widget._pcAccount.isAttached) {

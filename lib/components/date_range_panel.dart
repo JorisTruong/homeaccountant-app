@@ -11,7 +11,7 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
-const dateRangeTypes = ['Year', 'Month', 'Week'];
+List<String> dateRangeTypes = ['Year', 'Month', 'Week'];
 
 class DateRangePanel extends StatefulWidget {
   final PanelController _pcDate;
@@ -30,7 +30,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
     Store<AppState> _store = getStore(context);
     currentFocus = FocusScope.of(context);
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return Padding(

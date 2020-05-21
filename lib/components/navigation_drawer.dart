@@ -18,7 +18,7 @@ class NavigationDrawer extends StatelessWidget {
       builder: (BuildContext context, List<String> route) {
         return Drawer(
           child: ListView(
-            padding: const EdgeInsets.all(0.0),
+            padding: EdgeInsets.all(0.0),
             children: <Widget>[
               DrawerHeader(
                 child: null,

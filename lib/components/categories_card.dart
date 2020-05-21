@@ -22,7 +22,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
 
-    return new StoreConnector<AppState, Map<String, dynamic>>(
+    return StoreConnector<AppState, Map<String, dynamic>>(
       converter: (Store<AppState> store) => store.state.subcategory,
       builder: (BuildContext context, Map<String, dynamic> subcategory) {
         return Card(
@@ -31,9 +31,9 @@ class CategoryCard extends StatelessWidget {
           ),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: [
-                new BoxShadow(
+                BoxShadow(
                   color: Colors.grey[500],
                   blurRadius: 10.0,
                   offset: Offset(
@@ -63,14 +63,14 @@ class CategoryCard extends StatelessWidget {
                             physics: BouncingScrollPhysics(),
                             shrinkWrap: true,
                             crossAxisCount: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ? 5 : 3,
-                            children: new List.generate(subcategories.length, (int index) {
+                            children: List.generate(subcategories.length, (int index) {
                               return Material(
                                 color: baseColors.transparent,
                                 child: InkWell(
                                   onTap: () {
                                     if (select) {
                                       _store.dispatch(SelectSubcategory(subcategories[index]));
-                                      var subcategoryText = TextEditingController();
+                                      TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
                                       _store.dispatch(SubcategoryText(subcategoryText));
                                       _store.dispatch(SelectSubcategoryIcon(
@@ -83,7 +83,7 @@ class CategoryCard extends StatelessWidget {
                                       Navigator.of(context).pop();
                                     } else {
                                       _store.dispatch(SelectCategory(categoryIndex));
-                                      var subcategoryText = TextEditingController();
+                                      TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
                                       _store.dispatch(SubcategoryText(subcategoryText));
                                       _store.dispatch(SelectSubcategoryIcon(

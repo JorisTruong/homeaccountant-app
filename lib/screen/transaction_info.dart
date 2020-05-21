@@ -55,14 +55,14 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
     Store<AppState> _store = getStore(context);
     currentFocus = FocusScope.of(context);
 
-    return new StoreConnector<AppState, List<String>>(
+    return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
             leaveScreen(_store);
             print(_store.state);
-            return new Future(() => true);
+            return Future(() => true);
           },
           child: GestureDetector(
             onTap: () {
@@ -110,9 +110,9 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                             ),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                 boxShadow: [
-                                  new BoxShadow(
+                                  BoxShadow(
                                     color: Colors.grey[500],
                                     blurRadius: 10.0,
                                     offset: Offset(
@@ -218,7 +218,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                       lastDate: DateTime.now(),
                                                     );
                                                     if (pickedDate != null) {
-                                                      var date = TextEditingController();
+                                                      TextEditingController date = TextEditingController();
                                                       date.text = pickedDate.toString().split(' ')[0];
                                                       _store.dispatch(TransactionDate(date));
                                                     }

@@ -32,7 +32,7 @@ class YearPicker extends StatefulWidget {
 }
 
 class _YearPickerState extends State<YearPicker> {
-  static const double _itemExtent = 50.0;
+  static double _itemExtent = 50.0;
   ScrollController scrollController;
 
   @override

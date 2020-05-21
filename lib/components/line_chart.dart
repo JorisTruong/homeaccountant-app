@@ -36,7 +36,7 @@ final balanceWeek = [
 ];
 
 class LineChartCard extends StatefulWidget {
-  const LineChartCard({
+  LineChartCard({
     Key key,
     this.title,
     this.durationType
@@ -66,9 +66,9 @@ class LineChartCardState extends State<LineChartCard> {
         aspectRatio: 1.23,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             boxShadow: [
-              new BoxShadow(
+              BoxShadow(
                 color: Colors.grey[700],
                 blurRadius: 10.0,
                 offset: Offset(
@@ -84,7 +84,7 @@ class LineChartCardState extends State<LineChartCard> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Text(
                     widget.title,
                     style: TextStyle(
@@ -95,17 +95,17 @@ class LineChartCardState extends State<LineChartCard> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 37),
+                  SizedBox(height: 37),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+                      padding: EdgeInsets.only(right: 16.0, left: 6.0),
                       child: LineChart(
                         lineData(),
-                        swapAnimationDuration: const Duration(milliseconds: 250),
+                        swapAnimationDuration: Duration(milliseconds: 250),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                 ],
               ),
               Material(

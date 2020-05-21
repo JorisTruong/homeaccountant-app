@@ -21,7 +21,7 @@ import 'redux/middleware/navigation_middleware.dart';
 import 'const.dart';
 
 
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   final store = Store<AppState>(
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: [
-        const Locale('en', 'GB'),
+        Locale('en', 'GB'),
       ],
       navigatorKey: navigatorKey,
       navigatorObservers: [routeObserver],
@@ -115,8 +115,8 @@ class AddRoute<T> extends MaterialPageRoute<T> {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    var tween = Tween<Offset>(
-      begin: const Offset(0, 1),
+    Animatable<Offset> tween = Tween<Offset>(
+      begin: Offset(0, 1),
       end: Offset.zero,
     ).chain(CurveTween(curve: Curves.ease));
 
