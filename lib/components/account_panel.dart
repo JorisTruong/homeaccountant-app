@@ -4,18 +4,11 @@ import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
-
-final accounts = [
-  {'id': 0, 'name': 'Account 1'},
-  {'id': 1, 'name': 'Account 2'},
-  {'id': 2, 'name': 'Account 3'},
-  {'id': 3, 'name': 'Account 4'},
-  {'id': 4, 'name': 'Account 5'}
-];
 
 class AccountPanel extends StatefulWidget {
   final PanelController _pcAccount;

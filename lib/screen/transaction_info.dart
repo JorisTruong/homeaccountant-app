@@ -7,12 +7,11 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'dart:math' as math;
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-
-import 'categories.dart';
 
 
 final accounts = [

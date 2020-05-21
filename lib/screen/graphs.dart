@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/bar_chart_dual.dart';
@@ -15,32 +16,6 @@ import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
-
-final expenses = [
-  {'name': 'Category 1', 'percentage': 40},
-  {'name': 'Category 2', 'percentage': 10},
-  {'name': 'Category 3', 'percentage': 17},
-  {'name': 'Category 4', 'percentage': 13},
-  {'name': 'Category 5', 'percentage': 20}
-];
-
-final revenue = [
-  {'name': 'Category 1', 'percentage': 90},
-  {'name': 'Category 2', 'percentage': 10},
-  {'name': 'Category 3', 'percentage': 0},
-  {'name': 'Category 4', 'percentage': 0},
-  {'name': 'Category 5', 'percentage': 0}
-];
-
-final transactionsDetailed = [
-  {'revenue': [120000.0, 5000.0, 24000.0, 0.0, 51000.0], 'expenses': [50000.0, 0.0, 0.0, 0.0, 0.0]},
-  {'revenue': [20000.0, 20000.0, 20000.0, 20000.0, 20000.0], 'expenses': [13000.0, 7000.0, 0.0, 30000.0, 17000.0]},
-  {'revenue': [0.0, 0.0, 30000.0, 0.0, 0.0], 'expenses': [0.0, 10000.0, 0.0, 0.0, 10000.0]},
-  {'revenue': [54000.0, 0.0, 6000.0, 28000.0, 32000.0], 'expenses': [0.0, 100000.0, 80000.0, 0.0, 0.0]},
-  {'revenue': [0.0, 0.0, 60000.0, 60000.0, 60000.0], 'expenses': [7500.0, 0.0, 500.0, 10.0, 6990.0]},
-  {'revenue': [20000.0, 0.0, 0.0, 0.0, 10000.0], 'expenses': [10.0000, 10000.0, 10000.0, 10000.0, 10000.0]},
-  {'revenue': [1000.0, 1000.0, 8000.0, 0.0, 10000.0], 'expenses': [500.0, 500.0, 6500.0, 1500.0, 1000.0]}
-];
 
 class GraphsPage extends StatefulWidget {
   GraphsPage({Key key}) : super(key: key);
@@ -122,8 +97,9 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                       child: Column(
                         children: [
                           PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
-                          BarChartDualCard(title: 'Transactions', durationType: 'week', data: transactionsDetailed),
-                          BarChartMultiTypesCard(durationType: 'week', data: transactionsDetailed)
+                          // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)
+                          BarChartDualCard(title: 'Transactions', durationType: 'Week', data: transactionsDetailed),
+                          BarChartMultiTypesCard(durationType: 'Week', data: transactionsDetailed)
                         ],
                       ),
                     ),

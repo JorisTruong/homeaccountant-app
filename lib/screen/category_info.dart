@@ -7,10 +7,9 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-
-import 'categories.dart';
 
 
 final accounts = [

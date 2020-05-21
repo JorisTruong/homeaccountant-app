@@ -93,7 +93,8 @@ class _ChartsPageState extends State<ChartsPage> with TickerProviderStateMixin {
                   SingleChildScrollView(
                     child: Column(
                       children: [
-                        LineChartCard(title: 'Transactions', durationType: 'week',),
+                        // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)
+                        LineChartCard(title: 'Transactions', durationType: 'Week'),
                       ],
                     ),
                   ),

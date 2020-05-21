@@ -3,12 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/screen/categories.dart';
 
 class TransactionItem extends StatelessWidget {
   final List<dynamic> transactions;

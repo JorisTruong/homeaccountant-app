@@ -3,13 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-
-import 'categories.dart';
 
 
 class SubcategoryPage extends StatefulWidget {

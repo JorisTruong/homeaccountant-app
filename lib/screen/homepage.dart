@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
@@ -14,12 +15,6 @@ import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
-
-final String currency = 'HKD';
-final String balance = '250,000';
-final String expenses = '80,000';
-final String revenue = '330,000';
-final String transactionNumber = '42';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -102,10 +97,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MainCard('Balance', currency, balance, baseColors.blue, 'left'),
-                        MainCard('Revenue', Icons.call_made, revenue, baseColors.green, 'right'),
-                        MainCard('Expenses', Icons.call_received, expenses, baseColors.red, 'left'),
+                        MainCard('Revenue', Icons.call_made, revenueAll, baseColors.green, 'right'),
+                        MainCard('Expenses', Icons.call_received, expensesAll, baseColors.red, 'left'),
                         MainCard('Number of\ntransactions', currency, transactionNumber, baseColors.yellow, 'right'),
-                        LineChartCard(title: 'Transactions', durationType: 'week')
+                        // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)
+                        LineChartCard(title: 'Transactions', durationType: 'Week')
                       ],
                     )
                   ),

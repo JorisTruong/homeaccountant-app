@@ -1,5 +1,6 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/const.dart';
@@ -157,7 +158,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
                                   margin: 20,
                                   reservedSize: 20,
                                   getTitles: (value) {
-                                    return getYAxis(value, 0);
+                                    return getYAxis(value, maxValue);
                                   },
                                 ),
                               ),
@@ -221,7 +222,7 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
 }
 
 String getXAxis(value, type) {
-  if (type == 'week') {
+  if (type == 'Week') {
     switch (value.toInt()) {
       case 0:
         return 'MON';
@@ -238,7 +239,7 @@ String getXAxis(value, type) {
       case 6:
         return 'SUN';
     }
-  } else if (type == 'month') {
+  } else if (type == 'Month') {
     switch (value.toInt()) {
       case 0:
         return 'W1';
@@ -249,6 +250,33 @@ String getXAxis(value, type) {
       case 6:
         return 'W4';
     }
+  } else if (type == 'Year') {
+    switch (value.toInt()) {
+      case 0:
+        return 'JAN';
+      case 1:
+        return 'FEB';
+      case 2:
+        return 'MAR';
+      case 3:
+        return 'APR';
+      case 4:
+        return 'MAY';
+      case 5:
+        return 'JUN';
+      case 6:
+        return 'JUL';
+      case 7:
+        return 'AUG';
+      case 8:
+        return 'SEP';
+      case 9:
+        return 'OCT';
+      case 10:
+        return 'NOV';
+      case 11:
+        return 'DEC';
+    }
   }
   return '';
 }
@@ -258,13 +286,13 @@ String getYAxis(value, max) {
     case 0:
       return '0';
     case 5:
-      return '50k';
+      return NumberFormat.compact().format(max * 0.25);
     case 10:
-      return '100k';
+      return NumberFormat.compact().format(max * 0.5);
     case 15:
-      return '150k';
+      return NumberFormat.compact().format(max * 0.75);
     case 20:
-      return '200k';
+      return NumberFormat.compact().format(max);
   }
   return '';
 }
