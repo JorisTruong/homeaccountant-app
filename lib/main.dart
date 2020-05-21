@@ -20,6 +20,10 @@ import 'redux/reducers/app_reducer.dart';
 import 'redux/middleware/navigation_middleware.dart';
 import 'const.dart';
 
+///
+/// This is the entry point of the application.
+///
+
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -35,7 +39,7 @@ void main() {
       transactionDescription: TextEditingController(),
       dateRangeType: 'Year',
       selectedDate: DateTime.now(),
-      dateRange: datetoDateRange(null, null),
+      dateRange: dateToDateRange(null, null),
       route: [AppRoutes.home]
     ),
     middleware: createNavigationMiddleware()
@@ -91,6 +95,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Defines a fade transition when routing.
+/// This is the default transition.
 class MainRoute<T> extends MaterialPageRoute<T> {
   MainRoute(Widget widget, {RouteSettings settings}) :
       super(
@@ -105,6 +111,8 @@ class MainRoute<T> extends MaterialPageRoute<T> {
   }
 }
 
+/// Defines a slide transition when routing.
+/// It is particularly used when creating/updating a category or a transaction.
 class AddRoute<T> extends MaterialPageRoute<T> {
   AddRoute(Widget widget, {RouteSettings settings}) :
         super(

@@ -8,6 +8,13 @@ import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 
 
+///
+/// This is the card for the line chart.
+/// Have a look at the fl_chart package for more information.
+///
+
+
+/// Get the max value of the data to build the scale
 double getDataMaxValue(List<double> expenses, List<double> revenue, List<double> balance) {
   double maxExpenses = expenses.reduce(max);
   double maxRevenue = revenue.reduce(max);
@@ -118,6 +125,7 @@ class LineChartCardState extends State<LineChartCard> {
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: baseColors.mainColor,
+          /// Customize the tooltip
           getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
             return touchedBarSpots.map((barSpot) {
               return LineTooltipItem(
@@ -179,6 +187,7 @@ class LineChartCardState extends State<LineChartCard> {
           ),
         ),
       ),
+      /// Points for FlSpot
       minX: 0,
       maxX: durationType == 'Year' ? 24 : 14,
       maxY: 4,
@@ -187,6 +196,7 @@ class LineChartCardState extends State<LineChartCard> {
     );
   }
 
+  /// Line data
   List<LineChartBarData> linesBarData() {
     final LineChartBarData revenue = LineChartBarData(
       spots: dataToSpots(revenueWeek, dataMaxValue),
@@ -245,6 +255,7 @@ class LineChartCardState extends State<LineChartCard> {
   }
 }
 
+/// Build the X-axis
 String getXAxis(value, type) {
   if (type == 'Week') {
     switch (value.toInt()) {
@@ -305,6 +316,7 @@ String getXAxis(value, type) {
   return '';
 }
 
+/// Build the scale for Y-axis
 String getYAxis(value, max) {
   switch (value.toInt()) {
     case 1:
@@ -319,9 +331,9 @@ String getYAxis(value, max) {
   return '';
 }
 
+/// Transform the amounts into FlSpots for the line chart
 List<FlSpot> dataToSpots(List<double> data, double dataMaxValue) {
-  int maxY = roundUp(dataMaxValue);
   return List.generate(data.length, (int index) {
-    return FlSpot(index*2 + 1.0, maxY == 0 ? 0 : data[index] * 4.0 / dataMaxValue);
+    return FlSpot(index*2 + 1.0, dataMaxValue == 0 ? 0 : data[index] * 4.0 / dataMaxValue);
   });
 }

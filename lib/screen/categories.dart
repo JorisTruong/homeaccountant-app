@@ -12,6 +12,11 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the categories page.
+///
+
+
 class CategoriesPage extends StatefulWidget {
   CategoriesPage({Key key}) : super(key: key);
 
@@ -43,6 +48,8 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                 ),
               ),
               centerTitle: true,
+              /// 'actions' on the AppBar is what appears on the top right side.
+              /// This is for adding a new subcategory.
               actions: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(8.0),
@@ -57,6 +64,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                 )
               ],
             ),
+            /// This is the drawer accessible from a left-to-right swipe or the top left icon.
             drawer: NavigationDrawer(),
             body: SingleChildScrollView(
               padding: EdgeInsets.all(20.0),
@@ -64,6 +72,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    /// The body contains as much cards as the number of categories.
                     children: List.generate(categories.length, (int index) {
                       String category = categories.keys.toList()[index];
                       List<dynamic> subcategories = categories.values.toList()[index];

@@ -4,6 +4,12 @@ import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/components/transaction_item.dart';
 
 
+///
+/// This is the transaction card.
+/// It is used as the parent card of a certain month transactions.
+///
+
+
 class TransactionCard extends StatelessWidget {
   final String month;
   final List<Map<String, dynamic>> transactions;
@@ -44,6 +50,7 @@ class TransactionCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
+                          /// Displays the month and year
                           child: Text(
                             month,
                             style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title),
@@ -54,6 +61,7 @@ class TransactionCard extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.only(bottom: transactions.isNotEmpty ? 15.0 : 0.0),
                             child: Center(
+                              /// Displays the transactions
                               child: transactions.isNotEmpty ?
                                 TransactionItem(transactions) :
                                 null

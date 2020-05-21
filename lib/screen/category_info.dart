@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:homeaccountantapp/utils.dart';
 import 'package:redux/redux.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/data.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
-final accounts = [
-  'Account 1',
-  'Account 2',
-  'Account 3',
-  'Account 4',
-  'Account 5'
-];
+///
+/// This is the category info page.
+/// It is used to create or update a subcategory.
+///
+
 
 class CategoryInfoPage extends StatefulWidget {
   CategoryInfoPage({Key key}) : super(key: key);
@@ -30,31 +28,32 @@ class CategoryInfoPage extends StatefulWidget {
 class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
 
-  void resetState(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(SelectCategory(null));
-    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(null));
-    StoreProvider.of<AppState>(context).dispatch(SubcategoryText(TextEditingController()));
+  void resetState(Store<AppState> _store) {
+    _store.dispatch(SelectCategory(null));
+    _store.dispatch(SelectSubcategoryIcon(null));
+    _store.dispatch(SubcategoryText(TextEditingController()));
   }
 
-  changeIcon(_iconData, color) {
+  changeIcon(_iconData, color, _store) {
     Icon icon = Icon(
-        _iconData,
-        size: MediaQuery.of(context).size.width * 0.3,
-        color: color
+      _iconData,
+      size: MediaQuery.of(context).size.width * 0.3,
+      color: color
     );
-    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(icon));
+    _store.dispatch(SelectSubcategoryIcon(icon));
   }
 
-  _pickIcon() async {
+  _pickIcon(Store<AppState> _store) async {
     final _iconData = await FlutterIconPicker.showIconPicker(context);
-    final color = getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex) == null ?
+    final color = getCategoryColor(_store.state.categoryIndex) == null ?
       baseColors.mainColor :
-      getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex);
-    changeIcon(_iconData, color);
+      getCategoryColor(_store.state.categoryIndex);
+    changeIcon(_iconData, color, _store);
   }
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
     currentFocus = FocusScope.of(context);
 
     return StoreConnector<AppState, List<String>>(
@@ -62,11 +61,12 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
-            resetState(context);
-            StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
-            print(StoreProvider.of<AppState>(context).state);
+            resetState(_store);
+            _store.dispatch(NavigatePopAction());
+            print(_store.state);
             return Future(() => true);
           },
+          /// The GestureDetector is for removing the dropdown when tapping the screen.
           child: GestureDetector(
             onTap: () {
               if (!currentFocus.hasPrimaryFocus) {
@@ -80,8 +80,8 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                 leading: IconButton(
                   icon: Icon(Icons.close),
                   onPressed: () {
-                    resetState(context);
-                    StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                    resetState(_store);
+                    _store.dispatch(NavigatePopAction());
                     Navigator.of(context).pop();
                   },
                 ),
@@ -136,6 +136,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                     builder: (containerContext, containerConstraints) {
                                       return Column(
                                         children: [
+                                          /// Dropdown to select the category
                                           DropdownButtonHideUnderline(
                                             child: ButtonTheme(
                                               alignedDropdown: true,
@@ -152,7 +153,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                     Expanded(
                                                       child: DropdownButton<int>(
                                                         icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: StoreProvider.of<AppState>(context).state.categoryIndex,
+                                                        value: _store.state.categoryIndex,
                                                         hint: Text(
                                                           'Category',
                                                           textAlign: TextAlign.center,
@@ -165,12 +166,12 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                           }
                                                         },
                                                         onChanged: (int newValue) {
-                                                          StoreProvider.of<AppState>(context).dispatch(SelectCategory(newValue));
-                                                          if (StoreProvider.of<AppState>(context).state.subcategoryIcon != null) {
-                                                            Color color = getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex) == null ?
+                                                          _store.dispatch(SelectCategory(newValue));
+                                                          if (_store.state.subcategoryIcon != null) {
+                                                            Color color = getCategoryColor(_store.state.categoryIndex) == null ?
                                                                 baseColors.mainColor :
-                                                                getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex);
-                                                            changeIcon(StoreProvider.of<AppState>(context).state.subcategoryIcon.icon, color);
+                                                                getCategoryColor(_store.state.categoryIndex);
+                                                            changeIcon(_store.state.subcategoryIcon.icon, color, _store);
                                                           }
                                                         },
                                                         items: List.generate(categories.length, (int index) {
@@ -187,11 +188,10 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               )
                                             )
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0),
+                                          /// Name of the subcategory
                                           TextField(
-                                            controller: StoreProvider.of<AppState>(context).state.subcategoryText,
+                                            controller: _store.state.subcategoryText,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -202,15 +202,16 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             ),
                                           ),
                                           SizedBox(height: 12.0),
-                                          StoreProvider.of<AppState>(context).state.subcategoryIcon == null ? SizedBox(height: 12.0) : Column(
+                                          _store.state.subcategoryIcon == null ? SizedBox(height: 12.0) : Column(
                                             children: [
                                               SizedBox(height: 12.0),
-                                              StoreProvider.of<AppState>(context).state.subcategoryIcon
+                                              _store.state.subcategoryIcon
                                             ]
                                           ),
                                           SizedBox(height: 12.0),
+                                          /// Icon of the subcategory
                                           RaisedButton(
-                                            onPressed: _pickIcon,
+                                            onPressed: () {_pickIcon(_store);},
                                             child: Text(
                                               'Pick an icon',
                                               style: TextStyle(
@@ -226,13 +227,14 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                           SizedBox(
                                             height: 24.0,
                                           ),
+                                          /// Validate and cancel the operation
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               RaisedButton(
                                                 onPressed: () {
-                                                  resetState(context);
-                                                  StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                                                  resetState(_store);
+                                                  _store.dispatch(NavigatePopAction());
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
@@ -252,11 +254,11 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               ),
                                               RaisedButton(
                                                 onPressed: () {
-                                                  print(StoreProvider.of<AppState>(context).state.categoryIndex);
-                                                  print(StoreProvider.of<AppState>(context).state.subcategoryText.text);
-                                                  print(StoreProvider.of<AppState>(context).state.subcategoryIcon);
-                                                  StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
-                                                  resetState(context);
+                                                  print(_store.state.categoryIndex);
+                                                  print(_store.state.subcategoryText.text);
+                                                  print(_store.state.subcategoryIcon);
+                                                  _store.dispatch(NavigatePopAction());
+                                                  resetState(_store);
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(

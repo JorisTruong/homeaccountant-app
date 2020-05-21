@@ -10,6 +10,12 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the Account Panel widget.
+/// It is displayed when selecting account from the speed dial.
+///
+
+
 class AccountPanel extends StatefulWidget {
   final PanelController _pcAccount;
 
@@ -40,6 +46,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
           padding: EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 50),
           child: Column(
             children: [
+              /// Display the current account in a read-only text field
               TextField(
                 readOnly: true,
                 controller: _currentAccountController,
@@ -53,6 +60,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                 )
               ),
               SizedBox(height: 24),
+              /// Dropdown to select the account
               DropdownButtonHideUnderline(
                 child: ButtonTheme(
                   alignedDropdown: true,
@@ -101,6 +109,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                   )
                 )
               ),
+              /// Validate and cancel the operation
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

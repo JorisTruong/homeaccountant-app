@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+
+///
+/// The Indicator widget is used as legend in the pie chart.
+///
+
+
 class Indicator extends StatelessWidget {
   final Color color;
   final String text;

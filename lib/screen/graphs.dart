@@ -17,6 +17,11 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the graphs page.
+///
+
+
 class GraphsPage extends StatefulWidget {
   GraphsPage({Key key}) : super(key: key);
 
@@ -52,6 +57,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
               print(_store.state);
               return Future(() => true);
             },
+            /// The GestureDetector is for removing the speed dial when tapping the screen.
             child: GestureDetector(
               onTap: () {
                 if (!_controller.isDismissed) {
@@ -67,6 +73,8 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                     ),
                   ),
                   centerTitle: true,
+                  /// 'actions' on the AppBar is what appears on the top right side.
+                  /// This is for the speed dial.
                   actions: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(8.0),
@@ -90,6 +98,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                     )
                   ],
                 ),
+                /// This is the drawer accessible from a left-to-right swipe or the top left icon.
                 drawer: NavigationDrawer(),
                 body: Stack(
                   children: <Widget>[

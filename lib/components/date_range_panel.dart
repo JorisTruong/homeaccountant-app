@@ -11,6 +11,12 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the Date Range Panel widget.
+/// It is displayed when selecting date range from the speed dial.
+///
+
+
 List<String> dateRangeTypes = ['Year', 'Month', 'Week'];
 
 class DateRangePanel extends StatefulWidget {
@@ -37,6 +43,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
           padding: EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 50),
           child: Column(
             children: [
+              /// Dropdown to select the date range type
               DropdownButtonHideUnderline(
                 child: ButtonTheme(
                   alignedDropdown: true,
@@ -83,6 +90,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                   )
                 )
               ),
+              /// Conditional rendering of a calendar, depending on the range type
               if (_store.state.dateRangeType == 'Year')
                 Material(
                   color: baseColors.transparent,
@@ -118,6 +126,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                     _store.dispatch(UpdateSelectedDate(datePeriod.start));
                   },
                 ),
+              /// Validate and cancel the operation
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -142,14 +151,14 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                   RaisedButton(
                     onPressed: () {
                       print(
-                        datetoDateRange(
+                        dateToDateRange(
                           _store.state.dateRangeType,
                           _store.state.selectedDate
                         )
                       );
                       _store.dispatch(
                         UpdateDateRange(
-                          datetoDateRange(
+                          dateToDateRange(
                             _store.state.dateRangeType,
                             _store.state.selectedDate
                           )

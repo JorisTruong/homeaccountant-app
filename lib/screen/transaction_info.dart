@@ -14,13 +14,11 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
-final accounts = [
-  {'id': 0, 'name': 'Account 1'},
-  {'id': 1, 'name': 'Account 2'},
-  {'id': 2, 'name': 'Account 3'},
-  {'id': 3, 'name': 'Account 4'},
-  {'id': 4, 'name': 'Account 5'}
-];
+///
+/// This is the transaction info page.
+/// It is used to create or update a transaction.
+///
+
 
 class TransactionInfoPage extends StatefulWidget {
   TransactionInfoPage({Key key}) : super(key: key);
@@ -63,6 +61,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
             print(_store.state);
             return Future(() => true);
           },
+          /// The GestureDetector is for removing the dropdown when tapping the screen.
           child: GestureDetector(
             onTap: () {
               if (!currentFocus.hasPrimaryFocus) {
@@ -128,8 +127,10 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                   padding: EdgeInsets.all(20.0),
                                   child: LayoutBuilder(
                                     builder: (containerContext, containerConstraints) {
+                                      /// Starting point of the form
                                       return Column(
                                         children: [
+                                          /// Name of the transaction
                                           TextField(
                                             controller: _store.state.transactionName,
                                             decoration: InputDecoration(
@@ -142,6 +143,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             ),
                                           ),
                                           SizedBox(height: 12.0),
+                                          /// Dropdown to select the account
                                           DropdownButtonHideUnderline(
                                             child: ButtonTheme(
                                               alignedDropdown: true,
@@ -191,6 +193,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             )
                                           ),
                                           SizedBox(height: 12.0),
+                                          /// Select the date
                                           Theme(
                                             data: ThemeData(
                                               primaryColor: baseColors.mainColor,
@@ -225,7 +228,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                 )
                                             )
                                           ),
-                                          SizedBox(height: 12.0,),
+                                          SizedBox(height: 12.0),
+                                          /// Select expense or not
                                           Row(
                                             children: [
                                               Radio(
@@ -251,6 +255,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             ],
                                           ),
                                           SizedBox(height: 12.0),
+                                          /// Dropdown to select the category
                                           DropdownButtonHideUnderline(
                                             child: ButtonTheme(
                                               alignedDropdown: true,
@@ -299,7 +304,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               )
                                             )
                                           ),
-                                          SizedBox(height: 12.0,),
+                                          SizedBox(height: 12.0),
+                                          /// Select the subcategory
                                           TextField(
                                             readOnly: true,
                                             controller: _store.state.subcategoryText,
@@ -325,7 +331,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               }
                                             },
                                           ),
-                                          SizedBox(height: 12.0,),
+                                          SizedBox(height: 12.0),
+                                          /// Amount of the transaction
                                           TextField(
                                             inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
                                             keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -339,7 +346,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               prefixIcon: Icon(Icons.attach_money, color: baseColors.mainColor)
                                             ),
                                           ),
-                                          SizedBox(height: 12.0,),
+                                          SizedBox(height: 12.0),
+                                          /// Description of the transaction
                                           TextField(
                                             controller: _store.state.transactionDescription,
                                             decoration: InputDecoration(
@@ -351,7 +359,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               prefixIcon: Icon(Icons.create, color: baseColors.mainColor)
                                             ),
                                           ),
-                                          SizedBox(height: 24.0,),
+                                          SizedBox(height: 24.0),
+                                          /// Validate and cancel the operation
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [

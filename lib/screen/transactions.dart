@@ -16,6 +16,12 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the transactions page.
+/// It is where all the transactions from the selected date range are displayed.
+///
+
+
 class TransactionsPage extends StatefulWidget {
   TransactionsPage({Key key}) : super(key: key);
 
@@ -51,6 +57,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
             print(_store.state);
             return Future(() => true);
           },
+          /// The GestureDetector is for removing the speed dial when tapping the screen.
           child: GestureDetector(
             onTap: () {
               if (!_controller.isDismissed) {
@@ -66,6 +73,8 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                   ),
                 ),
                 centerTitle: true,
+                /// 'actions' on the AppBar is what appears on the top right side.
+                /// This is for the speed dial.
                 actions: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(8.0),
@@ -89,10 +98,12 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                   )
                 ],
               ),
+              /// This is the drawer accessible from a left-to-right swipe or the top left icon.
               drawer: NavigationDrawer(),
               body: SingleChildScrollView(
                 child: Stack(
                   children: [
+                    /// Display all the transactions
                     Column(
                       children: List.generate(transactions.length, (int index) {
                         String month = transactions.keys.elementAt(index);

@@ -58,6 +58,7 @@ Map<String, List<dynamic>> categories = {
 
 /// Transactions
 // Get all transactions
+// TODO: Review how to reorganize by month-year
 final transactions = {
   'March 2020': [
     {

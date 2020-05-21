@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'dart:math';
@@ -6,11 +7,18 @@ import 'dart:math';
 import 'const.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
+///
+/// Various utility functions are defined here.
+/// 
 
+
+/// Retrieve the redux store from the context.
 Store<AppState> getStore(BuildContext context) {
   return StoreProvider.of<AppState>(context);
 }
 
+/// Simulate a bool with 3 values.
+/// Notably used for changing graphs/charts.
 int switchFlag(int flag, int max) {
   if (flag == max-1) {
     return 0;
@@ -20,6 +28,10 @@ int switchFlag(int flag, int max) {
   }
 }
 
+/// Get the max value of revenue or expense in order to scale graphs.
+/// The argument is a List of Map with keys 'revenue' and 'expenses'.
+/// Each value is a List of double of size 5 (for the 5 categories), where
+/// each element represents the sum of expense/revenue of a certain category.
 double getMaxRevenueExpenses(List<Map<String, List<double>>> map) {
   var maxRevenue = map.map<double>((e) => e['revenue'].reduce((a, b) => a + b)).reduce(max);
   var maxExpenses = map.map<double>((e) => e['expenses'].reduce((a, b) => a + b)).reduce(max);
@@ -30,14 +42,17 @@ double getMaxRevenueExpenses(List<Map<String, List<double>>> map) {
   }
 }
 
+/// Compute the y-coordinate for the given value in a bar chart.
 double makeBarValue(double value, double maxValue) {
   return value * 20 / maxValue;
 }
 
+/// Retrieve the true value from the given y-coordinate in a bar chart.
 double valueFromBar(double barValue, double maxValue) {
   return double.parse((barValue * maxValue / 20).toStringAsFixed(2));
 }
 
+/// Retrieve the color assigned to the given category index.
 Color getCategoryColor(int index) {
   switch (index) {
     case 0:
@@ -55,6 +70,7 @@ Color getCategoryColor(int index) {
   }
 }
 
+/// Find the subcategory from the given subcategory index.
 Map<String, dynamic> findSubcategoryFromId(int subcategoryId, Map<String, List<dynamic>> categories) {
   for(final category in categories.keys.toList()) {
     for(final subcategory in categories[category]) {
@@ -65,6 +81,7 @@ Map<String, dynamic> findSubcategoryFromId(int subcategoryId, Map<String, List<d
   }
 }
 
+/// Find the account name from the given account id.
 String findAccountFromId(int accountId, List<Map<String, dynamic>> accounts) {
   for(final account in accounts) {
     if (account['id'] == accountId) {
@@ -73,6 +90,7 @@ String findAccountFromId(int accountId, List<Map<String, dynamic>> accounts) {
   }
 }
 
+/// Add a '0' in front of a day or month number when necessary.
 String dayOrMonthToString(int month) {
   if (month < 10) {
     return '0' + month.toString();
@@ -81,7 +99,8 @@ String dayOrMonthToString(int month) {
   }
 }
 
-Map<String, String> datetoDateRange(String type, DateTime dateTime) {
+/// Format a date range object from date range selection.
+Map<String, String> dateToDateRange(String type, DateTime dateTime) {
   if (type == 'Year') {
     return {
       'from': dateTime.year.toString() + '-01-01',
@@ -111,9 +130,82 @@ Map<String, String> datetoDateRange(String type, DateTime dateTime) {
   }
 }
 
-int roundUp(double src) {
-  int len = src.toInt().toString().length - 1;
-  if (len == 0) len = 1;
-  int d = pow(10, len);
-  return ((src + (d - 1)) / d).round() * d;
+/// Build the X-axis.
+/// Used for bar charts.
+String getXAxis(value, type) {
+  if (type == 'Week') {
+    switch (value.toInt()) {
+      case 0:
+        return 'MON';
+      case 1:
+        return 'TUE';
+      case 2:
+        return 'WED';
+      case 3:
+        return 'THU';
+      case 4:
+        return 'FRI';
+      case 5:
+        return 'SAT';
+      case 6:
+        return 'SUN';
+    }
+  } else if (type == 'Month') {
+    switch (value.toInt()) {
+      case 0:
+        return 'W1';
+      case 2:
+        return 'W2';
+      case 4:
+        return 'W3';
+      case 6:
+        return 'W4';
+    }
+  } else if (type == 'Year') {
+    switch (value.toInt()) {
+      case 0:
+        return 'JAN';
+      case 1:
+        return 'FEB';
+      case 2:
+        return 'MAR';
+      case 3:
+        return 'APR';
+      case 4:
+        return 'MAY';
+      case 5:
+        return 'JUN';
+      case 6:
+        return 'JUL';
+      case 7:
+        return 'AUG';
+      case 8:
+        return 'SEP';
+      case 9:
+        return 'OCT';
+      case 10:
+        return 'NOV';
+      case 11:
+        return 'DEC';
+    }
+  }
+  return '';
+}
+
+/// Build the scale for the Y-axis.
+/// Used for bar charts.
+String getYAxis(value, max) {
+  switch (value.toInt()) {
+    case 0:
+      return '0';
+    case 5:
+      return NumberFormat.compact().format(max * 0.25);
+    case 10:
+      return NumberFormat.compact().format(max * 0.5);
+    case 15:
+      return NumberFormat.compact().format(max * 0.75);
+    case 20:
+      return NumberFormat.compact().format(max);
+  }
+  return '';
 }

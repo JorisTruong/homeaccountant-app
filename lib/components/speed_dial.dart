@@ -6,6 +6,12 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the Speed Dial widget.
+/// It is displayed when pressing the top right side button on certain pages.
+///
+
+
 List<Map<String, dynamic>> buttons = [
   {'name': 'Account', 'icon': Icons.account_balance_wallet},
   {'name': 'Date range', 'icon': Icons.date_range}

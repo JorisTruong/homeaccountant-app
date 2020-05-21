@@ -6,6 +6,12 @@ import 'indicator.dart';
 import 'package:homeaccountantapp/const.dart';
 
 
+///
+/// This is the card for the pie chart.
+/// Have a look at the fl_chart package for more information.
+///
+
+
 class PieChartCard extends StatefulWidget {
   PieChartCard({
     Key key,
@@ -101,6 +107,7 @@ class PieChartCardState extends State<PieChartCard> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      /// Display the legend
                       children: List.generate(switchData ? widget.expenses.length : widget.revenue.length, (int index) {
                         return Indicator(
                           color: getCategoryColor(index),
@@ -135,6 +142,7 @@ class PieChartCardState extends State<PieChartCard> {
     );
   }
 
+  /// Chart data
   List<PieChartSectionData> showingSections() {
     return List.generate(switchData ? widget.expenses.length : widget.revenue.length, (i) {
       final isTouched = i == touchedIndex;

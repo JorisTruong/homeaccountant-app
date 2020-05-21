@@ -8,6 +8,12 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the Navigation Drawer widget.
+/// It is displayed when swiping from left to right or pressing the corresponding button in the app bar.
+///
+
+
 class NavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,6 +37,7 @@ class NavigationDrawer extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: options.length,
                 itemBuilder: (BuildContext context, int index) {
+                  /// Navigation options
                   Map item = options[index];
                   return ListTile(
                     leading: Icon(item['icon']),

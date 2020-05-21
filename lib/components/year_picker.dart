@@ -4,6 +4,13 @@ import 'package:flutter/gestures.dart';
 import 'package:homeaccountantapp/const.dart';
 
 
+///
+/// This is the Year Picker widget.
+/// It is heavily inspired on the original deprecated YearPicker of Flutter.
+/// There are just small modifications on the style.
+///
+
+
 class YearPicker extends StatefulWidget {
   YearPicker({
     Key key,

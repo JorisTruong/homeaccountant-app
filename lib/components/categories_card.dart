@@ -9,6 +9,16 @@ import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
+
+///
+/// This is the category card.
+/// It displays the subcategory of a certain category.
+/// It is used in two different places and has two different interactions:
+/// 1: from the categories page, where tapping a subcategory navigates to the update page
+/// 2: from the transactions page, where selecting a subcategory updates to form
+///
+
+
 class CategoryCard extends StatelessWidget {
   final int categoryIndex;
   final String category;
@@ -58,6 +68,7 @@ class CategoryCard extends StatelessWidget {
                             category,
                             style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
                           ),
+                          /// Subcategories in a grid
                           GridView.count(
                             padding: EdgeInsets.only(top: 20.0),
                             physics: BouncingScrollPhysics(),
@@ -68,6 +79,7 @@ class CategoryCard extends StatelessWidget {
                                 color: baseColors.transparent,
                                 child: InkWell(
                                   onTap: () {
+                                    /// Updating the form
                                     if (select) {
                                       _store.dispatch(SelectSubcategory(subcategories[index]));
                                       TextEditingController subcategoryText = TextEditingController();
@@ -82,6 +94,7 @@ class CategoryCard extends StatelessWidget {
                                       _store.dispatch(NavigatePopAction());
                                       Navigator.of(context).pop();
                                     } else {
+                                      /// Updating the subcategory
                                       _store.dispatch(SelectCategory(categoryIndex));
                                       TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];

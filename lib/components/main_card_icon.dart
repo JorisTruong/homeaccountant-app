@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:homeaccountantapp/const.dart';
 
+
+///
+/// This is the main card icon.
+/// It is used for displayed an icon or a text.
+///
+
+
 class MainCardIcon extends StatelessWidget {
   final dynamic icon;
   final dynamic color;

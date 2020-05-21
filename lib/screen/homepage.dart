@@ -16,6 +16,11 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the home page.
+///
+
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
 
@@ -31,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 500),
@@ -50,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             print(_store.state);
             return Future(() => true);
           },
+          /// The GestureDetector is for removing the speed dial when tapping the screen.
           child: GestureDetector(
             onTap: () {
               if (!_controller.isDismissed) {
@@ -65,6 +72,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ),
                 ),
                 centerTitle: true,
+                /// 'actions' on the AppBar is what appears on the top right side.
+                /// This is for the speed dial.
                 actions: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(8.0),
@@ -88,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   )
                 ],
               ),
+              /// This is the drawer accessible from a left-to-right swipe or the top left icon.
               drawer: NavigationDrawer(),
               body: Center(
                 child: Stack(

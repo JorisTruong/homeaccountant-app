@@ -10,6 +10,13 @@ import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
+
+///
+/// This is the transaction item widget.
+/// It is the basic element widget for a transaction.
+///
+
+
 class TransactionItem extends StatelessWidget {
   final List<dynamic> transactions;
 
@@ -53,6 +60,7 @@ class TransactionItem extends StatelessWidget {
                             return Material(
                               color: Colors.white,
                               child: ListTile(
+                                /// Icon of the transaction
                                 leading: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -67,6 +75,7 @@ class TransactionItem extends StatelessWidget {
                                     )
                                   ],
                                 ),
+                                /// Text information of the transaction (date, name, description)
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -77,6 +86,7 @@ class TransactionItem extends StatelessWidget {
                                 subtitle: transactions[index]['description'] == '' ?
                                   null :
                                   Text(transactions[index]['description'], style: TextStyle(fontSize: baseFontSize.text2)),
+                                /// Amount of the transaction
                                 trailing: Text(
                                   (transactions[index]['is_expense'] == 0 ? '+' : '-') + transactions[index]['amount'].toString(),
                                   style: TextStyle(
@@ -85,6 +95,7 @@ class TransactionItem extends StatelessWidget {
                                     color: transactions[index]['is_expense'] == 0 ? baseColors.green : baseColors.red
                                   )
                                 ),
+                                /// Navigates to the update page on tap
                                 onTap: () {
                                   print('Tapped tile ' + transactions[index]['id'].toString());
                                   TextEditingController transactionName = TextEditingController();
@@ -94,11 +105,13 @@ class TransactionItem extends StatelessWidget {
                                   Map<String, dynamic> subcategory = findSubcategoryFromId(transactions[index]['subcategory_id'], categories);
                                   TextEditingController subcategoryText = TextEditingController();
                                   Icon subcategoryIcon;
+                                  /// Get the icon of the category if no subcategory is selected
+                                  // TODO: Defines a icon for each category
                                   if (subcategory != null) {
                                     subcategoryText.text = subcategory['name'];
                                     subcategoryIcon = Icon(
-                                        icons_list[findSubcategoryFromId(transactions[index]['subcategory_id'], categories)['icon_id']],
-                                        color: getCategoryColor(transactions[index]['category_id'])
+                                      icons_list[findSubcategoryFromId(transactions[index]['subcategory_id'], categories)['icon_id']],
+                                      color: getCategoryColor(transactions[index]['category_id'])
                                     );
                                   } else {
                                     subcategoryIcon = Icon(

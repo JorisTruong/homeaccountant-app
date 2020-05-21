@@ -11,6 +11,12 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the subcategory page.
+/// It is displayed when selecting a subcategory from the transaction info page.
+///
+
+
 class SubcategoryPage extends StatefulWidget {
   SubcategoryPage({Key key}) : super(key: key);
 
@@ -72,8 +78,9 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                     children: [
                       Padding(
                         padding: EdgeInsets.only(bottom: 25.0),
+                        /// Only show the subcategories of the selected category
                         child: CategoryCard(
-                            _store.state.categoryIndex,
+                          _store.state.categoryIndex,
                           categories.keys.toList()[_store.state.categoryIndex],
                           categories.values.toList()[_store.state.categoryIndex],
                           getCategoryColor(_store.state.categoryIndex),

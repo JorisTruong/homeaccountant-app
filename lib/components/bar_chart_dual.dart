@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/const.dart';
+
+
+///
+/// This is the card for the dual bar chart.
+/// Have a look at the fl_chart package for more information.
+///
+
 
 class BarChartDualCard extends StatefulWidget {
   BarChartDualCard({
@@ -172,6 +178,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
     );
   }
 
+  /// Dual chart data
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
     BarChartRodData revenue = BarChartRodData(
       y: y1,
@@ -201,6 +208,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
     }
   }
 
+  /// Build the chart from the data
   List<BarChartGroupData> makeBarChart() {
     return List.generate(widget.data.length, (int i) {
       return makeGroupData(
@@ -210,80 +218,4 @@ class BarChartDualCardState extends State<BarChartDualCard> {
       );
     });
   }
-}
-
-String getXAxis(value, type) {
-  if (type == 'Week') {
-    switch (value.toInt()) {
-      case 0:
-        return 'MON';
-      case 1:
-        return 'TUE';
-      case 2:
-        return 'WED';
-      case 3:
-        return 'THU';
-      case 4:
-        return 'FRI';
-      case 5:
-        return 'SAT';
-      case 6:
-        return 'SUN';
-    }
-  } else if (type == 'Month') {
-    switch (value.toInt()) {
-      case 0:
-        return 'W1';
-      case 2:
-        return 'W2';
-      case 4:
-        return 'W3';
-      case 6:
-        return 'W4';
-    }
-  } else if (type == 'Year') {
-    switch (value.toInt()) {
-      case 0:
-        return 'JAN';
-      case 1:
-        return 'FEB';
-      case 2:
-        return 'MAR';
-      case 3:
-        return 'APR';
-      case 4:
-        return 'MAY';
-      case 5:
-        return 'JUN';
-      case 6:
-        return 'JUL';
-      case 7:
-        return 'AUG';
-      case 8:
-        return 'SEP';
-      case 9:
-        return 'OCT';
-      case 10:
-        return 'NOV';
-      case 11:
-        return 'DEC';
-    }
-  }
-  return '';
-}
-
-String getYAxis(value, max) {
-  switch (value.toInt()) {
-    case 0:
-      return '0';
-    case 5:
-      return NumberFormat.compact().format(max * 0.25);
-    case 10:
-      return NumberFormat.compact().format(max * 0.5);
-    case 15:
-      return NumberFormat.compact().format(max * 0.75);
-    case 20:
-      return NumberFormat.compact().format(max);
-  }
-  return '';
 }

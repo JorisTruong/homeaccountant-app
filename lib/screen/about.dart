@@ -9,6 +9,11 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
+///
+/// This is the about us page.
+///
+
+
 class AboutPage extends StatefulWidget {
   AboutPage({Key key}) : super(key: key);
 
@@ -43,6 +48,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 actions: <Widget>[
                 ],
               ),
+              /// This is the drawer accessible from a left-to-right swipe or the top left icon.
               drawer: NavigationDrawer(),
               body: Center(
               ),
