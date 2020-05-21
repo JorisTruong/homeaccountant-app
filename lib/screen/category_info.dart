@@ -253,8 +253,11 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               ),
                                               RaisedButton(
                                                 onPressed: () {
-                                                  resetState(context);
+                                                  print(StoreProvider.of<AppState>(context).state.categoryIndex);
+                                                  print(StoreProvider.of<AppState>(context).state.subcategoryText.text);
+                                                  print(StoreProvider.of<AppState>(context).state.subcategoryIcon);
                                                   StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                                                  resetState(context);
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(

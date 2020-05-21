@@ -23,13 +23,15 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
+
     return new StoreConnector<AppState, int>(
       converter: (Store<AppState> store) => store.state.categoryIndex,
       builder: (BuildContext context, int categoryIndex) {
         return WillPopScope(
           onWillPop: () {
-            StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
-            print(StoreProvider.of<AppState>(context).state);
+            _store.dispatch(NavigatePopAction());
+            print(_store.state);
             return new Future(() => true);
           },
           child: Scaffold(
@@ -37,7 +39,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
               leading: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
-                  StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                  _store.dispatch(NavigatePopAction());
                   Navigator.of(context).pop();
                 },
               ),
@@ -55,7 +57,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                     elevation: 0,
                     backgroundColor: baseColors.transparent,
                     onPressed: () {
-                      StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.category));
+                      _store.dispatch(NavigatePushAction(AppRoutes.category));
                     },
                     child: Icon(Icons.add)
                   )
@@ -72,10 +74,10 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                       Padding(
                         padding: EdgeInsets.only(bottom: 25.0),
                         child: CategoryCard(
-                          StoreProvider.of<AppState>(context).state.categoryIndex,
-                          categories.keys.toList()[StoreProvider.of<AppState>(context).state.categoryIndex],
-                          categories.values.toList()[StoreProvider.of<AppState>(context).state.categoryIndex],
-                          getCategoryColor(StoreProvider.of<AppState>(context).state.categoryIndex),
+                            _store.state.categoryIndex,
+                          categories.keys.toList()[_store.state.categoryIndex],
+                          categories.values.toList()[_store.state.categoryIndex],
+                          getCategoryColor(_store.state.categoryIndex),
                           true
                         )
                       )

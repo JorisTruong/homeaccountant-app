@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/icons_list.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -19,6 +20,8 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
+
     return new StoreConnector<AppState, Map<String, dynamic>>(
       converter: (Store<AppState> store) => store.state.subcategory,
       builder: (BuildContext context, Map<String, dynamic> subcategory) {
@@ -66,31 +69,31 @@ class CategoryCard extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     if (select) {
-                                      StoreProvider.of<AppState>(context).dispatch(SelectSubcategory(subcategories[index]));
+                                      _store.dispatch(SelectSubcategory(subcategories[index]));
                                       var subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
-                                      StoreProvider.of<AppState>(context).dispatch(SubcategoryText(subcategoryText));
-                                      StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(
+                                      _store.dispatch(SubcategoryText(subcategoryText));
+                                      _store.dispatch(SelectSubcategoryIcon(
                                         Icon(
                                           icons_list[subcategories[index]['icon_id']],
                                           color: color
                                         )
                                       ));
-                                      StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
+                                      _store.dispatch(NavigatePopAction());
                                       Navigator.of(context).pop();
                                     } else {
-                                      StoreProvider.of<AppState>(context).dispatch(SelectCategory(categoryIndex));
+                                      _store.dispatch(SelectCategory(categoryIndex));
                                       var subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
-                                      StoreProvider.of<AppState>(context).dispatch(SubcategoryText(subcategoryText));
-                                      StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(
+                                      _store.dispatch(SubcategoryText(subcategoryText));
+                                      _store.dispatch(SelectSubcategoryIcon(
                                         Icon(
                                           icons_list[subcategories[index]['icon_id']],
                                           color: color,
                                           size: MediaQuery.of(context).size.width * 0.3
                                         )
                                       ));
-                                      StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.category));
+                                      _store.dispatch(NavigatePushAction(AppRoutes.category));
                                     }
                                   },
                                   child: Column(

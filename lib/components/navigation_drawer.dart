@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/const.dart';
+
 
 class NavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
+
     return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
@@ -19,7 +23,7 @@ class NavigationDrawer extends StatelessWidget {
               DrawerHeader(
                 child: null,
                 decoration: BoxDecoration(
-                    color: baseColors.mainColor
+                  color: baseColors.mainColor
                 ),
               ),
               ListView.builder(
@@ -31,16 +35,16 @@ class NavigationDrawer extends StatelessWidget {
                   return ListTile(
                     leading: Icon(item['icon']),
                     title: Text(
-                        item['name'],
-                        style: TextStyle(
-                          fontSize: baseFontSize.title2,
-                        )
+                      item['name'],
+                      style: TextStyle(
+                        fontSize: baseFontSize.title2,
+                      )
                     ),
                     onTap: () {
                       print('${item['name']} pressed');
                       Navigator.pop(context);
-                      StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(item['route']));
-                      print(StoreProvider.of<AppState>(context).state);
+                      _store.dispatch(NavigatePushAction(item['route']));
+                      print(_store.state);
                     },
                   );
                 },

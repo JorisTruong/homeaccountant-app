@@ -84,9 +84,7 @@ class LineChartCardState extends State<LineChartCard> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  const SizedBox(height: 16),
                   Text(
                     widget.title,
                     style: TextStyle(
@@ -97,9 +95,7 @@ class LineChartCardState extends State<LineChartCard> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(
-                    height: 37,
-                  ),
+                  const SizedBox(height: 37),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16.0, left: 6.0),
@@ -109,9 +105,7 @@ class LineChartCardState extends State<LineChartCard> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                 ],
               ),
               Material(

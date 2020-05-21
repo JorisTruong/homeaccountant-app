@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -15,7 +14,7 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 const dateRangeTypes = ['Year', 'Month', 'Week'];
 
 class DateRangePanel extends StatefulWidget {
-  PanelController _pcDate;
+  final PanelController _pcDate;
 
   DateRangePanel(this._pcDate);
 
@@ -28,8 +27,8 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
     currentFocus = FocusScope.of(context);
-    initializeDateFormatting('en_EN', null);
 
     return new StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
@@ -55,7 +54,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                           child: DropdownButton<String>(
                             autofocus: true,
                             icon: Icon(Icons.keyboard_arrow_down),
-                            value: StoreProvider.of<AppState>(context).state.dateRangeType,
+                            value: _store.state.dateRangeType,
                             hint: Text(
                               'Type',
                               textAlign: TextAlign.center,
@@ -68,7 +67,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                               }
                             },
                             onChanged: (String newValue) {
-                              StoreProvider.of<AppState>(context).dispatch(UpdateDateRangeType(newValue));
+                              _store.dispatch(UpdateDateRangeType(newValue));
                             },
                             items: dateRangeTypes.map((key) {
                               return DropdownMenuItem<String>(
@@ -84,7 +83,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                   )
                 )
               ),
-              if (StoreProvider.of<AppState>(context).state.dateRangeType == 'Year')
+              if (_store.state.dateRangeType == 'Year')
                 Material(
                   color: baseColors.transparent,
                   child: Container(
@@ -92,31 +91,31 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: MediaQuery.of(context).size.width,
                     child: yp.YearPicker(
-                      selectedDate: StoreProvider.of<AppState>(context).state.selectedDate,
+                      selectedDate: _store.state.selectedDate,
                       firstDate: DateTime(1900),
                       lastDate: DateTime.now(),
                       onChanged: (datePeriod) {
-                        StoreProvider.of<AppState>(context).dispatch(UpdateSelectedDate(datePeriod));
+                        _store.dispatch(UpdateSelectedDate(datePeriod));
                       },
                     )
                   )
                 ),
-              if (StoreProvider.of<AppState>(context).state.dateRangeType == 'Month')
+              if (_store.state.dateRangeType == 'Month')
                 dp.MonthPicker(
-                  selectedDate: StoreProvider.of<AppState>(context).state.selectedDate,
+                  selectedDate: _store.state.selectedDate,
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
                   onChanged: (datePeriod) {
-                    StoreProvider.of<AppState>(context).dispatch(UpdateSelectedDate(datePeriod));
+                    _store.dispatch(UpdateSelectedDate(datePeriod));
                   },
                 ),
-              if (StoreProvider.of<AppState>(context).state.dateRangeType == 'Week')
+              if (_store.state.dateRangeType == 'Week')
                 dp.WeekPicker(
-                  selectedDate: StoreProvider.of<AppState>(context).state.selectedDate,
+                  selectedDate: _store.state.selectedDate,
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
                   onChanged: (datePeriod) {
-                    StoreProvider.of<AppState>(context).dispatch(UpdateSelectedDate(datePeriod.start));
+                    _store.dispatch(UpdateSelectedDate(datePeriod.start));
                   },
                 ),
               Row(
@@ -139,22 +138,20 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                       borderRadius: BorderRadius.circular(40.0),
                     ),
                   ),
-                  SizedBox(
-                      width: 12.0
-                  ),
+                  SizedBox(width: 12.0),
                   RaisedButton(
                     onPressed: () {
                       print(
                         datetoDateRange(
-                          StoreProvider.of<AppState>(context).state.dateRangeType,
-                          StoreProvider.of<AppState>(context).state.selectedDate
+                          _store.state.dateRangeType,
+                          _store.state.selectedDate
                         )
                       );
-                      StoreProvider.of<AppState>(context).dispatch(
+                      _store.dispatch(
                         UpdateDateRange(
                           datetoDateRange(
-                            StoreProvider.of<AppState>(context).state.dateRangeType,
-                            StoreProvider.of<AppState>(context).state.selectedDate
+                            _store.state.dateRangeType,
+                            _store.state.selectedDate
                           )
                         )
                       );

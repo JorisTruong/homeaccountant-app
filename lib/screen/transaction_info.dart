@@ -7,6 +7,7 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'dart:math' as math;
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -32,25 +33,26 @@ class TransactionInfoPage extends StatefulWidget {
 class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
 
-  void resetSubcategory(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(null));
-    StoreProvider.of<AppState>(context).dispatch(SubcategoryText(TextEditingController()));
-    StoreProvider.of<AppState>(context).dispatch(SelectSubcategory(null));
+  void resetSubcategory(Store<AppState> _store) {
+    _store.dispatch(SelectSubcategoryIcon(null));
+    _store.dispatch(SubcategoryText(TextEditingController()));
+    _store.dispatch(SelectSubcategory(null));
   }
 
-  void leaveScreen(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
-    StoreProvider.of<AppState>(context).dispatch(SelectCategory(null));
-    StoreProvider.of<AppState>(context).dispatch(TransactionName(TextEditingController()));
-    StoreProvider.of<AppState>(context).dispatch(TransactionAccount(null));
-    StoreProvider.of<AppState>(context).dispatch(TransactionDate(TextEditingController()));
-    StoreProvider.of<AppState>(context).dispatch(TransactionAmount(TextEditingController()));
-    StoreProvider.of<AppState>(context).dispatch(TransactionDescription(TextEditingController()));
-    resetSubcategory(context);
+  void leaveScreen(Store<AppState> _store) {
+    _store.dispatch(NavigatePopAction());
+    _store.dispatch(SelectCategory(null));
+    _store.dispatch(TransactionName(TextEditingController()));
+    _store.dispatch(TransactionAccount(null));
+    _store.dispatch(TransactionDate(TextEditingController()));
+    _store.dispatch(TransactionAmount(TextEditingController()));
+    _store.dispatch(TransactionDescription(TextEditingController()));
+    resetSubcategory(_store);
   }
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
     currentFocus = FocusScope.of(context);
 
     return new StoreConnector<AppState, List<String>>(
@@ -58,8 +60,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
-            leaveScreen(context);
-            print(StoreProvider.of<AppState>(context).state);
+            leaveScreen(_store);
+            print(_store.state);
             return new Future(() => true);
           },
           child: GestureDetector(
@@ -75,14 +77,14 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                 leading: IconButton(
                   icon: Icon(Icons.close),
                   onPressed: () {
-                    leaveScreen(context);
+                    leaveScreen(_store);
                     Navigator.of(context).pop();
                   },
                 ),
                 title: Text(
                   'Transaction Info',
                   style: TextStyle(
-                      fontSize: baseFontSize.title
+                    fontSize: baseFontSize.title
                   ),
                 ),
                 centerTitle: true,
@@ -108,8 +110,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                             ),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10)),
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
                                 boxShadow: [
                                   new BoxShadow(
                                     color: Colors.grey[500],
@@ -131,7 +132,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                       return Column(
                                         children: [
                                           TextField(
-                                            controller: StoreProvider.of<AppState>(context).state.transactionName,
+                                            controller: _store.state.transactionName,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -141,9 +142,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               prefixIcon: Icon(Icons.title, color: baseColors.mainColor)
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0),
                                           DropdownButtonHideUnderline(
                                             child: ButtonTheme(
                                               alignedDropdown: true,
@@ -161,7 +160,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                       child: DropdownButton<int>(
                                                         autofocus: true,
                                                         icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: StoreProvider.of<AppState>(context).state.transactionAccountId,
+                                                        value: _store.state.transactionAccountId,
                                                         hint: Text(
                                                           'Account',
                                                           textAlign: TextAlign.center,
@@ -175,7 +174,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         },
                                                         onChanged: (int newValue) {
                                                           setState(() {
-                                                            StoreProvider.of<AppState>(context).dispatch(TransactionAccount(newValue));
+                                                            _store.dispatch(TransactionAccount(newValue));
                                                           });
                                                         },
                                                         items: accounts.map((key) {
@@ -192,9 +191,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               )
                                             )
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0),
                                           Theme(
                                             data: ThemeData(
                                               primaryColor: baseColors.mainColor,
@@ -204,7 +201,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               builder: (context) =>
                                                 TextField(
                                                   readOnly: true,
-                                                  controller: StoreProvider.of<AppState>(context).state.transactionDate,
+                                                  controller: _store.state.transactionDate,
                                                   decoration: InputDecoration(
                                                     isDense: true,
                                                     alignLabelWithHint: true,
@@ -223,42 +220,38 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                     if (pickedDate != null) {
                                                       var date = TextEditingController();
                                                       date.text = pickedDate.toString().split(' ')[0];
-                                                      StoreProvider.of<AppState>(context).dispatch(TransactionDate(date));
+                                                      _store.dispatch(TransactionDate(date));
                                                     }
                                                   },
                                                 )
                                             )
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0,),
                                           Row(
                                             children: [
                                               Radio(
                                                 value: true,
-                                                groupValue: StoreProvider.of<AppState>(context).state.transactionIsExpense,
+                                                groupValue: _store.state.transactionIsExpense,
                                                 onChanged: (bool value) {
                                                   setState(() {
-                                                    StoreProvider.of<AppState>(context).dispatch(TransactionIsExpense(value));
+                                                    _store.dispatch(TransactionIsExpense(value));
                                                   });
                                                 }
                                               ),
                                               Text('Expense'),
                                               Radio(
-                                                  value: false,
-                                                  groupValue: StoreProvider.of<AppState>(context).state.transactionIsExpense,
-                                                  onChanged: (bool value) {
-                                                    setState(() {
-                                                      StoreProvider.of<AppState>(context).dispatch(TransactionIsExpense(value));
-                                                    });
-                                                  }
+                                                value: false,
+                                                groupValue: _store.state.transactionIsExpense,
+                                                onChanged: (bool value) {
+                                                  setState(() {
+                                                    _store.dispatch(TransactionIsExpense(value));
+                                                  });
+                                                }
                                               ),
                                               Text('Revenue')
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0),
                                           DropdownButtonHideUnderline(
                                             child: ButtonTheme(
                                               alignedDropdown: true,
@@ -275,7 +268,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                     Expanded(
                                                       child: DropdownButton<int>(
                                                         icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: StoreProvider.of<AppState>(context).state.categoryIndex,
+                                                        value: _store.state.categoryIndex,
                                                         hint: Text(
                                                           'Category',
                                                           textAlign: TextAlign.center,
@@ -289,8 +282,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         },
                                                         onChanged: (int newValue) {
                                                           setState(() {
-                                                            resetSubcategory(context);
-                                                            StoreProvider.of<AppState>(context).dispatch(SelectCategory(newValue));
+                                                            resetSubcategory(_store);
+                                                            _store.dispatch(SelectCategory(newValue));
                                                           });
                                                         },
                                                         items: List.generate(categories.length, (int index) {
@@ -307,42 +300,37 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               )
                                             )
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0,),
                                           TextField(
                                             readOnly: true,
-                                            controller: StoreProvider.of<AppState>(context).state.subcategoryText,
+                                            controller: _store.state.subcategoryText,
                                             decoration: InputDecoration(
-                                                isDense: true,
-                                                alignLabelWithHint: true,
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
-                                                contentPadding: EdgeInsets.only(right: 20.0),
-                                                labelText: 'Subcategory',
-                                                prefixIcon: StoreProvider.of<AppState>(context).state.subcategoryIcon == null ?
-                                                  Icon(Icons.turned_in,
-                                                    color: baseColors.mainColor
-                                                  ) :
-                                                  StoreProvider.of<AppState>(context).state.subcategoryIcon,
+                                              isDense: true,
+                                              alignLabelWithHint: true,
+                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
+                                              contentPadding: EdgeInsets.only(right: 20.0),
+                                              labelText: 'Subcategory',
+                                              prefixIcon: _store.state.subcategoryIcon == null ?
+                                                Icon(
+                                                  Icons.turned_in,
+                                                  color: baseColors.mainColor
+                                                ) :
+                                                _store.state.subcategoryIcon,
                                             ),
                                             onTap: () {
                                               if (!currentFocus.hasPrimaryFocus) {
                                                 currentFocus.unfocus();
                                               }
-                                              if (StoreProvider.of<AppState>(context).state.categoryIndex != null) {
-                                                StoreProvider.of<AppState>(context).dispatch(
-                                                  NavigatePushAction(AppRoutes.subcategory)
-                                                );
+                                              if (_store.state.categoryIndex != null) {
+                                                _store.dispatch(NavigatePushAction(AppRoutes.subcategory));
                                               }
                                             },
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0,),
                                           TextField(
                                             inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
                                             keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                            controller: StoreProvider.of<AppState>(context).state.transactionAmount,
+                                            controller: _store.state.transactionAmount,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -352,11 +340,9 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               prefixIcon: Icon(Icons.attach_money, color: baseColors.mainColor)
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 12.0,
-                                          ),
+                                          SizedBox(height: 12.0,),
                                           TextField(
-                                            controller: StoreProvider.of<AppState>(context).state.transactionDescription,
+                                            controller: _store.state.transactionDescription,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -366,15 +352,13 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               prefixIcon: Icon(Icons.create, color: baseColors.mainColor)
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 24.0,
-                                          ),
+                                          SizedBox(height: 24.0,),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               RaisedButton(
                                                 onPressed: () {
-                                                  leaveScreen(context);
+                                                  leaveScreen(_store);
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
@@ -390,20 +374,18 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                   borderRadius: BorderRadius.circular(40.0),
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 12.0
-                                              ),
+                                              SizedBox(width: 12.0),
                                               RaisedButton(
                                                 onPressed: () {
-                                                  print(StoreProvider.of<AppState>(context).state.transactionName.text);
-                                                  print(StoreProvider.of<AppState>(context).state.transactionAccountId);
-                                                  print(StoreProvider.of<AppState>(context).state.transactionDate.text);
-                                                  print(StoreProvider.of<AppState>(context).state.transactionIsExpense);
-                                                  print(StoreProvider.of<AppState>(context).state.categoryIndex);
-                                                  print(StoreProvider.of<AppState>(context).state.subcategoryText.text);
-                                                  print(StoreProvider.of<AppState>(context).state.transactionAmount.text);
-                                                  print(StoreProvider.of<AppState>(context).state.transactionDescription.text);
-                                                  leaveScreen(context);
+                                                  print(_store.state.transactionName.text);
+                                                  print(_store.state.transactionAccountId);
+                                                  print(_store.state.transactionDate.text);
+                                                  print(_store.state.transactionIsExpense);
+                                                  print(_store.state.categoryIndex);
+                                                  print(_store.state.subcategoryText.text);
+                                                  print(_store.state.transactionAmount.text);
+                                                  print(_store.state.transactionDescription.text);
+                                                  leaveScreen(_store);
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
@@ -451,9 +433,9 @@ class DecimalTextInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     TextSelection newSelection = newValue.selection;
     String truncated = newValue.text;
 
@@ -465,8 +447,7 @@ class DecimalTextInputFormatter extends TextInputFormatter {
         newSelection = oldValue.selection;
       }
 
-      if (value.contains(".") &&
-          value.substring(value.indexOf(".") + 1).length > decimalRange) {
+      if (value.contains(".") && value.substring(value.indexOf(".") + 1).length > decimalRange) {
         truncated = oldValue.text;
         newSelection = oldValue.selection;
       } else if (value == ".") {

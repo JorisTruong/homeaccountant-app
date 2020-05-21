@@ -37,7 +37,7 @@ class RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
 
   @override
   void didPopNext() {
-    print("pop");
+    print('pop');
     print(StoreProvider.of<AppState>(context).state);
   }
 

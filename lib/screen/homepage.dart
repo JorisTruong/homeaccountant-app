@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/main_card.dart';
@@ -43,13 +44,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
+
     return new StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
-            StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
-            print(StoreProvider.of<AppState>(context).state);
+            _store.dispatch(NavigatePopAction());
+            print(_store.state);
             return new Future(() => true);
           },
           child: GestureDetector(

@@ -41,147 +41,141 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(20.0),
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
-            color: Colors.white,
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    new BoxShadow(
-                      color: Colors.grey[700],
-                      blurRadius: 10.0,
-                      offset: Offset(
-                        0.0,
-                        5.0,
-                      ),
-                    ),
+      padding: EdgeInsets.all(20.0),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
+          color: Colors.white,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                new BoxShadow(
+                  color: Colors.grey[700],
+                  blurRadius: 10.0,
+                  offset: Offset(
+                    0.0,
+                    5.0,
+                  ),
+                ),
+              ],
+              color: Colors.white
+            ),
+            child: Stack(
+              children: <Widget>[
+                Row(
+                  children: [
+                    Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.refresh,
+                          color: baseColors.mainColor
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            switchData = !switchData;
+                            barGroups = makeBarChart();
+                          });
+                        },
+                      )
+                    )
                   ],
-                  color: Colors.white
-              ),
-              child: Stack(
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Material(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Colors.white,
-                            child: IconButton(
-                              icon: Icon(
-                                  Icons.refresh,
-                                  color: baseColors.mainColor
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  switchData = !switchData;
-                                  barGroups = makeBarChart();
-                                });
-                              },
-                            )
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              const SizedBox(
-                                width: 38,
-                              ),
-                              Text(
-                                switchData ? 'Expenses' : 'Revenue',
-                                style: TextStyle(color: baseColors.mainColor,
-                                    fontSize: baseFontSize.title2,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 2),
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 38,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0),
-                              child: BarChart(
-                                BarChartData(
-                                  barTouchData: BarTouchData(
-                                    touchTooltipData: BarTouchTooltipData(
-                                      tooltipBgColor: baseColors.mainColor,
-                                      getTooltipItem: (_a, _b, _c, _d) {
-                                        var realValues = List.generate(_c.rodStackItem.length, (int i) {
-                                          return valueFromBar(_c.rodStackItem[i].toY - _c.rodStackItem[i].fromY, maxValue);
-                                        });
-                                        return BarTooltipItem(
-                                          realValues.toString(),
-                                          TextStyle(color: Colors.white)
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  titlesData: FlTitlesData(
-                                    show: true,
-                                    bottomTitles: SideTitles(
-                                      showTitles: true,
-                                      textStyle: TextStyle(
-                                          color: baseColors.mainColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: baseFontSize.text),
-                                      margin: 20,
-                                      getTitles: (double value) {
-                                        return getXAxis(
-                                            value, widget.durationType);
-                                      },
-                                    ),
-                                    leftTitles: SideTitles(
-                                      showTitles: true,
-                                      textStyle: TextStyle(
-                                          color: baseColors.mainColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: baseFontSize.text),
-                                      margin: 20,
-                                      reservedSize: 20,
-                                      getTitles: (value) {
-                                        return getYAxis(value, 0);
-                                      },
-                                    ),
-                                  ),
-                                  borderData: FlBorderData(
-                                    show: false,
-                                  ),
-                                  barGroups: barGroups,
-                                ),
-                              ),
+                          const SizedBox(width: 38,),
+                          Text(
+                            switchData ? 'Expenses' : 'Revenue',
+                            style: TextStyle(color: baseColors.mainColor,
+                              fontSize: baseFontSize.title2,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2
                             ),
                           ),
-                          const SizedBox(
-                            height: 12,
-                          ),
+                          const SizedBox(width: 4,),
                         ],
                       ),
-                    ),
-                  ]
-              ),
+                      const SizedBox(height: 38,),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0
+                          ),
+                          child: BarChart(
+                            BarChartData(
+                              barTouchData: BarTouchData(
+                                touchTooltipData: BarTouchTooltipData(
+                                  tooltipBgColor: baseColors.mainColor,
+                                  getTooltipItem: (_a, _b, _c, _d) {
+                                    var realValues = List.generate(_c.rodStackItem.length, (int i) {
+                                      return valueFromBar(_c.rodStackItem[i].toY - _c.rodStackItem[i].fromY, maxValue);
+                                    });
+                                    return BarTooltipItem(
+                                      realValues.toString(),
+                                      TextStyle(color: Colors.white)
+                                    );
+                                  },
+                                ),
+                              ),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                bottomTitles: SideTitles(
+                                  showTitles: true,
+                                  textStyle: TextStyle(
+                                    color: baseColors.mainColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: baseFontSize.text
+                                  ),
+                                  margin: 20,
+                                  getTitles: (double value) {
+                                    return getXAxis(
+                                      value, widget.durationType);
+                                  },
+                                ),
+                                leftTitles: SideTitles(
+                                  showTitles: true,
+                                  textStyle: TextStyle(
+                                    color: baseColors.mainColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: baseFontSize.text
+                                  ),
+                                  margin: 20,
+                                  reservedSize: 20,
+                                  getTitles: (value) {
+                                    return getYAxis(value, 0);
+                                  },
+                                ),
+                              ),
+                              borderData: FlBorderData(show: false),
+                              barGroups: barGroups,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
+                ),
+              ]
             ),
           ),
-        )
+        ),
+      )
     );
   }
 
@@ -211,15 +205,15 @@ class BarChartMultiTypesCardState extends State<BarChartMultiTypesCard> {
     if (!switchData) {
       return List.generate(widget.data.length, (int i) {
         return makeGroupData(
-            i,
-            widget.data[i]['revenue']
+          i,
+          widget.data[i]['revenue']
         );
       });
     } else {
       return List.generate(widget.data.length, (int i) {
         return makeGroupData(
-            i,
-            widget.data[i]['expenses']
+          i,
+          widget.data[i]['expenses']
         );
       });
     }

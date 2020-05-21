@@ -75,8 +75,8 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                       color: Colors.white,
                       child: IconButton(
                         icon: Icon(
-                            Icons.refresh,
-                            color: baseColors.mainColor
+                          Icons.refresh,
+                          color: baseColors.mainColor
                         ),
                         onPressed: () {
                           setState(() {
@@ -127,8 +127,8 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                   getTooltipItem: (_a, _b, _c, _d) {
                                     var realValue = valueFromBar(_c.y, maxValue);
                                     return BarTooltipItem(
-                                        (_d == 0 ? 'Expenses : \n' : 'Revenue : \n') + realValue.toString(),
-                                        TextStyle(color: Colors.white)
+                                      (_d == 0 ? 'Expenses : \n' : 'Revenue : \n') + realValue.toString(),
+                                      TextStyle(color: Colors.white)
                                     );
                                   },
                                 ),
@@ -138,9 +138,9 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                 bottomTitles: SideTitles(
                                   showTitles: true,
                                   textStyle: TextStyle(
-                                      color: baseColors.mainColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: baseFontSize.text),
+                                    color: baseColors.mainColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: baseFontSize.text),
                                   margin: 20,
                                   getTitles: (double value) {
                                     return getXAxis(value, widget.durationType);
@@ -149,9 +149,9 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                 leftTitles: SideTitles(
                                   showTitles: true,
                                   textStyle: TextStyle(
-                                      color: baseColors.mainColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: baseFontSize.text),
+                                    color: baseColors.mainColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: baseFontSize.text),
                                   margin: 20,
                                   reservedSize: 20,
                                   getTitles: (value) {
@@ -159,17 +159,13 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                   },
                                 ),
                               ),
-                              borderData: FlBorderData(
-                                show: false,
-                              ),
+                              borderData: FlBorderData(show: false,),
                               barGroups: barGroups,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      const SizedBox(height: 12,),
                     ],
                   ),
                 ),
@@ -213,9 +209,9 @@ class BarChartDualCardState extends State<BarChartDualCard> {
   List<BarChartGroupData> makeBarChart() {
     return List.generate(widget.data.length, (int i) {
       return makeGroupData(
-          i,
-          makeBarValue(widget.data[i]['revenue'].reduce((a, b) => a+b), maxValue),
-          makeBarValue(widget.data[i]['expenses'].reduce((a, b) => a+b), maxValue)
+        i,
+        makeBarValue(widget.data[i]['revenue'].reduce((a, b) => a+b), maxValue),
+        makeBarValue(widget.data[i]['expenses'].reduce((a, b) => a+b), maxValue)
       );
     });
   }

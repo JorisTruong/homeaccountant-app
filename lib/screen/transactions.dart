@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
@@ -101,6 +102,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
 
   @override
   void initState() {
+    super.initState();
     _controller = new AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -109,13 +111,15 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
+
     return new StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
-            StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
-            print(StoreProvider.of<AppState>(context).state);
+            _store.dispatch(NavigatePopAction());
+            print(_store.state);
             return new Future(() => true);
           },
           child: GestureDetector(
@@ -129,7 +133,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                 title: Text(
                   'Transactions',
                   style: TextStyle(
-                      fontSize: baseFontSize.title
+                    fontSize: baseFontSize.title
                   ),
                 ),
                 centerTitle: true,
@@ -198,7 +202,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
               floatingActionButton: FloatingActionButton(
                 heroTag: null,
                 onPressed: () {
-                  StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.transaction));
+                  _store.dispatch(NavigatePushAction(AppRoutes.transaction));
                 },
                 child: Icon(Icons.add),
               ),

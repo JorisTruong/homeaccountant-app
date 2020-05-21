@@ -56,9 +56,7 @@ class PieChartCardState extends State<PieChartCard> {
                 Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     Text(
                       switchData ? widget.title1 : widget.title2,
                       style: TextStyle(
@@ -73,9 +71,7 @@ class PieChartCardState extends State<PieChartCard> {
                 ),
                 Row(
                   children: <Widget>[
-                    const SizedBox(
-                      height: 18,
-                    ),
+                    const SizedBox(height: 18),
                     Expanded(
                       child: AspectRatio(
                         aspectRatio: 1,

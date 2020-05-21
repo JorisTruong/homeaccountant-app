@@ -19,6 +19,8 @@ class TransactionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
+
     return new StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
@@ -108,18 +110,18 @@ class TransactionItem extends StatelessWidget {
                                   transactionAmount.text = transactions[index]['amount'].toString();
                                   var transactionDescription = TextEditingController();
                                   transactionDescription.text = transactions[index]['description'];
-                                  StoreProvider.of<AppState>(context).dispatch(TransactionName(transactionName));
-                                  StoreProvider.of<AppState>(context).dispatch(TransactionAccount(transactions[index]['account_id']));
-                                  StoreProvider.of<AppState>(context).dispatch(TransactionDate(transactionDate));
-                                  StoreProvider.of<AppState>(context).dispatch(TransactionIsExpense(transactions[index]['is_expense'] == 1));
-                                  StoreProvider.of<AppState>(context).dispatch(SelectCategory(transactions[index]['category_id']));
-                                  StoreProvider.of<AppState>(context).dispatch(SelectSubcategory(subcategory));
-                                  StoreProvider.of<AppState>(context).dispatch(SubcategoryText(subcategoryText));
-                                  StoreProvider.of<AppState>(context).dispatch(SelectSubcategoryIcon(subcategoryIcon));
-                                  StoreProvider.of<AppState>(context).dispatch(TransactionAmount(transactionAmount));
-                                  StoreProvider.of<AppState>(context).dispatch(TransactionDescription(transactionDescription));
+                                  _store.dispatch(TransactionName(transactionName));
+                                  _store.dispatch(TransactionAccount(transactions[index]['account_id']));
+                                  _store.dispatch(TransactionDate(transactionDate));
+                                  _store.dispatch(TransactionIsExpense(transactions[index]['is_expense'] == 1));
+                                  _store.dispatch(SelectCategory(transactions[index]['category_id']));
+                                  _store.dispatch(SelectSubcategory(subcategory));
+                                  _store.dispatch(SubcategoryText(subcategoryText));
+                                  _store.dispatch(SelectSubcategoryIcon(subcategoryIcon));
+                                  _store.dispatch(TransactionAmount(transactionAmount));
+                                  _store.dispatch(TransactionDescription(transactionDescription));
 
-                                  StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.transaction));
+                                  _store.dispatch(NavigatePushAction(AppRoutes.transaction));
                                 }
                               )
                             );

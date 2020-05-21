@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 import 'dart:math';
 
 import 'const.dart';
+import 'package:homeaccountantapp/redux/models/models.dart';
+
+
+Store<AppState> getStore(BuildContext context) {
+  return StoreProvider.of<AppState>(context);
+}
 
 int switchFlag(int flag, int max) {
   if (flag == max-1) {

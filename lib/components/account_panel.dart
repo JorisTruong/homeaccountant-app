@@ -18,7 +18,7 @@ final accounts = [
 ];
 
 class AccountPanel extends StatefulWidget {
-  PanelController _pcAccount;
+  final PanelController _pcAccount;
 
   AccountPanel(this._pcAccount);
 
@@ -33,9 +33,10 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
     currentFocus = FocusScope.of(context);
     _currentAccountController.text = findAccountFromId(
-      StoreProvider.of<AppState>(context).state.accountId,
+      _store.state.accountId,
       accounts
     );
 
@@ -50,17 +51,15 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                 readOnly: true,
                 controller: _currentAccountController,
                 decoration: InputDecoration(
-                    isDense: true,
-                    alignLabelWithHint: true,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
-                    contentPadding: EdgeInsets.only(right: 20.0),
-                    labelText: 'Current Account',
-                    prefixIcon: Icon(Icons.account_box, color: baseColors.mainColor)
+                  isDense: true,
+                  alignLabelWithHint: true,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
+                  contentPadding: EdgeInsets.only(right: 20.0),
+                  labelText: 'Current Account',
+                  prefixIcon: Icon(Icons.account_box, color: baseColors.mainColor)
                 )
               ),
-              SizedBox(
-                height: 24
-              ),
+              SizedBox(height: 24),
               DropdownButtonHideUnderline(
                 child: ButtonTheme(
                   alignedDropdown: true,
@@ -117,34 +116,32 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                       widget._pcAccount.close();
                     },
                     child: Text(
-                        'CANCEL',
-                        style: TextStyle(
-                          fontSize: baseFontSize.text,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white
-                        )
+                      'CANCEL',
+                      style: TextStyle(
+                        fontSize: baseFontSize.text,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                      )
                     ),
                     color: baseColors.red,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
                     ),
                   ),
-                  SizedBox(
-                      width: 12.0
-                  ),
+                  SizedBox(width: 12.0),
                   RaisedButton(
                     onPressed: () {
-                      StoreProvider.of<AppState>(context).dispatch(ChangeAccount(newAccountId));
+                      _store.dispatch(ChangeAccount(newAccountId));
                       newAccountId = null;
                       widget._pcAccount.close();
                     },
                     child: Text(
-                        'VALIDATE',
-                        style: TextStyle(
-                          fontSize: baseFontSize.text,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white
-                        )
+                      'VALIDATE',
+                      style: TextStyle(
+                        fontSize: baseFontSize.text,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                      )
                     ),
                     color: baseColors.green,
                     shape: RoundedRectangleBorder(

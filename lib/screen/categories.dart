@@ -56,13 +56,15 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    Store<AppState> _store = getStore(context);
+
     return new StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return WillPopScope(
           onWillPop: () {
-            StoreProvider.of<AppState>(context).dispatch(NavigatePopAction());
-            print(StoreProvider.of<AppState>(context).state);
+            _store.dispatch(NavigatePopAction());
+            print(_store.state);
             return new Future(() => true);
           },
           child: Scaffold(
@@ -81,7 +83,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                     elevation: 0,
                     backgroundColor: baseColors.transparent,
                     onPressed: () {
-                      StoreProvider.of<AppState>(context).dispatch(NavigatePushAction(AppRoutes.category));
+                      _store.dispatch(NavigatePushAction(AppRoutes.category));
                     },
                     child: Icon(Icons.add)
                   )

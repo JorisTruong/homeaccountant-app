@@ -12,9 +12,9 @@ const List buttons = [
 ];
 
 class SpeedDialButton extends StatefulWidget {
-  AnimationController _controller;
-  PanelController _pcAccount;
-  PanelController _pcDate;
+  final AnimationController _controller;
+  final PanelController _pcAccount;
+  final PanelController _pcDate;
 
   SpeedDialButton(this._controller, this._pcAccount, this._pcDate);
 
@@ -40,68 +40,68 @@ class _SpeedDialButtonState extends State<SpeedDialButton> with TickerProviderSt
                   width: 200.0,
                   alignment: FractionalOffset.bottomCenter,
                   child: new ScaleTransition(
-                      alignment: Alignment.centerRight,
-                      scale: new CurvedAnimation(
-                        parent: widget._controller,
-                        curve: new Interval(
-                          0.0,
-                          1.0 - index / buttons.length / 2.0,
-                          curve: Curves.bounceOut
-                        ),
+                    alignment: Alignment.centerRight,
+                    scale: new CurvedAnimation(
+                      parent: widget._controller,
+                      curve: new Interval(
+                        0.0,
+                        1.0 - index / buttons.length / 2.0,
+                        curve: Curves.bounceOut
                       ),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-                            margin: EdgeInsets.only(right: 15.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.7),
-                                  offset: Offset(0.8, 0.8),
-                                  blurRadius: 2.4,
-                                )
-                              ],
-                            ),
-                            child: Text(buttons[index]['name']),
+                    ),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+                          margin: EdgeInsets.only(right: 15.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.7),
+                                offset: Offset(0.8, 0.8),
+                                blurRadius: 2.4,
+                              )
+                            ],
                           ),
-                          FloatingActionButton(
-                            heroTag: null,
-                            mini: true,
-                            child: new Icon(buttons[index]['icon']),
-                            onPressed: () {
-                              if (buttons[index]['name'] == 'Account') {
-                                if (widget._pcAccount.isAttached) {
-                                  if (widget._pcAccount.isPanelOpen) {
-                                    widget._pcAccount.close();
-                                  } else {
-                                    widget._pcAccount.open();
-                                  }
+                          child: Text(buttons[index]['name']),
+                        ),
+                        FloatingActionButton(
+                          heroTag: null,
+                          mini: true,
+                          child: new Icon(buttons[index]['icon']),
+                          onPressed: () {
+                            if (buttons[index]['name'] == 'Account') {
+                              if (widget._pcAccount.isAttached) {
+                                if (widget._pcAccount.isPanelOpen) {
+                                  widget._pcAccount.close();
                                 } else {
-                                  print(widget._pcAccount.isAttached);
+                                  widget._pcAccount.open();
                                 }
+                              } else {
+                                print(widget._pcAccount.isAttached);
                               }
-                              if (buttons[index]['name'] == 'Date range') {
-                                if (widget._pcDate.isAttached) {
-                                  if (widget._pcDate.isPanelOpen) {
-                                    widget._pcDate.close();
-                                  } else {
-                                    widget._pcDate.open();
-                                  }
+                            }
+                            if (buttons[index]['name'] == 'Date range') {
+                              if (widget._pcDate.isAttached) {
+                                if (widget._pcDate.isPanelOpen) {
+                                  widget._pcDate.close();
                                 } else {
-                                  print(widget._pcDate.isAttached);
+                                  widget._pcDate.open();
                                 }
+                              } else {
+                                print(widget._pcDate.isAttached);
                               }
-                              if (!widget._controller.isDismissed) {
-                                widget._controller.reverse();
-                              }
-                            },
-                          )
-                        ],
-                      )
+                            }
+                            if (!widget._controller.isDismissed) {
+                              widget._controller.reverse();
+                            }
+                          },
+                        )
+                      ],
+                    )
                   ),
                 );
                 return child;
