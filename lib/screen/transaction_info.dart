@@ -370,7 +370,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
-                                                  'CANCEL',
+                                                  _store.state.isCreating ? 'CANCEL' : 'DELETE',
                                                   style: TextStyle(
                                                     fontSize: baseFontSize.text,
                                                     fontWeight: FontWeight.bold,

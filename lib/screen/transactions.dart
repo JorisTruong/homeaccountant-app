@@ -154,6 +154,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                 child: FloatingActionButton(
                   heroTag: null,
                   onPressed: () {
+                    _store.dispatch(IsCreating(true));
                     _store.dispatch(NavigatePushAction(AppRoutes.transaction));
                   },
                   child: Icon(Icons.add),

@@ -41,7 +41,8 @@ void main() {
       selectedDate: DateTime.now(),
       dateRange: dateToDateRange(null, null),
       route: [AppRoutes.home],
-      visibility: true,
+      visibility: true, /// Visibility of the floating button for sliding up panel
+      isCreating: false /// If we are creating a transaction or not
     ),
     middleware: createNavigationMiddleware()
   );

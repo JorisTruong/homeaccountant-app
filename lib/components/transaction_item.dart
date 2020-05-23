@@ -98,6 +98,7 @@ class TransactionItem extends StatelessWidget {
                                 /// Navigates to the update page on tap
                                 onTap: () {
                                   print('Tapped tile ' + transactions[index]['id'].toString());
+                                  _store.dispatch(IsCreating(false));
                                   TextEditingController transactionName = TextEditingController();
                                   transactionName.text = transactions[index]['transaction_name'];
                                   TextEditingController transactionDate = TextEditingController();

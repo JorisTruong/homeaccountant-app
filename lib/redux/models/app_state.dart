@@ -19,6 +19,7 @@ class AppState {
   final Map<String, String> dateRange;
   final List<String> route;
   final bool visibility;
+  final bool isCreating;
 
   AppState({
     @required this.accountId,
@@ -36,7 +37,8 @@ class AppState {
     this.selectedDate,
     @required this.dateRange,
     @required this.route,
-    this.visibility
+    this.visibility,
+    this.isCreating,
   });
 
   @override

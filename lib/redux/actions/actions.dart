@@ -105,3 +105,9 @@ class ChangeVisibility {
 
   ChangeVisibility(this.visibility);
 }
+
+class IsCreating {
+  final bool isCreating;
+
+  IsCreating(this.isCreating);
+}
