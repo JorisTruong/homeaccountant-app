@@ -54,22 +54,35 @@ class SelectCategory {
   SelectCategory(this.categoryIndex);
 }
 
+/// TODO: Review if it is useful
 class SelectSubcategory {
   final Map<String, dynamic> subcategory;
 
   SelectSubcategory(this.subcategory);
 }
 
-class SubcategoryText {
+class TransactionSubcategoryText {
   final TextEditingController subcategory;
 
-  SubcategoryText(this.subcategory);
+  TransactionSubcategoryText(this.subcategory);
 }
 
-class SelectSubcategoryIcon {
+class TransactionSelectSubcategoryIcon {
   final Icon subcategoryIcon;
 
-  SelectSubcategoryIcon(this.subcategoryIcon);
+  TransactionSelectSubcategoryIcon(this.subcategoryIcon);
+}
+
+class CategorySubcategoryText {
+  final TextEditingController subcategory;
+
+  CategorySubcategoryText(this.subcategory);
+}
+
+class CategorySelectSubcategoryIcon {
+  final Icon subcategoryIcon;
+
+  CategorySelectSubcategoryIcon(this.subcategoryIcon);
 }
 
 class TransactionAmount {

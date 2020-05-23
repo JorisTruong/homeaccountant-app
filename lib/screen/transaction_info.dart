@@ -31,8 +31,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
   FocusScopeNode currentFocus;
 
   void resetSubcategory(Store<AppState> _store) {
-    _store.dispatch(SelectSubcategoryIcon(null));
-    _store.dispatch(SubcategoryText(TextEditingController()));
+    _store.dispatch(TransactionSelectSubcategoryIcon(null));
+    _store.dispatch(TransactionSubcategoryText(TextEditingController()));
     _store.dispatch(SelectSubcategory(null));
   }
 
@@ -308,19 +308,19 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                           /// Select the subcategory
                                           TextField(
                                             readOnly: true,
-                                            controller: _store.state.subcategoryText,
+                                            controller: _store.state.transactionSubcategoryText,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
                                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
                                               contentPadding: EdgeInsets.only(right: 20.0),
                                               labelText: 'Subcategory',
-                                              prefixIcon: _store.state.subcategoryIcon == null ?
+                                              prefixIcon: _store.state.transactionSubcategoryIcon == null ?
                                                 Icon(
                                                   Icons.turned_in,
                                                   color: baseColors.mainColor
                                                 ) :
-                                                _store.state.subcategoryIcon,
+                                                _store.state.transactionSubcategoryIcon,
                                             ),
                                             onTap: () {
                                               if (!currentFocus.hasPrimaryFocus) {
@@ -390,7 +390,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                   print(_store.state.transactionDate.text);
                                                   print(_store.state.transactionIsExpense);
                                                   print(_store.state.categoryIndex);
-                                                  print(_store.state.subcategoryText.text);
+                                                  print(_store.state.transactionSubcategoryText.text);
                                                   print(_store.state.transactionAmount.text);
                                                   print(_store.state.transactionDescription.text);
                                                   leaveScreen(_store);

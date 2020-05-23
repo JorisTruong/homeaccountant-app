@@ -29,11 +29,14 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
   FocusScopeNode currentFocus;
 
   void resetState(Store<AppState> _store) {
+    /// When selecting a subcategory from a new transaction, we should not
+    /// reset the category as we need it in the previous screen, which is
+    /// the subcategory screen (category card with list of subcategories).
     if (!_store.state.isSelectingSubcategory) {
       _store.dispatch(SelectCategory(null));
     }
-    _store.dispatch(SelectSubcategoryIcon(null));
-    _store.dispatch(SubcategoryText(TextEditingController()));
+    _store.dispatch(CategorySelectSubcategoryIcon(null));
+    _store.dispatch(CategorySubcategoryText(TextEditingController()));
     _store.dispatch(IsSelectingSubcategory(false));
   }
 
@@ -43,7 +46,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
       size: MediaQuery.of(context).size.width * 0.3,
       color: color
     );
-    _store.dispatch(SelectSubcategoryIcon(icon));
+    _store.dispatch(CategorySelectSubcategoryIcon(icon));
   }
 
   _pickIcon(Store<AppState> _store) async {
@@ -170,11 +173,11 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                         },
                                                         onChanged: (int newValue) {
                                                           _store.dispatch(SelectCategory(newValue));
-                                                          if (_store.state.subcategoryIcon != null) {
+                                                          if (_store.state.categorySubcategoryIcon != null) {
                                                             Color color = getCategoryColor(_store.state.categoryIndex) == null ?
                                                                 baseColors.mainColor :
                                                                 getCategoryColor(_store.state.categoryIndex);
-                                                            changeIcon(_store.state.subcategoryIcon.icon, color, _store);
+                                                            changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
                                                           }
                                                         },
                                                         items: List.generate(categories.length, (int index) {
@@ -194,7 +197,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                           SizedBox(height: 12.0),
                                           /// Name of the subcategory
                                           TextField(
-                                            controller: _store.state.subcategoryText,
+                                            controller: _store.state.categorySubcategoryText,
                                             decoration: InputDecoration(
                                               isDense: true,
                                               alignLabelWithHint: true,
@@ -205,10 +208,10 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             ),
                                           ),
                                           SizedBox(height: 12.0),
-                                          _store.state.subcategoryIcon == null ? SizedBox(height: 12.0) : Column(
+                                          _store.state.categorySubcategoryIcon == null ? SizedBox(height: 12.0) : Column(
                                             children: [
                                               SizedBox(height: 12.0),
-                                              _store.state.subcategoryIcon
+                                              _store.state.categorySubcategoryIcon
                                             ]
                                           ),
                                           SizedBox(height: 12.0),
@@ -254,8 +257,8 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               RaisedButton(
                                                 onPressed: () {
                                                   print(_store.state.categoryIndex);
-                                                  print(_store.state.subcategoryText.text);
-                                                  print(_store.state.subcategoryIcon);
+                                                  print(_store.state.categorySubcategoryText.text);
+                                                  print(_store.state.categorySubcategoryIcon);
                                                   _store.dispatch(NavigatePopAction());
                                                   resetState(_store);
                                                   Navigator.of(context).pop();

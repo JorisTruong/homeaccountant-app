@@ -10,8 +10,10 @@ class AppState {
   final bool transactionIsExpense;
   final int categoryIndex;
   final Map<String, dynamic> subcategory;
-  final TextEditingController subcategoryText;
-  final Icon subcategoryIcon;
+  final TextEditingController categorySubcategoryText;
+  final Icon categorySubcategoryIcon;
+  final TextEditingController transactionSubcategoryText;
+  final Icon transactionSubcategoryIcon;
   final TextEditingController transactionAmount;
   final TextEditingController transactionDescription;
   final String dateRangeType;
@@ -30,8 +32,10 @@ class AppState {
     this.transactionIsExpense,
     this.categoryIndex,
     this.subcategory,
-    this.subcategoryText,
-    this.subcategoryIcon,
+    this.categorySubcategoryText,
+    this.categorySubcategoryIcon,
+    this.transactionSubcategoryText,
+    this.transactionSubcategoryIcon,
     this.transactionAmount,
     this.transactionDescription,
     this.dateRangeType,

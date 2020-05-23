@@ -84,8 +84,8 @@ class CategoryCard extends StatelessWidget {
                                       _store.dispatch(SelectSubcategory(subcategories[index]));
                                       TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
-                                      _store.dispatch(SubcategoryText(subcategoryText));
-                                      _store.dispatch(SelectSubcategoryIcon(
+                                      _store.dispatch(TransactionSubcategoryText(subcategoryText));
+                                      _store.dispatch(TransactionSelectSubcategoryIcon(
                                         Icon(
                                           icons_list[subcategories[index]['icon_id']],
                                           color: color
@@ -99,8 +99,8 @@ class CategoryCard extends StatelessWidget {
                                       _store.dispatch(SelectCategory(categoryIndex));
                                       TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
-                                      _store.dispatch(SubcategoryText(subcategoryText));
-                                      _store.dispatch(SelectSubcategoryIcon(
+                                      _store.dispatch(CategorySubcategoryText(subcategoryText));
+                                      _store.dispatch(CategorySelectSubcategoryIcon(
                                         Icon(
                                           icons_list[subcategories[index]['icon_id']],
                                           color: color,
