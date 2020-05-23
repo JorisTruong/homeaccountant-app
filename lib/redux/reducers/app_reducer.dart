@@ -24,6 +24,7 @@ AppState appReducer(AppState state, action) {
     dateRange: dateReducer(state.dateRange, action),
     route: navigationReducer(state.route, action),
     visibility: visibilityReducer(state.visibility, action),
-    isCreating: isCreatingReducer(state.isCreating, action)
+    isCreating: isCreatingReducer(state.isCreating, action),
+    isSelectingSubcategory: isSelectingSubcategoryReducer(state.isSelectingSubcategory, action)
   );
 }

@@ -111,3 +111,9 @@ class IsCreating {
 
   IsCreating(this.isCreating);
 }
+
+class IsSelectingSubcategory {
+  final bool isSelectingSubcategory;
+
+  IsSelectingSubcategory(this.isSelectingSubcategory);
+}

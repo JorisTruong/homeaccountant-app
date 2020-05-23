@@ -29,9 +29,12 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
   FocusScopeNode currentFocus;
 
   void resetState(Store<AppState> _store) {
-    _store.dispatch(SelectCategory(null));
+    if (!_store.state.isSelectingSubcategory) {
+      _store.dispatch(SelectCategory(null));
+    }
     _store.dispatch(SelectSubcategoryIcon(null));
     _store.dispatch(SubcategoryText(TextEditingController()));
+    _store.dispatch(IsSelectingSubcategory(false));
   }
 
   changeIcon(_iconData, color, _store) {
@@ -224,9 +227,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               borderRadius: BorderRadius.circular(40.0),
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 24.0,
-                                          ),
+                                          SizedBox(height: 24.0),
                                           /// Validate and cancel the operation
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
@@ -238,7 +239,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
-                                                  'CANCEL',
+                                                  _store.state.isCreating ? 'CANCEL' : 'DELETE',
                                                   style: TextStyle(
                                                     fontSize: baseFontSize.text,
                                                     color: Colors.white
@@ -249,9 +250,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                   borderRadius: BorderRadius.circular(40.0),
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 12.0
-                                              ),
+                                              SizedBox(width: 12.0),
                                               RaisedButton(
                                                 onPressed: () {
                                                   print(_store.state.categoryIndex);

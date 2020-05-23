@@ -20,6 +20,7 @@ class AppState {
   final List<String> route;
   final bool visibility;
   final bool isCreating;
+  final bool isSelectingSubcategory;
 
   AppState({
     @required this.accountId,
@@ -39,6 +40,7 @@ class AppState {
     @required this.route,
     this.visibility,
     this.isCreating,
+    this.isSelectingSubcategory,
   });
 
   @override

@@ -62,6 +62,8 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                     elevation: 0,
                     backgroundColor: baseColors.transparent,
                     onPressed: () {
+                      _store.dispatch(IsCreating(true));
+                      _store.dispatch(IsSelectingSubcategory(true));
                       _store.dispatch(NavigatePushAction(AppRoutes.category));
                     },
                     child: Icon(Icons.add)

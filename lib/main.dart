@@ -42,7 +42,8 @@ void main() {
       dateRange: dateToDateRange(null, null),
       route: [AppRoutes.home],
       visibility: true, /// Visibility of the floating button for sliding up panel
-      isCreating: false /// If we are creating a transaction or not
+      isCreating: false, /// If we are creating a transaction or not
+      isSelectingSubcategory: false, /// If we are currently selecting a subcategory from the transactions page
     ),
     middleware: createNavigationMiddleware()
   );
