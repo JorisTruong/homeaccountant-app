@@ -100,51 +100,64 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
               ),
               /// This is the drawer accessible from a left-to-right swipe or the top left icon.
               drawer: NavigationDrawer(),
-              body: SingleChildScrollView(
-                child: Stack(
-                  children: [
-                    /// Display all the transactions
-                    Column(
-                      children: List.generate(transactions.length, (int index) {
-                        String month = transactions.keys.elementAt(index);
-                        return TransactionCard(month, transactions[month]);
-                      })
-                    )
-                  ]..addAll(
-                    [
-                      SpeedDialButton(_controller, _pcAccount, _pcDate),
-                      SlidingUpPanel(
-                        controller: _pcAccount,
-                        panel: AccountPanel(_pcAccount),
-                        backdropEnabled: true,
-                        minHeight: 0.0,
-                        maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24.0),
-                          topRight: Radius.circular(24.0)
-                        ),
+              body: Stack(
+                children: [
+                  SingleChildScrollView(
+                  /// Display all the transactions
+                    child:
+                      Column(
+                        children: List.generate(transactions.length, (int index) {
+                          String month = transactions.keys.elementAt(index);
+                          return TransactionCard(month, transactions[month]);
+                        })
                       ),
-                      SlidingUpPanel(
-                        controller: _pcDate,
-                        panel: DateRangePanel(_pcDate),
-                        backdropEnabled: true,
-                        minHeight: 0.0,
-                        maxHeight: 0.8 * MediaQuery.of(context).size.height,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24.0),
-                          topRight: Radius.circular(24.0)
-                        ),
-                      )
-                    ]
+                    ),
+                  SpeedDialButton(_controller, _pcAccount, _pcDate),
+                  SlidingUpPanel(
+                    controller: _pcAccount,
+                    panel: AccountPanel(_pcAccount),
+                    backdropEnabled: true,
+                    minHeight: 0.0,
+                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)
+                    ),
+                    onPanelSlide: (value) {
+                      if (value == 2.086162576020456e-9) _store.dispatch(ChangeVisibility(false));
+                    },
+                    onPanelClosed: () {
+                      _store.dispatch(ChangeVisibility(true));
+                    },
+                  ),
+                  SlidingUpPanel(
+                    controller: _pcDate,
+                    panel: DateRangePanel(_pcDate),
+                    backdropEnabled: true,
+                    minHeight: 0.0,
+                    maxHeight: 0.8 * MediaQuery.of(context).size.height,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)
+                    ),
+                    onPanelSlide: (value) {
+                      if (value == 2.086162576020456e-9) _store.dispatch(ChangeVisibility(false));
+                    },
+                    onPanelClosed: () {
+                      _store.dispatch(ChangeVisibility(true));
+                    },
                   )
-                )
+                ]
               ),
-              floatingActionButton: FloatingActionButton(
-                heroTag: null,
-                onPressed: () {
-                  _store.dispatch(NavigatePushAction(AppRoutes.transaction));
-                },
-                child: Icon(Icons.add),
+              floatingActionButton: Visibility(
+                visible: _store.state.visibility,
+                child: FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () {
+                    _store.dispatch(NavigatePushAction(AppRoutes.transaction));
+                  },
+                  child: Icon(Icons.add),
+                ),
               ),
             )
           )

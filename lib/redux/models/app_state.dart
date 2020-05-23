@@ -18,6 +18,7 @@ class AppState {
   final DateTime selectedDate;
   final Map<String, String> dateRange;
   final List<String> route;
+  final bool visibility;
 
   AppState({
     @required this.accountId,
@@ -34,7 +35,8 @@ class AppState {
     this.dateRangeType,
     this.selectedDate,
     @required this.dateRange,
-    @required this.route
+    @required this.route,
+    this.visibility
   });
 
   @override

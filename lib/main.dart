@@ -40,7 +40,8 @@ void main() {
       dateRangeType: 'Year',
       selectedDate: DateTime.now(),
       dateRange: dateToDateRange(null, null),
-      route: [AppRoutes.home]
+      route: [AppRoutes.home],
+      visibility: true,
     ),
     middleware: createNavigationMiddleware()
   );

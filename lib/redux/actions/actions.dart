@@ -99,3 +99,9 @@ class NavigatePushAction {
 class NavigatePopAction {
 
 }
+
+class ChangeVisibility {
+  final bool visibility;
+
+  ChangeVisibility(this.visibility);
+}

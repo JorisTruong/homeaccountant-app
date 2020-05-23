@@ -4,6 +4,7 @@ import 'package:homeaccountantapp/redux/reducers/category_reducer.dart';
 import 'package:homeaccountantapp/redux/reducers/date_reducer.dart';
 import 'package:homeaccountantapp/redux/reducers/navigation_reducer.dart';
 import 'package:homeaccountantapp/redux/reducers/transaction_reducer.dart';
+import 'package:homeaccountantapp/redux/reducers/visibility_reducer.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
@@ -21,6 +22,7 @@ AppState appReducer(AppState state, action) {
     dateRangeType: dateRangeReducer(state.dateRangeType, action),
     selectedDate: selectedDateReducer(state.selectedDate, action),
     dateRange: dateReducer(state.dateRange, action),
-    route: navigationReducer(state.route, action)
+    route: navigationReducer(state.route, action),
+    visibility: visibilityReducer(state.visibility, action)
   );
 }
