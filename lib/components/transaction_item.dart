@@ -129,7 +129,6 @@ class TransactionItem extends StatelessWidget {
                                   _store.dispatch(TransactionDate(transactionDate));
                                   _store.dispatch(TransactionIsExpense(transactions[index]['is_expense'] == 1));
                                   _store.dispatch(SelectCategory(transactions[index]['category_id']));
-                                  _store.dispatch(SelectSubcategory(subcategory));
                                   _store.dispatch(TransactionSubcategoryText(subcategoryText));
                                   _store.dispatch(TransactionSelectSubcategoryIcon(subcategoryIcon));
                                   _store.dispatch(TransactionAmount(transactionAmount));

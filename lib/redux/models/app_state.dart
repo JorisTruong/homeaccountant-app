@@ -9,7 +9,6 @@ class AppState {
   final TextEditingController transactionDate;
   final bool transactionIsExpense;
   final int categoryIndex;
-  final Map<String, dynamic> subcategory;
   final TextEditingController categorySubcategoryText;
   final Icon categorySubcategoryIcon;
   final TextEditingController transactionSubcategoryText;
@@ -31,7 +30,6 @@ class AppState {
     this.transactionDate,
     this.transactionIsExpense,
     this.categoryIndex,
-    this.subcategory,
     this.categorySubcategoryText,
     this.categorySubcategoryIcon,
     this.transactionSubcategoryText,
@@ -49,6 +47,6 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState: {accountId: $accountId, categoryIndex: $categoryIndex, subcategory: $subcategory, dateRange: $dateRange, route: $route}';
+    return 'AppState: {accountId: $accountId, categoryIndex: $categoryIndex, dateRange: $dateRange, route: $route}';
   }
 }

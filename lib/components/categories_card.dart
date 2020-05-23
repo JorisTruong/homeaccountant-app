@@ -32,9 +32,9 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
 
-    return StoreConnector<AppState, Map<String, dynamic>>(
-      converter: (Store<AppState> store) => store.state.subcategory,
-      builder: (BuildContext context, Map<String, dynamic> subcategory) {
+    return StoreConnector<AppState, List<String>>(
+      converter: (Store<AppState> store) => store.state.route,
+      builder: (BuildContext context, List<String> route) {
         return Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -81,7 +81,6 @@ class CategoryCard extends StatelessWidget {
                                   onTap: () {
                                     /// Updating the form
                                     if (select) {
-                                      _store.dispatch(SelectSubcategory(subcategories[index]));
                                       TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index]['name'];
                                       _store.dispatch(TransactionSubcategoryText(subcategoryText));

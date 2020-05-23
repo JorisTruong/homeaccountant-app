@@ -33,7 +33,6 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
   void resetSubcategory(Store<AppState> _store) {
     _store.dispatch(TransactionSelectSubcategoryIcon(null));
     _store.dispatch(TransactionSubcategoryText(TextEditingController()));
-    _store.dispatch(SelectSubcategory(null));
   }
 
   void leaveScreen(Store<AppState> _store) {

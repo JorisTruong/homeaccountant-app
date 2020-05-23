@@ -54,13 +54,6 @@ class SelectCategory {
   SelectCategory(this.categoryIndex);
 }
 
-/// TODO: Review if it is useful
-class SelectSubcategory {
-  final Map<String, dynamic> subcategory;
-
-  SelectSubcategory(this.subcategory);
-}
-
 class TransactionSubcategoryText {
   final TextEditingController subcategory;
 
