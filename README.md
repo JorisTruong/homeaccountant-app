@@ -20,6 +20,7 @@ Home Accountant is build using [Flutter](https://flutter.dev/) and [Redux](https
 We are listing here all the improvements that are currently planned to be made for the application.
 
 ### High priority:
+* Create, Update and Delete an account
 * Form validation for transaction and category
 * Local back-end development
 * Self-hosting option
