@@ -8,14 +8,12 @@ import 'package:homeaccountantapp/database/models/models.dart';
 ///
 
 // CREATE
-Future<void> createAccount(Future<Database> database, Account account) async {
-  final Database db = await database;
+Future<void> createAccount(Database db, Account account) async {
   await db.insert('accounts', account.toMap(), conflictAlgorithm: ConflictAlgorithm.ignore);
 }
 
 // READ ALL
-Future<List<Account>> readAccounts(Future<Database> database) async {
-  final Database db = await database;
+Future<List<Account>> readAccounts(Database db) async {
   final List<Map<String, dynamic>> accounts = await db.query('accounts');
   return List.generate(accounts.length, (i) {
     return Account(
@@ -27,8 +25,7 @@ Future<List<Account>> readAccounts(Future<Database> database) async {
 }
 
 // READ ONE
-Future<Account> accountFromId(Future<Database> database, int accountId) async {
-  final Database db = await database;
+Future<Account> accountFromId(Database db, int accountId) async {
   final Map<String, dynamic> account = (await db.rawQuery('SELECT * FROM accounts WHERE account_id=?', [accountId]))[0];
   return Account(
     accountId: account['account_id'],
@@ -38,8 +35,7 @@ Future<Account> accountFromId(Future<Database> database, int accountId) async {
 }
 
 // UPDATE
-Future<void> updateAccount(Future<Database> database, Account updatedAccount) async {
-  final Database db = await database;
+Future<void> updateAccount(Database db, Account updatedAccount) async {
   await db.update(
     'accounts',
     updatedAccount.toMap(),
@@ -49,8 +45,7 @@ Future<void> updateAccount(Future<Database> database, Account updatedAccount) as
 }
 
 // DELETE
-Future<void> deleteAccount(Future<Database> database, int accountId) async {
-  final Database db = await database;
+Future<void> deleteAccount(Database db, int accountId) async {
   await db.delete(
     'accounts',
     where: 'account_id = ?',

@@ -18,13 +18,11 @@ import 'screen/charts.dart';
 import 'screen/about.dart';
 import 'navigation/app_routes.dart';
 import 'navigation/route_aware_widget.dart';
-import 'package:homeaccountantapp/database/models/models.dart';
-import 'package:homeaccountantapp/database/queries/queries.dart';
+import 'package:homeaccountantapp/database/database.dart';
 import 'redux/models/models.dart';
 import 'redux/reducers/app_reducer.dart';
 import 'redux/middleware/navigation_middleware.dart';
 import 'const.dart';
-import 'data.dart';
 
 ///
 /// This is the entry point of the application.
@@ -37,27 +35,8 @@ void initializeDatabase() async {
   // TO REMOVE:
   await deleteDatabase(join(await getDatabasesPath(), 'home_accountant.db'));
 
-  final database = openDatabase(
-    join(await getDatabasesPath(), 'home_accountant.db'),
-    onCreate: (db, version) {
-      return db.execute(
-        'CREATE TABLE accounts(account_id INTEGER PRIMARY KEY, account_name TEXT, account_acronym TEXT)'
-      );
-    },
-    version: 1
-  );
-
-  // Initialize 'Account'
-  Account basicAccount = Account(
-    accountId: 0,
-    accountName: 'Account 1',
-    accountAcronym: 'ACC1'
-  );
-  await createAccount(database, basicAccount);
-
-  accounts = (await readAccounts(database)).map((account) {
-    return account.toMap();
-  }).toList();
+  DatabaseClient db = DatabaseClient();
+  await db.create();
 }
 
 void main() {
