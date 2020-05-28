@@ -179,8 +179,8 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         },
                                                         items: accounts.map((key) {
                                                           return DropdownMenuItem<int>(
-                                                            value: key['id'],
-                                                            child: Text(key['name']),
+                                                            value: key['account_id'],
+                                                            child: Text(key['account_name']),
                                                           );
                                                         }).toList(),
                                                       ),

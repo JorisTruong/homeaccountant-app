@@ -205,10 +205,5 @@ List<double> balanceWeek = [
 /// ACCOUNTS
 
 // Get all accounts
-final accounts = [
-  {'id': 0, 'name': 'Account 1'},
-  {'id': 1, 'name': 'Account 2'},
-  {'id': 2, 'name': 'Account 3'},
-  {'id': 3, 'name': 'Account 4'},
-  {'id': 4, 'name': 'Account 5'}
-];
+// TODO: Review if necessary
+List<Map<String, dynamic>> accounts = [];

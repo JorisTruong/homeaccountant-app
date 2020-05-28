@@ -84,8 +84,8 @@ Map<String, dynamic> findSubcategoryFromId(int subcategoryId, Map<String, List<d
 /// Find the account name from the given account id.
 String findAccountFromId(int accountId, List<Map<String, dynamic>> accounts) {
   for(final account in accounts) {
-    if (account['id'] == accountId) {
-      return account['name'];
+    if (account['account_id'] == accountId) {
+      return account['account_name'];
     }
   }
 }

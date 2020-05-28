@@ -4,6 +4,9 @@ import 'package:homeaccountantapp/utils.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 import 'screen/homepage.dart';
 import 'screen/transactions.dart';
@@ -15,10 +18,13 @@ import 'screen/charts.dart';
 import 'screen/about.dart';
 import 'navigation/app_routes.dart';
 import 'navigation/route_aware_widget.dart';
+import 'package:homeaccountantapp/database/models/models.dart';
+import 'package:homeaccountantapp/database/queries/queries.dart';
 import 'redux/models/models.dart';
 import 'redux/reducers/app_reducer.dart';
 import 'redux/middleware/navigation_middleware.dart';
 import 'const.dart';
+import 'data.dart';
 
 ///
 /// This is the entry point of the application.
@@ -27,7 +33,38 @@ import 'const.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+void initializeDatabase() async {
+  // TO REMOVE:
+  await deleteDatabase(join(await getDatabasesPath(), 'home_accountant.db'));
+
+  final database = openDatabase(
+    join(await getDatabasesPath(), 'home_accountant.db'),
+    onCreate: (db, version) {
+      return db.execute(
+        'CREATE TABLE accounts(account_id INTEGER PRIMARY KEY, account_name TEXT, account_acronym TEXT)'
+      );
+    },
+    version: 1
+  );
+
+  // Initialize 'Account'
+  Account basicAccount = Account(
+    accountId: 0,
+    accountName: 'Account 1',
+    accountAcronym: 'ACC1'
+  );
+  await createAccount(database, basicAccount);
+
+  accounts = (await readAccounts(database)).map((account) {
+    return account.toMap();
+  }).toList();
+}
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  initializeDatabase();
+
   final store = Store<AppState>(
     appReducer,
     initialState: AppState(
