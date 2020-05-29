@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:sqflite/sqflite.dart';
 
 @immutable
 class AppState {
+  final Database db;
   final int accountId;
   final TextEditingController transactionName;
   final int transactionAccountId;
@@ -24,6 +26,7 @@ class AppState {
   final bool isSelectingSubcategory;
 
   AppState({
+    this.db,
     @required this.accountId,
     this.transactionName,
     this.transactionAccountId,

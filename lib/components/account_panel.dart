@@ -6,6 +6,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/database/models/accounts.dart';
+import 'package:homeaccountantapp/database/queries/accounts.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -34,10 +36,6 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
     currentFocus = FocusScope.of(context);
-    _currentAccountController.text = findAccountFromId(
-      _store.state.accountId,
-      accounts
-    );
 
     return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
@@ -47,17 +45,25 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
           child: Column(
             children: [
               /// Display the current account in a read-only text field
-              TextField(
-                readOnly: true,
-                controller: _currentAccountController,
-                decoration: InputDecoration(
-                  isDense: true,
-                  alignLabelWithHint: true,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
-                  contentPadding: EdgeInsets.only(right: 20.0),
-                  labelText: 'Current Account',
-                  prefixIcon: Icon(Icons.account_box, color: baseColors.mainColor)
-                )
+              FutureBuilder(
+                future: accountFromId(_store.state.db, _store.state.accountId),
+                builder: (BuildContext context, AsyncSnapshot<Account> snapshot) {
+                  if (snapshot.hasData) {
+                    _currentAccountController.text = snapshot.data.accountName;
+                  }
+                  return TextField(
+                    readOnly: true,
+                    controller: _currentAccountController,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      alignLabelWithHint: true,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
+                      contentPadding: EdgeInsets.only(right: 20.0),
+                      labelText: 'Current Account',
+                      prefixIcon: Icon(Icons.account_box, color: baseColors.mainColor)
+                    )
+                  );
+                }
               ),
               SizedBox(height: 24),
               /// Dropdown to select the account
