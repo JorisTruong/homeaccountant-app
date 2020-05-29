@@ -23,6 +23,9 @@ final String transactionNumber = '42';
 
 final random = Random();
 
+// TODO: Renaming ?
+List<Map<String, dynamic>> categories_ = [];
+
 // Get all subcategories
 // TODO: Check JSON format and probably change
 Map<String, List<dynamic>> categories = {
@@ -75,7 +78,7 @@ final transactions = {
     {
       'id': 1,
       'transaction_name': 'Shoes',
-      'account_id': 1,
+      'account_id': 0,
       'date': '2020-03-31',
       'is_expense': 1,
       'amount': 80,
@@ -98,7 +101,7 @@ final transactions = {
     {
       'id': 3,
       'transaction_name': 'Pho',
-      'account_id': 1,
+      'account_id': 0,
       'date': '2020-04-01',
       'is_expense': 1,
       'amount': 10,
@@ -109,7 +112,7 @@ final transactions = {
     {
       'id': 4,
       'transaction_name': 'KBBQ',
-      'account_id': 1,
+      'account_id': 0,
       'date': '2020-04-01',
       'is_expense': 1,
       'amount': 30,
@@ -120,7 +123,7 @@ final transactions = {
     {
       'id': 5,
       'transaction_name': 'Sandwich',
-      'account_id': 1,
+      'account_id': 0,
       'date': '2020-04-01',
       'is_expense': 1,
       'amount': 5,

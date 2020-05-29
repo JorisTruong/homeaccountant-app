@@ -289,10 +289,10 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                             _store.dispatch(SelectCategory(newValue));
                                                           });
                                                         },
-                                                        items: List.generate(categories.length, (int index) {
+                                                        items: List.generate(categories_.length, (int index) {
                                                           return DropdownMenuItem<int>(
-                                                            value: index,
-                                                            child: Text(categories.keys.toList()[index])
+                                                            value: categories_[index]['category_id'],
+                                                            child: Text(categories_[index]['category_name'])
                                                           );
                                                         })
                                                       ),

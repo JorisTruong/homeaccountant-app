@@ -17,9 +17,9 @@ Future<List<Account>> readAccounts(Database db) async {
   final List<Map<String, dynamic>> accounts = await db.query('accounts');
   return List.generate(accounts.length, (i) {
     return Account(
-        accountId: accounts[i]['account_id'],
-        accountName: accounts[i]['account_name'],
-        accountAcronym: accounts[i]['account_acronym']
+      accountId: accounts[i]['account_id'],
+      accountName: accounts[i]['account_name'],
+      accountAcronym: accounts[i]['account_acronym']
     );
   });
 }
