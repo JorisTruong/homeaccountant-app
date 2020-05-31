@@ -31,24 +31,21 @@ import 'const.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-Future<DatabaseClient> initializeDatabase() async {
+Future<void> initializeDatabase() async {
   // TO REMOVE:
   await deleteDatabase(join(await getDatabasesPath(), 'home_accountant.db'));
 
-  DatabaseClient db = DatabaseClient();
-  await db.create();
-  return db;
+  await databaseClient.create();
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Database db = (await initializeDatabase()).db;
+  initializeDatabase();
 
   final store = Store<AppState>(
     appReducer,
     initialState: AppState(
-      db: db,
       accountId: 0,
       transactionName: TextEditingController(),
       transactionDate: TextEditingController(),

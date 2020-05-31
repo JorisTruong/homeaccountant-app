@@ -26,7 +26,9 @@ class DatabaseClient {
       accountName: 'Account 1',
       accountAcronym: 'ACC1'
     );
-    await createAccount(db, basicAccount);
+    Batch batch = db.batch();
+    batch.insert('accounts', basicAccount.toMap());
+    batch.commit();
 
     var allAccounts = await readAccounts(db);
     accounts = List.generate(allAccounts.length, (int i) {
@@ -88,3 +90,5 @@ class DatabaseClient {
     initializeCategories();
   }
 }
+
+DatabaseClient databaseClient = DatabaseClient();

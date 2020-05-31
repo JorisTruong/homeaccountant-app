@@ -6,6 +6,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/accounts.dart';
 import 'package:homeaccountantapp/database/queries/accounts.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
@@ -46,7 +47,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
             children: [
               /// Display the current account in a read-only text field
               FutureBuilder(
-                future: accountFromId(_store.state.db, _store.state.accountId),
+                future: accountFromId(databaseClient.db, _store.state.accountId),
                 builder: (BuildContext context, AsyncSnapshot<Account> snapshot) {
                   if (snapshot.hasData) {
                     _currentAccountController.text = snapshot.data.accountName;
