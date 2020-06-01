@@ -13,10 +13,27 @@ class DatabaseClient {
 
   Future<void> createTables(Database database) async {
     await database.execute(
-      'CREATE TABLE accounts(account_id INTEGER PRIMARY KEY, account_name TEXT, account_acronym TEXT)'
+      'CREATE TABLE accounts(' +
+        'account_id INTEGER PRIMARY KEY,' +
+        'account_name TEXT,' +
+        'account_acronym TEXT' +
+      ')'
     );
     await database.execute(
-      'CREATE TABLE categories(category_id INTEGER PRIMARY KEY, category_name TEXT, category_icon_id INTEGER)'
+      'CREATE TABLE categories(' +
+        'category_id INTEGER PRIMARY KEY,' +
+        'category_name TEXT,' +
+        'category_icon_id INTEGER' +
+      ')'
+    );
+    await database.execute(
+      'CREATE TABLE subcategories(' +
+        'subcategory_id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+        'category_id INTEGER,' +
+        'subcategory_name TEXT,' +
+        'subcategory_icon_id INTEGER,' +
+        'FOREIGN KEY (category_id) REFERENCES categories (category_id)' +
+      ')'
     );
   }
 
@@ -77,11 +94,18 @@ class DatabaseClient {
     });
   }
 
+  Future<void> _onConfigure(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
+
   Future<void> create() async {
     db = await openDatabase(
       join(await getDatabasesPath(), 'home_accountant.db'),
       onCreate: (db, version) {
         createTables(db);
+      },
+      onConfigure: (db) {
+        _onConfigure(db);
       },
       version: 1
     );
