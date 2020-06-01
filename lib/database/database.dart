@@ -14,7 +14,7 @@ class DatabaseClient {
   Future<void> createTables(Database database) async {
     await database.execute(
       'CREATE TABLE accounts(' +
-        'account_id INTEGER PRIMARY KEY,' +
+        'account_id INTEGER PRIMARY KEY AUTOINCREMENT,' +
         'account_name TEXT,' +
         'account_acronym TEXT' +
       ')'
@@ -39,12 +39,11 @@ class DatabaseClient {
 
   Future<void> initializeAccounts() async {
     Account basicAccount = Account(
-      accountId: 0,
       accountName: 'Account 1',
       accountAcronym: 'ACC1'
     );
     Batch batch = db.batch();
-    batch.insert('accounts', basicAccount.toMap());
+    batch.insert('accounts', basicAccount.toMapWithoutId());
     batch.commit();
 
     var allAccounts = await readAccounts(db);

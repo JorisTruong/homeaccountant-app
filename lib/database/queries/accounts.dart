@@ -9,7 +9,7 @@ import 'package:homeaccountantapp/database/models/models.dart';
 
 // CREATE
 Future<void> createAccount(Database db, Account account) async {
-  await db.insert('accounts', account.toMap(), conflictAlgorithm: ConflictAlgorithm.ignore);
+  await db.insert('accounts', account.toMapWithoutId(), conflictAlgorithm: ConflictAlgorithm.ignore);
 }
 
 // READ ALL

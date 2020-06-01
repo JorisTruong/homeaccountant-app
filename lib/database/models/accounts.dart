@@ -13,6 +13,13 @@ class Account {
     };
   }
 
+  Map<String, dynamic> toMapWithoutId() {
+    return {
+      'account_name': accountName,
+      'account_acronym': accountAcronym
+    };
+  }
+
   @override
   String toString() {
     return 'Account{account_id: $accountId, account_name: $accountName, account_acronym: $accountAcronym}';
