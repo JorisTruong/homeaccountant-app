@@ -26,12 +26,16 @@ Future<List<Account>> readAccounts(Database db) async {
 
 // READ ONE
 Future<Account> accountFromId(Database db, int accountId) async {
-  final Map<String, dynamic> account = (await db.rawQuery('SELECT * FROM accounts WHERE account_id=?', [accountId]))[0];
-  return Account(
-    accountId: account['account_id'],
-    accountName: account['account_name'],
-    accountAcronym: account['account_acronym']
-  );
+  final List<Map<String, dynamic>> account = (await db.rawQuery('SELECT * FROM accounts WHERE account_id=?', [accountId]));
+  if (account.length > 0) {
+    return Account(
+      accountId: account[0]['account_id'],
+      accountName: account[0]['account_name'],
+      accountAcronym: account[0]['account_acronym']
+    );
+  } else {
+    return null;
+  }
 }
 
 // UPDATE

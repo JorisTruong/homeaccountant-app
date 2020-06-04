@@ -21,10 +21,14 @@ Future<List<Category>> readCategories(Database db) async {
 
 // READ ONE
 Future<Category> categoryFromId(Database db, int categoryId) async {
-  final Map<String, dynamic> category = (await db.rawQuery('SELECT * FROM categories WHERE category_id=?', [categoryId]))[0];
-  return Category(
-    categoryId: category['category_id'],
-    categoryName: category['category_name'],
-    categoryIconId: category['category_icon_id']
-  );
+  final List<Map<String, dynamic>> category = (await db.rawQuery('SELECT * FROM categories WHERE category_id=?', [categoryId]));
+  if (category.length > 0) {
+    return Category(
+      categoryId: category[0]['category_id'],
+      categoryName: category[0]['category_name'],
+      categoryIconId: category[0]['category_icon_id']
+    );
+  } else {
+    return null;
+  }
 }

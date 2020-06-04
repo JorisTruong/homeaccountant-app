@@ -27,13 +27,17 @@ Future<List<Subcategory>> readSubcategories(Database db) async {
 
 // READ ONE
 Future<Subcategory> subcategoryFromId(Database db, int subcategoryId) async {
-  final Map<String, dynamic> subcategory = (await db.rawQuery('SELECT * FROM subcategories WHERE subcategory_id=?', [subcategoryId]))[0];
-  return Subcategory(
-    subcategoryId: subcategory['subcategory_id'],
-    categoryId: subcategory['category_id'],
-    subcategoryName: subcategory['subcategory_name'],
-    subcategoryIconId: subcategory['subcategory_icon_id']
-  );
+  final List<Map<String, dynamic>> subcategory = (await db.rawQuery('SELECT * FROM subcategories WHERE subcategory_id=?', [subcategoryId]));
+  if (subcategory.length > 0) {
+    return Subcategory(
+      subcategoryId: subcategory[0]['subcategory_id'],
+      categoryId: subcategory[0]['category_id'],
+      subcategoryName: subcategory[0]['subcategory_name'],
+      subcategoryIconId: subcategory[0]['subcategory_icon_id']
+    );
+  } else {
+    return null;
+  }
 }
 
 // READ ALL OF SAME CATEGORY
