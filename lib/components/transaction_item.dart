@@ -3,9 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/const.dart';
-import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/subcategories.dart';
+import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -65,11 +67,21 @@ class TransactionItem extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     transactions[index].containsKey('subcategory_id') ?
-                                    Icon(
-                                      icons_list[findSubcategoryFromId(transactions[index]['subcategory_id'], categories)['icon_id']],
-                                      color: getCategoryColor(transactions[index]['category_id'])
+                                    FutureBuilder(
+                                      future: subcategoryFromId(databaseClient.db, transactions[index]['subcategory_id']),
+                                      builder: (BuildContext context, AsyncSnapshot<Subcategory> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Icon(
+                                            icons_list[snapshot.data.subcategoryIconId],
+                                            color: getCategoryColor(transactions[index]['category_id'])
+                                          );
+                                        } else {
+                                          return CircularProgressIndicator();
+                                        }
+                                      },
                                     ) :
                                     Icon(
+                                      // TODO: Replace by the icon of the category
                                       icons_list[transactions[index]['category_id']],
                                       color: getCategoryColor(transactions[index]['category_id'])
                                     )
@@ -96,26 +108,27 @@ class TransactionItem extends StatelessWidget {
                                   )
                                 ),
                                 /// Navigates to the update page on tap
-                                onTap: () {
+                                onTap: () async {
                                   print('Tapped tile ' + transactions[index]['id'].toString());
                                   _store.dispatch(IsCreating(false));
                                   TextEditingController transactionName = TextEditingController();
                                   transactionName.text = transactions[index]['transaction_name'];
                                   TextEditingController transactionDate = TextEditingController();
                                   transactionDate.text = transactions[index]['date'];
-                                  Map<String, dynamic> subcategory = findSubcategoryFromId(transactions[index]['subcategory_id'], categories);
                                   TextEditingController subcategoryText = TextEditingController();
                                   Icon subcategoryIcon;
                                   /// Get the icon of the category if no subcategory is selected
                                   // TODO: Defines a icon for each category
-                                  if (subcategory != null) {
-                                    subcategoryText.text = subcategory['name'];
+                                  if (transactions[index]['subcategory_id'] != null) {
+                                    Subcategory subcategory = await subcategoryFromId(databaseClient.db, transactions[index]['subcategory_id']);
+                                    subcategoryText.text = subcategory.subcategoryName;
                                     subcategoryIcon = Icon(
-                                      icons_list[findSubcategoryFromId(transactions[index]['subcategory_id'], categories)['icon_id']],
+                                      icons_list[subcategory.subcategoryIconId],
                                       color: getCategoryColor(transactions[index]['category_id'])
                                     );
                                   } else {
                                     subcategoryIcon = Icon(
+                                      // TODO: Replace by the icon of the category
                                       icons_list[transactions[index]['category_id']],
                                       color: getCategoryColor(transactions[index]['category_id'])
                                     );

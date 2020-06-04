@@ -5,6 +5,7 @@ import 'package:redux/redux.dart';
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/database/models/subcategories.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -22,7 +23,7 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 class CategoryCard extends StatelessWidget {
   final int categoryIndex;
   final String category;
-  final List<dynamic> subcategories;
+  final List<Subcategory> subcategories;
   final Color color;
   final bool select;
 
@@ -55,7 +56,7 @@ class CategoryCard extends StatelessWidget {
               color: Colors.white
             ),
             child: Padding(
-              padding: EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
+              padding: EdgeInsets.all(20.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -73,6 +74,7 @@ class CategoryCard extends StatelessWidget {
                             padding: EdgeInsets.only(top: 20.0),
                             physics: BouncingScrollPhysics(),
                             shrinkWrap: true,
+                            childAspectRatio: 2,
                             crossAxisCount: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ? 5 : 3,
                             children: List.generate(subcategories.length, (int index) {
                               return Material(
@@ -82,11 +84,11 @@ class CategoryCard extends StatelessWidget {
                                     /// Updating the form
                                     if (select) {
                                       TextEditingController subcategoryText = TextEditingController();
-                                      subcategoryText.text = subcategories[index]['name'];
+                                      subcategoryText.text = subcategories[index].subcategoryName;
                                       _store.dispatch(TransactionSubcategoryText(subcategoryText));
                                       _store.dispatch(TransactionSelectSubcategoryIcon(
                                         Icon(
-                                          icons_list[subcategories[index]['icon_id']],
+                                          icons_list[subcategories[index].subcategoryIconId],
                                           color: color
                                         )
                                       ));
@@ -97,11 +99,11 @@ class CategoryCard extends StatelessWidget {
                                       _store.dispatch(IsCreating(false));
                                       _store.dispatch(SelectCategory(categoryIndex));
                                       TextEditingController subcategoryText = TextEditingController();
-                                      subcategoryText.text = subcategories[index]['name'];
+                                      subcategoryText.text = subcategories[index].subcategoryName;
                                       _store.dispatch(CategorySubcategoryText(subcategoryText));
                                       _store.dispatch(CategorySelectSubcategoryIcon(
                                         Icon(
-                                          icons_list[subcategories[index]['icon_id']],
+                                          icons_list[subcategories[index].subcategoryIconId],
                                           color: color,
                                           size: MediaQuery.of(context).size.width * 0.3
                                         )
@@ -112,9 +114,9 @@ class CategoryCard extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(icons_list[subcategories[index]['icon_id']], color: color),
+                                      Icon(icons_list[subcategories[index].subcategoryIconId], color: color),
                                       Text(
-                                        subcategories[index]['name'],
+                                        subcategories[index].subcategoryName,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(fontSize: baseFontSize.text2),
                                       )

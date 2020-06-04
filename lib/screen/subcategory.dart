@@ -6,6 +6,9 @@ import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/subcategories.dart';
+import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -81,12 +84,21 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                       Padding(
                         padding: EdgeInsets.only(bottom: 25.0),
                         /// Only show the subcategories of the selected category
-                        child: CategoryCard(
-                          _store.state.categoryIndex,
-                          categories.keys.toList()[_store.state.categoryIndex],
-                          categories.values.toList()[_store.state.categoryIndex],
-                          getCategoryColor(_store.state.categoryIndex),
-                          true
+                        child: FutureBuilder(
+                          future: subcategoriesFromCategoryId(databaseClient.db, _store.state.categoryIndex),
+                          builder: (BuildContext context, AsyncSnapshot<List<Subcategory>> snapshot) {
+                            if (snapshot.hasData) {
+                              return CategoryCard(
+                                _store.state.categoryIndex,
+                                categories_[_store.state.categoryIndex]['category_name'],
+                                snapshot.data,
+                                getCategoryColor(_store.state.categoryIndex),
+                                true
+                              );
+                            } else {
+                              return Container();
+                            }
+                          }
                         )
                       )
                     ]

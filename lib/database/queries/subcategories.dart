@@ -12,6 +12,7 @@ Future<void> createSubcategory(Database db, Subcategory subcategory) async {
   await db.insert('subcategories', subcategory.toMapWithoutId(), conflictAlgorithm: ConflictAlgorithm.ignore);
 }
 
+// TODO: Needed ?
 // READ ALL
 Future<List<Subcategory>> readSubcategories(Database db) async {
   final List<Map<String, dynamic>> subcategories = await db.query('subcategories');

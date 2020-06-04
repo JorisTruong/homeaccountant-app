@@ -23,41 +23,11 @@ final String transactionNumber = '42';
 
 final random = Random();
 
-// TODO: Renaming ?
+// TODO: Renaming, store categories ?
 List<Map<String, dynamic>> categories_ = [];
 
 // Get all subcategories
-// TODO: Check JSON format and probably change
-Map<String, List<dynamic>> categories = {
-  'Category 1': [
-    {'id': 0, 'name': 'Subcategory 1', 'icon_id': 80},
-    {'id': 1, 'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
-    {'id': 2, 'name': 'Subcategory 3', 'icon_id': random.nextInt(985)},
-    {'id': 3, 'name': 'Subcategory 4', 'icon_id': random.nextInt(985)},
-    {'id': 4, 'name': 'Subcategory 5', 'icon_id': random.nextInt(985)}
-  ],
-  'Category 2': [
-    {'id': 5, 'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
-    {'id': 6, 'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
-    {'id': 7, 'name': 'Subcategory 3', 'icon_id': random.nextInt(985)},
-    {'id': 8, 'name': 'Subcategory 4', 'icon_id': random.nextInt(985)}
-  ],
-  'Category 3': [
-    {'id': 9, 'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
-    {'id': 10, 'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
-    {'id': 11, 'name': 'Subcategory 3', 'icon_id': random.nextInt(985)},
-    {'id': 12, 'name': 'Subcategory 4', 'icon_id': random.nextInt(985)},
-    {'id': 13, 'name': 'Subcategory 5', 'icon_id': random.nextInt(985)},
-    {'id': 14, 'name': 'Subcategory 6', 'icon_id': random.nextInt(985)}
-  ],
-  'Category 4': [
-    {'id': 15, 'name': 'Subcategory 1', 'icon_id': random.nextInt(985)},
-    {'id': 16, 'name': 'Subcategory 2', 'icon_id': random.nextInt(985)},
-    {'id': 17, 'name': 'Subcategory 3', 'icon_id': random.nextInt(985)}
-  ],
-  'Category 5': []
-};
-
+// TODO: Store subcategories ?
 
 /// Transactions
 // Get all transactions
@@ -67,29 +37,28 @@ final transactions = {
     {
       'id': 0,
       'transaction_name': 'Salary',
-      'account_id': 0,
+      'account_id': 1,
       'date': '2020-03-02',
       'is_expense': 0,
       'amount': 3000,
       'description': '',
-      'category_id': 1,
-      'subcategory_id': 0
+      'category_id': 0,
+      'subcategory_id': 1
     },
     {
       'id': 1,
       'transaction_name': 'Shoes',
-      'account_id': 0,
+      'account_id': 1,
       'date': '2020-03-31',
       'is_expense': 1,
       'amount': 80,
       'description': '',
       'category_id': 2,
-      'subcategory_id': 3
     },
     {
       'id': 2,
       'transaction_name': 'Clothes',
-      'account_id': 0,
+      'account_id': 1,
       'date': '2020-03-31',
       'is_expense': 1,
       'amount': 200,
@@ -101,35 +70,32 @@ final transactions = {
     {
       'id': 3,
       'transaction_name': 'Pho',
-      'account_id': 0,
+      'account_id': 1,
       'date': '2020-04-01',
       'is_expense': 1,
       'amount': 10,
       'description': '',
       'category_id': 3,
-      'subcategory_id': 1
     },
     {
       'id': 4,
       'transaction_name': 'KBBQ',
-      'account_id': 0,
+      'account_id': 1,
       'date': '2020-04-01',
       'is_expense': 1,
       'amount': 30,
       'description': '',
       'category_id': 4,
-      'subcategory_id': 7
     },
     {
       'id': 5,
       'transaction_name': 'Sandwich',
-      'account_id': 0,
+      'account_id': 1,
       'date': '2020-04-01',
       'is_expense': 1,
       'amount': 5,
       'description': 'Triangle',
       'category_id': 1,
-      'subcategory_id': 2
     },
   ]
 };
@@ -208,5 +174,5 @@ List<double> balanceWeek = [
 /// ACCOUNTS
 
 // Get all accounts
-// TODO: Review if necessary
+// TODO: Review, store accounts ?
 List<Map<String, dynamic>> accounts = [];
