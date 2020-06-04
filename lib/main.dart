@@ -46,7 +46,7 @@ void main() async {
   final store = Store<AppState>(
     appReducer,
     initialState: AppState(
-      accountId: 0,
+      accountId: 1,
       transactionName: TextEditingController(),
       transactionDate: TextEditingController(),
       categorySubcategoryText: TextEditingController(),
