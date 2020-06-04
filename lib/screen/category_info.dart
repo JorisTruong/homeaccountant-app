@@ -180,10 +180,10 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                             changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
                                                           }
                                                         },
-                                                        items: List.generate(categories.length, (int index) {
+                                                        items: List.generate(categories_.length, (int index) {
                                                           return DropdownMenuItem<int>(
                                                             value: index,
-                                                            child: Text(categories.keys.toList()[index])
+                                                            child: Text(categories_[index]['category_name'])
                                                           );
                                                         })
                                                       ),
