@@ -23,7 +23,6 @@ We are listing here all the improvements that are currently planned to be made f
 * Create, Update and Delete an account
 * Form validation for transaction and category
 * Local back-end development
-* Self-hosting option
 * Import/Export option
 
 ### Medium priority:
@@ -33,6 +32,7 @@ We are listing here all the improvements that are currently planned to be made f
 * Support for different languages
 * Support for multiple currencies
 * Ability to select multiple accounts
+* Self-hosting option
 
 ### Low priority:
 * Research bar in Categories
