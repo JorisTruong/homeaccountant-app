@@ -241,7 +241,11 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               RaisedButton(
-                                                onPressed: () {
+                                                onPressed: () async {
+                                                  // TODO: Delete confirmation ?
+                                                  if (!_store.state.isCreating) {
+                                                    await deleteSubcategory(databaseClient.db, _store.state.categorySubcategoryId);
+                                                  }
                                                   resetState(_store);
                                                   _store.dispatch(NavigatePopAction());
                                                   Navigator.of(context).pop();
