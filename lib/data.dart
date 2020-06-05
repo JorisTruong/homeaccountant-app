@@ -43,7 +43,6 @@ final transactions = {
       'amount': 3000,
       'description': '',
       'category_id': 0,
-      'subcategory_id': 1
     },
     {
       'id': 1,
