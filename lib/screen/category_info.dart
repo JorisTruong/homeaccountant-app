@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:homeaccountantapp/icons_list.dart';
 import 'package:redux/redux.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
@@ -8,6 +9,9 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/subcategories.dart';
+import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -255,10 +259,16 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               ),
                                               SizedBox(width: 12.0),
                                               RaisedButton(
-                                                onPressed: () {
-                                                  print(_store.state.categoryIndex);
-                                                  print(_store.state.categorySubcategoryText.text);
-                                                  print(_store.state.categorySubcategoryIcon);
+                                                onPressed: () async {
+                                                  // TODO: Form validation
+                                                  if (_store.state.isCreating) {
+                                                    Subcategory subcategory = Subcategory(
+                                                      categoryId: _store.state.categoryIndex,
+                                                      subcategoryName: _store.state.categorySubcategoryText.text,
+                                                      subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
+                                                    );
+                                                    await createSubcategory(databaseClient.db, subcategory);
+                                                  }
                                                   _store.dispatch(NavigatePopAction());
                                                   resetState(_store);
                                                   Navigator.of(context).pop();
