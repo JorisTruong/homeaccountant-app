@@ -39,6 +39,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
     if (!_store.state.isSelectingSubcategory) {
       _store.dispatch(SelectCategory(null));
     }
+    _store.dispatch(CategorySubcategoryId(null));
     _store.dispatch(CategorySelectSubcategoryIcon(null));
     _store.dispatch(CategorySubcategoryText(TextEditingController()));
     _store.dispatch(IsSelectingSubcategory(false));
@@ -268,6 +269,14 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                       subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
                                                     );
                                                     await createSubcategory(databaseClient.db, subcategory);
+                                                  } else {
+                                                    Subcategory subcategory = Subcategory(
+                                                      subcategoryId: _store.state.categorySubcategoryId,
+                                                      categoryId: _store.state.categoryIndex,
+                                                      subcategoryName: _store.state.categorySubcategoryText.text,
+                                                      subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
+                                                    );
+                                                    await updateSubcategory(databaseClient.db, subcategory);
                                                   }
                                                   _store.dispatch(NavigatePopAction());
                                                   resetState(_store);
