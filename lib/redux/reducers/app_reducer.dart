@@ -14,6 +14,7 @@ AppState appReducer(AppState state, action) {
     transactionDate: transactionDateReducer(state.transactionDate, action),
     transactionIsExpense: transactionIsExpenseReducer(state.transactionIsExpense, action),
     categoryIndex: categoryReducer(state.categoryIndex, action),
+    categorySubcategoryId: categorySubcategoryIdReducer(state.categorySubcategoryId, action),
     categorySubcategoryText: categorySubcategoryTextReducer(state.categorySubcategoryText, action),
     categorySubcategoryIcon: categorySubcategoryIconReducer(state.categorySubcategoryIcon, action),
     transactionSubcategoryText: transactionSubcategoryTextReducer(state.transactionSubcategoryText, action),

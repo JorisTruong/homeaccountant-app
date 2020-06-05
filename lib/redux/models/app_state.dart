@@ -10,6 +10,7 @@ class AppState {
   final TextEditingController transactionDate;
   final bool transactionIsExpense;
   final int categoryIndex;
+  final int categorySubcategoryId;
   final TextEditingController categorySubcategoryText;
   final Icon categorySubcategoryIcon;
   final TextEditingController transactionSubcategoryText;
@@ -31,6 +32,7 @@ class AppState {
     this.transactionDate,
     this.transactionIsExpense,
     this.categoryIndex,
+    this.categorySubcategoryId,
     this.categorySubcategoryText,
     this.categorySubcategoryIcon,
     this.transactionSubcategoryText,

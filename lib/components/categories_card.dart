@@ -98,6 +98,7 @@ class CategoryCard extends StatelessWidget {
                                       /// Updating the subcategory
                                       _store.dispatch(IsCreating(false));
                                       _store.dispatch(SelectCategory(categoryIndex));
+                                      _store.dispatch(CategorySubcategoryId(subcategories[index].subcategoryId));
                                       TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index].subcategoryName;
                                       _store.dispatch(CategorySubcategoryText(subcategoryText));

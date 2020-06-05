@@ -66,6 +66,12 @@ class TransactionSelectSubcategoryIcon {
   TransactionSelectSubcategoryIcon(this.subcategoryIcon);
 }
 
+class CategorySubcategoryId {
+  final int subcategoryId;
+
+  CategorySubcategoryId(this.subcategoryId);
+}
+
 class CategorySubcategoryText {
   final TextEditingController subcategory;
 
