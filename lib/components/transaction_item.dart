@@ -114,7 +114,7 @@ class TransactionItem extends StatelessWidget {
                                 /// Navigates to the update page on tap
                                 onTap: () async {
                                   print('Tapped tile ' + transactions[index].transactionId.toString());
-                                  _store.dispatch(IsCreating(false));
+                                  _store.dispatch(IsCreatingTransaction(false));
                                   TextEditingController transactionName = TextEditingController();
                                   transactionName.text = transactions[index].transactionName;
                                   TextEditingController transactionDate = TextEditingController();
@@ -141,11 +141,13 @@ class TransactionItem extends StatelessWidget {
                                   transactionAmount.text = transactions[index].amount.toString();
                                   TextEditingController transactionDescription = TextEditingController();
                                   transactionDescription.text = transactions[index].description;
+                                  _store.dispatch(TransactionId(transactions[index].transactionId));
                                   _store.dispatch(TransactionName(transactionName));
                                   _store.dispatch(TransactionAccount(transactions[index].accountId));
                                   _store.dispatch(TransactionDate(transactionDate));
                                   _store.dispatch(TransactionIsExpense(transactions[index].isExpense));
                                   _store.dispatch(SelectCategory(transactions[index].categoryId));
+                                  _store.dispatch(TransactionSubcategoryId(transactions[index].subcategoryId));
                                   _store.dispatch(TransactionSubcategoryText(subcategoryText));
                                   _store.dispatch(TransactionSelectSubcategoryIcon(subcategoryIcon));
                                   _store.dispatch(TransactionAmount(transactionAmount));

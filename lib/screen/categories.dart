@@ -60,7 +60,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                     elevation: 0,
                     backgroundColor: baseColors.transparent,
                     onPressed: () {
-                      _store.dispatch(IsCreating(true));
+                      _store.dispatch(IsCreatingSubcategory(true));
                       _store.dispatch(NavigatePushAction(AppRoutes.category));
                     },
                     child: Icon(Icons.add)

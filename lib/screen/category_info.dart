@@ -43,6 +43,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
     _store.dispatch(CategorySelectSubcategoryIcon(null));
     _store.dispatch(CategorySubcategoryText(TextEditingController()));
     _store.dispatch(IsSelectingSubcategory(false));
+    _store.dispatch(IsCreatingSubcategory(false));
   }
 
   changeIcon(_iconData, color, _store) {
@@ -243,7 +244,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               RaisedButton(
                                                 onPressed: () async {
                                                   // TODO: Delete confirmation ?
-                                                  if (!_store.state.isCreating) {
+                                                  if (!_store.state.isCreatingSubcategory) {
                                                     await deleteSubcategory(databaseClient.db, _store.state.categorySubcategoryId);
                                                   }
                                                   resetState(_store);
@@ -251,7 +252,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
-                                                  _store.state.isCreating ? 'CANCEL' : 'DELETE',
+                                                  _store.state.isCreatingSubcategory ? 'CANCEL' : 'DELETE',
                                                   style: TextStyle(
                                                     fontSize: baseFontSize.text,
                                                     color: Colors.white
@@ -266,7 +267,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               RaisedButton(
                                                 onPressed: () async {
                                                   // TODO: Form validation
-                                                  if (_store.state.isCreating) {
+                                                  if (_store.state.isCreatingSubcategory) {
                                                     Subcategory subcategory = Subcategory(
                                                       categoryId: _store.state.categoryIndex,
                                                       subcategoryName: _store.state.categorySubcategoryText.text,

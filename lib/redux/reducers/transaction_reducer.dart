@@ -3,6 +3,7 @@ import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 
+final transactionIdReducer = TypedReducer<int, TransactionId>(_transactionId);
 final transactionNameReducer = TypedReducer<TextEditingController, TransactionName>(_transactionName);
 final transactionAccountIdReducer = TypedReducer<int, TransactionAccount>(_transactionAccountId);
 final transactionDateReducer = TypedReducer<TextEditingController, TransactionDate>(_transactionDate);
@@ -12,6 +13,10 @@ final transactionSubcategoryIconReducer = TypedReducer<Icon, TransactionSelectSu
 final transactionIsExpenseReducer = TypedReducer<bool, TransactionIsExpense>(_transactionIsExpense);
 final transactionAmountReducer = TypedReducer<TextEditingController, TransactionAmount>(_transactionAmount);
 final transactionDescriptionReducer = TypedReducer<TextEditingController, TransactionDescription>(_transactionDescription);
+
+int _transactionId(int transactionId, TransactionId action) {
+  return action.transactionId;
+}
 
 TextEditingController _transactionName(TextEditingController name, TransactionName action) {
   return action.name;

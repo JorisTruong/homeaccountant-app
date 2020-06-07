@@ -24,6 +24,12 @@ class UpdateDateRange {
   UpdateDateRange(this.dateRange);
 }
 
+class TransactionId {
+  final int transactionId;
+
+  TransactionId(this.transactionId);
+}
+
 class TransactionName {
   final TextEditingController name;
 
@@ -124,10 +130,16 @@ class ChangeVisibility {
   ChangeVisibility(this.visibility);
 }
 
-class IsCreating {
-  final bool isCreating;
+class IsCreatingTransaction {
+  final bool isCreatingTransaction;
 
-  IsCreating(this.isCreating);
+  IsCreatingTransaction(this.isCreatingTransaction);
+}
+
+class IsCreatingSubcategory {
+  final bool isCreatingSubcategory;
+
+  IsCreatingSubcategory(this.isCreatingSubcategory);
 }
 
 class IsSelectingSubcategory {

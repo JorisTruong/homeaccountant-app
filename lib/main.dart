@@ -55,10 +55,11 @@ void main() async {
       transactionDescription: TextEditingController(),
       dateRangeType: 'Year',
       selectedDate: DateTime.now(),
-      dateRange: dateToDateRange(null, null),
+      dateRange: dateToDateRange('Year', DateTime.now()),
       route: [AppRoutes.home],
       visibility: true, /// Visibility of the floating button for sliding up panel
-      isCreating: false, /// If we are creating a transaction or not
+      isCreatingTransaction: false, /// If we are creating a transaction or not
+      isCreatingSubcategory: false, /// If we are creating a subcategory or not
       isSelectingSubcategory: false, /// If we are currently selecting a subcategory from the transactions page
     ),
     middleware: createNavigationMiddleware()

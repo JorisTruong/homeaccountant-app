@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 @immutable
 class AppState {
   final int accountId;
+  final int transactionId;
   final TextEditingController transactionName;
   final int transactionAccountId;
   final TextEditingController transactionDate;
@@ -23,11 +24,13 @@ class AppState {
   final Map<String, String> dateRange;
   final List<String> route;
   final bool visibility;
-  final bool isCreating;
+  final bool isCreatingTransaction;
+  final bool isCreatingSubcategory;
   final bool isSelectingSubcategory;
 
   AppState({
     @required this.accountId,
+    this.transactionId,
     this.transactionName,
     this.transactionAccountId,
     this.transactionDate,
@@ -46,7 +49,8 @@ class AppState {
     @required this.dateRange,
     @required this.route,
     this.visibility,
-    this.isCreating,
+    this.isCreatingTransaction,
+    this.isCreatingSubcategory,
     this.isSelectingSubcategory,
   });
 

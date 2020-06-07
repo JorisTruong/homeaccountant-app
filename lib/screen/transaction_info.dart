@@ -42,12 +42,14 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
   void leaveScreen(Store<AppState> _store) {
     _store.dispatch(NavigatePopAction());
     _store.dispatch(SelectCategory(null));
+    _store.dispatch(TransactionId(null));
     _store.dispatch(TransactionName(TextEditingController()));
     _store.dispatch(TransactionAccount(null));
     _store.dispatch(TransactionDate(TextEditingController()));
     _store.dispatch(TransactionAmount(TextEditingController()));
     _store.dispatch(TransactionDescription(TextEditingController()));
     _store.dispatch(IsSelectingSubcategory(false));
+    _store.dispatch(IsCreatingTransaction(false));
     resetSubcategory(_store);
   }
 
@@ -374,7 +376,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
-                                                  _store.state.isCreating ? 'CANCEL' : 'DELETE',
+                                                  _store.state.isCreatingTransaction ? 'CANCEL' : 'DELETE',
                                                   style: TextStyle(
                                                     fontSize: baseFontSize.text,
                                                     fontWeight: FontWeight.bold,
@@ -389,7 +391,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               SizedBox(width: 12.0),
                                               RaisedButton(
                                                 onPressed: () async {
-                                                  if (_store.state.isCreating) {
+                                                  if (_store.state.isCreatingTransaction) {
                                                     t.Transaction transaction = t.Transaction(
                                                       transactionName: _store.state.transactionName.text,
                                                       accountId: _store.state.transactionAccountId,
@@ -401,6 +403,19 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                       description: _store.state.transactionDescription.text,
                                                     );
                                                     await createTransaction(databaseClient.db, transaction);
+                                                  } else {
+                                                    t.Transaction transaction = t.Transaction(
+                                                      transactionId: _store.state.transactionId,
+                                                      transactionName: _store.state.transactionName.text,
+                                                      accountId: _store.state.transactionAccountId,
+                                                      date: _store.state.transactionDate.text,
+                                                      isExpense: _store.state.transactionIsExpense,
+                                                      categoryId: _store.state.categoryIndex,
+                                                      subcategoryId: _store.state.transactionSubcategoryId,
+                                                      amount: double.parse(_store.state.transactionAmount.text),
+                                                      description: _store.state.transactionDescription.text,
+                                                    );
+                                                    await updateTransaction(databaseClient.db, transaction);
                                                   }
                                                   leaveScreen(_store);
                                                   Navigator.of(context).pop();
