@@ -70,17 +70,6 @@ Color getCategoryColor(int index) {
   }
 }
 
-/// Find the subcategory from the given subcategory index.
-Map<String, dynamic> findSubcategoryFromId(int subcategoryId, Map<String, List<dynamic>> categories) {
-  for(final category in categories.keys.toList()) {
-    for(final subcategory in categories[category]) {
-      if (subcategory['id'] == subcategoryId) {
-        return subcategory;
-      }
-    }
-  }
-}
-
 /// Add a '0' in front of a day or month number when necessary.
 String dayOrMonthToString(int month) {
   if (month < 10) {
@@ -197,6 +186,37 @@ String getYAxis(value, max) {
       return NumberFormat.compact().format(max * 0.75);
     case 20:
       return NumberFormat.compact().format(max);
+  }
+  return '';
+}
+
+// Get month name from month number
+String getMonth(String month) {
+  switch (month) {
+    case '01':
+      return 'January';
+    case '02':
+      return 'February';
+    case '03':
+      return 'March';
+    case '04':
+      return 'April';
+    case '05':
+      return 'May';
+    case '06':
+      return 'June';
+    case '07':
+      return 'July';
+    case '08':
+      return 'August';
+    case '09':
+      return 'September';
+    case '10':
+      return 'October';
+    case '11':
+      return 'November';
+    case '12':
+      return 'December';
   }
   return '';
 }

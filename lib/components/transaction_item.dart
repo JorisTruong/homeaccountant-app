@@ -7,6 +7,7 @@ import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/subcategories.dart';
+import 'package:homeaccountantapp/database/models/transactions.dart' as t;
 import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
@@ -20,7 +21,7 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 
 
 class TransactionItem extends StatelessWidget {
-  final List<dynamic> transactions;
+  final List<t.Transaction> transactions;
 
   TransactionItem(
     this.transactions
@@ -66,14 +67,14 @@ class TransactionItem extends StatelessWidget {
                                 leading: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    transactions[index].containsKey('subcategory_id') ?
+                                    transactions[index].subcategoryId != null ?
                                     FutureBuilder(
-                                      future: subcategoryFromId(databaseClient.db, transactions[index]['subcategory_id']),
+                                      future: subcategoryFromId(databaseClient.db, transactions[index].subcategoryId),
                                       builder: (BuildContext context, AsyncSnapshot<Subcategory> snapshot) {
                                         if (snapshot.hasData) {
                                           return Icon(
                                             icons_list[snapshot.data.subcategoryIconId],
-                                            color: getCategoryColor(transactions[index]['category_id'])
+                                            color: getCategoryColor(transactions[index].categoryId)
                                           );
                                         } else {
                                           return CircularProgressIndicator();
@@ -82,8 +83,8 @@ class TransactionItem extends StatelessWidget {
                                     ) :
                                     Icon(
                                       // TODO: Replace by the icon of the category
-                                      icons_list[transactions[index]['category_id']],
-                                      color: getCategoryColor(transactions[index]['category_id'])
+                                      icons_list[transactions[index].categoryId],
+                                      color: getCategoryColor(transactions[index].categoryId)
                                     )
                                   ],
                                 ),
@@ -91,57 +92,60 @@ class TransactionItem extends StatelessWidget {
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(transactions[index]['date'], style: TextStyle(fontSize: baseFontSize.text2)),
-                                    Text(transactions[index]['transaction_name'], style: TextStyle(fontSize: baseFontSize.subtitle, fontWeight: FontWeight.bold)),
+                                    Text(transactions[index].date, style: TextStyle(fontSize: baseFontSize.text2)),
+                                    Text(
+                                      transactions[index].transactionName != null ? transactions[index].transactionName : '',
+                                      style: TextStyle(fontSize: baseFontSize.subtitle, fontWeight: FontWeight.bold)
+                                    ),
                                   ]
                                 ),
-                                subtitle: transactions[index]['description'] == '' ?
+                                subtitle: transactions[index].description == null ?
                                   null :
-                                  Text(transactions[index]['description'], style: TextStyle(fontSize: baseFontSize.text2)),
+                                  Text(transactions[index].description, style: TextStyle(fontSize: baseFontSize.text2)),
                                 /// Amount of the transaction
                                 trailing: Text(
-                                  (transactions[index]['is_expense'] == 0 ? '+' : '-') + transactions[index]['amount'].toString(),
+                                  (transactions[index].isExpense ? '-' : '+') + transactions[index].amount.toString(),
                                   style: TextStyle(
                                     fontSize: baseFontSize.subtitle,
                                     fontWeight: FontWeight.bold,
-                                    color: transactions[index]['is_expense'] == 0 ? baseColors.green : baseColors.red
+                                    color: transactions[index].isExpense ? baseColors.red : baseColors.green
                                   )
                                 ),
                                 /// Navigates to the update page on tap
                                 onTap: () async {
-                                  print('Tapped tile ' + transactions[index]['id'].toString());
+                                  print('Tapped tile ' + transactions[index].transactionId.toString());
                                   _store.dispatch(IsCreating(false));
                                   TextEditingController transactionName = TextEditingController();
-                                  transactionName.text = transactions[index]['transaction_name'];
+                                  transactionName.text = transactions[index].transactionName;
                                   TextEditingController transactionDate = TextEditingController();
-                                  transactionDate.text = transactions[index]['date'];
+                                  transactionDate.text = transactions[index].date;
                                   TextEditingController subcategoryText = TextEditingController();
                                   Icon subcategoryIcon;
                                   /// Get the icon of the category if no subcategory is selected
                                   // TODO: Defines a icon for each category
-                                  if (transactions[index]['subcategory_id'] != null) {
-                                    Subcategory subcategory = await subcategoryFromId(databaseClient.db, transactions[index]['subcategory_id']);
+                                  if (transactions[index].subcategoryId != null) {
+                                    Subcategory subcategory = await subcategoryFromId(databaseClient.db, transactions[index].subcategoryId);
                                     subcategoryText.text = subcategory.subcategoryName;
                                     subcategoryIcon = Icon(
                                       icons_list[subcategory.subcategoryIconId],
-                                      color: getCategoryColor(transactions[index]['category_id'])
+                                      color: getCategoryColor(transactions[index].categoryId)
                                     );
                                   } else {
                                     subcategoryIcon = Icon(
                                       // TODO: Replace by the icon of the category
-                                      icons_list[transactions[index]['category_id']],
-                                      color: getCategoryColor(transactions[index]['category_id'])
+                                      icons_list[transactions[index].categoryId],
+                                      color: getCategoryColor(transactions[index].categoryId)
                                     );
                                   }
                                   TextEditingController transactionAmount = TextEditingController();
-                                  transactionAmount.text = transactions[index]['amount'].toString();
+                                  transactionAmount.text = transactions[index].amount.toString();
                                   TextEditingController transactionDescription = TextEditingController();
-                                  transactionDescription.text = transactions[index]['description'];
+                                  transactionDescription.text = transactions[index].description;
                                   _store.dispatch(TransactionName(transactionName));
-                                  _store.dispatch(TransactionAccount(transactions[index]['account_id']));
+                                  _store.dispatch(TransactionAccount(transactions[index].accountId));
                                   _store.dispatch(TransactionDate(transactionDate));
-                                  _store.dispatch(TransactionIsExpense(transactions[index]['is_expense'] == 1));
-                                  _store.dispatch(SelectCategory(transactions[index]['category_id']));
+                                  _store.dispatch(TransactionIsExpense(transactions[index].isExpense));
+                                  _store.dispatch(SelectCategory(transactions[index].categoryId));
                                   _store.dispatch(TransactionSubcategoryText(subcategoryText));
                                   _store.dispatch(TransactionSelectSubcategoryIcon(subcategoryIcon));
                                   _store.dispatch(TransactionAmount(transactionAmount));

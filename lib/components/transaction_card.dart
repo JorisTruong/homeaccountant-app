@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/components/transaction_item.dart';
+import 'package:homeaccountantapp/database/models/transactions.dart' as t;
 
 
 ///
@@ -12,7 +13,7 @@ import 'package:homeaccountantapp/components/transaction_item.dart';
 
 class TransactionCard extends StatelessWidget {
   final String month;
-  final List<Map<String, dynamic>> transactions;
+  final List<t.Transaction> transactions;
 
   TransactionCard(this.month, this.transactions);
 

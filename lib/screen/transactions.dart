@@ -4,13 +4,15 @@ import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
-import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/components/transaction_card.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/transactions.dart' as transactions;
+import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -106,10 +108,30 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                   /// Display all the transactions
                     child:
                       Column(
-                        children: List.generate(transactions.length, (int index) {
-                          String month = transactions.keys.elementAt(index);
-                          return TransactionCard(month, transactions[month]);
-                        })
+                        children: [
+                          FutureBuilder(
+                            future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                            builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    String month = snapshot.data.keys.elementAt(index);
+                                    if (snapshot.data[month].length > 0) {
+                                      return TransactionCard(month, snapshot.data[month]);
+                                    }
+                                    else {
+                                      return Container();
+                                    }
+                                  }
+                                );
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            }
+                          )
+                        ]
                       ),
                     ),
                   SpeedDialButton(_controller, _pcAccount, _pcDate),
