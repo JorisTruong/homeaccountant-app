@@ -9,6 +9,9 @@ import 'dart:math' as math;
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/transactions.dart' as t;
+import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -31,6 +34,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
   FocusScopeNode currentFocus;
 
   void resetSubcategory(Store<AppState> _store) {
+    _store.dispatch(TransactionSubcategoryId(null));
     _store.dispatch(TransactionSelectSubcategoryIcon(null));
     _store.dispatch(TransactionSubcategoryText(TextEditingController()));
   }
@@ -43,6 +47,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
     _store.dispatch(TransactionDate(TextEditingController()));
     _store.dispatch(TransactionAmount(TextEditingController()));
     _store.dispatch(TransactionDescription(TextEditingController()));
+    _store.dispatch(IsSelectingSubcategory(false));
     resetSubcategory(_store);
   }
 
@@ -383,15 +388,20 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               ),
                                               SizedBox(width: 12.0),
                                               RaisedButton(
-                                                onPressed: () {
-                                                  print(_store.state.transactionName.text);
-                                                  print(_store.state.transactionAccountId);
-                                                  print(_store.state.transactionDate.text);
-                                                  print(_store.state.transactionIsExpense);
-                                                  print(_store.state.categoryIndex);
-                                                  print(_store.state.transactionSubcategoryText.text);
-                                                  print(_store.state.transactionAmount.text);
-                                                  print(_store.state.transactionDescription.text);
+                                                onPressed: () async {
+                                                  if (_store.state.isCreating) {
+                                                    t.Transaction transaction = t.Transaction(
+                                                      transactionName: _store.state.transactionName.text,
+                                                      accountId: _store.state.transactionAccountId,
+                                                      date: _store.state.transactionDate.text,
+                                                      isExpense: _store.state.transactionIsExpense,
+                                                      categoryId: _store.state.categoryIndex,
+                                                      subcategoryId: _store.state.transactionSubcategoryId,
+                                                      amount: double.parse(_store.state.transactionAmount.text),
+                                                      description: _store.state.transactionDescription.text,
+                                                    );
+                                                    await createTransaction(databaseClient.db, transaction);
+                                                  }
                                                   leaveScreen(_store);
                                                   Navigator.of(context).pop();
                                                 },

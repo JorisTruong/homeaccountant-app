@@ -13,6 +13,7 @@ class AppState {
   final int categorySubcategoryId;
   final TextEditingController categorySubcategoryText;
   final Icon categorySubcategoryIcon;
+  final int transactionSubcategoryId;
   final TextEditingController transactionSubcategoryText;
   final Icon transactionSubcategoryIcon;
   final TextEditingController transactionAmount;
@@ -35,6 +36,7 @@ class AppState {
     this.categorySubcategoryId,
     this.categorySubcategoryText,
     this.categorySubcategoryIcon,
+    this.transactionSubcategoryId,
     this.transactionSubcategoryText,
     this.transactionSubcategoryIcon,
     this.transactionAmount,

@@ -54,6 +54,12 @@ class SelectCategory {
   SelectCategory(this.categoryIndex);
 }
 
+class TransactionSubcategoryId {
+  final int subcategoryId;
+
+  TransactionSubcategoryId(this.subcategoryId);
+}
+
 class TransactionSubcategoryText {
   final TextEditingController subcategory;
 

@@ -6,6 +6,7 @@ import 'package:homeaccountantapp/redux/actions/actions.dart';
 final transactionNameReducer = TypedReducer<TextEditingController, TransactionName>(_transactionName);
 final transactionAccountIdReducer = TypedReducer<int, TransactionAccount>(_transactionAccountId);
 final transactionDateReducer = TypedReducer<TextEditingController, TransactionDate>(_transactionDate);
+final transactionSubcategoryIdReducer = TypedReducer<int, TransactionSubcategoryId>(_subcategoryId);
 final transactionSubcategoryTextReducer = TypedReducer<TextEditingController, TransactionSubcategoryText>(_subcategoryText);
 final transactionSubcategoryIconReducer = TypedReducer<Icon, TransactionSelectSubcategoryIcon>(_subcategoryIcon);
 final transactionIsExpenseReducer = TypedReducer<bool, TransactionIsExpense>(_transactionIsExpense);
@@ -26,6 +27,10 @@ TextEditingController _transactionDate(TextEditingController date, TransactionDa
 
 bool _transactionIsExpense(bool isExpense, TransactionIsExpense action) {
   return action.isExpense;
+}
+
+int _subcategoryId(int subcategoryId, TransactionSubcategoryId action) {
+  return action.subcategoryId;
 }
 
 TextEditingController _subcategoryText(TextEditingController subcategory, TransactionSubcategoryText action) {

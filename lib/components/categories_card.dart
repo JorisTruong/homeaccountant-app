@@ -83,6 +83,7 @@ class CategoryCard extends StatelessWidget {
                                   onTap: () {
                                     /// Updating the form
                                     if (select) {
+                                      _store.dispatch(TransactionSubcategoryId(subcategories[index].subcategoryId));
                                       TextEditingController subcategoryText = TextEditingController();
                                       subcategoryText.text = subcategories[index].subcategoryName;
                                       _store.dispatch(TransactionSubcategoryText(subcategoryText));
