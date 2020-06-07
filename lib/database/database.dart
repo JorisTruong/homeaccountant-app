@@ -1,4 +1,3 @@
-import 'package:homeaccountantapp/database/queries/categories.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
@@ -38,6 +37,7 @@ class DatabaseClient {
     database.execute(
       'CREATE TABLE transactions(' +
         'transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+        'transaction_name TEXT,' +
         'account_id INTEGER,' +
         'date TEXT,' +
         'is_expense INTEGER,' +

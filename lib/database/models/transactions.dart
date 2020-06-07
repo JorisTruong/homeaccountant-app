@@ -1,5 +1,6 @@
 class Transaction {
   final int transactionId;
+  final String transactionName;
   final int accountId;
   final String date;
   final bool isExpense;
@@ -10,6 +11,7 @@ class Transaction {
 
   Transaction({
     this.transactionId,
+    this.transactionName,
     this.accountId,
     this.date,
     this.isExpense,
@@ -22,6 +24,7 @@ class Transaction {
   Map<String, dynamic> toMap() {
     return {
       'transaction_id': transactionId,
+      'transaction_name': transactionName,
       'account_id': accountId,
       'date': date,
       'is_expense': isExpense ? 1 : 0,
@@ -34,6 +37,7 @@ class Transaction {
 
   Map<String, dynamic> toMapWithoutId() {
     return {
+      'transaction_name': transactionName,
       'account_id': accountId,
       'date': date,
       'is_expense': isExpense ? 1 : 0,
@@ -46,7 +50,8 @@ class Transaction {
 
   @override
   String toString() {
-    return 'Transaction{account_id: $accountId, ' +
+    return 'Transaction{transaction_id: $transactionId, ' +
+      'transaction_name: $transactionName, ' +
       'account_id: $accountId, ' +
       'date: $date, ' +
       'is_expense: $isExpense, ' +
