@@ -21,7 +21,8 @@ We are listing here all the improvements that are currently planned to be made f
 
 ### High priority:
 * Create, Update and Delete an account
-* Form validation for transaction and category
+* Form validation for transaction, category and account
+* Confirmation when deleting a transaction, category or account
 * Local back-end development
 * Import/Export option
 
