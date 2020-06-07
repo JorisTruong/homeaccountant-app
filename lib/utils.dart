@@ -105,7 +105,7 @@ Map<String, String> dateToDateRange(String type, DateTime dateTime) {
   else {
     return {
       'from': DateTime.now().year.toString() + '-01-01',
-      'to': DateTime.now().year.toString() + '12-31'
+      'to': DateTime.now().year.toString() + '-12-31'
     };
   }
 }
