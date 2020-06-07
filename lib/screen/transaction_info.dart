@@ -371,7 +371,11 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               RaisedButton(
-                                                onPressed: () {
+                                                onPressed: () async {
+                                                  // TODO: Delete confirmation ?
+                                                  if (!_store.state.isCreatingTransaction) {
+                                                    await deleteTransaction(databaseClient.db, _store.state.transactionId);
+                                                  }
                                                   leaveScreen(_store);
                                                   Navigator.of(context).pop();
                                                 },
