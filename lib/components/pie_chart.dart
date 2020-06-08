@@ -144,18 +144,34 @@ class PieChartCardState extends State<PieChartCard> {
 
   /// Chart data
   List<PieChartSectionData> showingSections() {
-    return List.generate(switchData ? widget.expenses.length : widget.revenue.length, (i) {
-      final isTouched = i == touchedIndex;
-      final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
-      final double radius = isTouched ? MediaQuery.of(context).size.width/10 +10 : MediaQuery.of(context).size.width/10;
-      return PieChartSectionData(
-        color: getCategoryColor(i),
-        value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.revenue[i]['percentage'].toDouble(),
-        title: (switchData ? widget.expenses[i]['percentage'].toString() : widget.revenue[i]['percentage'].toString()) + '%',
+    bool emptyExpenses = widget.expenses.every((element) => element['percentage'] == 0);
+    bool emptyRevenue = widget.revenue.every((element) => element['percentage'] == 0);
+    if ((switchData && emptyExpenses) || (!switchData && emptyRevenue)) {
+      final double radius = MediaQuery.of(context).size.width/10;
+      return [PieChartSectionData(
+        color: baseColors.borderColor,
+        value: 100,
+        title: '',
         radius: radius,
         titleStyle: TextStyle(
-            fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),
-      );
-    });
+          fontSize: baseFontSize.text, fontWeight: FontWeight.bold, color: Colors.white
+        ),
+      )];
+    } else {
+      return List.generate(switchData ? widget.expenses.length : widget.revenue.length, (i) {
+        final isTouched = i == touchedIndex;
+        final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
+        final double radius = isTouched ? MediaQuery.of(context).size.width/10 +10 : MediaQuery.of(context).size.width/10;
+        return PieChartSectionData(
+          color: getCategoryColor(i),
+          value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.revenue[i]['percentage'].toDouble(),
+          title: switchData ? formatPercentage(widget.expenses[i]['percentage']) : formatPercentage(widget.revenue[i]['percentage']),
+          radius: radius,
+          titleStyle: TextStyle(
+            fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white
+          ),
+        );
+      });
+    }
   }
 }

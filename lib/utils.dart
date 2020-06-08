@@ -190,7 +190,7 @@ String getYAxis(value, max) {
   return '';
 }
 
-// Get month name from month number
+/// Get month name from month number
 String getMonth(String month) {
   switch (month) {
     case '01':
@@ -219,4 +219,13 @@ String getMonth(String month) {
       return 'December';
   }
   return '';
+}
+
+/// Utils function to not display pie chart percentage when it is 0
+String formatPercentage(double percentage) {
+  if (percentage == 0) {
+    return '';
+  } else {
+    return percentage.toStringAsFixed(0) + '%';
+  }
 }

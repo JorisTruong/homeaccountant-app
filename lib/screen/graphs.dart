@@ -13,6 +13,8 @@ import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -105,7 +107,24 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          PieChartCard(expenses: expenses, revenue: revenue, title1: 'Expenses', title2: 'Revenue'),
+                          FutureBuilder(
+                            future: Future.wait([
+                              getExpenses(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                              getIncome(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId)
+                            ]),
+                            builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                              if (snapshot.hasData) {
+                                return PieChartCard(
+                                  expenses: snapshot.data[0],
+                                  revenue: snapshot.data[1],
+                                  title1: 'Expenses',
+                                  title2: 'Revenue'
+                                );
+                              } else {
+                                return Container();
+                              }
+                            }
+                          ),
                           // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)
                           BarChartDualCard(title: 'Transactions', durationType: 'Week', data: transactionsDetailed),
                           BarChartMultiTypesCard(durationType: 'Week', data: transactionsDetailed)
