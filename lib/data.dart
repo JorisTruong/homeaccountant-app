@@ -34,24 +34,6 @@ List<Map<String, dynamic>> categories_ = [];
 
 /// Graphs
 
-// Get transactions where is_expense = 1, group by categories, sum by value (and compute percentage in back-end ?)
-final expenses = [
-  {'name': 'Category 1', 'percentage': 40},
-  {'name': 'Category 2', 'percentage': 10},
-  {'name': 'Category 3', 'percentage': 17},
-  {'name': 'Category 4', 'percentage': 13},
-  {'name': 'Category 5', 'percentage': 20}
-];
-
-// Get transactions where is_expense = 0, group by categories, sum by value (and compute percentage in back-end ?)
-final revenue = [
-  {'name': 'Category 1', 'percentage': 90},
-  {'name': 'Category 2', 'percentage': 10},
-  {'name': 'Category 3', 'percentage': 0},
-  {'name': 'Category 4', 'percentage': 0},
-  {'name': 'Category 5', 'percentage': 0}
-];
-
 /// Bar chart dual and multi-types
 // 7, 4 or 12 API calls (week, month or year) on transactions where is_expense = 1, group by category and date/week/month and sum
 // 7, 4 or 12 API calls (week, month or year) on transactions where is_expense = 0, group by category and date/week/month and sum
