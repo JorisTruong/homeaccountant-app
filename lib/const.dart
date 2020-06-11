@@ -29,6 +29,7 @@ class BaseColors {
 }
 
 class BaseFontSize {
+  double bigTitle = 24;
   double title = 18;
   double title2 = 16;
   double subtitle = 14;

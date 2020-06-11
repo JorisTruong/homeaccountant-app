@@ -41,7 +41,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 title: Text(
                   'About us',
                   style: TextStyle(
-                      fontSize: baseFontSize.title
+                    fontSize: baseFontSize.title
                   ),
                 ),
                 centerTitle: true,
@@ -50,7 +50,44 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
               ),
               /// This is the drawer accessible from a left-to-right swipe or the top left icon.
               drawer: NavigationDrawer(),
-              body: Center(
+              body: SingleChildScrollView(
+                padding: EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Lorem Ipsum',
+                          style: TextStyle(
+                            fontSize: baseFontSize.bigTitle,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ]
+                    ),
+                    SizedBox(height: 32),
+                    Container(
+                      child: Column(
+                        children: [
+                          Text(
+                            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur risus quis rhoncus fringilla. Suspendisse non metus ultrices, mattis diam convallis, bibendum nisi. Quisque gravida nisi sed felis interdum viverra. In pretium et quam non egestas. Pellentesque ullamcorper mi ac risus porta, id convallis tellus suscipit. In egestas lectus ac luctus sollicitudin. Quisque lectus sem, commodo sit amet velit sit amet, finibus lobortis ligula. Etiam ac risus auctor, lobortis felis in, vulputate ex. Nulla scelerisque tincidunt metus a tempor. In id velit tincidunt est fringilla faucibus. Nulla felis justo, congue id velit eu, facilisis euismod sem. Phasellus ac justo egestas, pulvinar nisi a, commodo mauris. Fusce porta tortor ut elementum consequat.',
+                            style: TextStyle(
+                              fontSize: baseFontSize.title
+                            ),
+                          ),
+                          SizedBox(height: 24),
+                          Text(
+                            'Nullam consectetur augue quis lectus faucibus, sodales porttitor quam laoreet. Duis sed libero malesuada, consequat lorem nec, ultricies nunc. Vivamus sit amet purus erat. Cras in dui facilisis, condimentum quam et, cursus tellus. Integer aliquet lorem dolor. Pellentesque ac accumsan augue, tristique blandit metus. Vestibulum mi magna, imperdiet lacinia orci quis, tempus viverra orci. Duis elementum condimentum vulputate. Phasellus ac odio vel arcu molestie suscipit. Maecenas sit amet suscipit mauris. Sed rhoncus condimentum nisl. Aenean vitae ante diam. Nulla convallis id ex ut auctor. Mauris mattis sit amet neque id tempus. Curabitur et posuere felis. Vestibulum ornare non sapien id convallis.',
+                            style: TextStyle(
+                              fontSize: baseFontSize.title
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ]
+                )
               ),
             )
           );
