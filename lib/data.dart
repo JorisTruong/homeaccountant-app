@@ -13,7 +13,7 @@ final String balance = '250,000';
 final String expensesAll = '80,000';
 
 // Get transactions, group all transactions where is_expense = 0 and sum value
-final String revenueAll = '330,000';
+final String incomeAll = '330,000';
 
 // Get transactions, group all transactions and sum count
 final String transactionNumber = '42';
@@ -34,9 +34,9 @@ List<Map<String, dynamic>> categories_ = [];
 
 /// Graphs
 
-/// Line chart revenue
+/// Line chart income
 // 7, 4 or 12 API calls (week, month or year) on transactions where is_expense = 1, group by date/week/month and sum
-List<double> revenueWeek = [
+List<double> incomeWeek = [
   200000,
   100000,
   30000,

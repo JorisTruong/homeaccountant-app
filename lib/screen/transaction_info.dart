@@ -46,6 +46,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
     _store.dispatch(TransactionName(TextEditingController()));
     _store.dispatch(TransactionAccount(null));
     _store.dispatch(TransactionDate(TextEditingController()));
+    _store.dispatch(TransactionIsExpense(null));
     _store.dispatch(TransactionAmount(TextEditingController()));
     _store.dispatch(TransactionDescription(TextEditingController()));
     _store.dispatch(IsSelectingSubcategory(false));
@@ -257,7 +258,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                   });
                                                 }
                                               ),
-                                              Text('Revenue')
+                                              Text('Income')
                                             ],
                                           ),
                                           SizedBox(height: 12.0),

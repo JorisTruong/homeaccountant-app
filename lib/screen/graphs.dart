@@ -115,9 +115,9 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                               if (snapshot.hasData) {
                                 return PieChartCard(
                                   expenses: snapshot.data[0],
-                                  revenue: snapshot.data[1],
+                                  income: snapshot.data[1],
                                   title1: 'Expenses',
-                                  title2: 'Revenue'
+                                  title2: 'Income'
                                 );
                               } else {
                                 return Container();

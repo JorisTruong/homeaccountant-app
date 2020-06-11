@@ -18,13 +18,13 @@ class PieChartCard extends StatefulWidget {
     this.title1,
     this.title2,
     this.expenses,
-    this.revenue
+    this.income
   });
 
   final String title1;
   final String title2;
   final List<Map<String, dynamic>> expenses;
-  final List<Map<String, dynamic>> revenue;
+  final List<Map<String, dynamic>> income;
 
   @override
   State<StatefulWidget> createState() => PieChartCardState();
@@ -108,10 +108,10 @@ class PieChartCardState extends State<PieChartCard> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       /// Display the legend
-                      children: List.generate(switchData ? widget.expenses.length : widget.revenue.length, (int index) {
+                      children: List.generate(switchData ? widget.expenses.length : widget.income.length, (int index) {
                         return Indicator(
                           color: getCategoryColor(index),
-                          text: switchData ? widget.expenses[index]['name'] : widget.revenue[index]['name'],
+                          text: switchData ? widget.expenses[index]['name'] : widget.income[index]['name'],
                           isSquare: false
                         );
                       })..add(SizedBox(height: 18)),
@@ -145,8 +145,8 @@ class PieChartCardState extends State<PieChartCard> {
   /// Chart data
   List<PieChartSectionData> showingSections() {
     bool emptyExpenses = widget.expenses.every((element) => element['percentage'] == 0);
-    bool emptyRevenue = widget.revenue.every((element) => element['percentage'] == 0);
-    if ((switchData && emptyExpenses) || (!switchData && emptyRevenue)) {
+    bool emptyIncome = widget.income.every((element) => element['percentage'] == 0);
+    if ((switchData && emptyExpenses) || (!switchData && emptyIncome)) {
       final double radius = MediaQuery.of(context).size.width/10;
       return [PieChartSectionData(
         color: baseColors.borderColor,
@@ -158,14 +158,14 @@ class PieChartCardState extends State<PieChartCard> {
         ),
       )];
     } else {
-      return List.generate(switchData ? widget.expenses.length : widget.revenue.length, (i) {
+      return List.generate(switchData ? widget.expenses.length : widget.income.length, (i) {
         final isTouched = i == touchedIndex;
         final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
         final double radius = isTouched ? MediaQuery.of(context).size.width/10 +10 : MediaQuery.of(context).size.width/10;
         return PieChartSectionData(
           color: getCategoryColor(i),
-          value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.revenue[i]['percentage'].toDouble(),
-          title: switchData ? formatPercentage(widget.expenses[i]['percentage']) : formatPercentage(widget.revenue[i]['percentage']),
+          value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.income[i]['percentage'].toDouble(),
+          title: switchData ? formatPercentage(widget.expenses[i]['percentage']) : formatPercentage(widget.income[i]['percentage']),
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white

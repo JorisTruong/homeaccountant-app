@@ -15,11 +15,11 @@ import 'package:homeaccountantapp/utils.dart';
 
 
 /// Get the max value of the data to build the scale
-double getDataMaxValue(List<double> expenses, List<double> revenue, List<double> balance) {
+double getDataMaxValue(List<double> expenses, List<double> income, List<double> balance) {
   double maxExpenses = expenses.reduce(max);
-  double maxRevenue = revenue.reduce(max);
+  double maxIncome = income.reduce(max);
   double maxBalance = balance.reduce(max);
-  return [maxExpenses, maxRevenue, maxBalance].reduce(max);
+  return [maxExpenses, maxIncome, maxBalance].reduce(max);
 }
 
 class LineChartCard extends StatefulWidget {
@@ -44,7 +44,7 @@ class LineChartCardState extends State<LineChartCard> {
   void initState() {
     super.initState();
     switchData = 0;
-    dataMaxValue = getDataMaxValue(expensesWeek, revenueWeek, balanceWeek);
+    dataMaxValue = getDataMaxValue(expensesWeek, incomeWeek, balanceWeek);
   }
 
   @override
@@ -198,8 +198,8 @@ class LineChartCardState extends State<LineChartCard> {
 
   /// Line data
   List<LineChartBarData> linesBarData() {
-    final LineChartBarData revenue = LineChartBarData(
-      spots: dataToSpots(revenueWeek, dataMaxValue),
+    final LineChartBarData income = LineChartBarData(
+      spots: dataToSpots(incomeWeek, dataMaxValue),
       isCurved: false,
       colors: [
         baseColors.green,
@@ -246,11 +246,11 @@ class LineChartCardState extends State<LineChartCard> {
     if (switchData == 1) {
       return [balance];
     } else if (switchData == 2) {
-      return [revenue];
+      return [income];
     } else if (switchData == 3) {
       return [expenses];
     } else {
-      return [balance, revenue, expenses];
+      return [balance, income, expenses];
     }
   }
 }

@@ -28,15 +28,14 @@ int switchFlag(int flag, int max) {
   }
 }
 
-/// Get the max value of revenue or expense in order to scale graphs.
-/// The argument is a List of Map with keys 'revenue' and 'expenses'.
-/// Each value is a List of double of size 5 (for the 5 categories), where
-/// each element represents the sum of expense/revenue of a certain category.
-double getMaxRevenueExpenses(List<Map<String, dynamic>> map) {
-  var maxRevenue = map.map<double>((e) => e['income']).reduce(max);
+/// Get the max value of income or expense in order to scale graphs.
+/// The argument is a List of Map with keys 'income' and 'expenses'.
+/// Each value is a double.
+double getMaxIncomeExpenses(List<Map<String, dynamic>> map) {
+  var maxIncome = map.map<double>((e) => e['income']).reduce(max);
   var maxExpenses = map.map<double>((e) => e['expenses']).reduce(max);
-  if (maxRevenue > maxExpenses) {
-    return maxRevenue;
+  if (maxIncome > maxExpenses) {
+    return maxIncome;
   } else {
     return maxExpenses;
   }

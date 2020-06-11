@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MainCard('Balance', currency, balance, baseColors.blue, 'left'),
-                        MainCard('Revenue', Icons.call_made, revenueAll, baseColors.green, 'right'),
+                        MainCard('Income', Icons.call_made, incomeAll, baseColors.green, 'right'),
                         MainCard('Expenses', Icons.call_received, expensesAll, baseColors.red, 'left'),
                         MainCard('Number of\ntransactions', currency, transactionNumber, baseColors.yellow, 'right'),
                         // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)

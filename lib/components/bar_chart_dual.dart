@@ -43,7 +43,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
 
     switchData = 0;
     width = 10;
-    maxValue = getMaxRevenueExpenses(widget.data);
+    maxValue = getMaxIncomeExpenses(widget.data);
     barGroups = makeBarChart();
   }
 
@@ -89,7 +89,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                             switchData = switchFlag(switchData, 3);
                             switchData == 1 || switchData == 2 ? width = 20 : width = 10;
                             if (switchData == 0) {
-                              maxValue = getMaxRevenueExpenses(widget.data);
+                              maxValue = getMaxIncomeExpenses(widget.data);
                             }
                             if (switchData == 1) {
                               maxValue = widget.data.map<double>((e) => e['income']).reduce(max);
@@ -188,7 +188,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
 
   /// Dual chart data
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    BarChartRodData revenue = BarChartRodData(
+    BarChartRodData income = BarChartRodData(
       y: y1,
       color: leftBarColor,
       width: width,
@@ -202,7 +202,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
 
     if (switchData == 1) {
       return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-        revenue
+        income
       ]);
     } else if (switchData == 2) {
       return BarChartGroupData(barsSpace: 4, x: x, barRods: [
@@ -210,7 +210,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
       ]);
     } else {
       return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-        revenue,
+        income,
         expenses
       ]);
     }
