@@ -108,8 +108,8 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                         children: [
                           FutureBuilder(
                             future: Future.wait([
-                              getExpensesProportion(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                              getIncomeProportion(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId)
+                              getExpensesProportion(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                              getIncomeProportion(databaseClient.db, _store.state.dateRange, _store.state.accountId)
                             ]),
                             builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                               if (snapshot.hasData) {
@@ -125,7 +125,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                             }
                           ),
                           FutureBuilder(
-                            future: getTransactionsAmount(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                            future: getTransactionsAmount(databaseClient.db, _store.state.dateRange, _store.state.accountId),
                             builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                               if (snapshot.hasData) {
                                 return BarChartDualCard(title: 'Transactions', data: snapshot.data);
