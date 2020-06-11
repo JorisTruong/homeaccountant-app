@@ -11,6 +11,7 @@ import 'package:homeaccountantapp/components/bar_chart_dual.dart';
 import 'package:homeaccountantapp/components/bar_chart_multi_types.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
+import 'package:homeaccountantapp/components/line_chart.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/database/database.dart';
@@ -109,7 +110,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                         children: [
                           FutureBuilder(
                             future: Future.wait([
-                              getExpenses(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                              getExpensesProportion(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
                               getIncome(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId)
                             ]),
                             builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -127,7 +128,8 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                           ),
                           // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)
                           BarChartDualCard(title: 'Transactions', durationType: 'Week', data: transactionsDetailed),
-                          BarChartMultiTypesCard(durationType: 'Week', data: transactionsDetailed)
+                          BarChartMultiTypesCard(durationType: 'Week', data: transactionsDetailed),
+                          LineChartCard(title: 'Transactions', durationType: 'Week'),
                         ],
                       ),
                     ),

@@ -9,7 +9,6 @@ List options = [
   {'name': 'Transactions', 'icon': Icons.done_all, 'route': AppRoutes.transactions},
   {'name': 'Categories', 'icon': Icons.category, 'route': AppRoutes.categories},
   {'name': 'Graphs', 'icon': Icons.pie_chart, 'route': AppRoutes.graphs},
-  {'name': 'Charts', 'icon': Icons.show_chart, 'route': AppRoutes.charts},
   {'name': 'About us', 'icon': Icons.info_outline, 'route': AppRoutes.about}
 ];
 

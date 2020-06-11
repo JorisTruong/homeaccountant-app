@@ -14,7 +14,6 @@ import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
 import 'screen/category_info.dart';
 import 'screen/graphs.dart';
-import 'screen/charts.dart';
 import 'screen/about.dart';
 import 'navigation/app_routes.dart';
 import 'navigation/route_aware_widget.dart';
@@ -79,8 +78,6 @@ class MyApp extends StatelessWidget {
         return MainRoute(CategoriesPage(), settings: settings);
       case AppRoutes.graphs:
         return MainRoute((GraphsPage()), settings: settings);
-      case AppRoutes.charts:
-        return MainRoute(ChartsPage(), settings: settings);
       case AppRoutes.about:
         return MainRoute(AboutPage(), settings: settings);
       case AppRoutes.transaction:
