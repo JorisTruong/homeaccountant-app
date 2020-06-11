@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'dart:math';
@@ -110,86 +109,6 @@ Map<String, String> dateToDateRange(String type, DateTime dateTime) {
       'to': DateTime.now().year.toString() + '-12-31'
     };
   }
-}
-
-/// Build the X-axis.
-/// Used for bar charts.
-String getXAxis(value, type) {
-  if (type == 'Week') {
-    switch (value.toInt()) {
-      case 0:
-        return 'MON';
-      case 1:
-        return 'TUE';
-      case 2:
-        return 'WED';
-      case 3:
-        return 'THU';
-      case 4:
-        return 'FRI';
-      case 5:
-        return 'SAT';
-      case 6:
-        return 'SUN';
-    }
-  } else if (type == 'Month') {
-    switch (value.toInt()) {
-      case 0:
-        return 'W1';
-      case 2:
-        return 'W2';
-      case 4:
-        return 'W3';
-      case 6:
-        return 'W4';
-    }
-  } else if (type == 'Year') {
-    switch (value.toInt()) {
-      case 0:
-        return 'JAN';
-      case 1:
-        return 'FEB';
-      case 2:
-        return 'MAR';
-      case 3:
-        return 'APR';
-      case 4:
-        return 'MAY';
-      case 5:
-        return 'JUN';
-      case 6:
-        return 'JUL';
-      case 7:
-        return 'AUG';
-      case 8:
-        return 'SEP';
-      case 9:
-        return 'OCT';
-      case 10:
-        return 'NOV';
-      case 11:
-        return 'DEC';
-    }
-  }
-  return '';
-}
-
-/// Build the scale for the Y-axis.
-/// Used for bar charts.
-String getYAxis(value, max) {
-  switch (value.toInt()) {
-    case 0:
-      return '0';
-    case 5:
-      return NumberFormat.compact().format(max * 0.25);
-    case 10:
-      return NumberFormat.compact().format(max * 0.5);
-    case 15:
-      return NumberFormat.compact().format(max * 0.75);
-    case 20:
-      return NumberFormat.compact().format(max);
-  }
-  return '';
 }
 
 /// Get month name from month number

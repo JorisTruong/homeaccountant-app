@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
 
@@ -226,4 +227,21 @@ class BarChartDualCardState extends State<BarChartDualCard> {
       );
     });
   }
+}
+
+/// Build the scale for the Y-axis.
+String getYAxis(value, max) {
+  switch (value.toInt()) {
+    case 0:
+      return '0';
+    case 5:
+      return NumberFormat.compact().format(max * 0.25);
+    case 10:
+      return NumberFormat.compact().format(max * 0.5);
+    case 15:
+      return NumberFormat.compact().format(max * 0.75);
+    case 20:
+      return NumberFormat.compact().format(max);
+  }
+  return '';
 }
