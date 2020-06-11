@@ -14,6 +14,8 @@ Future<void> createTransaction(Database db, models.Transaction transaction) asyn
 }
 
 // READ
+/// Get the number of transactions of a certain account in a given date range.
+/// Used in a main card in homepage.
 Future<int> getTransactionsCount(Database db, Map<String, String> dateRange, int accountId) async {
   int count = (await db.rawQuery(
     'SELECT COUNT(*) as count FROM transactions WHERE date >= ? AND date <= ? AND account_id = ?',
@@ -25,6 +27,7 @@ Future<int> getTransactionsCount(Database db, Map<String, String> dateRange, int
   return count;
 }
 
+/// Read all transactions of a certain account in a given date range.
 Future<List<models.Transaction>> readTransactions(Database db, Map<String, String> dateRange, int accountId) async {
   final List<Map<String, dynamic>> transactions = await db.rawQuery(
     'SELECT * FROM transactions WHERE date >= ? AND date <= ? AND account_id = ?',
@@ -45,6 +48,8 @@ Future<List<models.Transaction>> readTransactions(Database db, Map<String, Strin
   });
 }
 
+/// Format the transactions to divide them in monthly cards.
+/// Used in the Transactions page.
 Future<Map<String, List<models.Transaction>>> getTransactions(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
   // Get year
   String year = dateRange['from'].split('-')[0];
@@ -72,6 +77,7 @@ Future<Map<String, List<models.Transaction>>> getTransactions(Database db, Strin
   }
 }
 
+/// Get the total amount of a certain category transactions, from a given account and a given date range
 Future<double> getCategoryAmount(int categoryId, Database db, Map<String, String> dateRange, int accountId, int isExpense) async {
   double result = (await db.rawQuery(
     'SELECT SUM(amount) as total FROM transactions WHERE category_id = ? AND date >= ? AND date <= ? AND account_id = ? AND is_expense = ?',
@@ -83,6 +89,7 @@ Future<double> getCategoryAmount(int categoryId, Database db, Map<String, String
   return result;
 }
 
+/// Get the total amount of each categories expense transactions, from a given account and a given date range
 Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, String> dateRange, int accountId) async {
   double category1Expenses = await getCategoryAmount(0, db, dateRange, accountId, 1);
   double category2Expenses = await getCategoryAmount(1, db, dateRange, accountId, 1);
@@ -98,6 +105,7 @@ Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, St
   ];
 }
 
+/// Get the total amount of all expense transactions, from a given account and a given date range
 Future<double> getTotalExpense(Database db, Map<String, String> dateRange, int accountId) async {
   double totalExpense = (await db.rawQuery(
     'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 1',
@@ -109,6 +117,7 @@ Future<double> getTotalExpense(Database db, Map<String, String> dateRange, int a
   return totalExpense;
 }
 
+/// Get the proportion of each categories expense transactions, from a given account and a given date range
 Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String, String> dateRange, int accountId) async {
   double totalExpenses = await getTotalExpense(db, dateRange, accountId);
   if (totalExpenses == null || totalExpenses == 0) {
@@ -130,6 +139,7 @@ Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String
   }
 }
 
+/// Get the total amount of each categories income transactions, from a given account and a given date range
 Future<List<Map<String, dynamic>>> getIncomeAmount(Database db, Map<String, String> dateRange, int accountId) async {
   double category1Income = await getCategoryAmount(0, db, dateRange, accountId, 0);
   double category2Income = await getCategoryAmount(1, db, dateRange, accountId, 0);
@@ -145,6 +155,7 @@ Future<List<Map<String, dynamic>>> getIncomeAmount(Database db, Map<String, Stri
   ];
 }
 
+/// /// Get the total amount of all income transactions, from a given account and a given date range
 Future<double> getTotalIncome(Database db, Map<String, String> dateRange, int accountId) async {
   double totalIncome = (await db.rawQuery(
     'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 0',
@@ -156,6 +167,7 @@ Future<double> getTotalIncome(Database db, Map<String, String> dateRange, int ac
   return totalIncome;
 }
 
+/// Get the proportion of each categories income transactions, from a given account and a given date range
 Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, String> dateRange, int accountId) async {
   double totalIncome = await getTotalIncome(db, dateRange, accountId);
   if (totalIncome == null || totalIncome == 0) {
@@ -177,12 +189,15 @@ Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, 
   }
 }
 
+/// Get the total balance of a certain account in a given date range.
+/// Used in a main card in homepage.
 Future<double> getTotalBalance(Database db, Map<String, String> dateRange, int accountId) async {
   double totalExpenses = await getTotalExpense(db, dateRange, accountId);
   double totalIncome = await getTotalIncome(db, dateRange, accountId);
   return totalIncome - totalExpenses;
 }
 
+/// Get the total amount of each categories transactions, from a given account and a given date range
 Future<List<Map<String, dynamic>>> getTransactionsAmount(Database db, Map<String, String> dateRange, int accountId) async {
   var expensesAmount = await getExpensesAmount(db, dateRange, accountId);
   var incomeAmount = await getIncomeAmount(db, dateRange, accountId);
