@@ -32,9 +32,9 @@ int switchFlag(int flag, int max) {
 /// The argument is a List of Map with keys 'revenue' and 'expenses'.
 /// Each value is a List of double of size 5 (for the 5 categories), where
 /// each element represents the sum of expense/revenue of a certain category.
-double getMaxRevenueExpenses(List<Map<String, List<double>>> map) {
-  var maxRevenue = map.map<double>((e) => e['revenue'].reduce((a, b) => a + b)).reduce(max);
-  var maxExpenses = map.map<double>((e) => e['expenses'].reduce((a, b) => a + b)).reduce(max);
+double getMaxRevenueExpenses(List<Map<String, dynamic>> map) {
+  var maxRevenue = map.map<double>((e) => e['income']).reduce(max);
+  var maxExpenses = map.map<double>((e) => e['expenses']).reduce(max);
   if (maxRevenue > maxExpenses) {
     return maxRevenue;
   } else {
@@ -44,6 +44,9 @@ double getMaxRevenueExpenses(List<Map<String, List<double>>> map) {
 
 /// Compute the y-coordinate for the given value in a bar chart.
 double makeBarValue(double value, double maxValue) {
+  if (maxValue == 0) {
+    return 0;
+  }
   return value * 20 / maxValue;
 }
 

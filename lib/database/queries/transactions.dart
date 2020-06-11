@@ -73,7 +73,22 @@ Future<double> getCategoryAmount(int categoryId, Database db, String dateRangeTy
   }
 }
 
-Future<List<Map<String, dynamic>>> getExpenses(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
+Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
+  double category1Expenses = await getCategoryAmount(0, db, dateRangeType, dateRange, accountId, 1);
+  double category2Expenses = await getCategoryAmount(1, db, dateRangeType, dateRange, accountId, 1);
+  double category3Expenses = await getCategoryAmount(2, db, dateRangeType, dateRange, accountId, 1);
+  double category4Expenses = await getCategoryAmount(3, db, dateRangeType, dateRange, accountId, 1);
+  double category5Expenses = await getCategoryAmount(4, db, dateRangeType, dateRange, accountId, 1);
+  return [
+    {'name': 'Category 1', 'expenses': category1Expenses},
+    {'name': 'Category 2', 'expenses': category2Expenses},
+    {'name': 'Category 3', 'expenses': category3Expenses},
+    {'name': 'Category 4', 'expenses': category4Expenses},
+    {'name': 'Category 5', 'expenses': category5Expenses}
+  ];
+}
+
+Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
   double totalExpenses = (await db.rawQuery(
     'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 1',
     [dateRange['from'], dateRange['to'], accountId]
@@ -87,22 +102,32 @@ Future<List<Map<String, dynamic>>> getExpenses(Database db, String dateRangeType
       {'name': 'Category 5', 'percentage': 0}
     ];
   } else {
-    double category1Expenses = await getCategoryAmount(0, db, dateRangeType, dateRange, accountId, 1);
-    double category2Expenses = await getCategoryAmount(1, db, dateRangeType, dateRange, accountId, 1);
-    double category3Expenses = await getCategoryAmount(2, db, dateRangeType, dateRange, accountId, 1);
-    double category4Expenses = await getCategoryAmount(3, db, dateRangeType, dateRange, accountId, 1);
-    double category5Expenses = await getCategoryAmount(4, db, dateRangeType, dateRange, accountId, 1);
-    return [
-      {'name': 'Category 1', 'percentage': 100 * category1Expenses / totalExpenses},
-      {'name': 'Category 2', 'percentage': 100 * category2Expenses / totalExpenses},
-      {'name': 'Category 3', 'percentage': 100 * category3Expenses / totalExpenses},
-      {'name': 'Category 4', 'percentage': 100 * category4Expenses / totalExpenses},
-      {'name': 'Category 5', 'percentage': 100 * category5Expenses / totalExpenses}
-    ];
+    var result = await getExpensesAmount(db, dateRangeType, dateRange, accountId);
+    return List.generate(result.length, (int i) {
+      return {
+        'name': result[i]['name'],
+        'percentage': 100 * result[i]['expenses'] / totalExpenses
+      };
+    });
   }
 }
 
-Future<List<Map<String, dynamic>>> getIncome(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
+Future<List<Map<String, dynamic>>> getIncomeAmount(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
+  double category1Income = await getCategoryAmount(0, db, dateRangeType, dateRange, accountId, 0);
+  double category2Income = await getCategoryAmount(1, db, dateRangeType, dateRange, accountId, 0);
+  double category3Income = await getCategoryAmount(2, db, dateRangeType, dateRange, accountId, 0);
+  double category4Income = await getCategoryAmount(3, db, dateRangeType, dateRange, accountId, 0);
+  double category5Income = await getCategoryAmount(4, db, dateRangeType, dateRange, accountId, 0);
+  return [
+    {'name': 'Category 1', 'income': category1Income},
+    {'name': 'Category 2', 'income': category2Income},
+    {'name': 'Category 3', 'income': category3Income},
+    {'name': 'Category 4', 'income': category4Income},
+    {'name': 'Category 5', 'income': category5Income}
+  ];
+}
+
+Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
   double totalIncome = (await db.rawQuery(
       'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 0',
       [dateRange['from'], dateRange['to'], accountId]
@@ -116,19 +141,24 @@ Future<List<Map<String, dynamic>>> getIncome(Database db, String dateRangeType, 
       {'name': 'Category 5', 'percentage': 0}
     ];
   } else {
-    double category1Income = await getCategoryAmount(0, db, dateRangeType, dateRange, accountId, 0);
-    double category2Income = await getCategoryAmount(1, db, dateRangeType, dateRange, accountId, 0);
-    double category3Income = await getCategoryAmount(2, db, dateRangeType, dateRange, accountId, 0);
-    double category4Income = await getCategoryAmount(3, db, dateRangeType, dateRange, accountId, 0);
-    double category5Income = await getCategoryAmount(4, db, dateRangeType, dateRange, accountId, 0);
-    return [
-      {'name': 'Category 1', 'percentage': 100 * category1Income / totalIncome},
-      {'name': 'Category 2', 'percentage': 100 * category2Income / totalIncome},
-      {'name': 'Category 3', 'percentage': 100 * category3Income / totalIncome},
-      {'name': 'Category 4', 'percentage': 100 * category4Income / totalIncome},
-      {'name': 'Category 5', 'percentage': 100 * category5Income / totalIncome}
-    ];
+    var result = await getIncomeAmount(db, dateRangeType, dateRange, accountId);
+    return List.generate(result.length, (int i) {
+      return {
+        'name': result[i]['name'],
+        'percentage': 100 * result[i]['income'] / totalIncome
+      };
+    });
   }
+}
+
+Future<List<Map<String, dynamic>>> getTransactionsAmount(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
+  var expensesAmount = await getExpensesAmount(db, dateRangeType, dateRange, accountId);
+  var incomeAmount = await getIncomeAmount(db, dateRangeType, dateRange, accountId);
+  return List.generate(expensesAmount.length, (int i) {
+    return {
+      'name': expensesAmount[i]['name'], 'expenses': expensesAmount[i]['expenses'], 'income': incomeAmount[i]['income']
+    };
+  });
 }
 
 // UPDATE

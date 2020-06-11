@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'dart:math';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/const.dart';
@@ -15,13 +16,11 @@ class BarChartDualCard extends StatefulWidget {
   BarChartDualCard({
     Key key,
     this.title,
-    this.durationType,
     this.data
   });
 
   final String title;
-  final String durationType;
-  final List<Map<String, List<double>>> data;
+  final List<Map<String, dynamic>> data;
 
   @override
   State<StatefulWidget> createState() => BarChartDualCardState();
@@ -89,6 +88,15 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                           setState(() {
                             switchData = switchFlag(switchData, 3);
                             switchData == 1 || switchData == 2 ? width = 20 : width = 10;
+                            if (switchData == 0) {
+                              maxValue = getMaxRevenueExpenses(widget.data);
+                            }
+                            if (switchData == 1) {
+                              maxValue = widget.data.map<double>((e) => e['income']).reduce(max);
+                            }
+                            if (switchData == 2) {
+                              maxValue = widget.data.map<double>((e) => e['expenses']).reduce(max);
+                            }
                             barGroups = makeBarChart();
                           });
                         },
@@ -128,7 +136,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                   getTooltipItem: (_a, _b, _c, _d) {
                                     double realValue = valueFromBar(_c.y, maxValue);
                                     return BarTooltipItem(
-                                      (_d == 0 ? 'Expenses : \n' : 'Revenue : \n') + realValue.toString(),
+                                      (_d == 0 ? 'Income : \n' : 'Expenses : \n') + realValue.toString(),
                                       TextStyle(color: Colors.white)
                                     );
                                   },
@@ -144,7 +152,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                     fontSize: baseFontSize.text),
                                   margin: 20,
                                   getTitles: (double value) {
-                                    return getXAxis(value, widget.durationType);
+                                    return widget.data[value.toInt()]['name'];
                                   },
                                 ),
                                 leftTitles: SideTitles(
@@ -213,8 +221,8 @@ class BarChartDualCardState extends State<BarChartDualCard> {
     return List.generate(widget.data.length, (int i) {
       return makeGroupData(
         i,
-        makeBarValue(widget.data[i]['revenue'].reduce((a, b) => a+b), maxValue),
-        makeBarValue(widget.data[i]['expenses'].reduce((a, b) => a+b), maxValue)
+        makeBarValue(widget.data[i]['income'], maxValue),
+        makeBarValue(widget.data[i]['expenses'], maxValue)
       );
     });
   }

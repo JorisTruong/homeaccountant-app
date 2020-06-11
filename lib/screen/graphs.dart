@@ -4,11 +4,9 @@ import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:homeaccountantapp/const.dart';
-import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/bar_chart_dual.dart';
-import 'package:homeaccountantapp/components/bar_chart_multi_types.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
@@ -111,7 +109,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                           FutureBuilder(
                             future: Future.wait([
                               getExpensesProportion(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                              getIncome(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId)
+                              getIncomeProportion(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId)
                             ]),
                             builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                               if (snapshot.hasData) {
@@ -126,9 +124,16 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                               }
                             }
                           ),
-                          // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)
-                          BarChartDualCard(title: 'Transactions', durationType: 'Week', data: transactionsDetailed),
-                          BarChartMultiTypesCard(durationType: 'Week', data: transactionsDetailed),
+                          FutureBuilder(
+                            future: getTransactionsAmount(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                            builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+                              if (snapshot.hasData) {
+                                return BarChartDualCard(title: 'Transactions', data: snapshot.data);
+                              } else {
+                                return Container();
+                              }
+                            }
+                          ),
                           LineChartCard(title: 'Transactions', durationType: 'Week'),
                         ],
                       ),
