@@ -12,6 +12,8 @@ import 'package:homeaccountantapp/components/main_card.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -106,10 +108,46 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MainCard('Balance', currency, balance, baseColors.blue, 'left'),
-                        MainCard('Income', Icons.call_made, incomeAll, baseColors.green, 'right'),
-                        MainCard('Expenses', Icons.call_received, expensesAll, baseColors.red, 'left'),
-                        MainCard('Number of\ntransactions', currency, transactionNumber, baseColors.yellow, 'right'),
+                        FutureBuilder(
+                          future: getTotalBalance(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                            if (snapshot.hasData) {
+                              return MainCard('Balance', currency, snapshot.data.toString(), baseColors.blue, 'left');
+                            } else {
+                              return MainCard('Balance', currency, '', baseColors.blue, 'left');
+                            }
+                          },
+                        ),
+                        FutureBuilder(
+                          future: getTotalIncome(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                            if (snapshot.hasData) {
+                              return MainCard('Income', Icons.call_made, snapshot.data.toString(), baseColors.green, 'right');
+                            } else {
+                              return MainCard('Income', Icons.call_made, '', baseColors.green, 'right');
+                            }
+                          },
+                        ),
+                        FutureBuilder(
+                          future: getTotalExpense(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                            if (snapshot.hasData) {
+                              return MainCard('Expenses', Icons.call_received, snapshot.data.toString(), baseColors.red, 'left');
+                            } else {
+                              return MainCard('Expenses', Icons.call_received, '', baseColors.red, 'left');
+                            }
+                          },
+                        ),
+                        FutureBuilder(
+                          future: getTransactionsCount(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                            if (snapshot.hasData) {
+                              return MainCard('Number of\ntransactions', currency, snapshot.data.toString(), baseColors.yellow, 'right');
+                            } else {
+                              return MainCard('Number of\ntransactions', currency, '', baseColors.yellow, 'right');
+                            }
+                          },
+                        ),
                         // TODO: Replace durationType by the rangeType in store (cannot do yet because of data)
                         LineChartCard(title: 'Transactions', durationType: 'Week')
                       ],

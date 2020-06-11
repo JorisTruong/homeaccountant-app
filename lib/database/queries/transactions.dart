@@ -14,6 +14,17 @@ Future<void> createTransaction(Database db, models.Transaction transaction) asyn
 }
 
 // READ
+Future<int> getTransactionsCount(Database db, Map<String, String> dateRange, int accountId) async {
+  int count = (await db.rawQuery(
+    'SELECT COUNT(*) as count FROM transactions WHERE date >= ? AND date <= ? AND account_id = ?',
+    [dateRange['from'], dateRange['to'], accountId]
+  ))[0]['count'];
+  if (count == null) {
+    return 0;
+  }
+  return count;
+}
+
 Future<List<models.Transaction>> readTransactions(Database db, Map<String, String> dateRange, int accountId) async {
   final List<Map<String, dynamic>> transactions = await db.rawQuery(
     'SELECT * FROM transactions WHERE date >= ? AND date <= ? AND account_id = ?',
@@ -68,9 +79,8 @@ Future<double> getCategoryAmount(int categoryId, Database db, Map<String, String
   ))[0]['total'];
   if (result == null) {
     return 0;
-  } else {
-    return result;
   }
+  return result;
 }
 
 Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, String> dateRange, int accountId) async {
@@ -88,11 +98,19 @@ Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, St
   ];
 }
 
-Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String, String> dateRange, int accountId) async {
-  double totalExpenses = (await db.rawQuery(
+Future<double> getTotalExpense(Database db, Map<String, String> dateRange, int accountId) async {
+  double totalExpense = (await db.rawQuery(
     'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 1',
     [dateRange['from'], dateRange['to'], accountId]
   ))[0]['total'];
+  if (totalExpense == null) {
+    return 0;
+  }
+  return totalExpense;
+}
+
+Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String, String> dateRange, int accountId) async {
+  double totalExpenses = await getTotalExpense(db, dateRange, accountId);
   if (totalExpenses == null || totalExpenses == 0) {
     return [
       {'name': 'Category 1', 'percentage': 0},
@@ -127,11 +145,19 @@ Future<List<Map<String, dynamic>>> getIncomeAmount(Database db, Map<String, Stri
   ];
 }
 
-Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, String> dateRange, int accountId) async {
+Future<double> getTotalIncome(Database db, Map<String, String> dateRange, int accountId) async {
   double totalIncome = (await db.rawQuery(
-      'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 0',
-      [dateRange['from'], dateRange['to'], accountId]
+    'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 0',
+    [dateRange['from'], dateRange['to'], accountId]
   ))[0]['total'];
+  if (totalIncome == null) {
+    return 0;
+  }
+  return totalIncome;
+}
+
+Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, String> dateRange, int accountId) async {
+  double totalIncome = await getTotalIncome(db, dateRange, accountId);
   if (totalIncome == null || totalIncome == 0) {
     return [
       {'name': 'Category 1', 'percentage': 0},
@@ -149,6 +175,12 @@ Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, 
       };
     });
   }
+}
+
+Future<double> getTotalBalance(Database db, Map<String, String> dateRange, int accountId) async {
+  double totalExpenses = await getTotalExpense(db, dateRange, accountId);
+  double totalIncome = await getTotalIncome(db, dateRange, accountId);
+  return totalIncome - totalExpenses;
 }
 
 Future<List<Map<String, dynamic>>> getTransactionsAmount(Database db, Map<String, String> dateRange, int accountId) async {
