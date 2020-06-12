@@ -26,6 +26,7 @@ class BaseColors {
   Color category4 = Color(0xff13d38e);
   Color category5 = Color(0xfff293ee);
   Color borderColor = Colors.grey[400];
+  Color errorColor = Colors.red[700];
 }
 
 class BaseFontSize {

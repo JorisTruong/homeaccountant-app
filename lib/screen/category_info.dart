@@ -31,6 +31,9 @@ class CategoryInfoPage extends StatefulWidget {
 
 class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
+  bool errorCategory = false;
+  bool errorSubcategory = false;
+  bool errorIcon = false;
 
   void resetState(Store<AppState> _store) {
     /// When selecting a subcategory from a new transaction, we should not
@@ -60,7 +63,9 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
     final color = getCategoryColor(_store.state.categoryIndex) == null ?
       baseColors.mainColor :
       getCategoryColor(_store.state.categoryIndex);
-    changeIcon(_iconData, color, _store);
+    if (_iconData != null) {
+      changeIcon(_iconData, color, _store);
+    }
   }
 
   @override
@@ -156,7 +161,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                 margin: EdgeInsets.zero,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(40.0),
-                                                  side: BorderSide(color: baseColors.borderColor)
+                                                  side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.borderColor)
                                                 ),
                                                 child: Row(
                                                   children: [
@@ -178,6 +183,9 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                           }
                                                         },
                                                         onChanged: (int newValue) {
+                                                          setState(() {
+                                                            errorCategory = false;
+                                                          });
                                                           _store.dispatch(SelectCategory(newValue));
                                                           if (_store.state.categorySubcategoryIcon != null) {
                                                             Color color = getCategoryColor(_store.state.categoryIndex) == null ?
@@ -205,6 +213,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                           TextField(
                                             controller: _store.state.categorySubcategoryText,
                                             decoration: InputDecoration(
+                                              errorText: errorSubcategory ? 'Cannot be null' : null,
                                               isDense: true,
                                               alignLabelWithHint: true,
                                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
@@ -212,6 +221,11 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               labelText: 'Subcategory',
                                               prefixIcon: Icon(Icons.turned_in, color: baseColors.mainColor)
                                             ),
+                                            onChanged: (string) {
+                                              setState(() {
+                                                errorSubcategory = false;
+                                              });
+                                            },
                                           ),
                                           SizedBox(height: 12.0),
                                           _store.state.categorySubcategoryIcon == null ? SizedBox(height: 12.0) : Column(
@@ -223,7 +237,12 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                           SizedBox(height: 12.0),
                                           /// Icon of the subcategory
                                           RaisedButton(
-                                            onPressed: () {_pickIcon(_store);},
+                                            onPressed: () {
+                                              setState(() {
+                                                errorIcon = false;
+                                              });
+                                              _pickIcon(_store);
+                                            },
                                             child: Text(
                                               'Pick an icon',
                                               style: TextStyle(
@@ -234,6 +253,13 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             color: baseColors.blue,
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(40.0),
+                                            ),
+                                          ),
+                                          Text(
+                                            errorIcon ? 'Choose an icon' : '',
+                                            style: TextStyle(
+                                              fontSize: baseFontSize.text,
+                                              color: baseColors.errorColor
                                             ),
                                           ),
                                           SizedBox(height: 24.0),
@@ -266,26 +292,42 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                               SizedBox(width: 12.0),
                                               RaisedButton(
                                                 onPressed: () async {
-                                                  // TODO: Form validation
-                                                  if (_store.state.isCreatingSubcategory) {
-                                                    Subcategory subcategory = Subcategory(
-                                                      categoryId: _store.state.categoryIndex,
-                                                      subcategoryName: _store.state.categorySubcategoryText.text,
-                                                      subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
-                                                    );
-                                                    await createSubcategory(databaseClient.db, subcategory);
-                                                  } else {
-                                                    Subcategory subcategory = Subcategory(
-                                                      subcategoryId: _store.state.categorySubcategoryId,
-                                                      categoryId: _store.state.categoryIndex,
-                                                      subcategoryName: _store.state.categorySubcategoryText.text,
-                                                      subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
-                                                    );
-                                                    await updateSubcategory(databaseClient.db, subcategory);
+                                                  if (_store.state.categoryIndex == null) {
+                                                    setState(() {
+                                                      errorCategory = true;
+                                                    });
                                                   }
-                                                  _store.dispatch(NavigatePopAction());
-                                                  resetState(_store);
-                                                  Navigator.of(context).pop();
+                                                  if (_store.state.categorySubcategoryText.text == '') {
+                                                    setState(() {
+                                                      errorSubcategory = true;
+                                                    });
+                                                  }
+                                                  if (_store.state.categorySubcategoryIcon == null) {
+                                                    setState(() {
+                                                      errorIcon = true;
+                                                    });
+                                                  }
+                                                  if (!errorCategory && !errorSubcategory && !errorIcon){
+                                                    if (_store.state.isCreatingSubcategory) {
+                                                      Subcategory subcategory = Subcategory(
+                                                        categoryId: _store.state.categoryIndex,
+                                                        subcategoryName: _store.state.categorySubcategoryText.text,
+                                                        subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
+                                                      );
+                                                      await createSubcategory(databaseClient.db, subcategory);
+                                                    } else {
+                                                      Subcategory subcategory = Subcategory(
+                                                        subcategoryId: _store.state.categorySubcategoryId,
+                                                        categoryId: _store.state.categoryIndex,
+                                                        subcategoryName: _store.state.categorySubcategoryText.text,
+                                                        subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
+                                                      );
+                                                      await updateSubcategory(databaseClient.db, subcategory);
+                                                    }
+                                                    _store.dispatch(NavigatePopAction());
+                                                    resetState(_store);
+                                                    Navigator.of(context).pop();
+                                                  }
                                                 },
                                                 child: Text(
                                                   'VALIDATE',
