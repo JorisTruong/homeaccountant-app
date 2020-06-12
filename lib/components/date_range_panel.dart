@@ -112,7 +112,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                 dp.MonthPicker(
                   selectedDate: _store.state.selectedDate,
                   firstDate: DateTime(1900),
-                  lastDate: DateTime.now(),
+                  lastDate: DateTime(2100),
                   onChanged: (datePeriod) {
                     _store.dispatch(UpdateSelectedDate(datePeriod));
                   },
@@ -121,7 +121,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                 dp.WeekPicker(
                   selectedDate: _store.state.selectedDate,
                   firstDate: DateTime(1900),
-                  lastDate: DateTime.now(),
+                  lastDate: DateTime(2100),
                   onChanged: (datePeriod) {
                     _store.dispatch(UpdateSelectedDate(datePeriod.start));
                   },
