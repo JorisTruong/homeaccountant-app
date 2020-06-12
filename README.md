@@ -8,8 +8,7 @@ The application is built on multiple main pages:
 1. The **Homepage** is where main information are displayed, like the total amount of expenses, of income, or the balance.
 2. The **Transactions page** is where we can find all the transactions. They are organized by months.
 3. The **Categories page** is where we can find all the defined categories and subcategories for a transaction.
-4. The **Graphs page** is where different graphs are displayed. Pie charts, bar charts, for more graphical information on your transactions.
-5. The **Charts page** is similar to the graphs page. We can find line charts in it.
+4. The **Graphs page** is where different graphs are displayed. Pie charts, bar charts, line charts, for more graphical information on your transactions.
 
 Home Accountant is also organized in accounts. That is, you can build multiple accounts and save transactions independently from other accounts. The information on the transactions page, graphs page or charts page are based on the selected account. It is also possible to selected a particular date range in which the information showed will be based on the date range.
 
