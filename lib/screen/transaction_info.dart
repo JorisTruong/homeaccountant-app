@@ -404,7 +404,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                       isExpense: _store.state.transactionIsExpense,
                                                       categoryId: _store.state.categoryIndex,
                                                       subcategoryId: _store.state.transactionSubcategoryId,
-                                                      amount: double.parse(_store.state.transactionAmount.text),
+                                                      amount: _store.state.transactionIsExpense ? -double.parse(_store.state.transactionAmount.text) : double.parse(_store.state.transactionAmount.text),
                                                       description: _store.state.transactionDescription.text,
                                                     );
                                                     await createTransaction(databaseClient.db, transaction);

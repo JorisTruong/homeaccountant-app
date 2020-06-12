@@ -104,7 +104,7 @@ class TransactionItem extends StatelessWidget {
                                   Text(transactions[index].description, style: TextStyle(fontSize: baseFontSize.text2)),
                                 /// Amount of the transaction
                                 trailing: Text(
-                                  (transactions[index].isExpense ? '-' : '+') + transactions[index].amount.toString(),
+                                  (transactions[index].isExpense ? '' : '+') + transactions[index].amount.toString(),
                                   style: TextStyle(
                                     fontSize: baseFontSize.subtitle,
                                     fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class TransactionItem extends StatelessWidget {
                                     );
                                   }
                                   TextEditingController transactionAmount = TextEditingController();
-                                  transactionAmount.text = transactions[index].amount.toString();
+                                  transactionAmount.text = transactions[index].isExpense ? (-1 * transactions[index].amount).toString() : transactions[index].amount.toString();
                                   TextEditingController transactionDescription = TextEditingController();
                                   transactionDescription.text = transactions[index].description;
                                   _store.dispatch(TransactionId(transactions[index].transactionId));
