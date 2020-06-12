@@ -10,6 +10,7 @@ import 'package:homeaccountantapp/components/bar_chart_dual.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
+import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/database/database.dart';
@@ -120,15 +121,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                                   title2: 'Income'
                                 );
                               } else {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(20),
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  ]
-                                );
+                                return LoadingComponent();
                               }
                             }
                           ),
@@ -138,15 +131,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                               if (snapshot.hasData) {
                                 return BarChartDualCard(title: 'Transactions', data: snapshot.data);
                               } else {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(20),
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  ]
-                                );
+                                return LoadingComponent();
                               }
                             }
                           ),
@@ -181,15 +166,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                                   willNegative: false,
                                 );
                               } else {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(20),
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  ]
-                                );
+                                return LoadingComponent();
                               }
                             },
                           ),
@@ -224,15 +201,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                                   willNegative: false,
                                 );
                               } else {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(20),
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  ]
-                                );
+                                return LoadingComponent();
                               }
                             },
                           )

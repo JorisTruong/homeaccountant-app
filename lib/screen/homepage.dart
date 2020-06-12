@@ -10,6 +10,7 @@ import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
 import 'package:homeaccountantapp/components/main_card.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
+import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/database/database.dart';
@@ -179,15 +180,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 willNegative: true,
                               );
                             } else {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: CircularProgressIndicator(),
-                                  )
-                                ]
-                              );
+                              return LoadingComponent();
                             }
                           },
                         ),
@@ -223,15 +216,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 willNegative: true,
                               );
                             } else {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: CircularProgressIndicator(),
-                                  )
-                                ]
-                              );
+                              return LoadingComponent();
                             }
                           },
                         )

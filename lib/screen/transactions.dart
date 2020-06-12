@@ -7,6 +7,7 @@ import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_panel.dart';
 import 'package:homeaccountantapp/components/date_range_panel.dart';
+import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/components/speed_dial.dart';
 import 'package:homeaccountantapp/components/transaction_card.dart';
@@ -127,7 +128,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                   }
                                 );
                               } else {
-                                return CircularProgressIndicator();
+                                return LoadingComponent();
                               }
                             }
                           )
