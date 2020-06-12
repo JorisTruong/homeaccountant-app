@@ -23,20 +23,23 @@ We are listing here all the improvements that are currently planned to be made f
 * Create, Update and Delete an account
 * Form validation for transaction, category and account
 * Confirmation when deleting a transaction, category or account
-* Local back-end development
-* Import/Export option
-
-### Medium priority:
 * Complete 'About Us' page
 * Define the categories and their icon
-* Design the tooltip for the multi-type bar chart
+* Local back-end development
+
+### Medium priority:
+* Ability to select all accounts
+* Design the tooltip for line charts
 * Support for different languages
 * Support for multiple currencies
 * Ability to select multiple accounts
-* Self-hosting option
+* Import/Export option
 
 ### Low priority:
 * Research bar in Categories
 * Review navigation design
 * Filter transactions by expense or not
 * Clicking main cards in homepage navigates to transactions with eventual filters
+* Add the ability to set a monthly budget amount for each category/subcategory
+* Add the ability to move graph cards between them
+* Self-hosting option
