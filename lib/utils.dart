@@ -142,6 +142,19 @@ String getMonth(String month) {
   return '';
 }
 
+/// Get a dictionary with 'year', 'month' and 'day' keys from a date string
+Map<String, int> getDateFromString(String date) {
+  List<String> _date = date.split('-');
+  int year = int.parse(_date[0]);
+  int month = int.parse(_date[1]);
+  int day = int.parse(_date[2]);
+  return {
+    'year': year,
+    'month': month,
+    'day': day
+  };
+}
+
 /// Utils function to not display pie chart percentage when it is 0
 String formatPercentage(double percentage) {
   if (percentage == 0) {
@@ -149,4 +162,17 @@ String formatPercentage(double percentage) {
   } else {
     return percentage.toStringAsFixed(0) + '%';
   }
+}
+
+/// Returns the cumulative sum of a list
+List<double> cumulativeSum(List<double> data) {
+  List<double> cumulativeSumData = [];
+  for (int i = 0; i < data.length; i++) {
+    if (i == 0) {
+      cumulativeSumData.add(data[0]);
+    } else {
+      cumulativeSumData.add(cumulativeSumData[i-1] + data[i]);
+    }
+  }
+  return cumulativeSumData;
 }

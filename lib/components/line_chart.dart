@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:date_util/date_util.dart';
 import 'dart:math';
 
 import 'package:homeaccountantapp/const.dart';
-import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 
 
@@ -15,22 +16,31 @@ import 'package:homeaccountantapp/utils.dart';
 
 
 /// Get the max value of the data to build the scale
-double getDataMaxValue(List<double> expenses, List<double> income, List<double> balance) {
-  double maxExpenses = expenses.reduce(max);
-  double maxIncome = income.reduce(max);
-  double maxBalance = balance.reduce(max);
-  return [maxExpenses, maxIncome, maxBalance].reduce(max);
+double getDataMaxValue(List<List<double>> data) {
+  List<List<double>> absData = data.map((l) => l.map((e) => e.abs()).toList()).toList();
+  List<double> maxData = absData.map((l) => l.reduce(max)).toList();
+  return maxData.reduce(max);
 }
 
 class LineChartCard extends StatefulWidget {
   LineChartCard({
     Key key,
     this.title,
-    this.durationType
+    this.subtitle,
+    this.durationType,
+    this.dateRange,
+    this.linesData,
+    this.colors,
+    this.willNegative
   });
 
   final String title;
+  final String subtitle;
   final String durationType;
+  final Map<String, String> dateRange;
+  final List<List<double>> linesData;
+  final List<Color> colors;
+  final bool willNegative;
 
   @override
   State<StatefulWidget> createState() => LineChartCardState();
@@ -44,7 +54,7 @@ class LineChartCardState extends State<LineChartCard> {
   void initState() {
     super.initState();
     switchData = 0;
-    dataMaxValue = getDataMaxValue(expensesWeek, incomeWeek, balanceWeek);
+    dataMaxValue = getDataMaxValue(widget.linesData);
   }
 
   @override
@@ -70,19 +80,52 @@ class LineChartCardState extends State<LineChartCard> {
           ),
           child: Stack(
             children: <Widget>[
+              Row(
+                children: [
+                  Material(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Colors.white,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.refresh,
+                        color: baseColors.mainColor
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          switchData = switchFlag(switchData, widget.linesData.length + 1);
+                        });
+                      },
+                    )
+                  ),
+                ]
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  SizedBox(height: 16),
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: baseColors.mainColor,
-                      fontSize: baseFontSize.title2,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2
-                    ),
-                    textAlign: TextAlign.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 16),
+                      Text(
+                        widget.title,
+                        style: TextStyle(
+                          color: baseColors.mainColor,
+                          fontSize: baseFontSize.title2,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Center(
+                        child: Text(
+                          widget.subtitle == null ? '' : widget.subtitle,
+                          style: TextStyle(
+                            color: baseColors.mainColor,
+                            fontSize: baseFontSize.text
+                          )
+                        )
+                      ),
+                    ],
                   ),
                   SizedBox(height: 37),
                   Expanded(
@@ -96,21 +139,6 @@ class LineChartCardState extends State<LineChartCard> {
                   ),
                   SizedBox(height: 10),
                 ],
-              ),
-              Material(
-                borderRadius: BorderRadius.circular(20.0),
-                color: Colors.white,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.refresh,
-                    color: baseColors.mainColor
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      switchData = switchFlag(switchData, 4);
-                    });
-                  },
-                )
               )
             ],
           ),
@@ -148,7 +176,7 @@ class LineChartCardState extends State<LineChartCard> {
           textStyle: TextStyle(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
-            fontSize: baseFontSize.text,
+            fontSize: 8,
           ),
           margin: 10,
           getTitles: (value) {
@@ -189,68 +217,36 @@ class LineChartCardState extends State<LineChartCard> {
       ),
       /// Points for FlSpot
       minX: 0,
-      maxX: durationType == 'Year' ? 24 : 14,
+      maxX: durationType == 'Year' ? 24 :
+        durationType == 'Month' ? (2 * DateUtil().daysInMonth(
+          getDateFromString(widget.dateRange['from'])['month'],
+          getDateFromString(widget.dateRange['from'])['year'],
+        )).toDouble() :
+        14,
       maxY: 4,
-      minY: 0,
-      lineBarsData: linesBarData(),
+      minY: widget.willNegative ? -4 : 0,
+      lineBarsData: linesBarData(widget.linesData, widget.colors),
     );
   }
 
   /// Line data
-  List<LineChartBarData> linesBarData() {
-    final LineChartBarData income = LineChartBarData(
-      spots: dataToSpots(incomeWeek, dataMaxValue),
-      isCurved: false,
-      colors: [
-        baseColors.green,
-      ],
-      barWidth: 5,
-      isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: switchData != 0,
-      ),
-      belowBarData: BarAreaData(
-        show: switchData != 0,
-      ),
-    );
-    final LineChartBarData expenses = LineChartBarData(
-      spots: dataToSpots(expensesWeek, dataMaxValue),
-      isCurved: false,
-      colors: [
-        baseColors.red,
-      ],
-      barWidth: 5,
-      isStrokeCapRound: switchData != 0,
-      dotData: FlDotData(
-        show: switchData != 0,
-      ),
-      belowBarData: BarAreaData(
-        show: switchData != 0,
-      ),
-    );
-    final LineChartBarData balance = LineChartBarData(
-      spots: dataToSpots(balanceWeek, dataMaxValue),
-      isCurved: false,
-      colors: [
-        baseColors.blue,
-      ],
-      barWidth: 5,
-      isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: switchData != 0,
-      ),
-      belowBarData: BarAreaData(
-        show: switchData != 0,
-      ),
-    );
-    if (switchData == 1) {
-      return [balance];
-    } else if (switchData == 2) {
-      return [income];
-    } else if (switchData == 3) {
-      return [expenses];
+  List<LineChartBarData> linesBarData(List<List<double>> linesData, List<Color> colors) {
+    var linesChart = List.generate(linesData.length, (int i) {
+      return LineChartBarData(
+        spots: dataToSpots(linesData[i], dataMaxValue),
+        isCurved: false,
+        colors: [colors[i]],
+        barWidth: 3,
+        isStrokeCapRound: true,
+        dotData: FlDotData(
+          show: true,
+        ),
+      );
+    });
+    if (switchData != 0) {
+      return [linesChart[switchData-1]];
     } else {
-      return [balance, income, expenses];
+      return linesChart;
     }
   }
 }
@@ -275,16 +271,9 @@ String getXAxis(value, type) {
         return 'SUN';
     }
   } else if (type == 'Month') {
-    switch (value.toInt()) {
-      case 1:
-        return 'W1';
-      case 5:
-        return 'W2';
-      case 9:
-        return 'W3';
-      case 13:
-        return 'W4';
-    }
+      if (value.toInt().isOdd) {
+        return (value / 2 + 1).toInt().toString();
+      }
   } else if (type == 'Year') {
     switch (value.toInt()) {
       case 1:
@@ -318,15 +307,31 @@ String getXAxis(value, type) {
 
 /// Build the scale for Y-axis
 String getYAxis(value, max) {
-  switch (value.toInt()) {
-    case 1:
-      return NumberFormat.compact().format(max * 0.25);
-    case 2:
-      return NumberFormat.compact().format(max * 0.5);
-    case 3:
-      return NumberFormat.compact().format(max * 0.75);
-    case 4:
-      return NumberFormat.compact().format(max);
+  if (max == 0) {
+    if (value.toInt() == 0) {
+      return '0';
+    }
+  } else {
+    switch (value.toInt()) {
+      case -4:
+        return NumberFormat.compact().format(-max);
+      case -3:
+        return NumberFormat.compact().format(-max * 0.75);
+      case -2:
+        return NumberFormat.compact().format(-max * 0.5);
+      case -1:
+        return NumberFormat.compact().format(-max * 0.25);
+      case 0:
+        return '0';
+      case 1:
+        return NumberFormat.compact().format(max * 0.25);
+      case 2:
+        return NumberFormat.compact().format(max * 0.5);
+      case 3:
+        return NumberFormat.compact().format(max * 0.75);
+      case 4:
+        return NumberFormat.compact().format(max);
+    }
   }
   return '';
 }

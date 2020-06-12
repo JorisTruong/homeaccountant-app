@@ -90,6 +90,7 @@ Future<double> getCategoryAmount(int categoryId, Database db, Map<String, String
 }
 
 /// Get the total amount of each categories expense transactions, from a given account and a given date range
+/// Values are all positive
 Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, String> dateRange, int accountId) async {
   double category1Expenses = await getCategoryAmount(0, db, dateRange, accountId, 1);
   double category2Expenses = await getCategoryAmount(1, db, dateRange, accountId, 1);
@@ -97,11 +98,11 @@ Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, St
   double category4Expenses = await getCategoryAmount(3, db, dateRange, accountId, 1);
   double category5Expenses = await getCategoryAmount(4, db, dateRange, accountId, 1);
   return [
-    {'name': 'Category 1', 'expenses': category1Expenses},
-    {'name': 'Category 2', 'expenses': category2Expenses},
-    {'name': 'Category 3', 'expenses': category3Expenses},
-    {'name': 'Category 4', 'expenses': category4Expenses},
-    {'name': 'Category 5', 'expenses': category5Expenses}
+    {'name': 'Category 1', 'expenses': -category1Expenses},
+    {'name': 'Category 2', 'expenses': -category2Expenses},
+    {'name': 'Category 3', 'expenses': -category3Expenses},
+    {'name': 'Category 4', 'expenses': -category4Expenses},
+    {'name': 'Category 5', 'expenses': -category5Expenses}
   ];
 }
 
@@ -114,7 +115,7 @@ Future<double> getTotalExpense(Database db, Map<String, String> dateRange, int a
   if (totalExpense == null) {
     return 0;
   }
-  return totalExpense;
+  return -totalExpense;
 }
 
 /// Get the proportion of each categories expense transactions, from a given account and a given date range
@@ -140,6 +141,7 @@ Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String
 }
 
 /// Get the total amount of each categories income transactions, from a given account and a given date range
+/// Values are all positive
 Future<List<Map<String, dynamic>>> getIncomeAmount(Database db, Map<String, String> dateRange, int accountId) async {
   double category1Income = await getCategoryAmount(0, db, dateRange, accountId, 0);
   double category2Income = await getCategoryAmount(1, db, dateRange, accountId, 0);
@@ -194,7 +196,7 @@ Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, 
 Future<double> getTotalBalance(Database db, Map<String, String> dateRange, int accountId) async {
   double totalExpenses = await getTotalExpense(db, dateRange, accountId);
   double totalIncome = await getTotalIncome(db, dateRange, accountId);
-  return totalIncome - totalExpenses;
+  return totalIncome + totalExpenses;
 }
 
 /// Get the total amount of each categories transactions, from a given account and a given date range
@@ -206,6 +208,56 @@ Future<List<Map<String, dynamic>>> getTransactionsAmount(Database db, Map<String
       'name': expensesAmount[i]['name'], 'expenses': expensesAmount[i]['expenses'], 'income': incomeAmount[i]['income']
     };
   });
+}
+
+Future<List<Map<String, dynamic>>> getDailyAmounts(Database db, Map<String, String> dateRange, int accountId, int categoryId, int isExpense) async {
+  String createDate = "WITH RECURSIVE dates(date) AS (VALUES('${dateRange["from"]}') UNION ALL SELECT date(date, '+1 day') FROM dates WHERE date < '${dateRange["to"]}')";
+  String query = createDate + ' SELECT dates.date, COALESCE(SUM(amount), 0.0) as totalAmount FROM dates LEFT JOIN transactions ON dates.date = transactions.date';
+  List<Map<String, dynamic>> queryResult;
+  if (categoryId != -1) {
+    query = query + ' WHERE (category_id IS NULL OR category_id = ?)';
+    if (isExpense != -1) {
+      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY dates.date';
+      queryResult = await db.rawQuery(query, [categoryId, isExpense]);
+    } else {
+      query = query + ' GROUP BY dates.date';
+      queryResult = await db.rawQuery(query, [categoryId]);
+    }
+  } else {
+    if (isExpense != -1) {
+      query = query + ' WHERE (is_expense IS NULL OR is_expense = ?) GROUP BY dates.date';
+      queryResult = await db.rawQuery(query, [isExpense]);
+    } else {
+      query = query + ' GROUP BY dates.date';
+      queryResult = await db.rawQuery(query);
+    }
+  }
+  return queryResult;
+}
+
+Future<List<Map<String, dynamic>>> getMonthlyAmounts(Database db, Map<String, String> dateRange, int accountId, int categoryId, int isExpense) async {
+  String createDate = "WITH RECURSIVE dates(date) AS (VALUES('${dateRange["from"]}') UNION ALL SELECT date(date, '+1 day') FROM dates WHERE date < '${dateRange["to"]}')";
+  String query = createDate + " SELECT strftime('%m', dates.date) as month, COALESCE(SUM(amount), 0.0) as totalAmount FROM dates LEFT JOIN transactions ON dates.date = transactions.date";
+  List<Map<String, dynamic>> queryResult;
+  if (categoryId != -1) {
+    query = query + ' WHERE (category_id IS NULL OR category_id = ?)';
+    if (isExpense != -1) {
+      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY month';
+      queryResult = await db.rawQuery(query, [categoryId, isExpense]);
+    } else {
+      query = query + ' GROUP BY month';
+      queryResult = await db.rawQuery(query, [categoryId]);
+    }
+  } else {
+    if (isExpense != -1) {
+      query = query + ' WHERE (is_expense IS NULL OR is_expense = ?) GROUP BY month';
+      queryResult = await db.rawQuery(query, [isExpense]);
+    } else {
+      query = query + ' GROUP BY month';
+      queryResult = await db.rawQuery(query);
+    }
+  }
+  return queryResult;
 }
 
 // UPDATE

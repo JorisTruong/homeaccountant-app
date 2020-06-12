@@ -120,7 +120,15 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                                   title2: 'Income'
                                 );
                               } else {
-                                return Container();
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  ]
+                                );
                               }
                             }
                           ),
@@ -130,11 +138,104 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                               if (snapshot.hasData) {
                                 return BarChartDualCard(title: 'Transactions', data: snapshot.data);
                               } else {
-                                return Container();
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  ]
+                                );
                               }
                             }
                           ),
-                          LineChartCard(title: 'Transactions', durationType: 'Week'),
+                          FutureBuilder(
+                            future: _store.state.dateRangeType == 'Year' ?
+                            Future.wait(
+                              List.generate(5, (int i) {
+                                return getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 1);
+                              })
+                            )
+                            : Future.wait(
+                              List.generate(5, (int i) {
+                                return getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 1);
+                              })
+                            ),
+                            builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                              if (snapshot.hasData) {
+                                return LineChartCard(
+                                  title: 'Expenses',
+                                  durationType: _store.state.dateRangeType,
+                                  dateRange: _store.state.dateRange,
+                                  linesData: List.generate(snapshot.data.length, (int i) {
+                                    return snapshot.data[i].map((e) => e['totalAmount'] == 0 ? 0.0 : -e['totalAmount']).toList().cast<double>();
+                                  }),
+                                  colors: [
+                                    baseColors.category1,
+                                    baseColors.category2,
+                                    baseColors.category3,
+                                    baseColors.category4,
+                                    baseColors.category5
+                                  ],
+                                  willNegative: false,
+                                );
+                              } else {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  ]
+                                );
+                              }
+                            },
+                          ),
+                          FutureBuilder(
+                            future: _store.state.dateRangeType == 'Year' ?
+                            Future.wait(
+                              List.generate(5, (int i) {
+                                return getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 0);
+                              })
+                            )
+                            : Future.wait(
+                              List.generate(5, (int i) {
+                                return getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 0);
+                              })
+                            ),
+                            builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                              if (snapshot.hasData) {
+                                return LineChartCard(
+                                  title: 'Income',
+                                  durationType: _store.state.dateRangeType,
+                                  dateRange: _store.state.dateRange,
+                                  linesData: List.generate(snapshot.data.length, (int i) {
+                                    return snapshot.data[i].map((e) => e['totalAmount']).toList().cast<double>();
+                                  }),
+                                  colors: [
+                                    baseColors.category1,
+                                    baseColors.category2,
+                                    baseColors.category3,
+                                    baseColors.category4,
+                                    baseColors.category5
+                                  ],
+                                  willNegative: false,
+                                );
+                              } else {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  ]
+                                );
+                              }
+                            },
+                          )
                         ],
                       ),
                     ),
