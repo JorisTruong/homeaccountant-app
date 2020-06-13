@@ -32,6 +32,12 @@ class TransactionInfoPage extends StatefulWidget {
 
 class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
+  bool errorName = false;
+  bool errorAccount = false;
+  bool errorDate = false;
+  bool errorIsExpense = false;
+  bool errorCategory = false;
+  bool errorAmount = false;
 
   void resetSubcategory(Store<AppState> _store) {
     _store.dispatch(TransactionSubcategoryId(null));
@@ -141,6 +147,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                           TextField(
                                             controller: _store.state.transactionName,
                                             decoration: InputDecoration(
+                                              errorText: errorName ? 'Cannot be null' : null,
                                               isDense: true,
                                               alignLabelWithHint: true,
                                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
@@ -148,6 +155,11 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               labelText: 'Name',
                                               prefixIcon: Icon(Icons.title, color: baseColors.mainColor)
                                             ),
+                                            onChanged: (string) {
+                                              setState(() {
+                                                errorName = false;
+                                              });
+                                            },
                                           ),
                                           SizedBox(height: 12.0),
                                           /// Dropdown to select the account
@@ -158,7 +170,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                 margin: EdgeInsets.zero,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(40.0),
-                                                  side: BorderSide(color: baseColors.borderColor)
+                                                  side: BorderSide(color: errorAccount ? baseColors.errorColor : baseColors.borderColor)
                                                 ),
                                                 child: Row(
                                                   children: [
@@ -182,8 +194,9 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         },
                                                         onChanged: (int newValue) {
                                                           setState(() {
-                                                            _store.dispatch(TransactionAccount(newValue));
+                                                            errorAccount = false;
                                                           });
+                                                          _store.dispatch(TransactionAccount(newValue));
                                                         },
                                                         items: accounts.map((key) {
                                                           return DropdownMenuItem<int>(
@@ -212,6 +225,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                   readOnly: true,
                                                   controller: _store.state.transactionDate,
                                                   decoration: InputDecoration(
+                                                    errorText: errorDate ? 'Choose a date' : null,
                                                     isDense: true,
                                                     alignLabelWithHint: true,
                                                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
@@ -220,6 +234,9 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                     prefixIcon: Icon(Icons.date_range, color: baseColors.mainColor)
                                                   ),
                                                   onTap: () async {
+                                                    setState(() {
+                                                      errorDate = false;
+                                                    });
                                                     final DateTime pickedDate = await showDatePicker(
                                                       context: context,
                                                       initialDate: DateTime.now(),
@@ -244,8 +261,9 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                 groupValue: _store.state.transactionIsExpense,
                                                 onChanged: (bool value) {
                                                   setState(() {
-                                                    _store.dispatch(TransactionIsExpense(value));
+                                                    errorIsExpense = false;
                                                   });
+                                                  _store.dispatch(TransactionIsExpense(value));
                                                 }
                                               ),
                                               Text('Expense'),
@@ -254,13 +272,21 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                 groupValue: _store.state.transactionIsExpense,
                                                 onChanged: (bool value) {
                                                   setState(() {
-                                                    _store.dispatch(TransactionIsExpense(value));
+                                                    errorIsExpense = false;
                                                   });
+                                                  _store.dispatch(TransactionIsExpense(value));
                                                 }
                                               ),
                                               Text('Income')
                                             ],
                                           ),
+                                          errorIsExpense ? Text(
+                                            'Select a transaction type',
+                                            style: TextStyle(
+                                              color: baseColors.errorColor,
+                                              fontSize: baseFontSize.text
+                                            ),
+                                          ) : Container(),
                                           SizedBox(height: 12.0),
                                           /// Dropdown to select the category
                                           DropdownButtonHideUnderline(
@@ -270,7 +296,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                 margin: EdgeInsets.zero,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(40.0),
-                                                  side: BorderSide(color: baseColors.borderColor)
+                                                  side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.borderColor)
                                                 ),
                                                 child: Row(
                                                   children: [
@@ -293,9 +319,10 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         },
                                                         onChanged: (int newValue) {
                                                           setState(() {
-                                                            resetSubcategory(_store);
-                                                            _store.dispatch(SelectCategory(newValue));
+                                                            errorCategory = false;
                                                           });
+                                                          resetSubcategory(_store);
+                                                          _store.dispatch(SelectCategory(newValue));
                                                         },
                                                         items: List.generate(categories_.length, (int index) {
                                                           return DropdownMenuItem<int>(
@@ -345,6 +372,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             keyboardType: TextInputType.numberWithOptions(decimal: true),
                                             controller: _store.state.transactionAmount,
                                             decoration: InputDecoration(
+                                              errorText: errorAmount ? 'Cannot be null' : null,
                                               isDense: true,
                                               alignLabelWithHint: true,
                                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
@@ -352,6 +380,11 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               labelText: 'Amount',
                                               prefixIcon: Icon(Icons.attach_money, color: baseColors.mainColor)
                                             ),
+                                            onChanged: (string) {
+                                              setState(() {
+                                                errorAmount = false;
+                                              });
+                                            },
                                           ),
                                           SizedBox(height: 12.0),
                                           /// Description of the transaction
@@ -396,34 +429,66 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               SizedBox(width: 12.0),
                                               RaisedButton(
                                                 onPressed: () async {
-                                                  if (_store.state.isCreatingTransaction) {
-                                                    t.Transaction transaction = t.Transaction(
-                                                      transactionName: _store.state.transactionName.text,
-                                                      accountId: _store.state.transactionAccountId,
-                                                      date: _store.state.transactionDate.text,
-                                                      isExpense: _store.state.transactionIsExpense,
-                                                      categoryId: _store.state.categoryIndex,
-                                                      subcategoryId: _store.state.transactionSubcategoryId,
-                                                      amount: _store.state.transactionIsExpense ? -double.parse(_store.state.transactionAmount.text) : double.parse(_store.state.transactionAmount.text),
-                                                      description: _store.state.transactionDescription.text,
-                                                    );
-                                                    await createTransaction(databaseClient.db, transaction);
-                                                  } else {
-                                                    t.Transaction transaction = t.Transaction(
-                                                      transactionId: _store.state.transactionId,
-                                                      transactionName: _store.state.transactionName.text,
-                                                      accountId: _store.state.transactionAccountId,
-                                                      date: _store.state.transactionDate.text,
-                                                      isExpense: _store.state.transactionIsExpense,
-                                                      categoryId: _store.state.categoryIndex,
-                                                      subcategoryId: _store.state.transactionSubcategoryId,
-                                                      amount: double.parse(_store.state.transactionAmount.text),
-                                                      description: _store.state.transactionDescription.text,
-                                                    );
-                                                    await updateTransaction(databaseClient.db, transaction);
+                                                  if (_store.state.transactionName.text == '') {
+                                                    setState(() {
+                                                      errorName = true;
+                                                    });
                                                   }
-                                                  leaveScreen(_store);
-                                                  Navigator.of(context).pop();
+                                                  if (_store.state.transactionAccountId == null) {
+                                                    setState(() {
+                                                      errorAccount = true;
+                                                    });
+                                                  }
+                                                  if (_store.state.transactionDate.text == '') {
+                                                    setState(() {
+                                                      errorDate = true;
+                                                    });
+                                                  }
+                                                  if (_store.state.transactionIsExpense == null) {
+                                                    setState(() {
+                                                      errorIsExpense = true;
+                                                    });
+                                                  }
+                                                  if (_store.state.categoryIndex == null) {
+                                                    setState(() {
+                                                      errorCategory = true;
+                                                    });
+                                                  }
+                                                  if (_store.state.transactionAmount.text == '') {
+                                                    setState(() {
+                                                      errorAmount = true;
+                                                    });
+                                                  }
+                                                  if (!errorName && !errorAccount && !errorDate && !errorIsExpense && !errorCategory && !errorAmount) {
+                                                    if (_store.state.isCreatingTransaction) {
+                                                      t.Transaction transaction = t.Transaction(
+                                                        transactionName: _store.state.transactionName.text,
+                                                        accountId: _store.state.transactionAccountId,
+                                                        date: _store.state.transactionDate.text,
+                                                        isExpense: _store.state.transactionIsExpense,
+                                                        categoryId: _store.state.categoryIndex,
+                                                        subcategoryId: _store.state.transactionSubcategoryId,
+                                                        amount: _store.state.transactionIsExpense ? -double.parse(_store.state.transactionAmount.text) : double.parse(_store.state.transactionAmount.text),
+                                                        description: _store.state.transactionDescription.text,
+                                                      );
+                                                      await createTransaction(databaseClient.db, transaction);
+                                                    } else {
+                                                      t.Transaction transaction = t.Transaction(
+                                                        transactionId: _store.state.transactionId,
+                                                        transactionName: _store.state.transactionName.text,
+                                                        accountId: _store.state.transactionAccountId,
+                                                        date: _store.state.transactionDate.text,
+                                                        isExpense: _store.state.transactionIsExpense,
+                                                        categoryId: _store.state.categoryIndex,
+                                                        subcategoryId: _store.state.transactionSubcategoryId,
+                                                        amount: double.parse(_store.state.transactionAmount.text),
+                                                        description: _store.state.transactionDescription.text,
+                                                      );
+                                                      await updateTransaction(databaseClient.db, transaction);
+                                                    }
+                                                    leaveScreen(_store);
+                                                    Navigator.of(context).pop();
+                                                  }
                                                 },
                                                 child: Text(
                                                   'VALIDATE',
@@ -479,16 +544,23 @@ class DecimalTextInputFormatter extends TextInputFormatter {
     if (decimalRange != null) {
       String value = newValue.text;
 
-      if (value.contains('-') || value.contains(',')) {
+      // Prevent from having char other than number
+      if (value.contains(new RegExp('[^0-9.]'))) {
         truncated = oldValue.text;
         newSelection = oldValue.selection;
       }
 
-      if (value.contains(".") && value.substring(value.indexOf(".") + 1).length > decimalRange) {
+      // Prevent from having multiple '.'
+      if (value.contains('.') && value.substring(value.indexOf('.') + 1) == '.') {
         truncated = oldValue.text;
         newSelection = oldValue.selection;
-      } else if (value == ".") {
-        truncated = "0.";
+      }
+
+      if (value.contains('.') && value.substring(value.indexOf('.') + 1).length > decimalRange) {
+        truncated = oldValue.text;
+        newSelection = oldValue.selection;
+      } else if (value == '.') {
+        truncated = '0.';
 
         newSelection = newValue.selection.copyWith(
           baseOffset: math.min(truncated.length, truncated.length + 1),

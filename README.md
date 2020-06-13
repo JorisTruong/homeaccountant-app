@@ -20,7 +20,7 @@ We are listing here all the improvements that are currently planned to be made f
 
 ### High priority:
 * Create, Update and Delete an account
-* Form validation for transaction and account
+* Form validation for account
 * Confirmation when deleting a transaction, category or account
 * Complete 'About Us' page
 * Define the categories and their icon
