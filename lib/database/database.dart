@@ -103,7 +103,7 @@ class DatabaseClient {
     batch.commit();
 
     var allCategories = await readCategories(db);
-    categories_ = List.generate(allCategories.length, (int i) {
+    categories = List.generate(allCategories.length, (int i) {
       return allCategories[i].toMap();
     });
   }

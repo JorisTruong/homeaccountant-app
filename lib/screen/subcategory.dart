@@ -90,7 +90,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                             if (snapshot.hasData) {
                               return CategoryCard(
                                 _store.state.categoryIndex,
-                                categories_[_store.state.categoryIndex]['category_name'],
+                                categories[_store.state.categoryIndex]['category_name'],
                                 snapshot.data,
                                 getCategoryColor(_store.state.categoryIndex),
                                 true

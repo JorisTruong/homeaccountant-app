@@ -77,8 +77,8 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     /// The body contains as much cards as the number of categories.
-                    children: List.generate(categories_.length, (int index) {
-                      String category = categories_[index]['category_name'];
+                    children: List.generate(categories.length, (int index) {
+                      String category = categories[index]['category_name'];
                       Color color = getCategoryColor(index);
                       return FutureBuilder(
                         future: subcategoriesFromCategoryId(databaseClient.db, index),

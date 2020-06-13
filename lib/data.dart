@@ -1,6 +1,3 @@
-import 'dart:math';
-
-
 /// Homepage
 
 // Currency
@@ -21,54 +18,8 @@ final String transactionNumber = '42';
 
 /// Categories
 
-final random = Random();
-
 // TODO: Renaming, store categories ?
-List<Map<String, dynamic>> categories_ = [];
-
-// Get all subcategories
-// TODO: Store subcategories ?
-
-/// Transactions
-
-
-/// Graphs
-
-/// Line chart income
-// 7, 4 or 12 API calls (week, month or year) on transactions where is_expense = 1, group by date/week/month and sum
-List<double> incomeWeek = [
-  200000,
-  100000,
-  30000,
-  0,
-  0,
-  0,
-  0
-];
-
-/// Line chart expenses
-// 7, 4 or 12 API calls (week, month or year) on transactions where is_expense = 0, group by date/week/month and sum
-List<double> expensesWeek = [
-  0,
-  0,
-  20000,
-  0,
-  0,
-  50000,
-  10000
-];
-
-/// Line chart balance
-// 7, 4 or 12 API calls (week, month or year) on transactions group by date/week/month and cum sum
-List<double> balanceWeek = [
-  200000,
-  300000,
-  310000,
-  310000,
-  310000,
-  260000,
-  250000
-];
+List<Map<String, dynamic>> categories = [];
 
 
 /// ACCOUNTS

@@ -324,10 +324,10 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                           resetSubcategory(_store);
                                                           _store.dispatch(SelectCategory(newValue));
                                                         },
-                                                        items: List.generate(categories_.length, (int index) {
+                                                        items: List.generate(categories.length, (int index) {
                                                           return DropdownMenuItem<int>(
-                                                            value: categories_[index]['category_id'],
-                                                            child: Text(categories_[index]['category_name'])
+                                                            value: categories[index]['category_id'],
+                                                            child: Text(categories[index]['category_name'])
                                                           );
                                                         })
                                                       ),
