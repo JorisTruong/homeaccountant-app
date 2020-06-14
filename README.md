@@ -24,7 +24,6 @@ We are listing here all the improvements that are currently planned to be made f
 * Complete 'About Us' page
 * Define the categories and their icon
 * Create a logo
-* Local back-end development
 
 ### Medium priority:
 * Add a toast on creation of an account, transaction or subcategory
