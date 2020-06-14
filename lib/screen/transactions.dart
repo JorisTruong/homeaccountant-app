@@ -107,34 +107,33 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                 children: [
                   SingleChildScrollView(
                   /// Display all the transactions
-                    child:
-                      Column(
-                        children: [
-                          FutureBuilder(
-                            future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                            builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, index) {
-                                    String month = snapshot.data.keys.elementAt(index);
-                                    if (snapshot.data[month].length > 0) {
-                                      return TransactionCard(month, snapshot.data[month]);
-                                    }
-                                    else {
-                                      return Container();
-                                    }
+                    child: Column(
+                      children: [
+                        FutureBuilder(
+                          future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                          builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  String month = snapshot.data.keys.elementAt(index);
+                                  if (snapshot.data[month].length > 0) {
+                                    return TransactionCard(month, snapshot.data[month]);
                                   }
-                                );
-                              } else {
-                                return LoadingComponent();
-                              }
+                                  else {
+                                    return Container();
+                                  }
+                                }
+                              );
+                            } else {
+                              return LoadingComponent();
                             }
-                          )
-                        ]
-                      ),
+                          }
+                        )
+                      ]
                     ),
+                  ),
                   SpeedDialButton(_controller, _pcAccount, _pcDate),
                   SlidingUpPanel(
                     controller: _pcAccount,

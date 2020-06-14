@@ -9,6 +9,7 @@ import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/accounts.dart';
 import 'package:homeaccountantapp/database/queries/accounts.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -47,7 +48,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
             children: [
               RaisedButton(
                 onPressed: () {
-                  print('Go to accounts pages');
+                  _store.dispatch(NavigatePushAction(AppRoutes.accounts));
                 },
                 child: Text(
                   'MANAGE ACCOUNTS',

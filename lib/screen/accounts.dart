@@ -4,7 +4,12 @@ import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/components/account_item.dart';
+import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/navigation_drawer.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/accounts.dart';
+import 'package:homeaccountantapp/database/queries/accounts.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -64,8 +69,22 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
               body: SingleChildScrollView(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-
+                    FutureBuilder(
+                      future: readAccounts(databaseClient.db),
+                      builder: (BuildContext context, AsyncSnapshot<List<Account>> snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            children: List.generate(snapshot.data.length, (int i) {
+                              return AccountItem(snapshot.data[i]);
+                            })
+                          );
+                        } else {
+                          return LoadingComponent();
+                        }
+                      }
+                    )
                   ]
                 )
               ),
