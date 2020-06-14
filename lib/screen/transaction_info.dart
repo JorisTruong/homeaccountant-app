@@ -182,34 +182,38 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                       child: FutureBuilder(
                                                         future: readAccounts(databaseClient.db),
                                                         builder: (BuildContext context, AsyncSnapshot<List<Account>> snapshot) {
-                                                          return DropdownButton<int>(
-                                                            autofocus: true,
-                                                            icon: Icon(Icons.keyboard_arrow_down),
-                                                            value: _store.state.transactionAccountId,
-                                                            hint: Text(
-                                                              'Account',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(color: baseColors.secondaryColor)
-                                                            ),
-                                                            isDense: false,
-                                                            onTap: () {
-                                                              if (!currentFocus.hasPrimaryFocus) {
-                                                                currentFocus.unfocus();
-                                                              }
-                                                            },
-                                                            onChanged: (int newValue) {
-                                                              setState(() {
-                                                                errorAccount = false;
-                                                              });
-                                                              _store.dispatch(TransactionAccount(newValue));
-                                                            },
-                                                            items: List.generate(snapshot.data.length, (int i) {
-                                                              return DropdownMenuItem<int>(
-                                                                value: snapshot.data[i].accountId,
-                                                                child: Text(snapshot.data[i].accountName)
-                                                              );
-                                                            })
-                                                          );
+                                                          if (snapshot.hasData) {
+                                                            return DropdownButton<int>(
+                                                              autofocus: true,
+                                                              icon: Icon(Icons.keyboard_arrow_down),
+                                                              value: _store.state.transactionAccountId,
+                                                              hint: Text(
+                                                                'Account',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(color: baseColors.secondaryColor)
+                                                              ),
+                                                              isDense: false,
+                                                              onTap: () {
+                                                                if (!currentFocus.hasPrimaryFocus) {
+                                                                  currentFocus.unfocus();
+                                                                }
+                                                              },
+                                                              onChanged: (int newValue) {
+                                                                setState(() {
+                                                                  errorAccount = false;
+                                                                });
+                                                                _store.dispatch(TransactionAccount(newValue));
+                                                              },
+                                                              items: List.generate(snapshot.data.length, (int i) {
+                                                                return DropdownMenuItem<int>(
+                                                                  value: snapshot.data[i].accountId,
+                                                                  child: Text(snapshot.data[i].accountName)
+                                                                );
+                                                              })
+                                                            );
+                                                          } else {
+                                                            return Container();
+                                                          }
                                                         }
                                                       )
                                                     ),
