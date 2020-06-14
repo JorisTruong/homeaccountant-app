@@ -43,3 +43,20 @@ We are listing here all the improvements that are currently planned to be made f
 * Add the ability to move graph cards between them
 * Add the ability for a transaction to be recurrent
 * Self-hosting option
+
+# Dependencies
+
+Home Accountant currently uses the following libraries:
+* [redux](https://pub.dev/packages/redux)
+* [flutter_redux](https://pub.dev/packages/flutter_redux)
+* [sliding_up_panel](https://pub.dev/packages/sliding_up_panel)
+* [fl_chart](https://pub.dev/packages/fl_chart)
+* [keyboard_avoider](https://pub.dev/packages/keyboard_avoider)
+* [flutter_iconpicker](https://pub.dev/packages/flutter_iconpicker)
+* [flutter_date_pickers](https://pub.dev/packages/flutter_date_pickers)
+* [date_util](https://pub.dev/packages/date_util)
+* [flutter_svg](https://pub.dev/packages/flutter_svg)
+
+# License
+
+Home Accountant is a free open-source software released under the AGPL (Affero General Public License).
