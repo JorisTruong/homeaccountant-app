@@ -38,6 +38,7 @@ class BaseFontSize {
   double text = 12;
   double text2 = 10;
   double selected = 24;
+  double legend = 8;
 }
 
 final baseColors = BaseColors();

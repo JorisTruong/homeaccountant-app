@@ -62,7 +62,7 @@ class LineChartCardState extends State<LineChartCard> {
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: AspectRatio(
-        aspectRatio: 1.23,
+        aspectRatio: 1.1,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -171,12 +171,13 @@ class LineChartCardState extends State<LineChartCard> {
       ),
       titlesData: FlTitlesData(
         bottomTitles: SideTitles(
+          rotateAngle: 270,
           showTitles: true,
           reservedSize: 22,
           textStyle: TextStyle(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
-            fontSize: 8,
+            fontSize: baseFontSize.legend,
           ),
           margin: 10,
           getTitles: (value) {
@@ -194,7 +195,7 @@ class LineChartCardState extends State<LineChartCard> {
             return getYAxis(value, dataMaxValue);
           },
           margin: 10,
-          reservedSize: 40,
+          reservedSize: 25,
         ),
       ),
       borderData: FlBorderData(

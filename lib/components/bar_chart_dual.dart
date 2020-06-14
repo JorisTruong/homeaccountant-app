@@ -146,11 +146,14 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                               titlesData: FlTitlesData(
                                 show: true,
                                 bottomTitles: SideTitles(
+                                  reservedSize: 20,
+                                  rotateAngle: 270,
                                   showTitles: true,
                                   textStyle: TextStyle(
                                     color: baseColors.mainColor,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: baseFontSize.text),
+                                    fontSize: baseFontSize.legend
+                                  ),
                                   margin: 20,
                                   getTitles: (double value) {
                                     return widget.data[value.toInt()]['name'];
