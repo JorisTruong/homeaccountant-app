@@ -9,6 +9,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 import 'screen/homepage.dart';
+import 'screen/accounts.dart';
 import 'screen/transactions.dart';
 import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
@@ -72,6 +73,8 @@ class MyApp extends StatelessWidget {
     switch(settings.name) {
       case AppRoutes.home:
         return MainRoute(MyHomePage(), settings: settings);
+      case AppRoutes.accounts:
+        return MainRoute(AccountsPage(), settings: settings);
       case AppRoutes.transactions:
         return MainRoute(TransactionsPage(), settings: settings);
       case AppRoutes.categories:
