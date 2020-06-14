@@ -1,0 +1,13 @@
+<svg viewBox="0 0 100 58" xmlns="http://www.w3.org/2000/svg">
+    <!-- outline -->
+    <path d="m4 60l26 -56l24 21l6.3 -7.2l34 43" stroke="#2185d0" stroke-width="4" fill="#fff" />
+
+    <!-- small shadow -->
+    <path d="m26 30 l9 -10.29l7.43 6.5" stroke="#2185d0" stroke-width="4" fill="none"/>
+
+    <!-- mountain in foreground -->
+    <path d="m40 33 l4 3.5l9.8 -11.2" stroke="#2185d0" stroke-width="4" fill="none" />
+
+    <!-- text -->
+    <text x="16" y="53" font-family="Lato" font-weight="bold" font-size="14.5px" fill="#107BB5">codeberg</text>
+</svg>

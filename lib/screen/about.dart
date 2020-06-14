@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -85,6 +86,15 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                           )
                         ],
                       ),
+                    ),
+                    SizedBox(height: 32),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SvgPicture.asset('assets/codeberg.svg', width: MediaQuery.of(context).size.width * 0.15),
+                        SvgPicture.asset('assets/github.svg', width: MediaQuery.of(context).size.width * 0.15),
+                        SvgPicture.asset('assets/gitlab.svg', width: MediaQuery.of(context).size.width * 0.15)
+                      ],
                     )
                   ]
                 )
