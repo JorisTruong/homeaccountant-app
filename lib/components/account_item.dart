@@ -5,6 +5,8 @@ import 'package:redux/redux.dart';
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/models/accounts.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
+import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
 
@@ -29,6 +31,7 @@ class AccountItem extends StatelessWidget {
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return Card(
+          margin: EdgeInsets.only(bottom: 30.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
@@ -71,7 +74,16 @@ class AccountItem extends StatelessWidget {
                     Text(account.accountAcronym, style: TextStyle(fontSize: baseFontSize.text2)),
                   /// Navigates to the update page on tap
                   onTap: () async {
-                    print('Updating the account');
+                    _store.dispatch(IsCreatingAccount(false));
+                    TextEditingController accountName = TextEditingController();
+                    accountName.text = account.accountName;
+                    TextEditingController accountAcronym = TextEditingController();
+                    accountAcronym.text = account.accountAcronym;
+                    _store.dispatch(AccountInfoId(account.accountId));
+                    _store.dispatch(AccountInfoName(accountName));
+                    _store.dispatch(AccountInfoAcronym(accountAcronym));
+
+                    _store.dispatch(NavigatePushAction(AppRoutes.account));
                   }
                 )
               )

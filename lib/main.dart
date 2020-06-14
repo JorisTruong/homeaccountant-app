@@ -10,6 +10,7 @@ import 'package:path/path.dart';
 
 import 'screen/homepage.dart';
 import 'screen/accounts.dart';
+import 'screen/account_info.dart';
 import 'screen/transactions.dart';
 import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
@@ -47,6 +48,8 @@ void main() async {
     appReducer,
     initialState: AppState(
       accountId: 1,
+      accountInfoName: TextEditingController(),
+      accountInfoAcronym: TextEditingController(),
       transactionName: TextEditingController(),
       transactionDate: TextEditingController(),
       categorySubcategoryText: TextEditingController(),
@@ -58,6 +61,7 @@ void main() async {
       dateRange: dateToDateRange('Year', DateTime.now()),
       route: [AppRoutes.home],
       visibility: true, /// Visibility of the floating button for sliding up panel
+      isCreatingAccount: false, /// If we are creating an account or not
       isCreatingTransaction: false, /// If we are creating a transaction or not
       isCreatingSubcategory: false, /// If we are creating a subcategory or not
       isSelectingSubcategory: false, /// If we are currently selecting a subcategory from the transactions page
@@ -83,6 +87,8 @@ class MyApp extends StatelessWidget {
         return MainRoute((GraphsPage()), settings: settings);
       case AppRoutes.about:
         return MainRoute(AboutPage(), settings: settings);
+      case AppRoutes.account:
+        return AddRoute(AccountInfoPage(), settings: settings);
       case AppRoutes.transaction:
         return AddRoute(TransactionInfoPage(), settings: settings);
       case AppRoutes.category:

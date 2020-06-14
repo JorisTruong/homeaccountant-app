@@ -6,6 +6,24 @@ class ChangeAccount {
   ChangeAccount(this.accountId);
 }
 
+class AccountInfoId {
+  final int accountInfoId;
+
+  AccountInfoId(this.accountInfoId);
+}
+
+class AccountInfoName {
+  final TextEditingController accountInfoName;
+
+  AccountInfoName(this.accountInfoName);
+}
+
+class AccountInfoAcronym {
+  final TextEditingController accountInfoAcronym;
+
+  AccountInfoAcronym(this.accountInfoAcronym);
+}
+
 class UpdateDateRangeType {
   final String dateRangeType;
 
@@ -128,6 +146,12 @@ class ChangeVisibility {
   final bool visibility;
 
   ChangeVisibility(this.visibility);
+}
+
+class IsCreatingAccount {
+  final bool isCreatingAccount;
+
+  IsCreatingAccount(this.isCreatingAccount);
 }
 
 class IsCreatingTransaction {

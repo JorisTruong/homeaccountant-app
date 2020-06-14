@@ -6,6 +6,9 @@ import 'package:meta/meta.dart';
 class AppState {
   final int accountId;
   final int transactionId;
+  final int accountInfoId;
+  final TextEditingController accountInfoName;
+  final TextEditingController accountInfoAcronym;
   final TextEditingController transactionName;
   final int transactionAccountId;
   final TextEditingController transactionDate;
@@ -24,12 +27,16 @@ class AppState {
   final Map<String, String> dateRange;
   final List<String> route;
   final bool visibility;
+  final bool isCreatingAccount;
   final bool isCreatingTransaction;
   final bool isCreatingSubcategory;
   final bool isSelectingSubcategory;
 
   AppState({
     @required this.accountId,
+    this.accountInfoId,
+    this.accountInfoName,
+    this.accountInfoAcronym,
     this.transactionId,
     this.transactionName,
     this.transactionAccountId,
@@ -49,6 +56,7 @@ class AppState {
     @required this.dateRange,
     @required this.route,
     this.visibility,
+    this.isCreatingAccount,
     this.isCreatingTransaction,
     this.isCreatingSubcategory,
     this.isSelectingSubcategory,
@@ -56,6 +64,6 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState: {accountId: $accountId, categoryIndex: $categoryIndex, dateRange: $dateRange, route: $route}';
+    return 'AppState: {accountId: $accountId, dateRange: $dateRange, route: $route}';
   }
 }

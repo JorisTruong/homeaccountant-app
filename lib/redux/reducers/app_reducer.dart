@@ -9,6 +9,9 @@ import 'package:homeaccountantapp/redux/reducers/utils_reducer.dart';
 AppState appReducer(AppState state, action) {
   return AppState(
     accountId: accountIdReducer(state.accountId, action),
+    accountInfoId: accountInfoIdReducer(state.accountInfoId, action),
+    accountInfoName: accountInfoNameReducer(state.accountInfoName, action),
+    accountInfoAcronym: accountInfoAcronymReducer(state.accountInfoAcronym, action),
     transactionId: transactionIdReducer(state.transactionId, action),
     transactionName: transactionNameReducer(state.transactionName, action),
     transactionAccountId: transactionAccountIdReducer(state.transactionAccountId, action),
@@ -28,6 +31,7 @@ AppState appReducer(AppState state, action) {
     dateRange: dateReducer(state.dateRange, action),
     route: navigationReducer(state.route, action),
     visibility: visibilityReducer(state.visibility, action),
+    isCreatingAccount: isCreatingAccountReducer(state.isCreatingAccount, action),
     isCreatingTransaction: isCreatingTransactionReducer(state.isCreatingTransaction, action),
     isCreatingSubcategory: isCreatingSubcategoryReducer(state.isCreatingSubcategory, action),
     isSelectingSubcategory: isSelectingSubcategoryReducer(state.isSelectingSubcategory, action)

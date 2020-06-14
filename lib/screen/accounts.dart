@@ -10,6 +10,7 @@ import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/accounts.dart';
 import 'package:homeaccountantapp/database/queries/accounts.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -57,7 +58,8 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                       elevation: 0,
                       backgroundColor: baseColors.transparent,
                       onPressed: () {
-                        print('Create a new account');
+                        _store.dispatch(IsCreatingAccount(true));
+                        _store.dispatch(NavigatePushAction(AppRoutes.account));
                       },
                       child: Icon(Icons.add)
                     )
