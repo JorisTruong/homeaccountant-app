@@ -54,11 +54,12 @@ class DatabaseClient {
 
   Future<void> initializeAccounts() async {
     Account basicAccount = Account(
+      accountId: 1,
       accountName: 'Account 1',
       accountAcronym: 'ACC1'
     );
     Batch batch = db.batch();
-    batch.insert('accounts', basicAccount.toMapWithoutId());
+    batch.insert('accounts', basicAccount.toMap());
     batch.commit();
   }
 

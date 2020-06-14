@@ -5,8 +5,6 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 import 'screen/homepage.dart';
 import 'screen/accounts.dart';
@@ -34,7 +32,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> initializeDatabase() async {
   // TO REMOVE:
-  await deleteDatabase(join(await getDatabasesPath(), 'home_accountant.db'));
+  // await deleteDatabase(join(await getDatabasesPath(), 'home_accountant.db'));
 
   await databaseClient.create();
 }
@@ -42,7 +40,7 @@ Future<void> initializeDatabase() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  initializeDatabase();
+  await initializeDatabase();
 
   final store = Store<AppState>(
     appReducer,
