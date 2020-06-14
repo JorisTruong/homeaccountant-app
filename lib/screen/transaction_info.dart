@@ -10,7 +10,9 @@ import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/accounts.dart';
 import 'package:homeaccountantapp/database/models/transactions.dart' as t;
+import 'package:homeaccountantapp/database/queries/accounts.dart';
 import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
@@ -177,34 +179,39 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                     SizedBox(width: 15.0),
                                                     Icon(Icons.account_box, size: 18.0),
                                                     Expanded(
-                                                      child: DropdownButton<int>(
-                                                        autofocus: true,
-                                                        icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: _store.state.transactionAccountId,
-                                                        hint: Text(
-                                                          'Account',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(color: baseColors.secondaryColor)
-                                                        ),
-                                                        isDense: false,
-                                                        onTap: () {
-                                                          if (!currentFocus.hasPrimaryFocus) {
-                                                            currentFocus.unfocus();
-                                                          }
-                                                        },
-                                                        onChanged: (int newValue) {
-                                                          setState(() {
-                                                            errorAccount = false;
-                                                          });
-                                                          _store.dispatch(TransactionAccount(newValue));
-                                                        },
-                                                        items: accounts.map((key) {
-                                                          return DropdownMenuItem<int>(
-                                                            value: key['account_id'],
-                                                            child: Text(key['account_name']),
+                                                      child: FutureBuilder(
+                                                        future: readAccounts(databaseClient.db),
+                                                        builder: (BuildContext context, AsyncSnapshot<List<Account>> snapshot) {
+                                                          return DropdownButton<int>(
+                                                            autofocus: true,
+                                                            icon: Icon(Icons.keyboard_arrow_down),
+                                                            value: _store.state.transactionAccountId,
+                                                            hint: Text(
+                                                              'Account',
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(color: baseColors.secondaryColor)
+                                                            ),
+                                                            isDense: false,
+                                                            onTap: () {
+                                                              if (!currentFocus.hasPrimaryFocus) {
+                                                                currentFocus.unfocus();
+                                                              }
+                                                            },
+                                                            onChanged: (int newValue) {
+                                                              setState(() {
+                                                                errorAccount = false;
+                                                              });
+                                                              _store.dispatch(TransactionAccount(newValue));
+                                                            },
+                                                            items: List.generate(snapshot.data.length, (int i) {
+                                                              return DropdownMenuItem<int>(
+                                                                value: snapshot.data[i].accountId,
+                                                                child: Text(snapshot.data[i].accountName)
+                                                              );
+                                                            })
                                                           );
-                                                        }).toList(),
-                                                      ),
+                                                        }
+                                                      )
                                                     ),
                                                     SizedBox(width: 15.0)
                                                   ],

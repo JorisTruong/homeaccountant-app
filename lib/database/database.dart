@@ -60,11 +60,6 @@ class DatabaseClient {
     Batch batch = db.batch();
     batch.insert('accounts', basicAccount.toMapWithoutId());
     batch.commit();
-
-    var allAccounts = await readAccounts(db);
-    accounts = List.generate(allAccounts.length, (int i) {
-      return allAccounts[i].toMap();
-    });
   }
 
   Future<void> initializeCategories() async {

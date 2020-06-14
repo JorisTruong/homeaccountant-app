@@ -18,12 +18,5 @@ final String transactionNumber = '42';
 
 /// Categories
 
-// TODO: Renaming, store categories ?
+// TODO: Store categories ?
 List<Map<String, dynamic>> categories = [];
-
-
-/// ACCOUNTS
-
-// Get all accounts
-// TODO: Review, store accounts ?
-List<Map<String, dynamic>> accounts = [];
