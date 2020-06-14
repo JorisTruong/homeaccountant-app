@@ -42,9 +42,27 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
       converter: (Store<AppState> store) => store.state.route,
       builder: (BuildContext context, List<String> route) {
         return Padding(
-          padding: EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 50),
+          padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 50),
           child: Column(
             children: [
+              RaisedButton(
+                onPressed: () {
+                  print('Go to accounts pages');
+                },
+                child: Text(
+                  'MANAGE ACCOUNTS',
+                  style: TextStyle(
+                      fontSize: baseFontSize.text,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                  ),
+                ),
+                color: baseColors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40.0),
+                ),
+              ),
+              SizedBox(height: 24),
               /// Display the current account in a read-only text field
               FutureBuilder(
                 future: accountFromId(databaseClient.db, _store.state.accountId),
