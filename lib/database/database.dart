@@ -113,15 +113,14 @@ class DatabaseClient {
       join(await getDatabasesPath(), 'home_accountant.db'),
       onCreate: (db, version) {
         createTables(db);
+        initializeAccounts();
+        initializeCategories();
       },
       onConfigure: (db) {
         _onConfigure(db);
       },
       version: 1
     );
-
-    initializeAccounts();
-    initializeCategories();
   }
 }
 
