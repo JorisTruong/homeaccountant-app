@@ -44,6 +44,10 @@ We are listing here all the improvements that are currently planned to be made f
 * Add the ability for a transaction to be recurrent
 * Self-hosting option
 
+# Issues
+
+If you are from Github or Gitlab, please head to [Codeberg](https://codeberg.org/joristruong/homeaccountant-app) for creating issues. We are looking to centralize the issues.
+
 # Dependencies
 
 Home Accountant currently uses the following libraries:
