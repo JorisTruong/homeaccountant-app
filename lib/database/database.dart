@@ -52,7 +52,7 @@ class DatabaseClient {
     );
   }
 
-  Future<void> initializeAccounts() async {
+  Future<void> initializeAccounts(Database db) async {
     Account basicAccount = Account(
       accountId: 1,
       accountName: 'Account 1',
@@ -63,7 +63,7 @@ class DatabaseClient {
     batch.commit();
   }
 
-  Future<void> initializeCategories() async {
+  Future<void> initializeCategories(Database db) async {
     // Initialize 'Categories'
     Category category1 = Category(
       categoryId: 0,
@@ -113,8 +113,8 @@ class DatabaseClient {
       join(await getDatabasesPath(), 'home_accountant.db'),
       onCreate: (db, version) {
         createTables(db);
-        initializeAccounts();
-        initializeCategories();
+        initializeAccounts(db);
+        initializeCategories(db);
       },
       onConfigure: (db) {
         _onConfigure(db);
