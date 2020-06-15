@@ -21,11 +21,11 @@ We are listing here all the improvements that are currently planned to be made f
 
 ### High priority:
 * Confirmation when deleting a transaction, category or account
-* Complete 'About Us' page
 * Define the categories and their icon
 * Create a logo
 
 ### Medium priority:
+* Review the 'About Us' page
 * Add a toast on creation of an account, transaction or subcategory
 * Ability to select all accounts
 * Design the tooltip for line charts
@@ -56,6 +56,7 @@ Home Accountant currently uses the following libraries:
 * [flutter_date_pickers](https://pub.dev/packages/flutter_date_pickers)
 * [date_util](https://pub.dev/packages/date_util)
 * [flutter_svg](https://pub.dev/packages/flutter_svg)
+* [url_launcher](https://pub.dev/packages/url_launcher)
 
 # License
 

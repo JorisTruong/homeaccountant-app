@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -59,7 +60,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Lorem Ipsum',
+                          'Home Accountant',
                           style: TextStyle(
                             fontSize: baseFontSize.bigTitle,
                             fontWeight: FontWeight.bold
@@ -72,17 +73,27 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                       child: Column(
                         children: [
                           Text(
-                            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur risus quis rhoncus fringilla. Suspendisse non metus ultrices, mattis diam convallis, bibendum nisi. Quisque gravida nisi sed felis interdum viverra. In pretium et quam non egestas. Pellentesque ullamcorper mi ac risus porta, id convallis tellus suscipit. In egestas lectus ac luctus sollicitudin. Quisque lectus sem, commodo sit amet velit sit amet, finibus lobortis ligula. Etiam ac risus auctor, lobortis felis in, vulputate ex. Nulla scelerisque tincidunt metus a tempor. In id velit tincidunt est fringilla faucibus. Nulla felis justo, congue id velit eu, facilisis euismod sem. Phasellus ac justo egestas, pulvinar nisi a, commodo mauris. Fusce porta tortor ut elementum consequat.',
+                            'Home Accountant is a Free Open-Source Software (FOSS) build to manage bank accounts. It lets you create accounts, add transactions, organize them into categories and subcategories. It also provides various kinds of charts and graphs to help having to better understanding of your expenses. Our goal, as independant developers, was to create a free, simple, and user-friendly money managing application.',
                             style: TextStyle(
                               fontSize: baseFontSize.title
                             ),
+                            textAlign: TextAlign.justify,
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            'Currently, Home Accountant does not use any Internet connection. As a result, it cannot share any of your data, especially the transactions you decided to save in this app. We care about your privacy.',
+                            style: TextStyle(
+                                fontSize: baseFontSize.title
+                            ),
+                            textAlign: TextAlign.justify,
                           ),
                           SizedBox(height: 24),
                           Text(
-                            'Nullam consectetur augue quis lectus faucibus, sodales porttitor quam laoreet. Duis sed libero malesuada, consequat lorem nec, ultricies nunc. Vivamus sit amet purus erat. Cras in dui facilisis, condimentum quam et, cursus tellus. Integer aliquet lorem dolor. Pellentesque ac accumsan augue, tristique blandit metus. Vestibulum mi magna, imperdiet lacinia orci quis, tempus viverra orci. Duis elementum condimentum vulputate. Phasellus ac odio vel arcu molestie suscipit. Maecenas sit amet suscipit mauris. Sed rhoncus condimentum nisl. Aenean vitae ante diam. Nulla convallis id ex ut auctor. Mauris mattis sit amet neque id tempus. Curabitur et posuere felis. Vestibulum ornare non sapien id convallis.',
+                            'Home Accountant is licensed under the AGPL (Affero General Public License). The code is hosted at Codeberg ; and also at Github and Gitlab, as mirrors. If you want to contribute, check out the links below!',
                             style: TextStyle(
                               fontSize: baseFontSize.title
                             ),
+                            textAlign: TextAlign.justify,
                           )
                         ],
                       ),
@@ -91,9 +102,39 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        SvgPicture.asset('assets/codeberg.svg', width: MediaQuery.of(context).size.width * 0.15),
-                        SvgPicture.asset('assets/github.svg', width: MediaQuery.of(context).size.width * 0.15),
-                        SvgPicture.asset('assets/gitlab.svg', width: MediaQuery.of(context).size.width * 0.15)
+                        InkWell(
+                          child: SvgPicture.asset('assets/codeberg.svg', width: MediaQuery.of(context).size.width * 0.15),
+                          onTap: () async {
+                            String codeberg = 'https://codeberg.org/joristruong/homeaccountant-app';
+                            if (await canLaunch(codeberg)) {
+                              await launch(codeberg);
+                            } else {
+                              throw 'Could not launch $codeberg';
+                            }
+                          },
+                        ),
+                        InkWell(
+                          child: SvgPicture.asset('assets/github.svg', width: MediaQuery.of(context).size.width * 0.15),
+                            onTap: () async {
+                            String github = 'https://github.com/JorisTruong/homeaccountant-app';
+                            if (await canLaunch(github)) {
+                              await launch(github);
+                            } else {
+                              throw 'Could not launch $github';
+                            }
+                          }
+                        ),
+                        InkWell(
+                          child: SvgPicture.asset('assets/gitlab.svg', width: MediaQuery.of(context).size.width * 0.15),
+                          onTap: () async {
+                            String gitlab = 'https://gitlab.com/joris.truong/homeaccountant-app';
+                            if (await canLaunch(gitlab)) {
+                              await launch(gitlab);
+                            } else {
+                              throw 'Could not launch $gitlab';
+                            }
+                          }
+                        )
                       ],
                     )
                   ]
