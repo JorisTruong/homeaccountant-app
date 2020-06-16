@@ -75,7 +75,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                           Text(
                             'Home Accountant is a Free Open-Source Software (FOSS) built to manage bank accounts. It lets you create accounts, add transactions, organize them into categories and subcategories. It also provides various kinds of charts and graphs to help having a better understanding of your expenses. Our goal, as independent developers, was to create a free, simple, and user-friendly money managing application.',
                             style: TextStyle(
-                              fontSize: baseFontSize.title
+                              fontSize: baseFontSize.subtitle
                             ),
                             textAlign: TextAlign.justify,
                           ),
@@ -83,7 +83,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                           Text(
                             'Currently, Home Accountant does not use any Internet connection. As a result, it cannot share any of your data, especially the transactions you decided to save in this app. We care about your privacy.',
                             style: TextStyle(
-                                fontSize: baseFontSize.title
+                                fontSize: baseFontSize.subtitle
                             ),
                             textAlign: TextAlign.justify,
                           ),
@@ -91,7 +91,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                           Text(
                             'Home Accountant is licensed under the AGPL (Affero General Public License). The code is hosted at Codeberg; and also at Github and Gitlab, as mirrors. If you want to contribute, check out the links below!',
                             style: TextStyle(
-                              fontSize: baseFontSize.title
+                              fontSize: baseFontSize.subtitle
                             ),
                             textAlign: TextAlign.justify,
                           )
