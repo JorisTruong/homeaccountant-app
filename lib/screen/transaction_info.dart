@@ -7,13 +7,11 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'dart:math' as math;
 
 import 'package:homeaccountantapp/const.dart';
-import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/database.dart';
-import 'package:homeaccountantapp/database/models/accounts.dart';
+import 'package:homeaccountantapp/database/models/models.dart';
 import 'package:homeaccountantapp/database/models/transactions.dart' as t;
-import 'package:homeaccountantapp/database/queries/accounts.dart';
-import 'package:homeaccountantapp/database/queries/transactions.dart';
+import 'package:homeaccountantapp/database/queries/queries.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -314,33 +312,42 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                     SizedBox(width: 15.0),
                                                     Icon(Icons.label, size: 18.0),
                                                     Expanded(
-                                                      child: DropdownButton<int>(
-                                                        icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: _store.state.categoryIndex,
-                                                        hint: Text(
-                                                          'Category',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(color: baseColors.secondaryColor)
-                                                        ),
-                                                        isDense: false,
-                                                        onTap: () {
-                                                          if (!currentFocus.hasPrimaryFocus) {
-                                                            currentFocus.unfocus();
+                                                      child: FutureBuilder(
+                                                        future: readCategories(databaseClient.db),
+                                                        builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                                                          if (snapshot.hasData) {
+                                                            return DropdownButton<int>(
+                                                              icon: Icon(Icons.keyboard_arrow_down),
+                                                              value: _store.state.categoryIndex,
+                                                              hint: Text(
+                                                                'Category',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(color: baseColors.secondaryColor)
+                                                              ),
+                                                              isDense: false,
+                                                              onTap: () {
+                                                                if (!currentFocus.hasPrimaryFocus) {
+                                                                  currentFocus.unfocus();
+                                                                }
+                                                              },
+                                                              onChanged: (int newValue) {
+                                                                setState(() {
+                                                                  errorCategory = false;
+                                                                });
+                                                                resetSubcategory(_store);
+                                                                _store.dispatch(SelectCategory(newValue));
+                                                              },
+                                                              items: List.generate(snapshot.data.length, (int index) {
+                                                                return DropdownMenuItem<int>(
+                                                                  value: snapshot.data[index].categoryId,
+                                                                  child: Text(snapshot.data[index].categoryName)
+                                                                );
+                                                              })
+                                                            );
+                                                          } else {
+                                                            return Container();
                                                           }
-                                                        },
-                                                        onChanged: (int newValue) {
-                                                          setState(() {
-                                                            errorCategory = false;
-                                                          });
-                                                          resetSubcategory(_store);
-                                                          _store.dispatch(SelectCategory(newValue));
-                                                        },
-                                                        items: List.generate(categories.length, (int index) {
-                                                          return DropdownMenuItem<int>(
-                                                            value: categories[index]['category_id'],
-                                                            child: Text(categories[index]['category_name'])
-                                                          );
-                                                        })
+                                                        }
                                                       ),
                                                     ),
                                                     SizedBox(width: 15.0)

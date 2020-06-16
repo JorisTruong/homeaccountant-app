@@ -19,7 +19,6 @@ Future<List<Category>> readCategories(Database db) async {
   });
 }
 
-// TODO: Needed ?
 // READ ONE
 Future<Category> categoryFromId(Database db, int categoryId) async {
   final List<Map<String, dynamic>> category = (await db.rawQuery('SELECT * FROM categories WHERE category_id=?', [categoryId]));

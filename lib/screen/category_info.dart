@@ -7,11 +7,10 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import 'package:homeaccountantapp/const.dart';
-import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/database.dart';
-import 'package:homeaccountantapp/database/models/subcategories.dart';
-import 'package:homeaccountantapp/database/queries/subcategories.dart';
+import 'package:homeaccountantapp/database/models/models.dart';
+import 'package:homeaccountantapp/database/queries/queries.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -168,38 +167,47 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                     SizedBox(width: 15.0),
                                                     Icon(Icons.label, size: 18.0),
                                                     Expanded(
-                                                      child: DropdownButton<int>(
-                                                        icon: Icon(Icons.keyboard_arrow_down),
-                                                        value: _store.state.categoryIndex,
-                                                        hint: Text(
-                                                          'Category',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(color: baseColors.secondaryColor)
-                                                        ),
-                                                        isDense: false,
-                                                        onTap: () {
-                                                          if (!currentFocus.hasPrimaryFocus) {
-                                                            currentFocus.unfocus();
+                                                      child: FutureBuilder(
+                                                        future: readCategories(databaseClient.db),
+                                                        builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                                                          if (snapshot.hasData) {
+                                                            return DropdownButton<int>(
+                                                              icon: Icon(Icons.keyboard_arrow_down),
+                                                              value: _store.state.categoryIndex,
+                                                              hint: Text(
+                                                                'Category',
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(color: baseColors.secondaryColor)
+                                                              ),
+                                                              isDense: false,
+                                                              onTap: () {
+                                                                if (!currentFocus.hasPrimaryFocus) {
+                                                                  currentFocus.unfocus();
+                                                                }
+                                                              },
+                                                              onChanged: (int newValue) {
+                                                                setState(() {
+                                                                  errorCategory = false;
+                                                                });
+                                                                _store.dispatch(SelectCategory(newValue));
+                                                                if (_store.state.categorySubcategoryIcon != null) {
+                                                                  Color color = getCategoryColor(_store.state.categoryIndex) == null ?
+                                                                      baseColors.mainColor :
+                                                                      getCategoryColor(_store.state.categoryIndex);
+                                                                  changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
+                                                                }
+                                                              },
+                                                              items: List.generate(snapshot.data.length, (int index) {
+                                                                return DropdownMenuItem<int>(
+                                                                  value: snapshot.data[index].categoryId,
+                                                                  child: Text(snapshot.data[index].categoryName)
+                                                                );
+                                                              })
+                                                            );
+                                                          } else {
+                                                            return Container();
                                                           }
-                                                        },
-                                                        onChanged: (int newValue) {
-                                                          setState(() {
-                                                            errorCategory = false;
-                                                          });
-                                                          _store.dispatch(SelectCategory(newValue));
-                                                          if (_store.state.categorySubcategoryIcon != null) {
-                                                            Color color = getCategoryColor(_store.state.categoryIndex) == null ?
-                                                                baseColors.mainColor :
-                                                                getCategoryColor(_store.state.categoryIndex);
-                                                            changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
-                                                          }
-                                                        },
-                                                        items: List.generate(categories.length, (int index) {
-                                                          return DropdownMenuItem<int>(
-                                                            value: index,
-                                                            child: Text(categories[index]['category_name'])
-                                                          );
-                                                        })
+                                                        }
                                                       ),
                                                     ),
                                                     SizedBox(width: 15.0)

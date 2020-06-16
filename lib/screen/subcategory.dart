@@ -3,12 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/const.dart';
-import 'package:homeaccountantapp/data.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
 import 'package:homeaccountantapp/database/database.dart';
-import 'package:homeaccountantapp/database/models/subcategories.dart';
-import 'package:homeaccountantapp/database/queries/subcategories.dart';
+import 'package:homeaccountantapp/database/queries/queries.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -85,13 +83,18 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
                         padding: EdgeInsets.only(bottom: 25.0),
                         /// Only show the subcategories of the selected category
                         child: FutureBuilder(
-                          future: subcategoriesFromCategoryId(databaseClient.db, _store.state.categoryIndex),
-                          builder: (BuildContext context, AsyncSnapshot<List<Subcategory>> snapshot) {
+                          future: Future.wait(
+                            [
+                              subcategoriesFromCategoryId(databaseClient.db, _store.state.categoryIndex),
+                              categoryFromId(databaseClient.db, _store.state.categoryIndex)
+                            ]
+                          ),
+                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                             if (snapshot.hasData) {
                               return CategoryCard(
                                 _store.state.categoryIndex,
-                                categories[_store.state.categoryIndex]['category_name'],
-                                snapshot.data,
+                                snapshot.data[1].categoryName,
+                                snapshot.data[0],
                                 getCategoryColor(_store.state.categoryIndex),
                                 true
                               );

@@ -3,8 +3,6 @@ import 'package:path/path.dart';
 import 'dart:async';
 
 import 'package:homeaccountantapp/database/models/models.dart';
-import 'package:homeaccountantapp/database/queries/queries.dart';
-import 'package:homeaccountantapp/data.dart';
 
 
 class DatabaseClient {
@@ -98,11 +96,6 @@ class DatabaseClient {
     batch.insert('categories', category4.toMap());
     batch.insert('categories', category5.toMap());
     batch.commit();
-
-    var allCategories = await readCategories(db);
-    categories = List.generate(allCategories.length, (int i) {
-      return allCategories[i].toMap();
-    });
   }
 
   Future<void> _onConfigure(Database db) async {
