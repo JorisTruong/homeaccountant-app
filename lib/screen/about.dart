@@ -73,7 +73,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                       child: Column(
                         children: [
                           Text(
-                            'Home Accountant is a Free Open-Source Software (FOSS) build to manage bank accounts. It lets you create accounts, add transactions, organize them into categories and subcategories. It also provides various kinds of charts and graphs to help having to better understanding of your expenses. Our goal, as independant developers, was to create a free, simple, and user-friendly money managing application.',
+                            'Home Accountant is a Free Open-Source Software (FOSS) built to manage bank accounts. It lets you create accounts, add transactions, organize them into categories and subcategories. It also provides various kinds of charts and graphs to help having a better understanding of your expenses. Our goal, as independent developers, was to create a free, simple, and user-friendly money managing application.',
                             style: TextStyle(
                               fontSize: baseFontSize.title
                             ),
@@ -89,7 +89,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                           ),
                           SizedBox(height: 24),
                           Text(
-                            'Home Accountant is licensed under the AGPL (Affero General Public License). The code is hosted at Codeberg ; and also at Github and Gitlab, as mirrors. If you want to contribute, check out the links below!',
+                            'Home Accountant is licensed under the AGPL (Affero General Public License). The code is hosted at Codeberg; and also at Github and Gitlab, as mirrors. If you want to contribute, check out the links below!',
                             style: TextStyle(
                               fontSize: baseFontSize.title
                             ),
