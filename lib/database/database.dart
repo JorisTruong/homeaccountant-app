@@ -10,7 +10,7 @@ import 'package:homeaccountantapp/data.dart';
 class DatabaseClient {
   Database db;
 
-  void createTables(Database database) {
+  Future<void> createTables(Database database) {
     database.execute(
       'CREATE TABLE accounts(' +
         'account_id INTEGER PRIMARY KEY AUTOINCREMENT,' +
@@ -50,6 +50,7 @@ class DatabaseClient {
         'FOREIGN KEY (subcategory_id) REFERENCES subcategories (subcategory_id)' +
       ')'
     );
+    return null;
   }
 
   Future<void> initializeAccounts(Database db) async {
@@ -111,10 +112,10 @@ class DatabaseClient {
   Future<void> create() async {
     db = await openDatabase(
       join(await getDatabasesPath(), 'home_accountant.db'),
-      onCreate: (db, version) {
-        createTables(db);
-        initializeAccounts(db);
-        initializeCategories(db);
+      onCreate: (db, version) async {
+        await createTables(db);
+        await initializeAccounts(db);
+        await initializeCategories(db);
       },
       onConfigure: (db) {
         _onConfigure(db);
