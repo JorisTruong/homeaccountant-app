@@ -28,6 +28,28 @@ Future<int> getTransactionsCount(Database db, Map<String, String> dateRange, int
   return count;
 }
 
+/// Get the transactions id of a specific subcategory id.
+/// Used when deleted a subcategory.
+Future<List<models.Transaction>> getTransactionFromSubcategoryId(Database db, int subcategoryId) async {
+  final List<Map<String, dynamic>> transactions = await db.rawQuery(
+      'SELECT * FROM transactions WHERE subcategory_id = ?',
+      [subcategoryId]
+  );
+  return List.generate(transactions.length, (i) {
+    return models.Transaction(
+      transactionId: transactions[i]['transaction_id'],
+      transactionName: transactions[i]['transaction_name'],
+      accountId: transactions[i]['account_id'],
+      date: transactions[i]['date'],
+      isExpense: transactions[i]['is_expense'] == 1 ? true : false,
+      amount: transactions[i]['amount'],
+      description: transactions[i]['description'],
+      categoryId: transactions[i]['category_id'],
+      subcategoryId: transactions[i]['subcategory_id']
+    );
+  });
+}
+
 /// Read all transactions of a certain account in a given date range.
 Future<List<models.Transaction>> readTransactions(Database db, Map<String, String> dateRange, int accountId) async {
   final List<Map<String, dynamic>> transactions = await db.rawQuery(
