@@ -138,12 +138,12 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                           FutureBuilder(
                             future: _store.state.dateRangeType == 'Year' ?
                             Future.wait(
-                              List.generate(5, (int i) {
+                              List.generate(7, (int i) {
                                 return getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 1);
                               })
                             )
                             : Future.wait(
-                              List.generate(5, (int i) {
+                              List.generate(7, (int i) {
                                 return getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 1);
                               })
                             ),
@@ -175,12 +175,12 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                           FutureBuilder(
                             future: _store.state.dateRangeType == 'Year' ?
                             Future.wait(
-                              List.generate(5, (int i) {
+                              List.generate(7, (int i) {
                                 return getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 0);
                               })
                             )
                             : Future.wait(
-                              List.generate(5, (int i) {
+                              List.generate(7, (int i) {
                                 return getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, i, 0);
                               })
                             ),
