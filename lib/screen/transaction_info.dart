@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/models.dart';
 import 'package:homeaccountantapp/database/models/transactions.dart' as t;
@@ -210,7 +211,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                               })
                                                             );
                                                           } else {
-                                                            return Container();
+                                                            return LoadingComponent();
                                                           }
                                                         }
                                                       )
@@ -345,7 +346,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                               })
                                                             );
                                                           } else {
-                                                            return Container();
+                                                            return LoadingComponent();
                                                           }
                                                         }
                                                       ),

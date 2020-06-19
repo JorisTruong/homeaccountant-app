@@ -6,8 +6,10 @@ import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/categories.dart';
 import 'package:homeaccountantapp/database/models/subcategories.dart';
 import 'package:homeaccountantapp/database/models/transactions.dart' as t;
+import 'package:homeaccountantapp/database/queries/categories.dart';
 import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
@@ -81,10 +83,18 @@ class TransactionItem extends StatelessWidget {
                                         }
                                       },
                                     ) :
-                                    Icon(
-                                      // TODO: Replace by the icon of the category
-                                      icons_list[transactions[index].categoryId],
-                                      color: getCategoryColor(transactions[index].categoryId)
+                                    FutureBuilder(
+                                      future: categoryFromId(databaseClient.db, transactions[index].categoryId),
+                                      builder: (BuildContext context, AsyncSnapshot<Category> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Icon(
+                                            icons_list[snapshot.data.categoryIconId],
+                                            color: getCategoryColor(transactions[index].categoryId)
+                                          );
+                                        } else {
+                                          return CircularProgressIndicator();
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
@@ -122,7 +132,6 @@ class TransactionItem extends StatelessWidget {
                                   TextEditingController subcategoryText = TextEditingController();
                                   Icon subcategoryIcon;
                                   /// Get the icon of the category if no subcategory is selected
-                                  // TODO: Defines a icon for each category
                                   if (transactions[index].subcategoryId != null) {
                                     Subcategory subcategory = await subcategoryFromId(databaseClient.db, transactions[index].subcategoryId);
                                     subcategoryText.text = subcategory.subcategoryName;
@@ -131,9 +140,9 @@ class TransactionItem extends StatelessWidget {
                                       color: getCategoryColor(transactions[index].categoryId)
                                     );
                                   } else {
+                                    Category category = await categoryFromId(databaseClient.db, transactions[index].categoryId);
                                     subcategoryIcon = Icon(
-                                      // TODO: Replace by the icon of the category
-                                      icons_list[transactions[index].categoryId],
+                                      icons_list[category.categoryIconId],
                                       color: getCategoryColor(transactions[index].categoryId)
                                     );
                                   }

@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/models/models.dart' as models;
+import 'package:homeaccountantapp/database/queries/categories.dart';
 
 ///
 /// Queries related to the 'Transactions' entity
@@ -92,18 +93,13 @@ Future<double> getCategoryAmount(int categoryId, Database db, Map<String, String
 /// Get the total amount of each categories expense transactions, from a given account and a given date range
 /// Values are all positive
 Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, String> dateRange, int accountId) async {
-  double category1Expenses = await getCategoryAmount(0, db, dateRange, accountId, 1);
-  double category2Expenses = await getCategoryAmount(1, db, dateRange, accountId, 1);
-  double category3Expenses = await getCategoryAmount(2, db, dateRange, accountId, 1);
-  double category4Expenses = await getCategoryAmount(3, db, dateRange, accountId, 1);
-  double category5Expenses = await getCategoryAmount(4, db, dateRange, accountId, 1);
-  return [
-    {'name': 'Category 1', 'expenses': -category1Expenses},
-    {'name': 'Category 2', 'expenses': -category2Expenses},
-    {'name': 'Category 3', 'expenses': -category3Expenses},
-    {'name': 'Category 4', 'expenses': -category4Expenses},
-    {'name': 'Category 5', 'expenses': -category5Expenses}
-  ];
+  List<models.Category> categories = await readCategories(db);
+  List<double> categoryExpenses = await Future.wait(List.generate(categories.length, (int i) {
+    return getCategoryAmount(categories[i].categoryId, db, dateRange, accountId, 1);
+  }));
+  return List.generate(categoryExpenses.length, (int i) {
+    return {'name': categories[i].categoryName, 'expenses': -categoryExpenses[i]};
+  });
 }
 
 /// Get the total amount of all expense transactions, from a given account and a given date range
@@ -122,13 +118,10 @@ Future<double> getTotalExpense(Database db, Map<String, String> dateRange, int a
 Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String, String> dateRange, int accountId) async {
   double totalExpenses = await getTotalExpense(db, dateRange, accountId);
   if (totalExpenses == null || totalExpenses == 0) {
-    return [
-      {'name': 'Category 1', 'percentage': 0},
-      {'name': 'Category 2', 'percentage': 0},
-      {'name': 'Category 3', 'percentage': 0},
-      {'name': 'Category 4', 'percentage': 0},
-      {'name': 'Category 5', 'percentage': 0}
-    ];
+    List<models.Category> categories = await readCategories(db);
+    return List.generate(categories.length, (int i) {
+      return {'name': categories[i].categoryName, 'percentage': 0};
+    });
   } else {
     var result = await getExpensesAmount(db, dateRange, accountId);
     return List.generate(result.length, (int i) {
@@ -143,18 +136,13 @@ Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String
 /// Get the total amount of each categories income transactions, from a given account and a given date range
 /// Values are all positive
 Future<List<Map<String, dynamic>>> getIncomeAmount(Database db, Map<String, String> dateRange, int accountId) async {
-  double category1Income = await getCategoryAmount(0, db, dateRange, accountId, 0);
-  double category2Income = await getCategoryAmount(1, db, dateRange, accountId, 0);
-  double category3Income = await getCategoryAmount(2, db, dateRange, accountId, 0);
-  double category4Income = await getCategoryAmount(3, db, dateRange, accountId, 0);
-  double category5Income = await getCategoryAmount(4, db, dateRange, accountId, 0);
-  return [
-    {'name': 'Category 1', 'income': category1Income},
-    {'name': 'Category 2', 'income': category2Income},
-    {'name': 'Category 3', 'income': category3Income},
-    {'name': 'Category 4', 'income': category4Income},
-    {'name': 'Category 5', 'income': category5Income}
-  ];
+  List<models.Category> categories = await readCategories(db);
+  List<double> categoryIncome = await Future.wait(List.generate(categories.length, (int i) {
+    return getCategoryAmount(categories[i].categoryId, db, dateRange, accountId, 0);
+  }));
+  return List.generate(categoryIncome.length, (int i) {
+    return {'name': categories[i].categoryName, 'income': categoryIncome[i]};
+  });
 }
 
 /// /// Get the total amount of all income transactions, from a given account and a given date range
@@ -173,13 +161,10 @@ Future<double> getTotalIncome(Database db, Map<String, String> dateRange, int ac
 Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, String> dateRange, int accountId) async {
   double totalIncome = await getTotalIncome(db, dateRange, accountId);
   if (totalIncome == null || totalIncome == 0) {
-    return [
-      {'name': 'Category 1', 'percentage': 0},
-      {'name': 'Category 2', 'percentage': 0},
-      {'name': 'Category 3', 'percentage': 0},
-      {'name': 'Category 4', 'percentage': 0},
-      {'name': 'Category 5', 'percentage': 0}
-    ];
+    List<models.Category> categories = await readCategories(db);
+    return List.generate(categories.length, (int i) {
+      return {'name': categories[i].categoryName, 'percentage': 0};
+    });
   } else {
     var result = await getIncomeAmount(db, dateRange, accountId);
     return List.generate(result.length, (int i) {

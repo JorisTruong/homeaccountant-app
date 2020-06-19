@@ -21,7 +21,6 @@ We are listing here all the improvements that are currently planned to be made f
 
 ### High priority:
 * Confirmation when deleting a transaction, category or account
-* Define the categories and their icon
 * Create a logo
 
 ### Medium priority:

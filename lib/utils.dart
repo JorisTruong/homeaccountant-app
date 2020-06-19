@@ -66,6 +66,10 @@ Color getCategoryColor(int index) {
       return baseColors.category4;
     case 4:
       return baseColors.category5;
+    case 5:
+      return baseColors.category6;
+    case 6:
+      return baseColors.category7;
     default:
       return baseColors.mainColor;
   }

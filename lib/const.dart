@@ -25,7 +25,9 @@ class BaseColors {
   Color category2 = Color(0xfff8b250);
   Color category3 = Color(0xff845bef);
   Color category4 = Color(0xff13d38e);
-  Color category5 = Color(0xfff293ee);
+  Color category5 = Color(0xffec2b2b);
+  Color category6 = Color(0xfff293ee);
+  Color category7 = Color(0xff9c9492);
   Color borderColor = Colors.grey[400];
   Color errorColor = Colors.red[700];
 }

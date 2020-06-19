@@ -161,7 +161,9 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                                     baseColors.category2,
                                     baseColors.category3,
                                     baseColors.category4,
-                                    baseColors.category5
+                                    baseColors.category5,
+                                    baseColors.category6,
+                                    baseColors.category7
                                   ],
                                   willNegative: false,
                                 );
@@ -196,7 +198,9 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                                     baseColors.category2,
                                     baseColors.category3,
                                     baseColors.category4,
-                                    baseColors.category5
+                                    baseColors.category5,
+                                    baseColors.category6,
+                                    baseColors.category7
                                   ],
                                   willNegative: false,
                                 );
