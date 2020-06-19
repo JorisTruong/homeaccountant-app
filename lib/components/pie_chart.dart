@@ -149,7 +149,7 @@ class PieChartCardState extends State<PieChartCard> {
     if ((switchData && emptyExpenses) || (!switchData && emptyIncome)) {
       final double radius = MediaQuery.of(context).size.width/10;
       return [PieChartSectionData(
-        color: baseColors.borderColor,
+        color: baseColors.mainColor,
         value: 100,
         title: '',
         radius: radius,
