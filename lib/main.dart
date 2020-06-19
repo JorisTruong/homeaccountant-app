@@ -54,9 +54,9 @@ void main() async {
       transactionSubcategoryText: TextEditingController(),
       transactionAmount: TextEditingController(),
       transactionDescription: TextEditingController(),
-      dateRangeType: 'Year',
+      dateRangeType: 'Month',
       selectedDate: DateTime.now(),
-      dateRange: dateToDateRange('Year', DateTime.now()),
+      dateRange: dateToDateRange('Month', DateTime.now()),
       route: [AppRoutes.home],
       visibility: true, /// Visibility of the floating button for sliding up panel
       isCreatingAccount: false, /// If we are creating an account or not
