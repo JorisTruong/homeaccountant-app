@@ -276,14 +276,40 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               RaisedButton(
-                                                onPressed: () async {
-                                                  // TODO: Delete confirmation ?
+                                                onPressed: () {
                                                   if (!_store.state.isCreatingSubcategory) {
-                                                    await deleteSubcategory(databaseClient.db, _store.state.categorySubcategoryId);
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Text('Are you sure ?'),
+                                                          content: Text('Deleting this subcategory will affect the transactions that are tagged with this subcategory. Are you sure you want to delete this subcategory?'),
+                                                          actions: [
+                                                            FlatButton(
+                                                              child: Text('Cancel'),
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            ),
+                                                            FlatButton(
+                                                              child: Text('Confirm'),
+                                                              onPressed: () async {
+                                                                await deleteSubcategory(databaseClient.db, _store.state.categorySubcategoryId);
+                                                                resetState(_store);
+                                                                _store.dispatch(NavigatePopAction());
+                                                                Navigator.of(context).pop();
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            )
+                                                          ],
+                                                        );
+                                                      }
+                                                    );
+                                                  } else {
+                                                    resetState(_store);
+                                                    _store.dispatch(NavigatePopAction());
+                                                    Navigator.of(context).pop();
                                                   }
-                                                  resetState(_store);
-                                                  _store.dispatch(NavigatePopAction());
-                                                  Navigator.of(context).pop();
                                                 },
                                                 child: Text(
                                                   _store.state.isCreatingSubcategory ? 'CANCEL' : 'DELETE',

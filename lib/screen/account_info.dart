@@ -164,21 +164,43 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                             children: [
                                               RaisedButton(
                                                 onPressed: () async {
-                                                  // TODO: Delete confirmation ?
-                                                  int numberOfAccounts = (await readAccounts(databaseClient.db)).length;
                                                   if (!_store.state.isCreatingAccount) {
-                                                    if (numberOfAccounts <= 1) {
-                                                      setState(() {
-                                                        errorMinimum = true;
-                                                      });
-                                                    } else {
-                                                      await deleteAccount(databaseClient.db, _store.state.accountInfoId);
-                                                      resetState(_store);
-                                                      _store.dispatch(NavigatePopAction());
-                                                      Navigator.of(context).pop();
-                                                    }
-                                                  }
-                                                  else {
+                                                    int numberOfAccounts = (await readAccounts(databaseClient.db)).length;
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Text('Are you sure ?'),
+                                                          content: Text('Deleting this account will delete all the transactions that are tagged with this account. Are you sure you want to delete this account?'),
+                                                          actions: [
+                                                            FlatButton(
+                                                              child: Text('Cancel'),
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            ),
+                                                            FlatButton(
+                                                              child: Text('Confirm'),
+                                                              onPressed: () async {
+                                                                if (numberOfAccounts <= 1) {
+                                                                  setState(() {
+                                                                    errorMinimum = true;
+                                                                  });
+                                                                  Navigator.of(context).pop();
+                                                                } else {
+                                                                  await deleteAccount(databaseClient.db, _store.state.accountInfoId);
+                                                                  resetState(_store);
+                                                                  _store.dispatch(NavigatePopAction());
+                                                                  Navigator.of(context).pop();
+                                                                  Navigator.of(context).pop();
+                                                                }
+                                                              },
+                                                            )
+                                                          ],
+                                                        );
+                                                      }
+                                                    );
+                                                  } else {
                                                     resetState(_store);
                                                     _store.dispatch(NavigatePopAction());
                                                     Navigator.of(context).pop();

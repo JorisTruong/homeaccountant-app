@@ -425,12 +425,37 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                             children: [
                                               RaisedButton(
                                                 onPressed: () async {
-                                                  // TODO: Delete confirmation ?
                                                   if (!_store.state.isCreatingTransaction) {
-                                                    await deleteTransaction(databaseClient.db, _store.state.transactionId);
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Text('Are you sure ?'),
+                                                          content: Text('You will not be able to revert deleting this transaction. Are you sure you want to delete this transaction?'),
+                                                          actions: [
+                                                            FlatButton(
+                                                              child: Text('Cancel'),
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            ),
+                                                            FlatButton(
+                                                              child: Text('Confirm'),
+                                                              onPressed: () async {
+                                                                await deleteTransaction(databaseClient.db, _store.state.transactionId);
+                                                                leaveScreen(_store);
+                                                                Navigator.of(context).pop();
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            )
+                                                          ],
+                                                        );
+                                                      }
+                                                    );
+                                                  } else {
+                                                    leaveScreen(_store);
+                                                    Navigator.of(context).pop();
                                                   }
-                                                  leaveScreen(_store);
-                                                  Navigator.of(context).pop();
                                                 },
                                                 child: Text(
                                                   _store.state.isCreatingTransaction ? 'CANCEL' : 'DELETE',
