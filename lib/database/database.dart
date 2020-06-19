@@ -85,7 +85,7 @@ class DatabaseClient {
     );
     Category transportation = Category(
       categoryId: 4,
-      categoryName: 'Transportation',
+      categoryName: 'Transport',
       categoryIconId: 257
     );
     Category shopping = Category(
