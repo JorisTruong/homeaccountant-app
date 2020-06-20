@@ -160,7 +160,7 @@ class LineChartCardState extends State<LineChartCard> {
                 (barSpot.y * dataMaxValue / 4.0).toStringAsFixed(2),
                 TextStyle(color: barSpot.bar.colors[0],
                   fontWeight: FontWeight.bold,
-                  fontSize: 14
+                  fontSize: baseFontSize.subtitle
                 )
               );
             }).toList();
@@ -189,7 +189,7 @@ class LineChartCardState extends State<LineChartCard> {
           textStyle: TextStyle(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
-            fontSize: baseFontSize.text,
+            fontSize: baseFontSize.text2,
           ),
           getTitles: (value) {
             return getYAxis(value, dataMaxValue);

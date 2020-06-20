@@ -77,7 +77,7 @@ class _YearPickerState extends State<YearPicker> {
                   child: Text(
                     year.toString(),
                     style: TextStyle(
-                      fontSize: baseFontSize.selected,
+                      fontSize: baseFontSize.bigTitle,
                       color: Colors.white,
                       fontWeight: FontWeight.bold
                     )
