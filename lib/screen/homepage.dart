@@ -113,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           future: getTotalBalance(databaseClient.db, _store.state.dateRange, _store.state.accountId),
                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                             if (snapshot.hasData) {
-                              return MainCard('Balance', currency, snapshot.data.toString(), baseColors.blue, 'left');
+                              return MainCard('Balance', currency, snapshot.data.toStringAsFixed(2), baseColors.blue, 'left');
                             } else {
                               return MainCard('Balance', currency, '', baseColors.blue, 'left');
                             }
@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           future: getTotalIncome(databaseClient.db, _store.state.dateRange, _store.state.accountId),
                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                             if (snapshot.hasData) {
-                              return MainCard('Income', Icons.call_made, snapshot.data.toString(), baseColors.green, 'right');
+                              return MainCard('Income', Icons.call_made, snapshot.data.toStringAsFixed(2), baseColors.green, 'right');
                             } else {
                               return MainCard('Income', Icons.call_made, '', baseColors.green, 'right');
                             }
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           future: getTotalExpense(databaseClient.db, _store.state.dateRange, _store.state.accountId),
                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                             if (snapshot.hasData) {
-                              return MainCard('Expenses', Icons.call_received, snapshot.data.toString(), baseColors.red, 'left');
+                              return MainCard('Expenses', Icons.call_received, snapshot.data.toStringAsFixed(2), baseColors.red, 'left');
                             } else {
                               return MainCard('Expenses', Icons.call_received, '', baseColors.red, 'left');
                             }
