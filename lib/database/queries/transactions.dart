@@ -203,7 +203,7 @@ Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, 
 Future<double> getTotalBalance(Database db, Map<String, String> dateRange, int accountId) async {
   double totalExpenses = await getTotalExpense(db, dateRange, accountId);
   double totalIncome = await getTotalIncome(db, dateRange, accountId);
-  return totalIncome + totalExpenses;
+  return totalIncome - totalExpenses;
 }
 
 /// Get the total amount of each categories transactions, from a given account and a given date range
