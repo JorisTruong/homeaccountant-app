@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               child: Stack(
               children: <Widget>[
                 SingleChildScrollView(
-                  padding: EdgeInsets.only(bottom: Platform.isAndroid ? 60 : 90),
+                  padding: EdgeInsets.only(bottom: 40),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

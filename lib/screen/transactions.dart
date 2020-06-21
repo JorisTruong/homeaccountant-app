@@ -64,7 +64,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
               body: Stack(
                 children: [
                   SingleChildScrollView(
-                    padding: EdgeInsets.only(bottom: Platform.isAndroid ? 60 : 90),
+                    padding: EdgeInsets.only(bottom: 40),
                     /// Display all the transactions
                     child: Column(
                       children: [

@@ -41,7 +41,7 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
               return Future(() => true);
             },
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: Platform.isAndroid ? 60 : 90),
+              padding: EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 40),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

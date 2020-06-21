@@ -57,11 +57,13 @@ class _NavigationBarState extends State<NavigationBar> {
       screens: _buildScreens(),
       showElevation: true,
       navBarCurve: NavBarCurve.upperCorners,
+      navBarCurveRadius: 30,
       confineInSafeArea: true,
       handleAndroidBackButtonPress: true,
-      iconSize: 26.0,
+      iconSize: 28.0,
       navBarStyle: NavBarStyle.style1,
       backgroundColor: baseColors.mainColor,
+      navBarHeight: 90,
     );
   }
 }

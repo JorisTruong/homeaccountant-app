@@ -43,7 +43,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
           },
           child: Scaffold(
             body: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: Platform.isAndroid ? 60 : 90),
+              padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
               child: Stack(
                 children: [
                   FutureBuilder(
