@@ -153,16 +153,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           future: _store.state.dateRangeType == 'Year' ?
                           Future.wait(
                             [
-                              getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1),
+                              getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0),
                               getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 1),
-                              getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0)
+                              getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1)
                             ]
                           )
                           : Future.wait(
                             [
-                              getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1),
+                              getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0),
                               getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 1),
-                              getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0)
+                              getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1)
                             ]
                           ),
                           builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -172,11 +172,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 durationType: _store.state.dateRangeType,
                                 dateRange: _store.state.dateRange,
                                 linesData: [
-                                  cumulativeSum(snapshot.data[0].map((e) => e['totalAmount']).toList().cast<double>()),
+                                  snapshot.data[0].map((e) => e['totalAmount']).toList().cast<double>(),
                                   snapshot.data[1].map((e) => e['totalAmount']).toList().cast<double>(),
-                                  snapshot.data[2].map((e) => e['totalAmount']).toList().cast<double>()
+                                  cumulativeSum(snapshot.data[2].map((e) => e['totalAmount']).toList().cast<double>())
                                 ],
-                                colors: [baseColors.blue, baseColors.red, baseColors.green],
+                                colors: [baseColors.green, baseColors.red, baseColors.blue],
                                 willNegative: true,
                               );
                             } else {
