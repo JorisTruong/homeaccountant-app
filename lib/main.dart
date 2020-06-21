@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:homeaccountantapp/screen/subcategory.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:redux/redux.dart';
@@ -39,6 +40,7 @@ Future<void> initializeDatabase() async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIOverlays([]);
 
   await initializeDatabase();
 

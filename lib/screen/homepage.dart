@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               }
             },
             child: Scaffold(
+              resizeToAvoidBottomPadding: false,
               appBar: AppBar(
                 title: Text(
                   'Home Accountant',
