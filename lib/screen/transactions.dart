@@ -115,6 +115,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                             if (snapshot.hasData) {
                               return ListView.builder(
                                 shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (context, index) {
                                   String month = snapshot.data.keys.elementAt(index);
