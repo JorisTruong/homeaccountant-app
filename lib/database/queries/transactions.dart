@@ -219,10 +219,10 @@ Future<List<Map<String, dynamic>>> getTransactionsAmount(Database db, Map<String
 
 Future<List<Map<String, dynamic>>> getDailyAmounts(Database db, Map<String, String> dateRange, int accountId, int categoryId, int isExpense) async {
   String createDate = "WITH RECURSIVE dates(date) AS (VALUES('${dateRange["from"]}') UNION ALL SELECT date(date, '+1 day') FROM dates WHERE date < '${dateRange["to"]}')";
-  String query = createDate + ' SELECT dates.date, COALESCE(SUM(amount), 0.0) as totalAmount FROM dates LEFT JOIN transactions ON dates.date = transactions.date';
+  String query = createDate + ' SELECT dates.date, COALESCE(SUM(amount), 0.0) as totalAmount, is_expense FROM dates LEFT JOIN transactions ON dates.date = transactions.date';
   List<Map<String, dynamic>> queryResult;
   if (categoryId != -1) {
-    query = query + ' WHERE (category_id IS NULL OR category_id = ?)';
+    query = query + ' AND (category_id IS NULL OR category_id = ?)';
     if (isExpense != -1) {
       query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY dates.date';
       queryResult = await db.rawQuery(query, [categoryId, isExpense]);
@@ -232,7 +232,7 @@ Future<List<Map<String, dynamic>>> getDailyAmounts(Database db, Map<String, Stri
     }
   } else {
     if (isExpense != -1) {
-      query = query + ' WHERE (is_expense IS NULL OR is_expense = ?) GROUP BY dates.date';
+      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY dates.date';
       queryResult = await db.rawQuery(query, [isExpense]);
     } else {
       query = query + ' GROUP BY dates.date';
@@ -247,7 +247,7 @@ Future<List<Map<String, dynamic>>> getMonthlyAmounts(Database db, Map<String, St
   String query = createDate + " SELECT strftime('%m', dates.date) as month, COALESCE(SUM(amount), 0.0) as totalAmount FROM dates LEFT JOIN transactions ON dates.date = transactions.date";
   List<Map<String, dynamic>> queryResult;
   if (categoryId != -1) {
-    query = query + ' WHERE (category_id IS NULL OR category_id = ?)';
+    query = query + ' AND (category_id IS NULL OR category_id = ?)';
     if (isExpense != -1) {
       query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY month';
       queryResult = await db.rawQuery(query, [categoryId, isExpense]);
@@ -257,7 +257,7 @@ Future<List<Map<String, dynamic>>> getMonthlyAmounts(Database db, Map<String, St
     }
   } else {
     if (isExpense != -1) {
-      query = query + ' WHERE (is_expense IS NULL OR is_expense = ?) GROUP BY month';
+      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY month';
       queryResult = await db.rawQuery(query, [isExpense]);
     } else {
       query = query + ' GROUP BY month';
