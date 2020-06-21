@@ -95,7 +95,7 @@ Future<Map<String, List<models.Transaction>>> getTransactions(Database db, Strin
     // Get month
     String month = dateRange['from'].split('-')[1];
     return {
-      getMonth(month) + year: await readTransactions(db, dateRange, accountId)
+      getMonth(month) + ' ' + year: await readTransactions(db, dateRange, accountId)
     };
   }
 }
