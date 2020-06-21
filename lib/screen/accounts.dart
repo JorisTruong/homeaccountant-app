@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/account_item.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
-import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/accounts.dart';
 import 'package:homeaccountantapp/database/queries/accounts.dart';
-import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -42,54 +40,27 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
               print(_store.state);
               return Future(() => true);
             },
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  'Accounts',
-                  style: TextStyle(
-                    fontSize: baseFontSize.title
-                  ),
-                ),
-                centerTitle: true,
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: FloatingActionButton(
-                      elevation: 0,
-                      backgroundColor: baseColors.transparent,
-                      onPressed: () {
-                        _store.dispatch(IsCreatingAccount(true));
-                        _store.dispatch(NavigatePushAction(AppRoutes.account));
-                      },
-                      child: Icon(Icons.add)
-                    )
-                  )
-                ],
-              ),
-              /// This is the drawer accessible from a left-to-right swipe or the top left icon.
-              drawer: NavigationDrawer(),
-              body: SingleChildScrollView(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    FutureBuilder(
-                      future: readAccounts(databaseClient.db),
-                      builder: (BuildContext context, AsyncSnapshot<List<Account>> snapshot) {
-                        if (snapshot.hasData) {
-                          return Column(
-                            children: List.generate(snapshot.data.length, (int i) {
-                              return AccountItem(snapshot.data[i]);
-                            })
-                          );
-                        } else {
-                          return LoadingComponent();
-                        }
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: Platform.isAndroid ? 60 : 90),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  FutureBuilder(
+                    future: readAccounts(databaseClient.db),
+                    builder: (BuildContext context, AsyncSnapshot<List<Account>> snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: List.generate(snapshot.data.length, (int i) {
+                            return AccountItem(snapshot.data[i]);
+                          })
+                        );
+                      } else {
+                        return LoadingComponent();
                       }
-                    )
-                  ]
-                )
-              ),
+                    }
+                  )
+                ]
+              )
             )
           );
         }

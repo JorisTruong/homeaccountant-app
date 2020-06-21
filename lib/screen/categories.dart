@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:homeaccountantapp/database/queries/categories.dart';
 import 'package:redux/redux.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
-import 'package:homeaccountantapp/components/navigation_drawer.dart';
 import 'package:homeaccountantapp/database/database.dart';
-import 'package:homeaccountantapp/database/models/models.dart';
+import 'package:homeaccountantapp/database/models/models.dart' as m;
 import 'package:homeaccountantapp/database/queries/queries.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
@@ -44,40 +42,13 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
             return Future(() => true);
           },
           child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Categories',
-                style: TextStyle(
-                  fontSize: baseFontSize.title
-                ),
-              ),
-              centerTitle: true,
-              /// 'actions' on the AppBar is what appears on the top right side.
-              /// This is for adding a new subcategory.
-              actions: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    elevation: 0,
-                    backgroundColor: baseColors.transparent,
-                    onPressed: () {
-                      _store.dispatch(IsCreatingSubcategory(true));
-                      _store.dispatch(NavigatePushAction(AppRoutes.category));
-                    },
-                    child: Icon(Icons.add)
-                  )
-                )
-              ],
-            ),
-            /// This is the drawer accessible from a left-to-right swipe or the top left icon.
-            drawer: NavigationDrawer(),
             body: SingleChildScrollView(
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: Platform.isAndroid ? 60 : 90),
               child: Stack(
                 children: [
                   FutureBuilder(
                     future: readCategories(databaseClient.db),
-                    builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<List<m.Category>> snapshot) {
                       if (snapshot.hasData) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -86,7 +57,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                             Color color = getCategoryColor(index);
                             return FutureBuilder(
                               future: subcategoriesFromCategoryId(databaseClient.db, index),
-                              builder: (BuildContext context, AsyncSnapshot<List<Subcategory>> snapshot) {
+                              builder: (BuildContext context, AsyncSnapshot<List<m.Subcategory>> snapshot) {
                                 if (snapshot.hasData) {
                                   return Padding(
                                     padding: EdgeInsets.only(bottom: 25.0),
@@ -106,7 +77,21 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                   ),
                 ]
               )
-            )
+            ),
+            floatingActionButton: Visibility(
+              visible: _store.state.visibility,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: Platform.isAndroid ? 60 : 90),
+                child: FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () {
+                    _store.dispatch(IsCreatingSubcategory(true));
+                    _store.dispatch(NavigatePushAction(AppRoutes.category));
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ),
+            ),
           )
         );
       }

@@ -7,6 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/widgets.dart';
 
+import 'components/navigation_bar.dart';
 import 'screen/homepage.dart';
 import 'screen/accounts.dart';
 import 'screen/account_info.dart';
@@ -116,7 +117,7 @@ class MyApp extends StatelessWidget {
         primaryColor: baseColors.mainColor,
         accentColor: baseColors.mainColor
       ),
-      home: MyHomePage(),
+      home: NavigationBar(),
     );
   }
 }
