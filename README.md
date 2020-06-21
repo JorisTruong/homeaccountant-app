@@ -49,6 +49,7 @@ If you are from Github or Gitlab, please head to [Codeberg](https://codeberg.org
 # Dependencies
 
 Home Accountant currently uses the following libraries:
+* [sqflite](https://pub.dev/packages/sqflite)
 * [redux](https://pub.dev/packages/redux)
 * [flutter_redux](https://pub.dev/packages/flutter_redux)
 * [sliding_up_panel](https://pub.dev/packages/sliding_up_panel)

@@ -1,4 +1,10 @@
-# 0.0.1 (2020-05-21)
+# 0.0.1 (2020-06-21)
 
-* Front-end of the application.
-
+* First version of the application (front-end and local back-end)
+  * Overview of the selected account (Home page)
+  * Manage accounts (Accounts page)
+  * Select the account the time period (Panels)
+  * Create subcategories (Categories page)
+  * Create transactions (Transactions page)
+  * Visualize your data with various charts (Graphs page)
+  * Info (About us page)
