@@ -240,7 +240,7 @@ class LineChartCardState extends State<LineChartCard> {
         barWidth: 3,
         isStrokeCapRound: true,
         dotData: FlDotData(
-          show: true,
+          show: false,
         ),
       );
     });
