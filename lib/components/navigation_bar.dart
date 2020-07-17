@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/screen/homepage.dart';
@@ -55,15 +54,15 @@ class _NavigationBarState extends State<NavigationBar> {
       controller: _controller,
       items: _navBarsItems(),
       screens: _buildScreens(),
-      showElevation: true,
-      navBarCurve: NavBarCurve.upperCorners,
-      navBarCurveRadius: 30,
+      decoration: NavBarDecoration(
+        borderRadius: BorderRadius.circular(30.0)
+      ),
       confineInSafeArea: true,
       handleAndroidBackButtonPress: true,
       iconSize: 28.0,
       navBarStyle: NavBarStyle.style1,
       backgroundColor: baseColors.mainColor,
-      navBarHeight: 90,
+      navBarHeight: 80,
     );
   }
 }

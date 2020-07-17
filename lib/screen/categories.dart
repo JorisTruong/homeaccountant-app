@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
@@ -42,6 +41,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
             return Future(() => true);
           },
           child: Scaffold(
+            resizeToAvoidBottomPadding: false,
             body: SingleChildScrollView(
               padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
               child: Stack(
@@ -81,7 +81,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
             floatingActionButton: Visibility(
               visible: _store.state.visibility,
               child: Padding(
-                padding: EdgeInsets.only(bottom: Platform.isAndroid ? 60 : 90),
+                padding: EdgeInsets.only(bottom: 30),
                 child: FloatingActionButton(
                   heroTag: null,
                   onPressed: () {

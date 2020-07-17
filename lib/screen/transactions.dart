@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
@@ -61,6 +60,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
               }
             },
             child: Scaffold(
+              resizeToAvoidBottomPadding: false,
               body: Stack(
                 children: [
                   SingleChildScrollView(
@@ -99,7 +99,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
               floatingActionButton: Visibility(
                 visible: _store.state.visibility,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: Platform.isAndroid ? 60 : 90),
+                  padding: EdgeInsets.only(bottom: 30),
                   child: FloatingActionButton(
                     heroTag: null,
                     onPressed: () {
