@@ -62,7 +62,7 @@ class _NavigationBarState extends State<NavigationBar> {
       iconSize: 28.0,
       navBarStyle: NavBarStyle.style1,
       backgroundColor: baseColors.mainColor,
-      navBarHeight: 80,
+      navBarHeight: MediaQuery.of(context).size.height * 0.1,
     );
   }
 }
