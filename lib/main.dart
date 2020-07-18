@@ -6,6 +6,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'components/navigation_bar.dart';
 import 'screen/homepage.dart';
@@ -115,7 +116,10 @@ class MyApp extends StatelessWidget {
       title: 'Home Accountant',
       theme: ThemeData(
         primaryColor: baseColors.mainColor,
-        accentColor: baseColors.mainColor
+        accentColor: baseColors.mainColor,
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
+        ),
       ),
       home: NavigationBar(),
     );
