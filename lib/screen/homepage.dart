@@ -7,7 +7,9 @@ import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/line_chart.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
+import 'package:homeaccountantapp/components/point_tab_bar.dart';
 import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/transactions.dart' as transactions;
 import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -27,15 +29,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
-  AnimationController _controller;
+  AnimationController _animationController;
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 500),
     );
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -54,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           /// The GestureDetector is for removing the speed dial when tapping the screen.
           child: GestureDetector(
             onTap: () {
-              if (!_controller.isDismissed) {
-                _controller.reverse();
+              if (!_animationController.isDismissed) {
+                _animationController.reverse();
               }
             },
             child: Center(
@@ -207,11 +211,119 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           color: Colors.white
                         ),
                         padding: EdgeInsets.only(top: 15, bottom: 30),
-                        child: SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20, right: 20),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              PointTabBar(tabController: _tabController, length: 3, tabsName: ['Daily', 'Monthly', 'Yearly']),
+                              Container(
+                                height: 80.0,
+                                child: TabBarView(
+                                  controller: _tabController,
+                                  children: <Widget>[
+                                    FutureBuilder(
+                                      future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                                      builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Center(
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              itemCount: snapshot.data.length,
+                                              itemBuilder: (context, index) {
+                                                String month = snapshot.data.keys.elementAt(index);
+                                                if (snapshot.data[month].length > 0) {
+                                                  return Column(
+                                                    children: [
+                                                      Text("Placeholder")
+                                                    ]
+                                                  );
+                                                }
+                                                else {
+                                                  return Column(
+                                                    children: [
+                                                      Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
+                                                    ]
+                                                  );
+                                                }
+                                              }
+                                            )
+                                          );
+                                        } else {
+                                          return LoadingComponent();
+                                        }
+                                      }
+                                    ),
+                                    FutureBuilder(
+                                      future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                                      builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Center(
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              itemCount: snapshot.data.length,
+                                              itemBuilder: (context, index) {
+                                                String month = snapshot.data.keys.elementAt(index);
+                                                if (snapshot.data[month].length > 0) {
+                                                  return Column(
+                                                    children: [
+                                                      Text("Placeholder")
+                                                    ]
+                                                  );
+                                                }
+                                                else {
+                                                  return Column(
+                                                    children: [
+                                                      Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
+                                                    ]
+                                                  );
+                                                }
+                                              }
+                                            )
+                                          );
+                                        } else {
+                                          return LoadingComponent();
+                                        }
+                                      }
+                                    ),
+                                    FutureBuilder(
+                                      future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                                      builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Center(
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              itemCount: snapshot.data.length,
+                                              itemBuilder: (context, index) {
+                                                String month = snapshot.data.keys.elementAt(index);
+                                                if (snapshot.data[month].length > 0) {
+                                                  return Column(
+                                                    children: [
+                                                      Text("Placeholder")
+                                                    ]
+                                                  );
+                                                }
+                                                else {
+                                                  return Column(
+                                                    children: [
+                                                      Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
+                                                    ]
+                                                  );
+                                                }
+                                              }
+                                            )
+                                          );
+                                        } else {
+                                          return LoadingComponent();
+                                        }
+                                      }
+                                    ),
+                                  ],
+                                ),
+                              ),
                               FutureBuilder(
                                 future: _store.state.dateRangeType == 'Year' ?
                                 Future.wait(
