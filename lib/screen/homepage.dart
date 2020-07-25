@@ -83,6 +83,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
   }
 
+  Widget _noItemBuilder(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.5,
+      child: Center(
+        child: Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
@@ -271,6 +280,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         pageFuture: (pageIndex) async {
                                           return readDailyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
                                         },
+                                        noItemsFoundBuilder: this._noItemBuilder,
                                       ),
                                       PagewiseListView(
                                         physics: BouncingScrollPhysics(),
@@ -279,6 +289,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         pageFuture: (pageIndex) async {
                                           return readMonthlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
                                         },
+                                        noItemsFoundBuilder: this._noItemBuilder,
                                       ),
                                       PagewiseListView(
                                         physics: BouncingScrollPhysics(),
@@ -287,6 +298,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         pageFuture: (pageIndex) async {
                                           return readYearlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
                                         },
+                                        noItemsFoundBuilder: this._noItemBuilder,
                                       ),
                                     ],
                                   ),
