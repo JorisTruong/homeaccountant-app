@@ -47,17 +47,17 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
             body: Center(
               child: Column(
                 children: [
-                  GenericHeader('Categories'),
+                  GenericHeader('Categories', false),
                   Expanded(
                     child: Container(
                       color: baseColors.mainColor,
                       child: Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30)
-                            ),
-                            color: Colors.white
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)
+                          ),
+                          color: Colors.white
                         ),
                         child: SingleChildScrollView(
                           physics: BouncingScrollPhysics(),

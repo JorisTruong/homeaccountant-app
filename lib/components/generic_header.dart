@@ -4,9 +4,11 @@ import 'package:homeaccountantapp/const.dart';
 
 class GenericHeader extends StatelessWidget {
   final String title;
+  final bool close;
 
   GenericHeader(
-    this.title
+    this.title,
+    this.close
   );
 
   @override
@@ -15,19 +17,32 @@ class GenericHeader extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.15,
       color: baseColors.mainColor,
       padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
         children: [
-          Row(
+          close ? Material(
+            color: baseColors.transparent,
+            child: InkWell(
+              child: Icon(Icons.close, color: Colors.white),
+              onTap: () {
+                Navigator.of(context).pop();
+              }
+            )
+          ) : Container(),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: baseFontSize.title
-                )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: baseFontSize.title
+                    )
+                  )
+                ]
               )
             ]
           )
