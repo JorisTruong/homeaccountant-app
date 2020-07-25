@@ -5,10 +5,12 @@ import 'package:homeaccountantapp/const.dart';
 class GenericHeader extends StatelessWidget {
   final String title;
   final bool close;
+  final Function onTapFunction;
 
   GenericHeader(
     this.title,
-    this.close
+    this.close,
+    this.onTapFunction
   );
 
   @override
@@ -23,9 +25,7 @@ class GenericHeader extends StatelessWidget {
             color: baseColors.transparent,
             child: InkWell(
               child: Icon(Icons.close, color: Colors.white),
-              onTap: () {
-                Navigator.of(context).pop();
-              }
+              onTap: onTapFunction
             )
           ) : Container(),
           Column(

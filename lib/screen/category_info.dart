@@ -95,7 +95,11 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
               body: Center(
                 child: Column(
                   children: [
-                    GenericHeader('Subcategory', true),
+                    GenericHeader('Subcategory', true, () {
+                      resetState(_store);
+                      _store.dispatch(NavigatePopAction());
+                      Navigator.of(context).pop();
+                    }),
                     Expanded(
                       child: Container(
                         color: baseColors.mainColor,
