@@ -49,7 +49,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       children: <Widget>[
         ListTile(
           title: Text(transactionSummary['date']),
-          subtitle: Text(DateFormat('EEEE').format(DateTime.parse(transactionSummary['date']))),
+          subtitle: Text(
+            transactionSummary['date'].length == 10 ?
+            DateFormat('EEEE').format(DateTime.parse(transactionSummary['date'])) :
+            getMonth(transactionSummary['date'].split('-')[1])
+          ),
           trailing: Wrap(
             spacing: 12,
             children: [
@@ -255,86 +259,61 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               PointTabBar(tabController: _tabController, length: 3, tabsName: ['Daily', 'Monthly', 'Yearly']),
                               Expanded(
                                 child: Container(
-                                padding: EdgeInsets.only(top: 20),
-                                child: TabBarView(
-                                  controller: _tabController,
-                                  children: <Widget>[
-                                    PagewiseListView(
-                                      physics: BouncingScrollPhysics(),
-                                      pageSize: transactionsPageSize,
-                                      itemBuilder: this._itemBuilder,
-                                      pageFuture: (pageIndex) async {
-                                        return readDailyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
-                                      },
-                                    ),
-                                    FutureBuilder(
-                                      future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                                      builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Center(
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              itemCount: snapshot.data.length,
-                                              itemBuilder: (context, index) {
-                                                String month = snapshot.data.keys.elementAt(index);
-                                                if (snapshot.data[month].length > 0) {
-                                                  return Column(
-                                                    children: [
-                                                      Text("Placeholder")
-                                                    ]
-                                                  );
+                                  padding: EdgeInsets.only(top: 20),
+                                  child: TabBarView(
+                                    controller: _tabController,
+                                    children: <Widget>[
+                                      PagewiseListView(
+                                        physics: BouncingScrollPhysics(),
+                                        pageSize: transactionsPageSize,
+                                        itemBuilder: this._itemBuilder,
+                                        pageFuture: (pageIndex) async {
+                                          return readDailyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+                                        },
+                                      ),
+                                      PagewiseListView(
+                                        physics: BouncingScrollPhysics(),
+                                        pageSize: transactionsPageSize,
+                                        itemBuilder: this._itemBuilder,
+                                        pageFuture: (pageIndex) async {
+                                          return readMonthlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+                                        },
+                                      ),
+                                      FutureBuilder(
+                                        future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
+                                        builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Center(
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                physics: NeverScrollableScrollPhysics(),
+                                                itemCount: snapshot.data.length,
+                                                itemBuilder: (context, index) {
+                                                  String month = snapshot.data.keys.elementAt(index);
+                                                  if (snapshot.data[month].length > 0) {
+                                                    return Column(
+                                                      children: [
+                                                        Text("Placeholder")
+                                                      ]
+                                                    );
+                                                  }
+                                                  else {
+                                                    return Column(
+                                                      children: [
+                                                        Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
+                                                      ]
+                                                    );
+                                                  }
                                                 }
-                                                else {
-                                                  return Column(
-                                                    children: [
-                                                      Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
-                                                    ]
-                                                  );
-                                                }
-                                              }
-                                            )
-                                          );
-                                        } else {
-                                          return LoadingComponent();
+                                              )
+                                            );
+                                          } else {
+                                            return LoadingComponent();
+                                          }
                                         }
-                                      }
-                                    ),
-                                    FutureBuilder(
-                                      future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                                      builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Center(
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              itemCount: snapshot.data.length,
-                                              itemBuilder: (context, index) {
-                                                String month = snapshot.data.keys.elementAt(index);
-                                                if (snapshot.data[month].length > 0) {
-                                                  return Column(
-                                                    children: [
-                                                      Text("Placeholder")
-                                                    ]
-                                                  );
-                                                }
-                                                else {
-                                                  return Column(
-                                                    children: [
-                                                      Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
-                                                    ]
-                                                  );
-                                                }
-                                              }
-                                            )
-                                          );
-                                        } else {
-                                          return LoadingComponent();
-                                        }
-                                      }
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
                                 )
                               ),
 //                              Expanded(
