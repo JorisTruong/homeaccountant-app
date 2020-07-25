@@ -71,6 +71,22 @@ Future<List<models.Transaction>> readTransactions(Database db, Map<String, Strin
   });
 }
 
+Future<List<Map<String, dynamic>>> readDailyTransactions(Database db, int accountId, int offset, int limit) async {
+  final String dailyTransactions = 'SELECT date, is_expense, COALESCE(SUM(amount), 0.0) as total_amount, is_expense FROM transactions WHERE account_id = ? GROUP BY date, is_expense';
+  final List<Map<String, dynamic>> transactions = await db.rawQuery(
+    'SELECT date, COALESCE(SUM(CASE WHEN is_expense=1 THEN total_amount END), 0.0) as daily_expenses, COALESCE(SUM(CASE WHEN is_expense=0 THEN total_amount END), 0.0) as daily_income FROM ('
+        + dailyTransactions + ') GROUP BY date ORDER BY date desc LIMIT ? offset ?',
+    [accountId, limit, offset]
+  );
+  return List.generate(transactions.length, (i) {
+    return {
+      'date': transactions[i]['date'],
+      'total_income': transactions[i]['daily_income'],
+      'total_expenses': transactions[i]['daily_expenses']
+    };
+  });
+}
+
 /// Format the transactions to divide them in monthly cards.
 /// Used in the Transactions page.
 Future<Map<String, List<models.Transaction>>> getTransactions(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:flutter_pagewise/flutter_pagewise.dart';
+import 'dart:math' as math;
+import 'package:intl/intl.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
-import 'package:homeaccountantapp/components/line_chart.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/point_tab_bar.dart';
 import 'package:homeaccountantapp/database/database.dart';
@@ -40,6 +42,40 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 500),
     );
     _tabController = TabController(length: 3, vsync: this);
+  }
+
+  Widget _itemBuilder(context, Map<String, dynamic> transactionSummary, _) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          title: Text(transactionSummary['date']),
+          subtitle: Text(DateFormat('EEEE').format(DateTime.parse(transactionSummary['date']))),
+          trailing: Wrap(
+            spacing: 12,
+            children: [
+              Transform.rotate(
+                angle: math.pi / 1.35,
+                child: Icon(Icons.undo, color: baseColors.green)
+              ),
+              Text(transactionSummary['total_income'].toStringAsFixed(2)),
+              Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi),
+                child: Transform.rotate(
+                  angle: -math.pi / 4,
+                  child: Transform.translate(
+                    offset: Offset(0.0, -5),
+                    child: Icon(Icons.undo, color: baseColors.red)
+                  )
+                )
+              ),
+              Text(transactionSummary['total_expenses'].toStringAsFixed(2))
+            ]
+          )
+        ),
+        Divider(thickness: 2)
+      ],
+    );
   }
 
   @override
@@ -217,43 +253,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               PointTabBar(tabController: _tabController, length: 3, tabsName: ['Daily', 'Monthly', 'Yearly']),
-                              Container(
-                                height: 80.0,
+                              Expanded(
+                                child: Container(
+                                padding: EdgeInsets.only(top: 20),
                                 child: TabBarView(
                                   controller: _tabController,
                                   children: <Widget>[
-                                    FutureBuilder(
-                                      future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                                      builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Center(
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              itemCount: snapshot.data.length,
-                                              itemBuilder: (context, index) {
-                                                String month = snapshot.data.keys.elementAt(index);
-                                                if (snapshot.data[month].length > 0) {
-                                                  return Column(
-                                                    children: [
-                                                      Text("Placeholder")
-                                                    ]
-                                                  );
-                                                }
-                                                else {
-                                                  return Column(
-                                                    children: [
-                                                      Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
-                                                    ]
-                                                  );
-                                                }
-                                              }
-                                            )
-                                          );
-                                        } else {
-                                          return LoadingComponent();
-                                        }
-                                      }
+                                    PagewiseListView(
+                                      physics: BouncingScrollPhysics(),
+                                      pageSize: transactionsPageSize,
+                                      itemBuilder: this._itemBuilder,
+                                      pageFuture: (pageIndex) async {
+                                        return readDailyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+                                      },
                                     ),
                                     FutureBuilder(
                                       future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
@@ -323,42 +335,47 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     ),
                                   ],
                                 ),
-                              ),
-                              FutureBuilder(
-                                future: _store.state.dateRangeType == 'Year' ?
-                                Future.wait(
-                                  [
-                                    getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0),
-                                    getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 1),
-                                    getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1)
-                                  ]
                                 )
-                                : Future.wait(
-                                  [
-                                    getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0),
-                                    getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 1),
-                                    getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1)
-                                  ]
-                                ),
-                                builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                  if (snapshot.hasData) {
-                                    return LineChartCard(
-                                      title: 'Transactions',
-                                      durationType: _store.state.dateRangeType,
-                                      dateRange: _store.state.dateRange,
-                                      linesData: [
-                                        snapshot.data[0].map((e) => e['totalAmount']).toList().cast<double>(),
-                                        snapshot.data[1].map((e) => e['totalAmount']).toList().cast<double>(),
-                                        cumulativeSum(snapshot.data[2].map((e) => e['totalAmount']).toList().cast<double>())
-                                      ],
-                                      colors: [baseColors.green, baseColors.red, baseColors.blue],
-                                      willNegative: true,
-                                    );
-                                  } else {
-                                    return LoadingComponent();
-                                  }
-                                },
-                              )
+                              ),
+//                              Expanded(
+//                                child: SingleChildScrollView(
+//                                  child: FutureBuilder(
+//                                    future: _store.state.dateRangeType == 'Year' ?
+//                                    Future.wait(
+//                                      [
+//                                        getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0),
+//                                        getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 1),
+//                                        getMonthlyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1)
+//                                      ]
+//                                    )
+//                                    : Future.wait(
+//                                      [
+//                                        getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 0),
+//                                        getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, 1),
+//                                        getDailyAmounts(databaseClient.db, _store.state.dateRange, _store.state.accountId, -1, -1)
+//                                      ]
+//                                    ),
+//                                    builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+//                                      if (snapshot.hasData) {
+//                                        return LineChartCard(
+//                                          title: 'Transactions',
+//                                          durationType: _store.state.dateRangeType,
+//                                          dateRange: _store.state.dateRange,
+//                                          linesData: [
+//                                            snapshot.data[0].map((e) => e['totalAmount']).toList().cast<double>(),
+//                                            snapshot.data[1].map((e) => e['totalAmount']).toList().cast<double>(),
+//                                            cumulativeSum(snapshot.data[2].map((e) => e['totalAmount']).toList().cast<double>())
+//                                          ],
+//                                          colors: [baseColors.green, baseColors.red, baseColors.blue],
+//                                          willNegative: true,
+//                                        );
+//                                      } else {
+//                                        return LoadingComponent();
+//                                      }
+//                                    },
+//                                  )
+//                                )
+//                              )
                             ],
                           )
                         )

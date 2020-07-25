@@ -41,3 +41,4 @@ class BaseFontSize {
 
 final baseColors = BaseColors();
 final baseFontSize = BaseFontSize();
+final transactionsPageSize = 10;
