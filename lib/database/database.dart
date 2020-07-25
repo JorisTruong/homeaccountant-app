@@ -201,6 +201,18 @@ class DatabaseClient {
       subcategoryName: 'Clothes',
       subcategoryIconId: 514
     );
+    Subcategory transfer = Subcategory(
+      subcategoryId: 15,
+      categoryId: 6,
+      subcategoryName: 'Transfer',
+      subcategoryIconId: 201
+    );
+    Subcategory atm = Subcategory(
+    subcategoryId: 16,
+    categoryId: 6,
+    subcategoryName: 'ATM',
+    subcategoryIconId: 78
+    );
 
     Batch batch = db.batch();
     batch.insert('subcategories', salary.toMap());
@@ -218,6 +230,8 @@ class DatabaseClient {
     batch.insert('subcategories', parking.toMap());
     batch.insert('subcategories', groceries.toMap());
     batch.insert('subcategories', clothes.toMap());
+    batch.insert('subcategories', transfer.toMap());
+    batch.insert('subcategories', atm.toMap());
     batch.commit();
   }
 
