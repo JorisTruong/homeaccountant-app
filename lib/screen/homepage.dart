@@ -11,7 +11,6 @@ import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/point_tab_bar.dart';
 import 'package:homeaccountantapp/database/database.dart';
-import 'package:homeaccountantapp/database/models/transactions.dart' as transactions;
 import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -52,7 +51,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           subtitle: Text(
             transactionSummary['date'].length == 10 ?
             DateFormat('EEEE').format(DateTime.parse(transactionSummary['date'])) :
-            getMonth(transactionSummary['date'].split('-')[1])
+            transactionSummary['date'].length ==  7 ?
+            getMonth(transactionSummary['date'].split('-')[1]) :
+            ''
           ),
           trailing: Wrap(
             spacing: 12,
@@ -279,38 +280,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           return readMonthlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
                                         },
                                       ),
-                                      FutureBuilder(
-                                        future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                                        builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
-                                          if (snapshot.hasData) {
-                                            return Center(
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                physics: NeverScrollableScrollPhysics(),
-                                                itemCount: snapshot.data.length,
-                                                itemBuilder: (context, index) {
-                                                  String month = snapshot.data.keys.elementAt(index);
-                                                  if (snapshot.data[month].length > 0) {
-                                                    return Column(
-                                                      children: [
-                                                        Text("Placeholder")
-                                                      ]
-                                                    );
-                                                  }
-                                                  else {
-                                                    return Column(
-                                                      children: [
-                                                        Text("There are no transactions yet.\nGo ahead a save some transactions!", textAlign: TextAlign.center)
-                                                      ]
-                                                    );
-                                                  }
-                                                }
-                                              )
-                                            );
-                                          } else {
-                                            return LoadingComponent();
-                                          }
-                                        }
+                                      PagewiseListView(
+                                        physics: BouncingScrollPhysics(),
+                                        pageSize: transactionsPageSize,
+                                        itemBuilder: this._itemBuilder,
+                                        pageFuture: (pageIndex) async {
+                                          return readYearlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+                                        },
                                       ),
                                     ],
                                   ),
