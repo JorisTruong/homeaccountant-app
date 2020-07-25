@@ -72,7 +72,7 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: List.generate(snapshot.data.length, (int index) {
-                                          String category = snapshot.data[index].categoryName;
+                                          m.Category category = snapshot.data[index];
                                           Color color = getCategoryColor(index);
                                           return FutureBuilder(
                                             future: subcategoriesFromCategoryId(databaseClient.db, index),
