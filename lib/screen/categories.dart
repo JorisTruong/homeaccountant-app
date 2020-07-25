@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:homeaccountantapp/const.dart';
 import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
+import 'package:homeaccountantapp/components/generic_header.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/models.dart' as m;
@@ -42,38 +44,62 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
           },
           child: Scaffold(
             resizeToAvoidBottomPadding: false,
-            body: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
-              child: Stack(
+            body: Center(
+              child: Column(
                 children: [
-                  FutureBuilder(
-                    future: readCategories(databaseClient.db),
-                    builder: (BuildContext context, AsyncSnapshot<List<m.Category>> snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: List.generate(snapshot.data.length, (int index) {
-                            String category = snapshot.data[index].categoryName;
-                            Color color = getCategoryColor(index);
-                            return FutureBuilder(
-                              future: subcategoriesFromCategoryId(databaseClient.db, index),
-                              builder: (BuildContext context, AsyncSnapshot<List<m.Subcategory>> snapshot) {
-                                if (snapshot.hasData) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(bottom: 25.0),
-                                    child: CategoryCard(index, category, snapshot.data, color, false)
-                                  );
-                                } else {
-                                  return LoadingComponent();
-                                }
-                              }
-                            );
-                          })
-                        );
-                      } else {
-                        return LoadingComponent();
-                      }
-                    },
+                  GenericHeader('Categories'),
+                  Expanded(
+                    child: Container(
+                      color: baseColors.mainColor,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30)
+                            ),
+                            color: Colors.white
+                        ),
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              FutureBuilder(
+                                future: readCategories(databaseClient.db),
+                                builder: (BuildContext context, AsyncSnapshot<List<m.Category>> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: List.generate(snapshot.data.length, (int index) {
+                                          String category = snapshot.data[index].categoryName;
+                                          Color color = getCategoryColor(index);
+                                          return FutureBuilder(
+                                            future: subcategoriesFromCategoryId(databaseClient.db, index),
+                                            builder: (BuildContext context, AsyncSnapshot<List<m.Subcategory>> snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Padding(
+                                                  padding: EdgeInsets.only(bottom: 25.0),
+                                                  child: CategoryCard(index, category, snapshot.data, color, false)
+                                                );
+                                              } else {
+                                                return LoadingComponent();
+                                              }
+                                            }
+                                          );
+                                        })
+                                      )
+                                    );
+                                  } else {
+                                    return LoadingComponent();
+                                  }
+                                },
+                              ),
+                            ]
+                          )
+                        )
+                      )
+                    )
                   ),
                 ]
               )
