@@ -145,91 +145,138 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                             builder: (context, constraints) {
                                               return Container(
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(20.0),
+                                                  padding: EdgeInsets.all(25.0),
                                                   child: Column(
                                                     children: [
-                                                      /// Dropdown to select the category
-                                                      DropdownButtonHideUnderline(
-                                                        child: ButtonTheme(
-                                                          alignedDropdown: true,
-                                                          child: Card(
-                                                            margin: EdgeInsets.zero,
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(40.0),
-                                                              side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.borderColor)
-                                                            ),
-                                                            child: Row(
-                                                              children: [
-                                                                SizedBox(width: 15.0),
-                                                                Icon(Icons.label, size: 18.0),
-                                                                Expanded(
-                                                                  child: FutureBuilder(
-                                                                    future: readCategories(databaseClient.db),
-                                                                    builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
-                                                                      if (snapshot.hasData) {
-                                                                        return DropdownButton<int>(
-                                                                          icon: Icon(Icons.keyboard_arrow_down),
-                                                                          value: _store.state.categoryIndex,
-                                                                          hint: Text(
-                                                                            'Category',
-                                                                            textAlign: TextAlign.center,
-                                                                            style: TextStyle(color: baseColors.secondaryColor)
-                                                                          ),
-                                                                          isDense: false,
-                                                                          onTap: () {
-                                                                            if (!currentFocus.hasPrimaryFocus) {
-                                                                              currentFocus.unfocus();
-                                                                            }
-                                                                          },
-                                                                          onChanged: (int newValue) {
-                                                                            setState(() {
-                                                                              errorCategory = false;
-                                                                            });
-                                                                            _store.dispatch(SelectCategory(newValue));
-                                                                            if (_store.state.categorySubcategoryIcon != null) {
-                                                                              Color color = getCategoryColor(_store.state.categoryIndex) == null ?
-                                                                                  baseColors.mainColor :
-                                                                                  getCategoryColor(_store.state.categoryIndex);
-                                                                              changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
-                                                                            }
-                                                                          },
-                                                                          items: List.generate(snapshot.data.length, (int index) {
-                                                                            return DropdownMenuItem<int>(
-                                                                              value: snapshot.data[index].categoryId,
-                                                                              child: Text(snapshot.data[index].categoryName)
-                                                                            );
-                                                                          })
-                                                                        );
-                                                                      } else {
-                                                                        return Container();
-                                                                      }
-                                                                    }
-                                                                  ),
-                                                                ),
-                                                                SizedBox(width: 15.0)
-                                                              ],
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Text(
+                                                              'Category',
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold
+                                                              ),
                                                             )
-                                                          )
-                                                        )
+                                                          ),
+                                                          Expanded(
+                                                            flex: 3,
+                                                            /// Dropdown to select the category
+                                                            child: DropdownButtonHideUnderline(
+                                                              child: ButtonTheme(
+                                                                alignedDropdown: true,
+                                                                child: Card(
+                                                                  color: baseColors.tertiaryColor,
+                                                                  margin: EdgeInsets.zero,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.transparent)
+                                                                  ),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      SizedBox(width: 15.0),
+                                                                      Icon(Icons.label, size: 18.0),
+                                                                      Expanded(
+                                                                        child: FutureBuilder(
+                                                                          future: readCategories(databaseClient.db),
+                                                                          builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                                                                            if (snapshot.hasData) {
+                                                                              return DropdownButton<int>(
+                                                                                icon: Icon(Icons.keyboard_arrow_down),
+                                                                                value: _store.state.categoryIndex,
+                                                                                hint: Text(
+                                                                                  'Category',
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: TextStyle(color: baseColors.secondaryColor)
+                                                                                ),
+                                                                                isDense: false,
+                                                                                onTap: () {
+                                                                                  if (!currentFocus.hasPrimaryFocus) {
+                                                                                    currentFocus.unfocus();
+                                                                                  }
+                                                                                },
+                                                                                onChanged: (int newValue) {
+                                                                                  setState(() {
+                                                                                    errorCategory = false;
+                                                                                  });
+                                                                                  _store.dispatch(SelectCategory(newValue));
+                                                                                  if (_store.state.categorySubcategoryIcon != null) {
+                                                                                    Color color = getCategoryColor(_store.state.categoryIndex) == null ?
+                                                                                        baseColors.mainColor :
+                                                                                        getCategoryColor(_store.state.categoryIndex);
+                                                                                    changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
+                                                                                  }
+                                                                                },
+                                                                                items: List.generate(snapshot.data.length, (int index) {
+                                                                                  return DropdownMenuItem<int>(
+                                                                                    value: snapshot.data[index].categoryId,
+                                                                                    child: Text(snapshot.data[index].categoryName)
+                                                                                  );
+                                                                                })
+                                                                              );
+                                                                            } else {
+                                                                              return Container();
+                                                                            }
+                                                                          }
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 15.0)
+                                                                    ],
+                                                                  )
+                                                                )
+                                                              )
+                                                            )
+                                                          ),
+                                                        ]
                                                       ),
                                                       SizedBox(height: 12.0),
-                                                      /// Name of the subcategory
-                                                      TextField(
-                                                        controller: _store.state.categorySubcategoryText,
-                                                        decoration: InputDecoration(
-                                                          errorText: errorSubcategory ? 'Cannot be null' : null,
-                                                          isDense: true,
-                                                          alignLabelWithHint: true,
-                                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0)),
-                                                          contentPadding: EdgeInsets.only(right: 20.0),
-                                                          labelText: 'Subcategory',
-                                                          prefixIcon: Icon(Icons.turned_in, color: baseColors.mainColor)
-                                                        ),
-                                                        onChanged: (string) {
-                                                          setState(() {
-                                                            errorSubcategory = false;
-                                                          });
-                                                        },
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Text(
+                                                              'Subcategory',
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold
+                                                              ),
+                                                            )
+                                                          ),
+                                                          Expanded(
+                                                            flex: 3,
+                                                            /// Name of the subcategory
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                color: baseColors.tertiaryColor,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors.grey.withOpacity(0.35),
+                                                                    spreadRadius: 0,
+                                                                    blurRadius: 0,
+                                                                    offset: Offset(1, 1), // changes position of shadow
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: TextField(
+                                                                controller: _store.state.categorySubcategoryText,
+                                                                decoration: InputDecoration(
+                                                                  errorText: errorSubcategory ? '' : null,
+                                                                  errorStyle: TextStyle(height: 0),
+                                                                  isDense: false,
+                                                                  alignLabelWithHint: true,
+                                                                  errorBorder: OutlineInputBorder(borderSide: BorderSide(color: baseColors.errorColor)),
+                                                                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                                                                  contentPadding: EdgeInsets.only(right: 20.0),
+                                                                  hintText: 'Subcategory',
+                                                                  prefixIcon: Icon(Icons.turned_in, color: baseColors.mainColor)
+                                                                ),
+                                                                onChanged: (string) {
+                                                                  setState(() {
+                                                                    errorSubcategory = false;
+                                                                  });
+                                                                },
+                                                              )
+                                                            )
+                                                          )
+                                                        ]
                                                       ),
                                                       SizedBox(height: 12.0),
                                                       _store.state.categorySubcategoryIcon == null ? SizedBox(height: 12.0) : Column(

@@ -13,6 +13,7 @@ List options = [
 class BaseColors {
   Color mainColor = Colors.grey[850];
   Color secondaryColor = Colors.grey[650];
+  Color tertiaryColor = Color(0xfff9f9f9);
   Color blue = Colors.blueAccent;
   Color red = Colors.redAccent;
   Color yellow = Colors.amberAccent;
