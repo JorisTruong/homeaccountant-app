@@ -206,7 +206,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                         Theme(
                                           data: ThemeData(
                                             primaryColor: baseColors.mainColor,
-                                            colorScheme: ColorScheme.light(primary: baseColors.mainColor, ),
+                                            colorScheme: ColorScheme.light(primary: baseColors.mainColor),
                                           ),
                                           child: Builder(
                                             builder: (context) =>

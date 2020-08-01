@@ -26,6 +26,8 @@ class AppState {
   final DateTime selectedDate;
   final Map<String, String> dateRange;
   final List<String> route;
+  final String showTransactionType;
+  final TextEditingController showTransactionDate;
   final bool visibility;
   final bool isCreatingAccount;
   final bool isCreatingTransaction;
@@ -55,6 +57,8 @@ class AppState {
     this.selectedDate,
     @required this.dateRange,
     @required this.route,
+    this.showTransactionType,
+    this.showTransactionDate,
     this.visibility,
     this.isCreatingAccount,
     this.isCreatingTransaction,

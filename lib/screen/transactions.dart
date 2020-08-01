@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 
+import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
-import 'package:homeaccountantapp/components/transaction_card.dart';
+import 'package:homeaccountantapp/components/year_picker.dart' as yp;
 import 'package:homeaccountantapp/database/database.dart';
-import 'package:homeaccountantapp/database/models/transactions.dart' as transactions;
 import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
@@ -61,40 +62,254 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
             },
             child: Scaffold(
               resizeToAvoidBottomPadding: false,
-              body: Stack(
-                children: [
-                  SingleChildScrollView(
-                    padding: EdgeInsets.only(bottom: 40),
-                    /// Display all the transactions
-                    child: Column(
-                      children: [
-                        FutureBuilder(
-                          future: getTransactions(databaseClient.db, _store.state.dateRangeType, _store.state.dateRange, _store.state.accountId),
-                          builder: (BuildContext context, AsyncSnapshot<Map<String, List<transactions.Transaction>>> snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, index) {
-                                  String month = snapshot.data.keys.elementAt(index);
-                                  if (snapshot.data[month].length > 0) {
-                                    return TransactionCard(month, snapshot.data[month]);
+              body: Center(
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      color: baseColors.mainColor,
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FutureBuilder(
+                                future: getTotalBalance(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                                builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data.toStringAsFixed(2) + " €",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: baseFontSize.title
+                                      )
+                                    );
+                                  } else {
+                                    return LoadingComponent();
                                   }
-                                  else {
-                                    return Container();
-                                  }
-                                }
-                              );
-                            } else {
-                              return LoadingComponent();
-                            }
-                          }
-                        )
-                      ]
+                                },
+                              )
+                            ]
+                          ),
+                          SizedBox(
+                            height: 6
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Total",
+                                style: TextStyle(
+                                  color: baseColors.borderColor,
+                                  fontSize: baseFontSize.subtitle
+                                )
+                              )
+                            ]
+                          ),
+                          SizedBox(
+                            height: 24
+                          ),
+                          Flexible(
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: ButtonTheme(
+                                            alignedDropdown: true,
+                                            child: Card(
+                                              color: baseColors.tertiaryColor,
+                                              margin: EdgeInsets.zero,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                                side: BorderSide(color: baseColors.transparent)
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: DropdownButton<String>(
+                                                      icon: Icon(Icons.keyboard_arrow_down),
+                                                      value: _store.state.dateRangeType,
+                                                      isDense: false,
+                                                      onChanged: (String newValue) {
+                                                        if (_store.state.dateRangeType != newValue) {
+                                                          if (newValue == 'Day') {
+                                                            showDayDatePicker(context, _store);
+                                                          }
+                                                          if (newValue == 'Month') {
+                                                            showMonthDatePicker(context, _store);
+                                                          }
+                                                          if (newValue == 'Year') {
+                                                            showYearDatePicker(context, _store);
+                                                          }
+                                                        }
+                                                        _store.dispatch(UpdateDateRangeType(newValue));
+                                                      },
+                                                      items: [
+                                                        DropdownMenuItem<String>(
+                                                          value: 'Day',
+                                                          child: Text('Day')
+                                                        ),
+                                                        DropdownMenuItem<String>(
+                                                          value: 'Month',
+                                                          child: Text('Month')
+                                                        ),
+                                                        DropdownMenuItem<String>(
+                                                          value: 'Year',
+                                                          child: Text('Year')
+                                                        )
+                                                      ]
+                                                    )
+                                                  ),
+                                                ],
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    ]
+                                  ),
+                                ),
+                                SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: ButtonTheme(
+                                            alignedDropdown: true,
+                                            child: Card(
+                                              color: baseColors.tertiaryColor,
+                                              margin: EdgeInsets.zero,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                                side: BorderSide(color: baseColors.transparent)
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextField(
+                                                      controller: _store.state.showTransactionDate,
+                                                      readOnly: true,
+                                                      decoration: InputDecoration(
+                                                        isDense: false,
+                                                        alignLabelWithHint: true,
+                                                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                                                        hintText: 'Date',
+                                                        hintStyle: TextStyle(color: baseColors.mainColor)
+                                                      ),
+                                                      textAlign: TextAlign.center,
+                                                      onTap: () async {
+                                                        if (_store.state.dateRangeType == 'Day') {
+                                                          showDayDatePicker(context, _store);
+                                                        }
+                                                        if (_store.state.dateRangeType == 'Month') {
+                                                          showMonthDatePicker(context, _store);
+                                                        }
+                                                        if (_store.state.dateRangeType == 'Year') {
+                                                          showYearDatePicker(context, _store);
+                                                        }
+                                                      },
+                                                    )
+                                                  )
+                                                ],
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    ]
+                                  ),
+                                ),
+                                SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: ButtonTheme(
+                                            alignedDropdown: true,
+                                            child: Card(
+                                              color: baseColors.tertiaryColor,
+                                              margin: EdgeInsets.zero,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                                side: BorderSide(color: baseColors.transparent)
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: DropdownButton<String>(
+                                                      icon: Icon(Icons.keyboard_arrow_down),
+                                                      value: _store.state.showTransactionType,
+                                                      isDense: false,
+                                                      onChanged: (String newValue) {
+                                                        _store.dispatch(ShowTransactionType(newValue));
+                                                      },
+                                                      items: [
+                                                        DropdownMenuItem<String>(
+                                                          value: 'All',
+                                                          child: Text('All')
+                                                        ),
+                                                        DropdownMenuItem<String>(
+                                                          value: 'Expenses',
+                                                          child: Text('Expenses')
+                                                        ),
+                                                        DropdownMenuItem<String>(
+                                                          value: 'Income',
+                                                          child: Text('Income')
+                                                        )
+                                                      ]
+                                                    )
+                                                  ),
+                                                ],
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    ]
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  )
-                ]
+                    Expanded(
+                      child: Container(
+                      color: baseColors.mainColor,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30)
+                            ),
+                          color: Colors.white
+                          ),
+                          child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
+                            padding: EdgeInsets.only(bottom: 40),
+                            /// Display all the transactions
+                            child: Column(
+                              children: [
+                              ]
+                            )
+                          )
+                        )
+                      )
+                    )
+                  ]
+                )
               ),
               floatingActionButton: Visibility(
                 visible: _store.state.visibility,
@@ -116,4 +331,84 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
       }
     );
   }
+}
+
+Future<dynamic> showDayDatePicker(BuildContext context, Store<AppState> _store) async {
+  return await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: dp.DayPicker(
+          selectedDate: _store.state.selectedDate,
+          firstDate: DateTime(1900),
+          lastDate: DateTime(2100),
+          datePickerLayoutSettings: dp.DatePickerLayoutSettings(
+            maxDayPickerRowCount: 4
+          ),
+          onChanged: (datePeriod) {
+            _store.dispatch(UpdateSelectedDate(datePeriod));
+            TextEditingController showTransactionDate = TextEditingController();
+            showTransactionDate.text = datePeriod.toString().substring(0, 10);
+            _store.dispatch(ShowTransactionDate(showTransactionDate));
+            Navigator.of(context).pop();
+          },
+        ),
+      );
+    }
+  );
+}
+
+Future<dynamic> showMonthDatePicker(BuildContext context, Store<AppState> _store) async {
+  return await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: dp.MonthPicker(
+          selectedDate: _store.state.selectedDate,
+          firstDate: DateTime(1900),
+          lastDate: DateTime(2100),
+          datePickerLayoutSettings: dp.DatePickerLayoutSettings(
+            maxDayPickerRowCount: 4
+          ),
+          onChanged: (datePeriod) {
+            _store.dispatch(UpdateSelectedDate(datePeriod));
+            TextEditingController showTransactionDate = TextEditingController();
+            showTransactionDate.text = datePeriod.toString().substring(0, 7);
+            _store.dispatch(ShowTransactionDate(showTransactionDate));
+            Navigator.of(context).pop();
+          },
+        ),
+      );
+    }
+  );
+}
+
+Future<dynamic> showYearDatePicker(BuildContext context, Store<AppState> _store) async {
+  return await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Material(
+          color: baseColors.transparent,
+          child: Container(
+            padding: EdgeInsets.only(bottom: 20),
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width,
+            child: yp.YearPicker(
+              selectedDate: _store.state.selectedDate,
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+              onChanged: (datePeriod) {
+                _store.dispatch(UpdateSelectedDate(datePeriod));
+                TextEditingController showTransactionDate = TextEditingController();
+                showTransactionDate.text = datePeriod.toString().substring(0, 4);
+                _store.dispatch(ShowTransactionDate(showTransactionDate));
+                Navigator.of(context).pop();
+              },
+            )
+          )
+        )
+      );
+    }
+  );
 }

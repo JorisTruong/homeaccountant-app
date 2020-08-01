@@ -45,6 +45,8 @@ void main() async {
   SystemChrome.setEnabledSystemUIOverlays([]);
 
   await initializeDatabase();
+  TextEditingController showTransactionDate = TextEditingController();
+  showTransactionDate.text = DateTime.now().toString().substring(0, 7);
 
   final store = Store<AppState>(
     appReducer,
@@ -62,6 +64,8 @@ void main() async {
       selectedDate: DateTime.now(),
       dateRange: dateToDateRange('Month', DateTime.now()),
       route: [AppRoutes.home],
+      showTransactionType: 'All',
+      showTransactionDate: showTransactionDate,
       visibility: true, /// Visibility of the floating button for sliding up panel
       isCreatingAccount: false, /// If we are creating an account or not
       isCreatingTransaction: false, /// If we are creating a transaction or not

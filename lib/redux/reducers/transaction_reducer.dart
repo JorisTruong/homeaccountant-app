@@ -13,6 +13,8 @@ final transactionSubcategoryIconReducer = TypedReducer<Icon, TransactionSelectSu
 final transactionIsExpenseReducer = TypedReducer<bool, TransactionIsExpense>(_transactionIsExpense);
 final transactionAmountReducer = TypedReducer<TextEditingController, TransactionAmount>(_transactionAmount);
 final transactionDescriptionReducer = TypedReducer<TextEditingController, TransactionDescription>(_transactionDescription);
+final showTransactionTypeReducer = TypedReducer<String, ShowTransactionType>(_showTransactionType);
+final showTransactionDateReducer = TypedReducer<TextEditingController, ShowTransactionDate>(_showTransactionDate);
 
 int _transactionId(int transactionId, TransactionId action) {
   return action.transactionId;
@@ -52,4 +54,12 @@ TextEditingController _transactionAmount(TextEditingController amount, Transacti
 
 TextEditingController _transactionDescription(TextEditingController description, TransactionDescription action) {
   return action.description;
+}
+
+String _showTransactionType(String showTransactionType, ShowTransactionType action) {
+  return action.showTransactionType;
+}
+
+TextEditingController _showTransactionDate(TextEditingController showTransactionDate, ShowTransactionDate action) {
+  return action.showTransactionDate;
 }

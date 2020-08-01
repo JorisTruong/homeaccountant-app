@@ -126,6 +126,18 @@ class TransactionDescription {
   TransactionDescription(this.description);
 }
 
+class ShowTransactionType {
+  final String showTransactionType;
+
+  ShowTransactionType(this.showTransactionType);
+}
+
+class ShowTransactionDate {
+  final TextEditingController showTransactionDate;
+
+  ShowTransactionDate(this.showTransactionDate);
+}
+
 class NavigateReplaceAction {
   final String routeName;
 
