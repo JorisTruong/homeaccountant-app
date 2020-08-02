@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _tabController = TabController(length: 3, vsync: this);
   }
 
-  Widget _itemBuilder(context, Map<String, dynamic> transactionSummary, _) {
+  Widget _itemBuilder(BuildContext context, dynamic transactionSummary, _) {
     return Column(
       children: <Widget>[
         ListTile(
@@ -93,6 +93,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Store<AppState> _store = getStore(context);
+    PagewiseLoadController dailyPageLoadController = PagewiseLoadController(
+      pageSize: transactionsPageSize,
+      pageFuture: (pageIndex) async {
+        return readDailyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+      }
+    );
+    PagewiseLoadController monthlyPageLoadController = PagewiseLoadController(
+        pageSize: transactionsPageSize,
+        pageFuture: (pageIndex) async {
+          return readMonthlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+        }
+    );
+    PagewiseLoadController yearlyPageLoadController = PagewiseLoadController(
+        pageSize: transactionsPageSize,
+        pageFuture: (pageIndex) async {
+          return readYearlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+        }
+    );
 
     return StoreConnector<AppState, List<String>>(
       converter: (Store<AppState> store) => store.state.route,
@@ -273,29 +291,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     children: <Widget>[
                                       PagewiseListView(
                                         physics: BouncingScrollPhysics(),
-                                        pageSize: transactionsPageSize,
+                                        pageLoadController: dailyPageLoadController,
                                         itemBuilder: this._itemBuilder,
-                                        pageFuture: (pageIndex) async {
-                                          return readDailyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
-                                        },
                                         noItemsFoundBuilder: this._noItemBuilder,
                                       ),
                                       PagewiseListView(
                                         physics: BouncingScrollPhysics(),
-                                        pageSize: transactionsPageSize,
+                                        pageLoadController: monthlyPageLoadController,
                                         itemBuilder: this._itemBuilder,
-                                        pageFuture: (pageIndex) async {
-                                          return readMonthlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
-                                        },
                                         noItemsFoundBuilder: this._noItemBuilder,
                                       ),
                                       PagewiseListView(
                                         physics: BouncingScrollPhysics(),
-                                        pageSize: transactionsPageSize,
+                                        pageLoadController: yearlyPageLoadController,
                                         itemBuilder: this._itemBuilder,
-                                        pageFuture: (pageIndex) async {
-                                          return readYearlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
-                                        },
                                         noItemsFoundBuilder: this._noItemBuilder,
                                       ),
                                     ],
