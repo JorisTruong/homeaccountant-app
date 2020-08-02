@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 List options = [
   {'name': 'Home', 'icon': Icons.home},
   {'name': 'Transactions', 'icon': Icons.done_all},
-  {'name': 'Categories', 'icon': Icons.category},
   {'name': 'Graphs', 'icon': Icons.pie_chart},
   {'name': 'Settings', 'icon': Icons.settings}
 ];

@@ -47,7 +47,9 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
             body: Center(
               child: Column(
                 children: [
-                  GenericHeader('Categories', false, () {}),
+                  GenericHeader('Categories', true, () {
+                    Navigator.of(context).pop();
+                  }),
                   Expanded(
                     child: Container(
                       color: baseColors.mainColor,

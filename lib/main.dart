@@ -88,19 +88,19 @@ class MyApp extends StatelessWidget {
       case AppRoutes.transactions:
         return MainRoute(TransactionsPage(), settings: settings);
       case AppRoutes.categories:
-        return MainRoute(CategoriesPage(), settings: settings);
+        return RightToLeftRoute(CategoriesPage(), settings: settings);
       case AppRoutes.graphs:
         return MainRoute((GraphsPage()), settings: settings);
       case AppRoutes.about:
         return MainRoute(AboutPage(), settings: settings);
       case AppRoutes.account:
-        return AddRoute(AccountInfoPage(), settings: settings);
+        return BottomToTopRoute(AccountInfoPage(), settings: settings);
       case AppRoutes.transaction:
-        return AddRoute(TransactionInfoPage(), settings: settings);
+        return BottomToTopRoute(TransactionInfoPage(), settings: settings);
       case AppRoutes.category:
-        return AddRoute(CategoryInfoPage(), settings: settings);
+        return BottomToTopRoute(CategoryInfoPage(), settings: settings);
       case AppRoutes.subcategory:
-        return AddRoute(SubcategoryPage(), settings: settings);
+        return BottomToTopRoute(SubcategoryPage(), settings: settings);
       default:
         return MainRoute(MyHomePage(), settings: settings);
     }
@@ -134,10 +134,10 @@ class MyApp extends StatelessWidget {
 /// This is the default transition.
 class MainRoute<T> extends MaterialPageRoute<T> {
   MainRoute(Widget widget, {RouteSettings settings}) :
-      super(
-        builder: (_) => RouteAwareWidget(child: widget),
-        settings: settings
-      );
+    super(
+      builder: (_) => RouteAwareWidget(child: widget),
+      settings: settings
+    );
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -146,10 +146,34 @@ class MainRoute<T> extends MaterialPageRoute<T> {
   }
 }
 
-/// Defines a slide transition when routing.
+/// Defines a right-to-left slide transition when routing.
 /// It is particularly used when creating/updating a category or a transaction.
-class AddRoute<T> extends MaterialPageRoute<T> {
-  AddRoute(Widget widget, {RouteSettings settings}) :
+class RightToLeftRoute<T> extends MaterialPageRoute<T> {
+  RightToLeftRoute(Widget widget, {RouteSettings settings}) :
+    super(
+      builder: (_) => RouteAwareWidget(child: widget),
+      settings: settings
+    );
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    Animatable<Offset> tween = Tween<Offset>(
+      begin: Offset(1, 0),
+      end: Offset.zero,
+    ).chain(CurveTween(curve: Curves.ease));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  }
+}
+
+/// Defines a bottom-to-top slide transition when routing.
+/// It is particularly used when creating/updating a category or a transaction.
+class BottomToTopRoute<T> extends MaterialPageRoute<T> {
+  BottomToTopRoute(Widget widget, {RouteSettings settings}) :
         super(
           builder: (_) => RouteAwareWidget(child: widget),
           settings: settings

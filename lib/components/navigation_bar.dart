@@ -4,7 +4,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/screen/homepage.dart';
 import 'package:homeaccountantapp/screen/transactions.dart';
-import 'package:homeaccountantapp/screen/categories.dart';
 import 'package:homeaccountantapp/screen/graphs.dart';
 import 'package:homeaccountantapp/screen/settings.dart';
 
@@ -26,7 +25,7 @@ class NavigationBar extends StatefulWidget {
 class _NavigationBarState extends State<NavigationBar> {
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
-    return List.generate(5, (int index) {
+    return List.generate(4, (int index) {
       return PersistentBottomNavBarItem(
         icon: Icon(options[index]['icon']),
         title: options[index]['name'],
@@ -40,7 +39,6 @@ class _NavigationBarState extends State<NavigationBar> {
     return [
       MyHomePage(),
       TransactionsPage(),
-      CategoriesPage(),
       GraphsPage(),
       SettingsPage(),
     ];

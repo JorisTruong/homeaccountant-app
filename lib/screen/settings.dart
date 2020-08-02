@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
 import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/generic_header.dart';
+import 'package:homeaccountantapp/navigation/app_routes.dart';
+import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 import 'package:homeaccountantapp/screen/about.dart';
 
@@ -68,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                                             title: Text('Categories'),
                                             trailing: Icon(Icons.keyboard_arrow_right),
                                             onTap: () {
-                                              print('Tap');
+                                              _store.dispatch(NavigatePushAction(AppRoutes.categories));
                                             },
                                           )
                                         )
