@@ -6,7 +6,7 @@ import 'package:homeaccountantapp/screen/homepage.dart';
 import 'package:homeaccountantapp/screen/transactions.dart';
 import 'package:homeaccountantapp/screen/categories.dart';
 import 'package:homeaccountantapp/screen/graphs.dart';
-import 'package:homeaccountantapp/screen/accounts.dart';
+import 'package:homeaccountantapp/screen/settings.dart';
 
 
 ///
@@ -42,7 +42,7 @@ class _NavigationBarState extends State<NavigationBar> {
       TransactionsPage(),
       CategoriesPage(),
       GraphsPage(),
-      AccountsPage(),
+      SettingsPage(),
     ];
   }
 

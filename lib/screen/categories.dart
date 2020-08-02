@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:homeaccountantapp/const.dart';
 import 'package:redux/redux.dart';
 
+import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
 import 'package:homeaccountantapp/components/generic_header.dart';
