@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -76,8 +75,7 @@ class _GraphsPageState extends State<GraphsPage> with TickerProviderStateMixin {
                             return PieChartCard(
                               expenses: snapshot.data[0],
                               income: snapshot.data[1],
-                              title1: 'Expenses',
-                              title2: 'Income'
+                              store: _store
                             );
                           } else {
                             return LoadingComponent();

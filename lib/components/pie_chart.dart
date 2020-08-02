@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:redux/redux.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'dart:math' as math;
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/redux/models/models.dart';
 
 
 ///
@@ -15,14 +17,12 @@ import 'package:homeaccountantapp/const.dart';
 class PieChartCard extends StatefulWidget {
   PieChartCard({
     Key key,
-    this.title1,
-    this.title2,
+    this.store,
     this.expenses,
     this.income
   });
 
-  final String title1;
-  final String title2;
+  final Store<AppState> store;
   final List<Map<String, dynamic>> expenses;
   final List<Map<String, dynamic>> income;
 
@@ -43,49 +43,51 @@ class PieChartCardState extends State<PieChartCard> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                      setState(() {
-                        if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                            pieTouchResponse.touchInput is FlPanEnd) {
-                          touchedIndex = -1;
-                        } else {
-                          touchedIndex = pieTouchResponse.touchedSectionIndex;
-                        }
-                      });
-                    }),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                    sectionsSpace: widget.income.every((element) => element['percentage'] == 0) || widget.income.any((element) => element['percentage'] == 100) ? 0 : 3,
-                    centerSpaceRadius: 0,
-                    sections: showingIncomeSections()
-                  ),
+              if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
+                Expanded(
+                  child: PieChart(
+                    PieChartData(
+                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                        setState(() {
+                          if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                              pieTouchResponse.touchInput is FlPanEnd) {
+                            touchedIndex = -1;
+                          } else {
+                            touchedIndex = pieTouchResponse.touchedSectionIndex;
+                          }
+                        });
+                      }),
+                      borderData: FlBorderData(
+                        show: false,
+                      ),
+                      sectionsSpace: widget.income.every((element) => element['percentage'] == 0) || widget.income.any((element) => element['percentage'] == 100) ? 0 : 3,
+                      centerSpaceRadius: 0,
+                      sections: showingIncomeSections()
+                    )
+                  )
                 ),
-              ),
-              Expanded(
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                      setState(() {
-                        if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                            pieTouchResponse.touchInput is FlPanEnd) {
-                          touchedIndex = -1;
-                        } else {
-                          touchedIndex = pieTouchResponse.touchedSectionIndex;
-                        }
-                      });
-                    }),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                    sectionsSpace: widget.expenses.every((element) => element['percentage'] == 0) || widget.expenses.any((element) => element['percentage'] == 100) ? 0 : 3,
-                    centerSpaceRadius: 0,
-                    sections: showingExpensesSections()
-                  ),
-                ),
+              if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Expenses')
+                Expanded(
+                  child: PieChart(
+                    PieChartData(
+                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                        setState(() {
+                          if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                              pieTouchResponse.touchInput is FlPanEnd) {
+                            touchedIndex = -1;
+                          } else {
+                            touchedIndex = pieTouchResponse.touchedSectionIndex;
+                          }
+                        });
+                      }),
+                      borderData: FlBorderData(
+                        show: false,
+                      ),
+                      sectionsSpace: widget.expenses.every((element) => element['percentage'] == 0) || widget.expenses.any((element) => element['percentage'] == 100) ? 0 : 3,
+                      centerSpaceRadius: 0,
+                      sections: showingExpensesSections()
+                    )
+                  )
               )
             ],
           ),
@@ -111,23 +113,27 @@ class PieChartCardState extends State<PieChartCard> {
                           trailing: Wrap(
                             spacing: 12,
                             children: [
-                              Transform.rotate(
-                                angle: math.pi / 1.35,
-                                child: Icon(Icons.undo, color: baseColors.green)
-                              ),
-                              Text(widget.income[index]['value'].toStringAsFixed(2)),
-                              Transform(
-                                alignment: Alignment.center,
-                                transform: Matrix4.rotationY(math.pi),
-                                child: Transform.rotate(
-                                  angle: -math.pi / 4,
-                                  child: Transform.translate(
-                                    offset: Offset(0.0, -5),
-                                    child: Icon(Icons.undo, color: baseColors.red)
+                              if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
+                                Transform.rotate(
+                                  angle: math.pi / 1.35,
+                                  child: Icon(Icons.undo, color: baseColors.green)
+                                ),
+                              if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
+                                Text(widget.income[index]['value'].toStringAsFixed(2)),
+                              if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Expenses')
+                                Transform(
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.rotationY(math.pi),
+                                  child: Transform.rotate(
+                                    angle: -math.pi / 4,
+                                    child: Transform.translate(
+                                      offset: Offset(0.0, -5),
+                                      child: Icon(Icons.undo, color: baseColors.red)
+                                    )
                                   )
-                                )
-                              ),
-                              Text(widget.expenses[index]['value'].toStringAsFixed(2))
+                                ),
+                              if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Expenses')
+                                Text(widget.expenses[index]['value'].toStringAsFixed(2))
                             ]
                           )
                         );

@@ -313,8 +313,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                       return PieChartCard(
                                         expenses: snapshot.data[0],
                                         income: snapshot.data[1],
-                                        title1: 'Expenses',
-                                        title2: 'Income'
+                                        store: _store
                                       );
                                     } else {
                                       return LoadingComponent();
