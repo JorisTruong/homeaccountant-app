@@ -155,15 +155,15 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                                       items: [
                                                         DropdownMenuItem<String>(
                                                           value: 'Day',
-                                                          child: Text('Day')
+                                                          child: Text('Day', style: TextStyle(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Month',
-                                                          child: Text('Month')
+                                                          child: Text('Month', style: TextStyle(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Year',
-                                                          child: Text('Year')
+                                                          child: Text('Year', style: TextStyle(fontSize: baseFontSize.text))
                                                         )
                                                       ]
                                                     )
@@ -207,6 +207,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                                         hintStyle: TextStyle(color: baseColors.mainColor)
                                                       ),
                                                       textAlign: TextAlign.center,
+                                                      style: TextStyle(fontSize: baseFontSize.text),
                                                       onTap: () async {
                                                         if (_store.state.dateRangeType == 'Day') {
                                                           showDayDatePicker(context, _store);
@@ -258,15 +259,15 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                                       items: [
                                                         DropdownMenuItem<String>(
                                                           value: 'All',
-                                                          child: Text('All')
+                                                          child: Text('All', style: TextStyle(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Expenses',
-                                                          child: Text('Expenses')
+                                                          child: Text('Expenses', style: TextStyle(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Income',
-                                                          child: Text('Income')
+                                                          child: Text('Income', style: TextStyle(fontSize: baseFontSize.text))
                                                         )
                                                       ]
                                                     )

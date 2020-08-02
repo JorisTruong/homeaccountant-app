@@ -48,13 +48,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       children: <Widget>[
         ListTile(
           title: Text(transactionSummary['date']),
-          subtitle: Text(
-            transactionSummary['date'].length == 10 ?
-            DateFormat('EEEE').format(DateTime.parse(transactionSummary['date'])) :
+          subtitle: (transactionSummary['date'].length == 10) ?
+            Text(DateFormat('EEEE').format(DateTime.parse(transactionSummary['date']))) :
             transactionSummary['date'].length ==  7 ?
-            getMonth(transactionSummary['date'].split('-')[1]) :
-            ''
-          ),
+            Text(getMonth(transactionSummary['date'].split('-')[1])) :
+            null,
           trailing: Wrap(
             spacing: 12,
             children: [
