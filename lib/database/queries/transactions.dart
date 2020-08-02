@@ -171,7 +171,7 @@ Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, St
     return getCategoryAmount(categories[i].categoryId, db, dateRange, accountId, 1);
   }));
   return List.generate(categoryExpenses.length, (int i) {
-    return {'name': categories[i].categoryName, 'expenses': categoryExpenses[i] == 0 ? 0 : -categoryExpenses[i]};
+    return {'name': categories[i].categoryName, 'expenses': categoryExpenses[i] == 0 ? -0.0 : -categoryExpenses[i]};
   });
 }
 
