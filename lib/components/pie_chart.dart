@@ -45,48 +45,94 @@ class PieChartCardState extends State<PieChartCard> {
             children: <Widget>[
               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
                 Expanded(
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                        setState(() {
-                          if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                              pieTouchResponse.touchInput is FlPanEnd) {
-                            touchedIndex = -1;
-                          } else {
-                            touchedIndex = pieTouchResponse.touchedSectionIndex;
-                          }
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          SizedBox(height: 20),
+                          Text(
+                            'Income',
+                            style: TextStyle(
+                              color: baseColors.mainColor,
+                              fontSize: baseFontSize.title2,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
                       ),
-                      sectionsSpace: widget.income.every((element) => element['percentage'] == 0) || widget.income.any((element) => element['percentage'] == 100) ? 0 : 3,
-                      centerSpaceRadius: 0,
-                      sections: showingIncomeSections()
-                    )
+                      Align(
+                        alignment: Alignment.center,
+                        child: PieChart(
+                          PieChartData(
+                            pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                              setState(() {
+                                if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                    pieTouchResponse.touchInput is FlPanEnd) {
+                                  touchedIndex = -1;
+                                } else {
+                                  touchedIndex = pieTouchResponse.touchedSectionIndex;
+                                }
+                              });
+                            }),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            sectionsSpace: widget.income.every((element) => element['percentage'] == 0) || widget.income.any((element) => element['percentage'] == 100) ? 0 : 3,
+                            centerSpaceRadius: 0,
+                            sections: showingIncomeSections(widget.store)
+                          )
+                        )
+                      )
+                    ]
                   )
                 ),
               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Expenses')
                 Expanded(
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                        setState(() {
-                          if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                              pieTouchResponse.touchInput is FlPanEnd) {
-                            touchedIndex = -1;
-                          } else {
-                            touchedIndex = pieTouchResponse.touchedSectionIndex;
-                          }
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          SizedBox(height: 20),
+                          Text(
+                            'Expenses',
+                            style: TextStyle(
+                              color: baseColors.mainColor,
+                              fontSize: baseFontSize.title2,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
                       ),
-                      sectionsSpace: widget.expenses.every((element) => element['percentage'] == 0) || widget.expenses.any((element) => element['percentage'] == 100) ? 0 : 3,
-                      centerSpaceRadius: 0,
-                      sections: showingExpensesSections()
-                    )
+                      Align(
+                        alignment: Alignment.center,
+                        child: PieChart(
+                          PieChartData(
+                            pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                              setState(() {
+                                if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                    pieTouchResponse.touchInput is FlPanEnd) {
+                                  touchedIndex = -1;
+                                } else {
+                                  touchedIndex = pieTouchResponse.touchedSectionIndex;
+                                }
+                              });
+                            }),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            sectionsSpace: widget.expenses.every((element) => element['percentage'] == 0) || widget.expenses.any((element) => element['percentage'] == 100) ? 0 : 3,
+                            centerSpaceRadius: 0,
+                            sections: showingExpensesSections(widget.store)
+                          )
+                        )
+                      )
+                    ]
                   )
               )
             ],
@@ -150,10 +196,11 @@ class PieChartCardState extends State<PieChartCard> {
   }
 
   /// Chart data
-  List<PieChartSectionData> showingIncomeSections() {
+  List<PieChartSectionData> showingIncomeSections(Store<AppState> store) {
+    int proportion = store.state.showTransactionType == 'All' ? 6 : 5;
     bool emptyIncome = widget.income.every((element) => element['percentage'] == 0);
     if (emptyIncome) {
-      final double radius = MediaQuery.of(context).size.width/6;
+      final double radius = MediaQuery.of(context).size.width/proportion;
       return [PieChartSectionData(
         color: baseColors.mainColor,
         value: 100,
@@ -167,7 +214,7 @@ class PieChartCardState extends State<PieChartCard> {
       return List.generate(widget.income.length, (i) {
         final isTouched = i == touchedIndex;
         final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
-        final double radius = isTouched ? MediaQuery.of(context).size.width/6 + 10 : MediaQuery.of(context).size.width/6;
+        final double radius = isTouched ? MediaQuery.of(context).size.width/proportion + 10 : MediaQuery.of(context).size.width/proportion;
         return PieChartSectionData(
           color: getCategoryColor(i),
           value: widget.income[i]['percentage'].toDouble(),
@@ -181,10 +228,11 @@ class PieChartCardState extends State<PieChartCard> {
     }
   }
 
-  List<PieChartSectionData> showingExpensesSections() {
+  List<PieChartSectionData> showingExpensesSections(Store<AppState> store) {
+    int proportion = store.state.showTransactionType == 'All' ? 6 : 5;
     bool emptyExpenses = widget.expenses.every((element) => element['percentage'] == 0);
     if (emptyExpenses) {
-      final double radius = MediaQuery.of(context).size.width/6;
+      final double radius = MediaQuery.of(context).size.width/proportion;
       return [PieChartSectionData(
         color: baseColors.mainColor,
         value: 100,
@@ -198,7 +246,7 @@ class PieChartCardState extends State<PieChartCard> {
       return List.generate(widget.expenses.length, (i) {
         final isTouched = i == touchedIndex;
         final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
-        final double radius = isTouched ? MediaQuery.of(context).size.width/6 + 10 : MediaQuery.of(context).size.width/6;
+        final double radius = isTouched ? MediaQuery.of(context).size.width/proportion + 10 : MediaQuery.of(context).size.width/proportion;
         return PieChartSectionData(
           color: getCategoryColor(i),
           value: widget.expenses[i]['percentage'].toDouble(),
