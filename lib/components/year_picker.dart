@@ -73,7 +73,9 @@ class _YearPickerState extends State<YearPicker> {
               selected: isSelected,
               child: isSelected ?
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                   child: Text(
                     year.toString(),
                     style: TextStyle(

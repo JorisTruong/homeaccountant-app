@@ -171,7 +171,7 @@ Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, St
     return getCategoryAmount(categories[i].categoryId, db, dateRange, accountId, 1);
   }));
   return List.generate(categoryExpenses.length, (int i) {
-    return {'name': categories[i].categoryName, 'expenses': -categoryExpenses[i]};
+    return {'name': categories[i].categoryName, 'expenses': categoryExpenses[i] == 0 ? 0 : -categoryExpenses[i]};
   });
 }
 
@@ -193,13 +193,14 @@ Future<List<Map<String, dynamic>>> getExpensesProportion(Database db, Map<String
   if (totalExpenses == null || totalExpenses == 0) {
     List<models.Category> categories = await readCategories(db);
     return List.generate(categories.length, (int i) {
-      return {'name': categories[i].categoryName, 'percentage': 0};
+      return {'name': categories[i].categoryName, 'value': 0, 'percentage': 0};
     });
   } else {
     var result = await getExpensesAmount(db, dateRange, accountId);
     return List.generate(result.length, (int i) {
       return {
         'name': result[i]['name'],
+        'value': -result[i]['expenses'],
         'percentage': 100 * result[i]['expenses'] / totalExpenses
       };
     });
@@ -236,13 +237,14 @@ Future<List<Map<String, dynamic>>> getIncomeProportion(Database db, Map<String, 
   if (totalIncome == null || totalIncome == 0) {
     List<models.Category> categories = await readCategories(db);
     return List.generate(categories.length, (int i) {
-      return {'name': categories[i].categoryName, 'percentage': 0};
+      return {'name': categories[i].categoryName, 'value': 0, 'percentage': 0};
     });
   } else {
     var result = await getIncomeAmount(db, dateRange, accountId);
     return List.generate(result.length, (int i) {
       return {
         'name': result[i]['name'],
+        'value': result[i]['income'],
         'percentage': 100 * result[i]['income'] / totalIncome
       };
     });

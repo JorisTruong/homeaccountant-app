@@ -6,6 +6,7 @@ import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
+import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/year_picker.dart' as yp;
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/queries/transactions.dart';
@@ -101,7 +102,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Total",
+                                "Balance",
                                 style: TextStyle(
                                   color: baseColors.borderColor,
                                   fontSize: baseFontSize.subtitle
@@ -298,10 +299,28 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                           ),
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
-                            padding: EdgeInsets.only(bottom: 40),
+                            padding: EdgeInsets.only(bottom: 100),
                             /// Display all the transactions
                             child: Column(
                               children: [
+                                FutureBuilder(
+                                  future: Future.wait([
+                                    getExpensesProportion(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                                    getIncomeProportion(databaseClient.db, _store.state.dateRange, _store.state.accountId)
+                                  ]),
+                                  builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return PieChartCard(
+                                        expenses: snapshot.data[0],
+                                        income: snapshot.data[1],
+                                        title1: 'Expenses',
+                                        title2: 'Income'
+                                      );
+                                    } else {
+                                      return LoadingComponent();
+                                    }
+                                  }
+                                ),
                               ]
                             )
                           )
@@ -347,6 +366,14 @@ Future<dynamic> showDayDatePicker(BuildContext context, Store<AppState> _store) 
           ),
           onChanged: (datePeriod) {
             _store.dispatch(UpdateSelectedDate(datePeriod));
+            _store.dispatch(
+              UpdateDateRange(
+                dateToDateRange(
+                  'Day',
+                  _store.state.selectedDate
+                )
+              )
+            );
             TextEditingController showTransactionDate = TextEditingController();
             showTransactionDate.text = datePeriod.toString().substring(0, 10);
             _store.dispatch(ShowTransactionDate(showTransactionDate));
@@ -372,6 +399,14 @@ Future<dynamic> showMonthDatePicker(BuildContext context, Store<AppState> _store
           ),
           onChanged: (datePeriod) {
             _store.dispatch(UpdateSelectedDate(datePeriod));
+            _store.dispatch(
+              UpdateDateRange(
+                dateToDateRange(
+                  'Month',
+                  _store.state.selectedDate
+                )
+              )
+            );
             TextEditingController showTransactionDate = TextEditingController();
             showTransactionDate.text = datePeriod.toString().substring(0, 7);
             _store.dispatch(ShowTransactionDate(showTransactionDate));
@@ -400,6 +435,14 @@ Future<dynamic> showYearDatePicker(BuildContext context, Store<AppState> _store)
               lastDate: DateTime.now(),
               onChanged: (datePeriod) {
                 _store.dispatch(UpdateSelectedDate(datePeriod));
+                _store.dispatch(
+                  UpdateDateRange(
+                    dateToDateRange(
+                      'Year',
+                      _store.state.selectedDate
+                    )
+                  )
+                );
                 TextEditingController showTransactionDate = TextEditingController();
                 showTransactionDate.text = datePeriod.toString().substring(0, 4);
                 _store.dispatch(ShowTransactionDate(showTransactionDate));

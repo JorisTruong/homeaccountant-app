@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:homeaccountantapp/utils.dart';
+import 'dart:math' as math;
 
-import 'indicator.dart';
 import 'package:homeaccountantapp/const.dart';
 
 
@@ -37,117 +37,117 @@ class PieChartCardState extends State<PieChartCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: AspectRatio(
-        aspectRatio: 1.3,
-        child: Card(
-          color: Colors.white,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[600],
-                  blurRadius: 10.0,
-                  offset: Offset(
-                    0.0,
-                    5.0,
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: PieChart(
+                  PieChartData(
+                    pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                      setState(() {
+                        if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                            pieTouchResponse.touchInput is FlPanEnd) {
+                          touchedIndex = -1;
+                        } else {
+                          touchedIndex = pieTouchResponse.touchedSectionIndex;
+                        }
+                      });
+                    }),
+                    borderData: FlBorderData(
+                      show: false,
+                    ),
+                    sectionsSpace: widget.income.every((element) => element['percentage'] == 0) || widget.income.any((element) => element['percentage'] == 100) ? 0 : 3,
+                    centerSpaceRadius: 0,
+                    sections: showingIncomeSections()
                   ),
                 ),
-              ],
-              color: Colors.white
-            ),
-            child: Stack(
-              children: <Widget>[
-                Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    Text(
-                      switchData ? widget.title1 : widget.title2,
-                      style: TextStyle(
-                        color: baseColors.mainColor,
-                        fontSize: baseFontSize.title2,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2
-                      ),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    SizedBox(height: 18),
-                    Expanded(
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: PieChart(
-                          PieChartData(
-                            pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                              setState(() {
-                                if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                                    pieTouchResponse.touchInput is FlPanEnd) {
-                                  touchedIndex = -1;
-                                } else {
-                                  touchedIndex = pieTouchResponse.touchedSectionIndex;
-                                }
-                              });
-                            }),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                            sectionsSpace: 0,
-                            centerSpaceRadius: MediaQuery.of(context).size.width / 15,
-                            sections: showingSections()
-                          ),
-                        ),
-                      ),
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      /// Display the legend
-                      children: List.generate(switchData ? widget.expenses.length : widget.income.length, (int index) {
-                        return Indicator(
-                          color: getCategoryColor(index),
-                          text: switchData ? widget.expenses[index]['name'] : widget.income[index]['name'],
-                          isSquare: false
-                        );
-                      })..add(SizedBox(height: 18)),
-                    ),
-                    SizedBox(width: 28),
-                  ],
-                ),
-                Material(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Colors.white,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.refresh,
-                      color: baseColors.mainColor
-                    ),
-                    onPressed: () {
+              ),
+              Expanded(
+                child: PieChart(
+                  PieChartData(
+                    pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
                       setState(() {
-                        switchData = !switchData;
+                        if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                            pieTouchResponse.touchInput is FlPanEnd) {
+                          touchedIndex = -1;
+                        } else {
+                          touchedIndex = pieTouchResponse.touchedSectionIndex;
+                        }
                       });
-                    },
-                  )
-                )
-              ]
-            ),
+                    }),
+                    borderData: FlBorderData(
+                      show: false,
+                    ),
+                    sectionsSpace: widget.expenses.every((element) => element['percentage'] == 0) || widget.expenses.any((element) => element['percentage'] == 100) ? 0 : 3,
+                    centerSpaceRadius: 0,
+                    sections: showingExpensesSections()
+                  ),
+                ),
+              )
+            ],
           ),
-        ),
-      )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            /// Display the legend
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListView(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: List.generate(widget.expenses.length, (int index) {
+                        return ListTile(
+                          dense: true,
+                          leading: Icon(Icons.brightness_1, color: getCategoryColor(index)),
+                          title: Text(
+                            widget.expenses[index]['name'],
+                            style: TextStyle(fontSize: baseFontSize.subtitle),
+                          ),
+                          trailing: Wrap(
+                            spacing: 12,
+                            children: [
+                              Transform.rotate(
+                                angle: math.pi / 1.35,
+                                child: Icon(Icons.undo, color: baseColors.green)
+                              ),
+                              Text(widget.income[index]['value'].toStringAsFixed(2)),
+                              Transform(
+                                alignment: Alignment.center,
+                                transform: Matrix4.rotationY(math.pi),
+                                child: Transform.rotate(
+                                  angle: -math.pi / 4,
+                                  child: Transform.translate(
+                                    offset: Offset(0.0, -5),
+                                    child: Icon(Icons.undo, color: baseColors.red)
+                                  )
+                                )
+                              ),
+                              Text(widget.expenses[index]['value'].toStringAsFixed(2))
+                            ]
+                          )
+                        );
+                      })
+                    )
+                  ]
+                )
+              )
+            ]
+          )
+        ]
+      ),
     );
   }
 
   /// Chart data
-  List<PieChartSectionData> showingSections() {
-    bool emptyExpenses = widget.expenses.every((element) => element['percentage'] == 0);
+  List<PieChartSectionData> showingIncomeSections() {
     bool emptyIncome = widget.income.every((element) => element['percentage'] == 0);
-    if ((switchData && emptyExpenses) || (!switchData && emptyIncome)) {
-      final double radius = MediaQuery.of(context).size.width/10;
+    if (emptyIncome) {
+      final double radius = MediaQuery.of(context).size.width/6;
       return [PieChartSectionData(
         color: baseColors.mainColor,
         value: 100,
@@ -158,17 +158,48 @@ class PieChartCardState extends State<PieChartCard> {
         ),
       )];
     } else {
-      return List.generate(switchData ? widget.expenses.length : widget.income.length, (i) {
+      return List.generate(widget.income.length, (i) {
         final isTouched = i == touchedIndex;
         final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
-        final double radius = isTouched ? MediaQuery.of(context).size.width/10 +10 : MediaQuery.of(context).size.width/10;
+        final double radius = isTouched ? MediaQuery.of(context).size.width/6 + 10 : MediaQuery.of(context).size.width/6;
         return PieChartSectionData(
           color: getCategoryColor(i),
-          value: switchData ? widget.expenses[i]['percentage'].toDouble() : widget.income[i]['percentage'].toDouble(),
-          title: switchData ? formatPercentage(widget.expenses[i]['percentage']) : formatPercentage(widget.income[i]['percentage']),
+          value: widget.income[i]['percentage'].toDouble(),
+          title: formatPercentage(widget.income[i]['percentage']),
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white
+          ),
+        );
+      });
+    }
+  }
+
+  List<PieChartSectionData> showingExpensesSections() {
+    bool emptyExpenses = widget.expenses.every((element) => element['percentage'] == 0);
+    if (emptyExpenses) {
+      final double radius = MediaQuery.of(context).size.width/6;
+      return [PieChartSectionData(
+        color: baseColors.mainColor,
+        value: 100,
+        title: '',
+        radius: radius,
+        titleStyle: TextStyle(
+            fontSize: baseFontSize.text, fontWeight: FontWeight.bold, color: Colors.white
+        ),
+      )];
+    } else {
+      return List.generate(widget.expenses.length, (i) {
+        final isTouched = i == touchedIndex;
+        final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
+        final double radius = isTouched ? MediaQuery.of(context).size.width/6 + 10 : MediaQuery.of(context).size.width/6;
+        return PieChartSectionData(
+          color: getCategoryColor(i),
+          value: widget.expenses[i]['percentage'].toDouble(),
+          title: formatPercentage(widget.expenses[i]['percentage']),
+          radius: radius,
+          titleStyle: TextStyle(
+              fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white
           ),
         );
       });

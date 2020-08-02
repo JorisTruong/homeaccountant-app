@@ -99,12 +99,10 @@ Map<String, String> dateToDateRange(String type, DateTime dateTime) {
       'to': endDate.year.toString() + '-' + dayOrMonthToString(endDate.month) + '-' + dayOrMonthToString(endDate.day)
     };
   }
-  else if (type == 'Week') {
-    var startDate = dateTime.subtract(Duration(days: dateTime.weekday-1));
-    var endDate = dateTime.add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
+  else if (type == 'Day') {
     return {
-      'from': startDate.year.toString() + '-' + dayOrMonthToString(startDate.month) + '-' + dayOrMonthToString(startDate.day),
-      'to': endDate.year.toString() + '-' + dayOrMonthToString(endDate.month) + '-' + dayOrMonthToString(endDate.day)
+      'from': dateTime.toString().substring(0, 10),
+      'to': dateTime.toString().substring(0, 10)
     };
   }
   else {
