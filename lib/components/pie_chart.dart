@@ -3,6 +3,7 @@ import 'package:redux/redux.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'dart:math' as math;
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -53,7 +54,7 @@ class PieChartCardState extends State<PieChartCard> {
                           SizedBox(height: 20),
                           Text(
                             'Income',
-                            style: TextStyle(
+                            style: GoogleFonts.lato(
                               color: baseColors.mainColor,
                               fontSize: baseFontSize.title2,
                               fontWeight: FontWeight.bold,
@@ -99,7 +100,7 @@ class PieChartCardState extends State<PieChartCard> {
                           SizedBox(height: 20),
                           Text(
                             'Expenses',
-                            style: TextStyle(
+                            style: GoogleFonts.lato(
                               color: baseColors.mainColor,
                               fontSize: baseFontSize.title2,
                               fontWeight: FontWeight.bold,
@@ -154,10 +155,11 @@ class PieChartCardState extends State<PieChartCard> {
                           leading: Icon(Icons.brightness_1, color: getCategoryColor(index)),
                           title: Text(
                             widget.expenses[index]['name'],
-                            style: TextStyle(fontSize: baseFontSize.subtitle),
+                            style: GoogleFonts.lato(fontSize: baseFontSize.text),
                           ),
                           trailing: Wrap(
                             spacing: 12,
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
                                 Transform.rotate(
@@ -165,7 +167,7 @@ class PieChartCardState extends State<PieChartCard> {
                                   child: Icon(Icons.undo, color: baseColors.green)
                                 ),
                               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
-                                Text(widget.income[index]['value'].toStringAsFixed(2)),
+                                Text(widget.income[index]['value'].toStringAsFixed(2), style: GoogleFonts.lato(fontSize: baseFontSize.text)),
                               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Expenses')
                                 Transform(
                                   alignment: Alignment.center,
@@ -179,7 +181,7 @@ class PieChartCardState extends State<PieChartCard> {
                                   )
                                 ),
                               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Expenses')
-                                Text(widget.expenses[index]['value'].toStringAsFixed(2))
+                                Text(widget.expenses[index]['value'].toStringAsFixed(2), style: GoogleFonts.lato(fontSize: baseFontSize.text))
                             ]
                           )
                         );
@@ -206,7 +208,7 @@ class PieChartCardState extends State<PieChartCard> {
         value: 100,
         title: '',
         radius: radius,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.lato(
           fontSize: baseFontSize.text, fontWeight: FontWeight.bold, color: Colors.white
         ),
       )];
@@ -220,7 +222,7 @@ class PieChartCardState extends State<PieChartCard> {
           value: widget.income[i]['percentage'].toDouble(),
           title: formatPercentage(widget.income[i]['percentage']),
           radius: radius,
-          titleStyle: TextStyle(
+          titleStyle: GoogleFonts.lato(
             fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white
           ),
         );
@@ -238,7 +240,7 @@ class PieChartCardState extends State<PieChartCard> {
         value: 100,
         title: '',
         radius: radius,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.lato(
             fontSize: baseFontSize.text, fontWeight: FontWeight.bold, color: Colors.white
         ),
       )];
@@ -252,7 +254,7 @@ class PieChartCardState extends State<PieChartCard> {
           value: widget.expenses[i]['percentage'].toDouble(),
           title: formatPercentage(widget.expenses[i]['percentage']),
           radius: radius,
-          titleStyle: TextStyle(
+          titleStyle: GoogleFonts.lato(
               fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white
           ),
         );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 
@@ -36,7 +37,7 @@ class GenericHeader extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: GoogleFonts.lato(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: baseFontSize.title

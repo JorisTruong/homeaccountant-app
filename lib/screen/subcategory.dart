@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -51,7 +52,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
               ),
               title: Text(
                 'Choose a subcategory',
-                style: TextStyle(
+                style: GoogleFonts.lato(
                   fontSize: baseFontSize.title
                 ),
               ),

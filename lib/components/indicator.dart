@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 ///
@@ -37,7 +38,7 @@ class Indicator extends StatelessWidget {
         SizedBox(width: 4),
         Text(
           text,
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor),
+          style: GoogleFonts.lato(fontSize: 12, fontWeight: FontWeight.bold, color: textColor),
         )
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/const.dart';
@@ -120,7 +121,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                           SizedBox(width: 38),
                           Text(
                             widget.title,
-                            style: TextStyle(color: baseColors.mainColor, fontSize: baseFontSize.title2, fontWeight: FontWeight.bold, letterSpacing: 2),
+                            style: GoogleFonts.lato(color: baseColors.mainColor, fontSize: baseFontSize.title2, fontWeight: FontWeight.bold, letterSpacing: 2),
                           ),
                           SizedBox(width: 4),
                         ],
@@ -138,7 +139,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                     double realValue = valueFromBar(_c.y, maxValue);
                                     return BarTooltipItem(
                                       (_d == 0 ? 'Income : \n' : 'Expenses : \n') + realValue.toString(),
-                                      TextStyle(color: Colors.white)
+                                      GoogleFonts.lato(color: Colors.white)
                                     );
                                   },
                                 ),
@@ -149,7 +150,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                   reservedSize: 20,
                                   rotateAngle: 270,
                                   showTitles: true,
-                                  textStyle: TextStyle(
+                                  textStyle: GoogleFonts.lato(
                                     color: baseColors.mainColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: baseFontSize.legend
@@ -161,7 +162,7 @@ class BarChartDualCardState extends State<BarChartDualCard> {
                                 ),
                                 leftTitles: SideTitles(
                                   showTitles: true,
-                                  textStyle: TextStyle(
+                                  textStyle: GoogleFonts.lato(
                                     color: baseColors.mainColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: baseFontSize.text),

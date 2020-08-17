@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/icons_list.dart';
@@ -54,7 +55,7 @@ class CategoryCard extends StatelessWidget {
                             SizedBox(width: 12),
                             Text(
                               category.categoryName,
-                              style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
+                              style: GoogleFonts.lato(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
                             ),
                           ]
                         ),
@@ -105,7 +106,7 @@ class CategoryCard extends StatelessWidget {
                                   leading: Icon(icons_list[subcategories[index].subcategoryIconId], color: color),
                                   title: Text(
                                     subcategories[index].subcategoryName,
-                                    style: TextStyle(fontSize: baseFontSize.subtitle),
+                                    style: GoogleFonts.lato(fontSize: baseFontSize.subtitle),
                                   )
                                 )
                               )

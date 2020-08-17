@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -66,7 +67,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                               hint: Text(
                                 'Type',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: baseColors.secondaryColor)
+                                style: GoogleFonts.lato(color: baseColors.secondaryColor)
                               ),
                               isDense: false,
                               onTap: () {
@@ -137,7 +138,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                       },
                       child: Text(
                         'CANCEL',
-                        style: TextStyle(
+                        style: GoogleFonts.lato(
                           fontSize: baseFontSize.text,
                           fontWeight: FontWeight.bold,
                           color: Colors.white
@@ -169,7 +170,7 @@ class _DateRangePanelState extends State<DateRangePanel> with TickerProviderStat
                       },
                       child: Text(
                         'VALIDATE',
-                        style: TextStyle(
+                        style: GoogleFonts.lato(
                           fontSize: baseFontSize.text,
                           fontWeight: FontWeight.bold,
                           color: Colors.white

@@ -5,6 +5,7 @@ import 'package:homeaccountantapp/icons_list.dart';
 import 'package:redux/redux.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -151,16 +152,17 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                       Row(
                                                         children: [
                                                           Expanded(
-                                                            flex: 1,
+                                                            flex: 7,
                                                             child: Text(
                                                               'Category',
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold
+                                                              style: GoogleFonts.lato(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: baseFontSize.text
                                                               ),
                                                             )
                                                           ),
                                                           Expanded(
-                                                            flex: 3,
+                                                            flex: 13,
                                                             /// Dropdown to select the category
                                                             child: DropdownButtonHideUnderline(
                                                               child: ButtonTheme(
@@ -186,7 +188,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                                                 hint: Text(
                                                                                   'Category',
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: TextStyle(color: baseColors.secondaryColor)
+                                                                                  style: GoogleFonts.lato(color: baseColors.secondaryColor, fontSize: baseFontSize.text)
                                                                                 ),
                                                                                 isDense: false,
                                                                                 onTap: () {
@@ -209,7 +211,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                                                 items: List.generate(snapshot.data.length, (int index) {
                                                                                   return DropdownMenuItem<int>(
                                                                                     value: snapshot.data[index].categoryId,
-                                                                                    child: Text(snapshot.data[index].categoryName)
+                                                                                    child: Text(snapshot.data[index].categoryName, style: GoogleFonts.lato(fontSize: baseFontSize.text))
                                                                                   );
                                                                                 })
                                                                               );
@@ -232,16 +234,17 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                       Row(
                                                         children: [
                                                           Expanded(
-                                                            flex: 1,
+                                                            flex: 7,
                                                             child: Text(
                                                               'Subcategory',
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold
+                                                              style: GoogleFonts.lato(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: baseFontSize.text,
                                                               ),
                                                             )
                                                           ),
                                                           Expanded(
-                                                            flex: 3,
+                                                            flex: 13,
                                                             /// Name of the subcategory
                                                             child: Container(
                                                               decoration: BoxDecoration(
@@ -257,16 +260,17 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                               ),
                                                               child: TextField(
                                                                 controller: _store.state.categorySubcategoryText,
+                                                                style: GoogleFonts.lato(fontSize: baseFontSize.text),
                                                                 decoration: InputDecoration(
                                                                   errorText: errorSubcategory ? '' : null,
-                                                                  errorStyle: TextStyle(height: 0),
+                                                                  errorStyle: GoogleFonts.lato(height: 0),
                                                                   isDense: false,
                                                                   alignLabelWithHint: true,
                                                                   errorBorder: OutlineInputBorder(borderSide: BorderSide(color: baseColors.errorColor)),
                                                                   border: OutlineInputBorder(borderSide: BorderSide.none),
                                                                   contentPadding: EdgeInsets.only(right: 20.0),
                                                                   hintText: 'Subcategory',
-                                                                  prefixIcon: Icon(Icons.turned_in, color: baseColors.mainColor)
+                                                                  prefixIcon: Icon(Icons.turned_in, color: baseColors.mainColor),
                                                                 ),
                                                                 onChanged: (string) {
                                                                   setState(() {
@@ -296,7 +300,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                         },
                                                         child: Text(
                                                           'Pick an icon',
-                                                          style: TextStyle(
+                                                          style: GoogleFonts.lato(
                                                             fontSize: baseFontSize.text,
                                                             color: Colors.white
                                                           )
@@ -308,7 +312,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                       ),
                                                       Text(
                                                         errorIcon ? 'Choose an icon' : '',
-                                                        style: TextStyle(
+                                                        style: GoogleFonts.lato(
                                                           fontSize: baseFontSize.text,
                                                           color: baseColors.errorColor
                                                         ),
@@ -356,7 +360,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                             },
                                                             child: Text(
                                                               _store.state.isCreatingSubcategory ? 'CANCEL' : 'DELETE',
-                                                              style: TextStyle(
+                                                              style: GoogleFonts.lato(
                                                                 fontSize: baseFontSize.text,
                                                                 color: Colors.white
                                                               )
@@ -408,7 +412,7 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                                             },
                                                             child: Text(
                                                               'VALIDATE',
-                                                              style: TextStyle(
+                                                              style: GoogleFonts.lato(
                                                                 fontSize: baseFontSize.text,
                                                                 color: Colors.white
                                                               )

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:date_util/date_util.dart';
 import 'dart:math';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -108,7 +109,7 @@ class LineChartCardState extends State<LineChartCard> {
                       SizedBox(height: 16),
                       Text(
                         widget.title,
-                        style: TextStyle(
+                        style: GoogleFonts.lato(
                           color: baseColors.mainColor,
                           fontSize: baseFontSize.title2,
                           fontWeight: FontWeight.bold,
@@ -119,7 +120,7 @@ class LineChartCardState extends State<LineChartCard> {
                       Center(
                         child: Text(
                           widget.subtitle == null ? '' : widget.subtitle,
-                          style: TextStyle(
+                          style: GoogleFonts.lato(
                             color: baseColors.mainColor,
                             fontSize: baseFontSize.text
                           )
@@ -158,7 +159,7 @@ class LineChartCardState extends State<LineChartCard> {
             return touchedBarSpots.map((barSpot) {
               return LineTooltipItem(
                 (barSpot.y * dataMaxValue / 4.0).toStringAsFixed(2),
-                TextStyle(color: barSpot.bar.colors[0],
+                GoogleFonts.lato(color: barSpot.bar.colors[0],
                   fontWeight: FontWeight.bold,
                   fontSize: baseFontSize.subtitle
                 )
@@ -174,7 +175,7 @@ class LineChartCardState extends State<LineChartCard> {
           rotateAngle: 270,
           showTitles: true,
           reservedSize: 22,
-          textStyle: TextStyle(
+          textStyle: GoogleFonts.lato(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
             fontSize: baseFontSize.legend,
@@ -186,7 +187,7 @@ class LineChartCardState extends State<LineChartCard> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(
+          textStyle: GoogleFonts.lato(
             color: baseColors.mainColor,
             fontWeight: FontWeight.bold,
             fontSize: baseFontSize.text2,

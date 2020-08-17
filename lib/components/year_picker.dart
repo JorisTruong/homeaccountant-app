@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 
@@ -78,7 +79,7 @@ class _YearPickerState extends State<YearPicker> {
                   },
                   child: Text(
                     year.toString(),
-                    style: TextStyle(
+                    style: GoogleFonts.lato(
                       fontSize: baseFontSize.bigTitle,
                       color: Colors.white,
                       fontWeight: FontWeight.bold

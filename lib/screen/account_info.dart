@@ -3,6 +3,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -77,7 +78,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                 ),
                 title: Text(
                   'Account Info',
-                  style: TextStyle(
+                  style: GoogleFonts.lato(
                     fontSize: baseFontSize.title
                   ),
                 ),
@@ -208,7 +209,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                 },
                                                 child: Text(
                                                   _store.state.isCreatingAccount ? 'CANCEL' : 'DELETE',
-                                                  style: TextStyle(
+                                                  style: GoogleFonts.lato(
                                                     fontSize: baseFontSize.text,
                                                     color: Colors.white
                                                   )
@@ -248,7 +249,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                 },
                                                 child: Text(
                                                   'VALIDATE',
-                                                  style: TextStyle(
+                                                  style: GoogleFonts.lato(
                                                     fontSize: baseFontSize.text,
                                                     color: Colors.white
                                                   )
@@ -266,7 +267,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                             children: [
                                               Text(
                                                 'You need to have at least one account !',
-                                                style: TextStyle(
+                                                style: GoogleFonts.lato(
                                                   color: baseColors.errorColor,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: baseFontSize.subtitle

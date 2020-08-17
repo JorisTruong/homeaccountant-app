@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/components/main_card_icon.dart';
 import 'package:homeaccountantapp/const.dart';
@@ -39,11 +40,11 @@ class MainCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: baseFontSize.title2)
+                    style: GoogleFonts.lato(color: color, fontWeight: FontWeight.bold, fontSize: baseFontSize.title2)
                   ),
                   Text(
                     amount,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
+                    style: GoogleFonts.lato(fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
                   )
                 ]
               ),
@@ -58,11 +59,11 @@ class MainCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: baseFontSize.title2),
+                    style: GoogleFonts.lato(color: color, fontWeight: FontWeight.bold, fontSize: baseFontSize.title2),
                   ),
                   Text(
                     amount,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
+                    style: GoogleFonts.lato(fontWeight: FontWeight.bold, fontSize: baseFontSize.title)
                   )
                 ]
               )

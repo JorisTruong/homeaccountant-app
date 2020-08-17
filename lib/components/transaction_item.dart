@@ -102,20 +102,20 @@ class TransactionItem extends StatelessWidget {
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(transactions[index].date, style: TextStyle(fontSize: baseFontSize.text2)),
+                                    Text(transactions[index].date, style: GoogleFonts.lato(fontSize: baseFontSize.text2)),
                                     Text(
                                       transactions[index].transactionName != null ? transactions[index].transactionName : '',
-                                      style: TextStyle(fontSize: baseFontSize.subtitle, fontWeight: FontWeight.bold)
+                                      style: GoogleFonts.lato(fontSize: baseFontSize.subtitle, fontWeight: FontWeight.bold)
                                     ),
                                   ]
                                 ),
                                 subtitle: transactions[index].description == null ?
                                   null :
-                                  Text(transactions[index].description, style: TextStyle(fontSize: baseFontSize.text2)),
+                                  Text(transactions[index].description, style: GoogleFonts.lato(fontSize: baseFontSize.text2)),
                                 /// Amount of the transaction
                                 trailing: Text(
                                   (transactions[index].isExpense ? '' : '+') + transactions[index].amount.toString(),
-                                  style: TextStyle(
+                                  style: GoogleFonts.lato(
                                     fontSize: baseFontSize.subtitle,
                                     fontWeight: FontWeight.bold,
                                     color: transactions[index].isExpense ? baseColors.red : baseColors.green

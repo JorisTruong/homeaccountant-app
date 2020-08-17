@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 
@@ -27,6 +28,7 @@ class _PointTabBarState extends State<PointTabBar> with TickerProviderStateMixin
       indicator: CircleTabIndicator(color: baseColors.mainColor, radius: 3),
       indicatorColor: baseColors.mainColor,
       labelColor: baseColors.mainColor,
+      labelStyle: GoogleFonts.lato(fontSize: baseFontSize.text),
       controller: widget.tabController,
       tabs: List.generate(widget.tabsName.length, (int i) {
         return Tab(

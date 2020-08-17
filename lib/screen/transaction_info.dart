@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'dart:math' as math;
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -168,7 +169,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                             hint: Text(
                                                               'Account',
                                                               textAlign: TextAlign.center,
-                                                              style: TextStyle(color: baseColors.secondaryColor)
+                                                              style: GoogleFonts.lato(color: baseColors.secondaryColor)
                                                             ),
                                                             isDense: false,
                                                             onTap: () {
@@ -271,7 +272,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                         ),
                                         errorIsExpense ? Text(
                                           'Select a transaction type',
-                                          style: TextStyle(
+                                          style: GoogleFonts.lato(
                                             color: baseColors.errorColor,
                                             fontSize: baseFontSize.text
                                           ),
@@ -302,7 +303,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                             hint: Text(
                                                               'Category',
                                                               textAlign: TextAlign.center,
-                                                              style: TextStyle(color: baseColors.secondaryColor)
+                                                              style: GoogleFonts.lato(color: baseColors.secondaryColor)
                                                             ),
                                                             isDense: false,
                                                             onTap: () {
@@ -438,7 +439,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               },
                                               child: Text(
                                                 _store.state.isCreatingTransaction ? 'CANCEL' : 'DELETE',
-                                                style: TextStyle(
+                                                style: GoogleFonts.lato(
                                                   fontSize: baseFontSize.text,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white
@@ -515,7 +516,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                               },
                                               child: Text(
                                                 'VALIDATE',
-                                                style: TextStyle(
+                                                style: GoogleFonts.lato(
                                                   fontSize: baseFontSize.text,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white

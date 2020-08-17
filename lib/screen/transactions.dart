@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -82,7 +83,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                   if (snapshot.hasData) {
                                     return Text(
                                       snapshot.data.toStringAsFixed(2) + " €",
-                                      style: TextStyle(
+                                      style: GoogleFonts.lato(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: baseFontSize.title
@@ -103,7 +104,7 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                             children: [
                               Text(
                                 "Balance",
-                                style: TextStyle(
+                                style: GoogleFonts.lato(
                                   color: baseColors.borderColor,
                                   fontSize: baseFontSize.subtitle
                                 )
@@ -155,15 +156,15 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                                       items: [
                                                         DropdownMenuItem<String>(
                                                           value: 'Day',
-                                                          child: Text('Day', style: TextStyle(fontSize: baseFontSize.text))
+                                                          child: Text('Day', style: GoogleFonts.lato(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Month',
-                                                          child: Text('Month', style: TextStyle(fontSize: baseFontSize.text))
+                                                          child: Text('Month', style: GoogleFonts.lato(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Year',
-                                                          child: Text('Year', style: TextStyle(fontSize: baseFontSize.text))
+                                                          child: Text('Year', style: GoogleFonts.lato(fontSize: baseFontSize.text))
                                                         )
                                                       ]
                                                     )
@@ -204,10 +205,10 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                                         alignLabelWithHint: true,
                                                         border: OutlineInputBorder(borderSide: BorderSide.none),
                                                         hintText: 'Date',
-                                                        hintStyle: TextStyle(color: baseColors.mainColor)
+                                                        hintStyle: GoogleFonts.lato(color: baseColors.mainColor)
                                                       ),
                                                       textAlign: TextAlign.center,
-                                                      style: TextStyle(fontSize: baseFontSize.text),
+                                                      style: GoogleFonts.lato(fontSize: baseFontSize.text),
                                                       onTap: () async {
                                                         if (_store.state.dateRangeType == 'Day') {
                                                           showDayDatePicker(context, _store);
@@ -259,15 +260,15 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                                       items: [
                                                         DropdownMenuItem<String>(
                                                           value: 'All',
-                                                          child: Text('All', style: TextStyle(fontSize: baseFontSize.text))
+                                                          child: Text('All', style: GoogleFonts.lato(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Expenses',
-                                                          child: Text('Expenses', style: TextStyle(fontSize: baseFontSize.text))
+                                                          child: Text('Expenses', style: GoogleFonts.lato(fontSize: baseFontSize.text))
                                                         ),
                                                         DropdownMenuItem<String>(
                                                           value: 'Income',
-                                                          child: Text('Income', style: TextStyle(fontSize: baseFontSize.text))
+                                                          child: Text('Income', style: GoogleFonts.lato(fontSize: baseFontSize.text))
                                                         )
                                                       ]
                                                     )

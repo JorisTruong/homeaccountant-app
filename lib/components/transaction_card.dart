@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/components/transaction_item.dart';
@@ -54,7 +55,7 @@ class TransactionCard extends StatelessWidget {
                           /// Displays the month and year
                           child: Text(
                             month,
-                            style: TextStyle(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title),
+                            style: GoogleFonts.lato(color: baseColors.mainColor, fontWeight: FontWeight.bold, fontSize: baseFontSize.title),
                           ),
                         ),
                         Padding(

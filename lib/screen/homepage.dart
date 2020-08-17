@@ -5,6 +5,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'dart:math' as math;
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -47,20 +48,34 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Column(
       children: <Widget>[
         ListTile(
-          title: Text(transactionSummary['date']),
+          dense: true,
+          title: Text(
+            transactionSummary['date'],
+            style: GoogleFonts.lato(fontSize: baseFontSize.text)
+          ),
           subtitle: (transactionSummary['date'].length == 10) ?
-            Text(DateFormat('EEEE').format(DateTime.parse(transactionSummary['date']))) :
+            Text(
+              DateFormat('EEEE').format(DateTime.parse(transactionSummary['date'])),
+              style: GoogleFonts.lato(fontSize: baseFontSize.text2)
+            ) :
             transactionSummary['date'].length ==  7 ?
-            Text(getMonth(transactionSummary['date'].split('-')[1])) :
+            Text(
+              getMonth(transactionSummary['date'].split('-')[1]),
+              style: GoogleFonts.lato(fontSize: baseFontSize.text2)
+            ) :
             null,
           trailing: Wrap(
             spacing: 12,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Transform.rotate(
                 angle: math.pi / 1.35,
                 child: Icon(Icons.undo, color: baseColors.green)
               ),
-              Text(transactionSummary['total_income'].toStringAsFixed(2)),
+              Text(
+                transactionSummary['total_income'].toStringAsFixed(2),
+                style: GoogleFonts.lato(fontSize: baseFontSize.text)
+              ),
               Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.rotationY(math.pi),
@@ -72,11 +87,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   )
                 )
               ),
-              Text(transactionSummary['total_expenses'].toStringAsFixed(2))
+              Text(
+                transactionSummary['total_expenses'].toStringAsFixed(2),
+                style: GoogleFonts.lato(fontSize: baseFontSize.text)
+              )
             ]
-          )
+          ),
         ),
-        Divider(thickness: 2)
+        Divider(
+          thickness: 1,
+          height: 5,
+        )
       ],
     );
   }
@@ -147,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 if (snapshot.hasData) {
                                   return Text(
                                     snapshot.data.toStringAsFixed(2) + " €",
-                                    style: TextStyle(
+                                    style: GoogleFonts.lato(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: baseFontSize.title
@@ -168,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           children: [
                             Text(
                               "Total balance",
-                              style: TextStyle(
+                              style: GoogleFonts.lato(
                                 color: baseColors.borderColor,
                                 fontSize: baseFontSize.subtitle
                               )
@@ -199,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           if (snapshot.hasData) {
                                             return Text(
                                               "+" + snapshot.data.toStringAsFixed(2) + " €",
-                                              style: TextStyle(
+                                              style: GoogleFonts.lato(
                                                   fontSize: baseFontSize.title2,
                                                   fontWeight: FontWeight.bold,
                                                   color: baseColors.green
@@ -212,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       ),
                                       Text(
                                         "Income",
-                                        style: TextStyle(
+                                        style: GoogleFonts.lato(
                                           fontSize: baseFontSize.text,
                                           color: baseColors.secondaryColor
                                         ),
@@ -237,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           if (snapshot.hasData) {
                                             return Text(
                                               "-" + snapshot.data.toStringAsFixed(2) + " €",
-                                              style: TextStyle(
+                                              style: GoogleFonts.lato(
                                                   fontSize: baseFontSize.title2,
                                                   fontWeight: FontWeight.bold,
                                                   color: baseColors.red
@@ -250,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       ),
                                       Text(
                                         "Expenses",
-                                        style: TextStyle(
+                                        style: GoogleFonts.lato(
                                           fontSize: baseFontSize.text,
                                           color: baseColors.secondaryColor
                                         ),

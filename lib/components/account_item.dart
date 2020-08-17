@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -65,13 +66,13 @@ class AccountItem extends StatelessWidget {
                     children: [
                       Text(
                         account.accountName,
-                        style: TextStyle(fontSize: baseFontSize.subtitle, fontWeight: FontWeight.bold)
+                        style: GoogleFonts.lato(fontSize: baseFontSize.subtitle, fontWeight: FontWeight.bold)
                       ),
                     ]
                   ),
                   subtitle: account.accountAcronym == null ?
                     null :
-                    Text(account.accountAcronym, style: TextStyle(fontSize: baseFontSize.text2)),
+                    Text(account.accountAcronym, style: GoogleFonts.lato(fontSize: baseFontSize.text2)),
                   /// Navigates to the update page on tap
                   onTap: () async {
                     _store.dispatch(IsCreatingAccount(false));

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -51,7 +52,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                 },
                 child: Text(
                   'MANAGE ACCOUNTS',
-                  style: TextStyle(
+                  style: GoogleFonts.lato(
                       fontSize: baseFontSize.text,
                       fontWeight: FontWeight.bold,
                       color: Colors.white
@@ -111,7 +112,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                                   hint: Text(
                                     'Account',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(color: baseColors.secondaryColor)
+                                    style: GoogleFonts.lato(color: baseColors.secondaryColor)
                                   ),
                                   isDense: false,
                                   onTap: () {
@@ -153,7 +154,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                     },
                     child: Text(
                       'CANCEL',
-                      style: TextStyle(
+                      style: GoogleFonts.lato(
                         fontSize: baseFontSize.text,
                         fontWeight: FontWeight.bold,
                         color: Colors.white
@@ -173,7 +174,7 @@ class _AccountPanelState extends State<AccountPanel> with TickerProviderStateMix
                     },
                     child: Text(
                       'VALIDATE',
-                      style: TextStyle(
+                      style: GoogleFonts.lato(
                         fontSize: baseFontSize.text,
                         fontWeight: FontWeight.bold,
                         color: Colors.white

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 
@@ -27,7 +28,7 @@ class MainCardIcon extends StatelessWidget {
       child: Center(
         child: (icon is String) ? Text(
           icon,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: baseFontSize.title)
+          style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: Colors.white, fontSize: baseFontSize.title)
         ) : Icon(
           icon,
           color: Colors.white,
