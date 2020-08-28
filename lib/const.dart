@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 /// Navigation options
 List options = [
   {'name': 'Home', 'icon': Icons.home},
-  {'name': 'Transactions', 'icon': Icons.done_all},
   {'name': 'Graphs', 'icon': Icons.pie_chart},
   {'name': 'Settings', 'icon': Icons.settings}
 ];
