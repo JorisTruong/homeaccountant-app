@@ -17,8 +17,11 @@ class GenericHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: baseColors.mainColor,
+        border: Border.all(width: 0),
+      ),
       height: MediaQuery.of(context).size.height * 0.15,
-      color: baseColors.mainColor,
       padding: EdgeInsets.all(20),
       child: Stack(
         children: [

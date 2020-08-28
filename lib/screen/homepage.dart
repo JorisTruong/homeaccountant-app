@@ -153,8 +153,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               child: Column(
                 children: <Widget>[
                   Container(
+                    decoration: BoxDecoration(
+                      color: baseColors.mainColor,
+                      border: Border.all(width: 0),
+                    ),
                     height: MediaQuery.of(context).size.height * 0.25,
-                    color: baseColors.mainColor,
                     padding: EdgeInsets.all(20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                                       physics: BouncingScrollPhysics(),
                                       shrinkWrap: true,
                                       children: [
-                                        Material(
+                                        Card(
                                           child: ListTile(
                                             title: Text('Accounts'),
                                             trailing: Icon(Icons.keyboard_arrow_right),
@@ -66,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                                             },
                                           )
                                         ),
-                                        Material(
+                                        Card(
                                           child: ListTile(
                                             title: Text('Categories'),
                                             trailing: Icon(Icons.keyboard_arrow_right),
