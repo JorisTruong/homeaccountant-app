@@ -61,29 +61,32 @@ class PieChartCardState extends State<PieChartCard> {
                               letterSpacing: 2
                             ),
                             textAlign: TextAlign.center,
-                          )
+                          ),
                         ],
                       ),
                       Align(
                         alignment: Alignment.center,
-                        child: PieChart(
-                          PieChartData(
-                            pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                              setState(() {
-                                if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                                    pieTouchResponse.touchInput is FlPanEnd) {
-                                  touchedIndex = -1;
-                                } else {
-                                  touchedIndex = pieTouchResponse.touchedSectionIndex;
-                                }
-                              });
-                            }),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                            sectionsSpace: widget.income.every((element) => element['percentage'] == 0) || widget.income.any((element) => element['percentage'] == 100) ? 0 : 3,
-                            centerSpaceRadius: 0,
-                            sections: showingIncomeSections(widget.store)
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: PieChart(
+                            PieChartData(
+                              pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                                setState(() {
+                                  if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                      pieTouchResponse.touchInput is FlPanEnd) {
+                                    touchedIndex = -1;
+                                  } else {
+                                    touchedIndex = pieTouchResponse.touchedSectionIndex;
+                                  }
+                                });
+                              }),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: widget.income.every((element) => element['percentage'] == 0) || widget.income.any((element) => element['percentage'] == 100) ? 0 : 3,
+                              centerSpaceRadius: 0,
+                              sections: showingIncomeSections(widget.store)
+                            )
                           )
                         )
                       )
@@ -112,24 +115,27 @@ class PieChartCardState extends State<PieChartCard> {
                       ),
                       Align(
                         alignment: Alignment.center,
-                        child: PieChart(
-                          PieChartData(
-                            pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                              setState(() {
-                                if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                                    pieTouchResponse.touchInput is FlPanEnd) {
-                                  touchedIndex = -1;
-                                } else {
-                                  touchedIndex = pieTouchResponse.touchedSectionIndex;
-                                }
-                              });
-                            }),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                            sectionsSpace: widget.expenses.every((element) => element['percentage'] == 0) || widget.expenses.any((element) => element['percentage'] == 100) ? 0 : 3,
-                            centerSpaceRadius: 0,
-                            sections: showingExpensesSections(widget.store)
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: PieChart(
+                            PieChartData(
+                              pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                                setState(() {
+                                  if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                      pieTouchResponse.touchInput is FlPanEnd) {
+                                    touchedIndex = -1;
+                                  } else {
+                                    touchedIndex = pieTouchResponse.touchedSectionIndex;
+                                  }
+                                });
+                              }),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: widget.expenses.every((element) => element['percentage'] == 0) || widget.expenses.any((element) => element['percentage'] == 100) ? 0 : 3,
+                              centerSpaceRadius: 0,
+                              sections: showingExpensesSections(widget.store)
+                            )
                           )
                         )
                       )
@@ -247,15 +253,16 @@ class PieChartCardState extends State<PieChartCard> {
     } else {
       return List.generate(widget.expenses.length, (i) {
         final isTouched = i == touchedIndex;
-        final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
-        final double radius = isTouched ? MediaQuery.of(context).size.width/proportion + 10 : MediaQuery.of(context).size.width/proportion;
+        final double fontSize = isTouched ? baseFontSize.subtitle : baseFontSize.text;
+        final double radius = isTouched ? MediaQuery.of(context).size.width/proportion + 5 : MediaQuery.of(context).size.width/proportion;
         return PieChartSectionData(
           color: getCategoryColor(i),
           value: widget.expenses[i]['percentage'].toDouble(),
           title: formatPercentage(widget.expenses[i]['percentage']),
+          titlePositionPercentageOffset: 1.3,
           radius: radius,
           titleStyle: GoogleFonts.lato(
-              fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white
+            fontSize: fontSize, fontWeight: FontWeight.bold, color: baseColors.mainColor
           ),
         );
       });
