@@ -6,12 +6,16 @@ import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'dart:math' as math;
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:expandable/expandable.dart';
 
 import 'package:homeaccountantapp/const.dart';
+import 'package:homeaccountantapp/icons_list.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/point_tab_bar.dart';
 import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/queries/categories.dart';
+import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -45,60 +49,189 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget _itemBuilder(BuildContext context, dynamic transactionSummary, _) {
-    return Column(
-      children: <Widget>[
-        ListTile(
-          dense: true,
-          title: Text(
-            transactionSummary['date'],
-            style: GoogleFonts.lato(fontSize: baseFontSize.text)
-          ),
-          subtitle: (transactionSummary['date'].length == 10) ?
-            Text(
-              DateFormat('EEEE').format(DateTime.parse(transactionSummary['date'])),
-              style: GoogleFonts.lato(fontSize: baseFontSize.text2)
-            ) :
-            transactionSummary['date'].length ==  7 ?
-            Text(
-              getMonth(transactionSummary['date'].split('-')[1]),
-              style: GoogleFonts.lato(fontSize: baseFontSize.text2)
-            ) :
-            null,
-          trailing: Wrap(
-            spacing: 12,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Transform.rotate(
-                angle: math.pi / 1.35,
-                child: Icon(Icons.undo, color: baseColors.green)
-              ),
-              Text(
-                transactionSummary['total_income'].toStringAsFixed(2),
-                style: GoogleFonts.lato(fontSize: baseFontSize.text)
-              ),
-              Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.rotationY(math.pi),
-                child: Transform.rotate(
-                  angle: -math.pi / 4,
-                  child: Transform.translate(
-                    offset: Offset(0.0, -5),
-                    child: Icon(Icons.undo, color: baseColors.red)
-                  )
+    Store<AppState> _store = getStore(context);
+    ExpandableController expandableController = ExpandableController(initialExpanded: false);
+    String type = transactionSummary['date'].length == 10 ? 'Day' : transactionSummary['date'].length == 7 ? 'Month' : 'Year';
+    DateTime dateTime = type == 'Year' ?
+      DateFormat('yyyy').parse(transactionSummary['date']) :
+      type == 'Month' ?
+      DateFormat('yyyy-MM').parse(transactionSummary['date']) :
+      DateTime.parse(transactionSummary['date']);
+    Map<String, String> dateRange = dateToDateRange(type, dateTime);
+    return FutureBuilder(
+      future: readTransactions(databaseClient.db, dateRange, _store.state.accountId),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.hasData) {
+          return Card(
+            child: ExpandableNotifier(
+              controller: expandableController,
+              child: ScrollOnExpand(
+                child: ExpandablePanel(
+                  header: ListTile(
+                    dense: true,
+                    title: Text(
+                      transactionSummary['date'],
+                      style: GoogleFonts.lato(fontSize: baseFontSize.text)
+                    ),
+                    subtitle: (transactionSummary['date'].length == 10) ?
+                      Text(
+                        DateFormat('EEEE').format(DateTime.parse(transactionSummary['date'])),
+                        style: GoogleFonts.lato(fontSize: baseFontSize.text2)
+                      ) :
+                      transactionSummary['date'].length ==  7 ?
+                      Text(
+                        getMonth(transactionSummary['date'].split('-')[1]),
+                        style: GoogleFonts.lato(fontSize: baseFontSize.text2)
+                      ) :
+                      null,
+                    trailing: Wrap(
+                      spacing: 12,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Transform.rotate(
+                          angle: math.pi / 1.35,
+                          child: Icon(Icons.undo, color: baseColors.green)
+                        ),
+                        Text(
+                          transactionSummary['total_income'].toStringAsFixed(2),
+                          style: GoogleFonts.lato(fontSize: baseFontSize.text)
+                        ),
+                        Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.rotationY(math.pi),
+                          child: Transform.rotate(
+                            angle: -math.pi / 4,
+                            child: Transform.translate(
+                              offset: Offset(0.0, -5),
+                              child: Icon(Icons.undo, color: baseColors.red)
+                            )
+                          )
+                        ),
+                        Text(
+                          transactionSummary['total_expenses'].toStringAsFixed(2),
+                          style: GoogleFonts.lato(fontSize: baseFontSize.text)
+                        )
+                      ]
+                    )
+                  ),
+                  expanded: Column(
+                    children: [
+                      Divider(color: baseColors.mainColor, height: 1),
+                      ListView.separated(
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 5,
+                          );
+                        },
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.all(5),
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return FutureBuilder(
+                            future: snapshot.data[index].subcategoryId == null ?
+                              categoryFromId(databaseClient.db, snapshot.data[index].categoryId) :
+                              Future.wait([
+                                categoryFromId(databaseClient.db, snapshot.data[index].categoryId),
+                                subcategoryFromId(databaseClient.db, snapshot.data[index].subcategoryId)
+                              ]),
+                            builder: (BuildContext context, AsyncSnapshot<dynamic> tags) {
+                              if (tags.hasData) {
+                                return Material(
+                                  color: baseColors.tertiaryColor,
+                                  child: ListTile(
+                                    onTap: () {
+                                      print(snapshot.data[index].transactionId);
+                                    },
+                                    leading: Container(
+                                      height: 50,
+                                      width: 50,
+                                      alignment: Alignment.center,
+                                      child: Wrap(
+                                        direction: Axis.vertical,
+                                        crossAxisAlignment: WrapCrossAlignment.center,
+                                        alignment: WrapAlignment.center,
+                                        children: [
+                                          snapshot.data[index].subcategoryId == null ?
+                                          Icon(
+                                            snapshot.data[index].subcategoryId == null ? icons_list[tags.data.categoryIconId] : icons_list[tags.data[0].categoryIconId],
+                                            color: getCategoryColor(snapshot.data[index].categoryId),
+                                          )
+                                          :
+                                          Icon(
+                                            icons_list[tags.data[1].subcategoryIconId],
+                                            color: getCategoryColor(snapshot.data[index].categoryId)
+                                          ),
+                                          snapshot.data[index].subcategoryId == null ?
+                                          Text(
+                                            tags.data.categoryName,
+                                            style: GoogleFonts.lato(
+                                              color: baseColors.mainColor,
+                                              fontSize: baseFontSize.text2
+                                            )
+                                          ) :
+                                          Text(
+                                            tags.data[0].categoryName,
+                                            style: GoogleFonts.lato(
+                                              color: baseColors.mainColor,
+                                              fontSize: baseFontSize.text2
+                                            )
+                                          ),
+                                          snapshot.data[index].subcategoryId == null ? Container() :
+                                          Text(
+                                            tags.data[1].subcategoryName,
+                                            style: GoogleFonts.lato(
+                                              color: baseColors.mainColor,
+                                              fontSize: baseFontSize.legend
+                                            )
+                                          )
+                                        ]
+                                      )
+                                    ),
+                                    title: Text(
+                                      snapshot.data[index].transactionName,
+                                      style: GoogleFonts.lato(
+                                        color: baseColors.mainColor,
+                                        fontSize: baseFontSize.text
+                                      )
+                                    ),
+                                    subtitle: snapshot.data[index].description == '' ? null : Text(
+                                      snapshot.data[index].description,
+                                      style: GoogleFonts.lato(
+                                        color: baseColors.mainColor,
+                                        fontSize: baseFontSize.text
+                                      )
+                                    ),
+                                    trailing: Text(
+                                      (snapshot.data[index].isExpense ? '' : '+') + snapshot.data[index].amount.toStringAsFixed(2),
+                                      style: GoogleFonts.lato(
+                                        color: snapshot.data[index].isExpense ? baseColors.red : baseColors.green,
+                                        fontSize: baseFontSize.text,
+                                        fontWeight: FontWeight.bold
+                                      )
+                                    )
+                                  )
+                                );
+                              } else {
+                                return LoadingComponent(size: 1);
+                              }
+                            }
+                          );
+                        }
+                      )
+                    ]
+                  ),
+                  theme: ExpandableThemeData(
+                    headerAlignment: ExpandablePanelHeaderAlignment.center,
+                  ),
                 )
-              ),
-              Text(
-                transactionSummary['total_expenses'].toStringAsFixed(2),
-                style: GoogleFonts.lato(fontSize: baseFontSize.text)
               )
-            ]
-          ),
-        ),
-        Divider(
-          thickness: 1,
-          height: 5,
-        )
-      ],
+            )
+          );
+        } else {
+          return LoadingComponent();
+        }
+      }
     );
   }
 
@@ -121,16 +254,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       }
     );
     PagewiseLoadController monthlyPageLoadController = PagewiseLoadController(
-        pageSize: transactionsPageSize,
-        pageFuture: (pageIndex) async {
-          return readMonthlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
-        }
+      pageSize: transactionsPageSize,
+      pageFuture: (pageIndex) async {
+        return readMonthlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+      }
     );
     PagewiseLoadController yearlyPageLoadController = PagewiseLoadController(
-        pageSize: transactionsPageSize,
-        pageFuture: (pageIndex) async {
-          return readYearlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
-        }
+      pageSize: transactionsPageSize,
+      pageFuture: (pageIndex) async {
+        return readYearlyTransactions(databaseClient.db, _store.state.accountId, pageIndex * transactionsPageSize, transactionsPageSize);
+      }
     );
 
     return StoreConnector<AppState, List<String>>(

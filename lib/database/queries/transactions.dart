@@ -53,7 +53,7 @@ Future<List<models.Transaction>> getTransactionFromSubcategoryId(Database db, in
 /// Read all transactions of a certain account in a given date range.
 Future<List<models.Transaction>> readTransactions(Database db, Map<String, String> dateRange, int accountId) async {
   final List<Map<String, dynamic>> transactions = await db.rawQuery(
-    'SELECT * FROM transactions WHERE date >= ? AND date <= ? AND account_id = ?',
+    'SELECT * FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? ORDER BY date desc',
     [dateRange['from'], dateRange['to'], accountId]
   );
   return List.generate(transactions.length, (i) {
