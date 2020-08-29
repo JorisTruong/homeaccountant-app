@@ -381,7 +381,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               SizedBox(width: 30),
                               Expanded(
                                 child: Container(
-                                  decoration: new BoxDecoration(
+                                  decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(Radius.circular(10)),
                                     color: Colors.white
                                   ),
@@ -389,7 +389,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       FutureBuilder(
-                                        future: getTotalExpense(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                                        future: getTotalExpense(databaseClient.db, null, _store.state.accountId),
                                         builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                           if (snapshot.hasData) {
                                             return Text(

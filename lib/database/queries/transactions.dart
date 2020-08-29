@@ -177,9 +177,13 @@ Future<List<Map<String, dynamic>>> getExpensesAmount(Database db, Map<String, St
 
 /// Get the total amount of all expense transactions, from a given account and a given date range
 Future<double> getTotalExpense(Database db, Map<String, String> dateRange, int accountId) async {
-  double totalExpense = (await db.rawQuery(
+  double totalExpense = dateRange != null ? (await db.rawQuery(
     'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 1',
     [dateRange['from'], dateRange['to'], accountId]
+  ))[0]['total'] :
+  (await db.rawQuery(
+    'SELECT SUM(amount) as total FROM transactions WHERE account_id = ? AND is_expense = 1',
+    [accountId]
   ))[0]['total'];
   if (totalExpense == null) {
     return 0;
@@ -221,9 +225,13 @@ Future<List<Map<String, dynamic>>> getIncomeAmount(Database db, Map<String, Stri
 
 /// /// Get the total amount of all income transactions, from a given account and a given date range
 Future<double> getTotalIncome(Database db, Map<String, String> dateRange, int accountId) async {
-  double totalIncome = (await db.rawQuery(
+  double totalIncome = dateRange != null ? (await db.rawQuery(
     'SELECT SUM(amount) as total FROM transactions WHERE date >= ? AND date <= ? AND account_id = ? AND is_expense = 0',
     [dateRange['from'], dateRange['to'], accountId]
+  ))[0]['total'] :
+  (await db.rawQuery(
+    'SELECT SUM(amount) as total FROM transactions WHERE account_id = ? AND is_expense = 0',
+    [accountId]
   ))[0]['total'];
   if (totalIncome == null) {
     return 0;
