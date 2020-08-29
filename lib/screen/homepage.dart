@@ -299,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FutureBuilder(
-                              future: getTotalBalance(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                              future: getTotalBalance(databaseClient.db, null, _store.state.accountId),
                               builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                 if (snapshot.hasData) {
                                   return Text(
