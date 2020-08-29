@@ -81,7 +81,6 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
           onWillPop: () {
             resetState(_store);
             _store.dispatch(NavigatePopAction());
-            print(_store.state);
             return Future(() => true);
           },
           /// The GestureDetector is for removing the dropdown when tapping the screen.
@@ -142,293 +141,287 @@ class _CategoryInfoPageState extends State<CategoryInfoPage> with TickerProvider
                                     child: KeyboardAvoider(
                                       child: SingleChildScrollView(
                                         physics: BouncingScrollPhysics(),
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            return Container(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(25.0),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 7,
-                                                          child: Text(
-                                                            'Category',
-                                                            style: GoogleFonts.lato(
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: baseFontSize.text
-                                                            ),
-                                                          )
-                                                        ),
-                                                        Expanded(
-                                                          flex: 13,
-                                                          /// Dropdown to select the category
-                                                          child: DropdownButtonHideUnderline(
-                                                            child: ButtonTheme(
-                                                              alignedDropdown: true,
-                                                              child: Card(
-                                                                color: baseColors.tertiaryColor,
-                                                                margin: EdgeInsets.zero,
-                                                                shape: RoundedRectangleBorder(
-                                                                  side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.transparent)
-                                                                ),
-                                                                child: Row(
-                                                                  children: [
-                                                                    SizedBox(width: 15.0),
-                                                                    Icon(Icons.label, size: 18.0),
-                                                                    Expanded(
-                                                                      child: FutureBuilder(
-                                                                        future: readCategories(databaseClient.db),
-                                                                        builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
-                                                                          if (snapshot.hasData) {
-                                                                            return DropdownButton<int>(
-                                                                              icon: Icon(Icons.keyboard_arrow_down),
-                                                                              value: _store.state.categoryIndex,
-                                                                              hint: Text(
-                                                                                'Category',
-                                                                                textAlign: TextAlign.center,
-                                                                                style: GoogleFonts.lato(color: baseColors.secondaryColor, fontSize: baseFontSize.text)
-                                                                              ),
-                                                                              isDense: false,
-                                                                              onTap: () {
-                                                                                if (!currentFocus.hasPrimaryFocus) {
-                                                                                  currentFocus.unfocus();
-                                                                                }
-                                                                              },
-                                                                              onChanged: (int newValue) {
-                                                                                setState(() {
-                                                                                  errorCategory = false;
-                                                                                });
-                                                                                _store.dispatch(SelectCategory(newValue));
-                                                                                if (_store.state.categorySubcategoryIcon != null) {
-                                                                                  Color color = getCategoryColor(_store.state.categoryIndex) == null ?
-                                                                                      baseColors.mainColor :
-                                                                                      getCategoryColor(_store.state.categoryIndex);
-                                                                                  changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
-                                                                                }
-                                                                              },
-                                                                              items: List.generate(snapshot.data.length, (int index) {
-                                                                                return DropdownMenuItem<int>(
-                                                                                  value: snapshot.data[index].categoryId,
-                                                                                  child: Text(snapshot.data[index].categoryName, style: GoogleFonts.lato(fontSize: baseFontSize.text))
-                                                                                );
-                                                                              })
-                                                                            );
-                                                                          } else {
-                                                                            return Container();
+                                        child: Container(
+                                          padding: EdgeInsets.all(25.0),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 7,
+                                                    child: Text(
+                                                      'Category',
+                                                      style: GoogleFonts.lato(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: baseFontSize.text
+                                                      ),
+                                                    )
+                                                  ),
+                                                  Expanded(
+                                                    flex: 13,
+                                                    /// Dropdown to select the category
+                                                    child: DropdownButtonHideUnderline(
+                                                      child: ButtonTheme(
+                                                        alignedDropdown: true,
+                                                        child: Card(
+                                                          color: baseColors.tertiaryColor,
+                                                          margin: EdgeInsets.zero,
+                                                          shape: RoundedRectangleBorder(
+                                                            side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.transparent)
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(width: 15.0),
+                                                              Icon(Icons.label, size: 18.0),
+                                                              Expanded(
+                                                                child: FutureBuilder(
+                                                                  future: readCategories(databaseClient.db),
+                                                                  builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                                                                    if (snapshot.hasData) {
+                                                                      return DropdownButton<int>(
+                                                                        icon: Icon(Icons.keyboard_arrow_down),
+                                                                        value: _store.state.categoryIndex,
+                                                                        hint: Text(
+                                                                          'Category',
+                                                                          textAlign: TextAlign.center,
+                                                                          style: GoogleFonts.lato(color: baseColors.secondaryColor, fontSize: baseFontSize.text)
+                                                                        ),
+                                                                        isDense: false,
+                                                                        onTap: () {
+                                                                          if (!currentFocus.hasPrimaryFocus) {
+                                                                            currentFocus.unfocus();
                                                                           }
-                                                                        }
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(width: 15.0)
-                                                                  ],
-                                                                )
-                                                              )
-                                                            )
-                                                          )
-                                                        ),
-                                                      ]
-                                                    ),
-                                                    SizedBox(height: 12.0),
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 7,
-                                                          child: Text(
-                                                            'Subcategory',
-                                                            style: GoogleFonts.lato(
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: baseFontSize.text,
-                                                            ),
-                                                          )
-                                                        ),
-                                                        Expanded(
-                                                          flex: 13,
-                                                          /// Name of the subcategory
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                              color: baseColors.tertiaryColor,
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                  color: Colors.grey.withOpacity(0.35),
-                                                                  spreadRadius: 0,
-                                                                  blurRadius: 0,
-                                                                  offset: Offset(1, 1), // changes position of shadow
+                                                                        },
+                                                                        onChanged: (int newValue) {
+                                                                          setState(() {
+                                                                            errorCategory = false;
+                                                                          });
+                                                                          _store.dispatch(SelectCategory(newValue));
+                                                                          if (_store.state.categorySubcategoryIcon != null) {
+                                                                            Color color = getCategoryColor(_store.state.categoryIndex) == null ?
+                                                                              baseColors.mainColor :
+                                                                              getCategoryColor(_store.state.categoryIndex);
+                                                                            changeIcon(_store.state.categorySubcategoryIcon.icon, color, _store);
+                                                                          }
+                                                                        },
+                                                                        items: List.generate(snapshot.data.length, (int index) {
+                                                                          return DropdownMenuItem<int>(
+                                                                            value: snapshot.data[index].categoryId,
+                                                                            child: Text(snapshot.data[index].categoryName, style: GoogleFonts.lato(fontSize: baseFontSize.text))
+                                                                          );
+                                                                        })
+                                                                      );
+                                                                    } else {
+                                                                      return Container();
+                                                                    }
+                                                                  }
                                                                 ),
-                                                              ],
-                                                            ),
-                                                            child: TextField(
-                                                              controller: _store.state.categorySubcategoryText,
-                                                              style: GoogleFonts.lato(fontSize: baseFontSize.text),
-                                                              decoration: InputDecoration(
-                                                                errorText: errorSubcategory ? '' : null,
-                                                                errorStyle: GoogleFonts.lato(height: 0),
-                                                                isDense: false,
-                                                                alignLabelWithHint: true,
-                                                                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: baseColors.errorColor)),
-                                                                border: OutlineInputBorder(borderSide: BorderSide.none),
-                                                                contentPadding: EdgeInsets.only(right: 20.0),
-                                                                hintText: 'Subcategory',
-                                                                prefixIcon: Icon(Icons.turned_in, color: baseColors.mainColor),
                                                               ),
-                                                              onChanged: (string) {
-                                                                setState(() {
-                                                                  errorSubcategory = false;
-                                                                });
-                                                              },
-                                                            )
+                                                              SizedBox(width: 15.0)
+                                                            ],
                                                           )
                                                         )
-                                                      ]
-                                                    ),
-                                                    SizedBox(height: 12.0),
-                                                    _store.state.categorySubcategoryIcon == null ? SizedBox(height: 12.0) : Column(
-                                                      children: [
-                                                        SizedBox(height: 12.0),
-                                                        _store.state.categorySubcategoryIcon
-                                                      ]
-                                                    ),
-                                                    SizedBox(height: 12.0),
-                                                    /// Icon of the subcategory
-                                                    RaisedButton(
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          errorIcon = false;
-                                                        });
-                                                        _pickIcon(_store);
-                                                      },
-                                                      child: Text(
-                                                        'Pick an icon',
-                                                        style: GoogleFonts.lato(
-                                                          fontSize: baseFontSize.text,
-                                                          color: Colors.white
-                                                        )
+                                                      )
+                                                    )
+                                                  ),
+                                                ]
+                                              ),
+                                              SizedBox(height: 12.0),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 7,
+                                                    child: Text(
+                                                      'Subcategory',
+                                                      style: GoogleFonts.lato(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: baseFontSize.text,
                                                       ),
-                                                      color: baseColors.blue,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(40.0),
+                                                    )
+                                                  ),
+                                                  Expanded(
+                                                    flex: 13,
+                                                    /// Name of the subcategory
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: baseColors.tertiaryColor,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey.withOpacity(0.35),
+                                                            spreadRadius: 0,
+                                                            blurRadius: 0,
+                                                            offset: Offset(1, 1), // changes position of shadow
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      errorIcon ? 'Choose an icon' : '',
+                                                      child: TextField(
+                                                        controller: _store.state.categorySubcategoryText,
+                                                        style: GoogleFonts.lato(fontSize: baseFontSize.text),
+                                                        decoration: InputDecoration(
+                                                          errorText: errorSubcategory ? '' : null,
+                                                          errorStyle: GoogleFonts.lato(height: 0),
+                                                          isDense: false,
+                                                          alignLabelWithHint: true,
+                                                          errorBorder: OutlineInputBorder(borderSide: BorderSide(color: baseColors.errorColor)),
+                                                          border: OutlineInputBorder(borderSide: BorderSide.none),
+                                                          contentPadding: EdgeInsets.only(right: 20.0),
+                                                          hintText: 'Subcategory',
+                                                          prefixIcon: Icon(Icons.turned_in, color: baseColors.mainColor),
+                                                        ),
+                                                        onChanged: (string) {
+                                                          setState(() {
+                                                            errorSubcategory = false;
+                                                          });
+                                                        },
+                                                      )
+                                                    )
+                                                  )
+                                                ]
+                                              ),
+                                              SizedBox(height: 12.0),
+                                              _store.state.categorySubcategoryIcon == null ? SizedBox(height: 12.0) : Column(
+                                                children: [
+                                                  SizedBox(height: 12.0),
+                                                  _store.state.categorySubcategoryIcon
+                                                ]
+                                              ),
+                                              SizedBox(height: 12.0),
+                                              /// Icon of the subcategory
+                                              RaisedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    errorIcon = false;
+                                                  });
+                                                  _pickIcon(_store);
+                                                },
+                                                child: Text(
+                                                  'Pick an icon',
+                                                  style: GoogleFonts.lato(
+                                                    fontSize: baseFontSize.text,
+                                                    color: Colors.white
+                                                  )
+                                                ),
+                                                color: baseColors.blue,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(40.0),
+                                                ),
+                                              ),
+                                              Text(
+                                                errorIcon ? 'Choose an icon' : '',
+                                                style: GoogleFonts.lato(
+                                                  fontSize: baseFontSize.text,
+                                                  color: baseColors.errorColor
+                                                ),
+                                              ),
+                                              SizedBox(height: 24.0),
+                                              /// Validate and cancel the operation
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  RaisedButton(
+                                                    onPressed: () {
+                                                      if (!_store.state.isCreatingSubcategory) {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return AlertDialog(
+                                                              title: Text('Are you sure ?'),
+                                                              content: Text('Deleting this subcategory will affect the transactions that are tagged with this subcategory. Are you sure you want to delete this subcategory?'),
+                                                              actions: [
+                                                                FlatButton(
+                                                                  child: Text('Cancel'),
+                                                                  onPressed: () {
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                ),
+                                                                FlatButton(
+                                                                  child: Text('Confirm'),
+                                                                  onPressed: () async {
+                                                                    await deleteSubcategory(databaseClient.db, _store.state.categorySubcategoryId);
+                                                                    resetState(_store);
+                                                                    _store.dispatch(NavigatePopAction());
+                                                                    Navigator.of(context).pop();
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                )
+                                                              ],
+                                                            );
+                                                          }
+                                                        );
+                                                      } else {
+                                                        resetState(_store);
+                                                        _store.dispatch(NavigatePopAction());
+                                                        Navigator.of(context).pop();
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      _store.state.isCreatingSubcategory ? 'CANCEL' : 'DELETE',
                                                       style: GoogleFonts.lato(
                                                         fontSize: baseFontSize.text,
-                                                        color: baseColors.errorColor
-                                                      ),
+                                                        color: Colors.white
+                                                      )
                                                     ),
-                                                    SizedBox(height: 24.0),
-                                                    /// Validate and cancel the operation
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      children: [
-                                                        RaisedButton(
-                                                          onPressed: () {
-                                                            if (!_store.state.isCreatingSubcategory) {
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-                                                                  return AlertDialog(
-                                                                    title: Text('Are you sure ?'),
-                                                                    content: Text('Deleting this subcategory will affect the transactions that are tagged with this subcategory. Are you sure you want to delete this subcategory?'),
-                                                                    actions: [
-                                                                      FlatButton(
-                                                                        child: Text('Cancel'),
-                                                                        onPressed: () {
-                                                                          Navigator.of(context).pop();
-                                                                        },
-                                                                      ),
-                                                                      FlatButton(
-                                                                        child: Text('Confirm'),
-                                                                        onPressed: () async {
-                                                                          await deleteSubcategory(databaseClient.db, _store.state.categorySubcategoryId);
-                                                                          resetState(_store);
-                                                                          _store.dispatch(NavigatePopAction());
-                                                                          Navigator.of(context).pop();
-                                                                          Navigator.of(context).pop();
-                                                                        },
-                                                                      )
-                                                                    ],
-                                                                  );
-                                                                }
-                                                              );
-                                                            } else {
-                                                              resetState(_store);
-                                                              _store.dispatch(NavigatePopAction());
-                                                              Navigator.of(context).pop();
-                                                            }
-                                                          },
-                                                          child: Text(
-                                                            _store.state.isCreatingSubcategory ? 'CANCEL' : 'DELETE',
-                                                            style: GoogleFonts.lato(
-                                                              fontSize: baseFontSize.text,
-                                                              color: Colors.white
-                                                            )
-                                                          ),
-                                                          color: baseColors.red,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(40.0),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 12.0),
-                                                        RaisedButton(
-                                                          onPressed: () async {
-                                                            if (_store.state.categoryIndex == null) {
-                                                              setState(() {
-                                                                errorCategory = true;
-                                                              });
-                                                            }
-                                                            if (_store.state.categorySubcategoryText.text == '') {
-                                                              setState(() {
-                                                                errorSubcategory = true;
-                                                              });
-                                                            }
-                                                            if (_store.state.categorySubcategoryIcon == null) {
-                                                              setState(() {
-                                                                errorIcon = true;
-                                                              });
-                                                            }
-                                                            if (!errorCategory && !errorSubcategory && !errorIcon){
-                                                              if (_store.state.isCreatingSubcategory) {
-                                                                Subcategory subcategory = Subcategory(
-                                                                  categoryId: _store.state.categoryIndex,
-                                                                  subcategoryName: _store.state.categorySubcategoryText.text,
-                                                                  subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
-                                                                );
-                                                                await createSubcategory(databaseClient.db, subcategory);
-                                                              } else {
-                                                                Subcategory subcategory = Subcategory(
-                                                                  subcategoryId: _store.state.categorySubcategoryId,
-                                                                  categoryId: _store.state.categoryIndex,
-                                                                  subcategoryName: _store.state.categorySubcategoryText.text,
-                                                                  subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
-                                                                );
-                                                                await updateSubcategory(databaseClient.db, subcategory);
-                                                              }
-                                                              _store.dispatch(NavigatePopAction());
-                                                              resetState(_store);
-                                                              Navigator.of(context).pop();
-                                                            }
-                                                          },
-                                                          child: Text(
-                                                            'VALIDATE',
-                                                            style: GoogleFonts.lato(
-                                                              fontSize: baseFontSize.text,
-                                                              color: Colors.white
-                                                            )
-                                                          ),
-                                                          color: baseColors.green,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(40.0),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ]
-                                                )
+                                                    color: baseColors.red,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(40.0),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 12.0),
+                                                  RaisedButton(
+                                                    onPressed: () async {
+                                                      if (_store.state.categoryIndex == null) {
+                                                        setState(() {
+                                                          errorCategory = true;
+                                                        });
+                                                      }
+                                                      if (_store.state.categorySubcategoryText.text == '') {
+                                                        setState(() {
+                                                          errorSubcategory = true;
+                                                        });
+                                                      }
+                                                      if (_store.state.categorySubcategoryIcon == null) {
+                                                        setState(() {
+                                                          errorIcon = true;
+                                                        });
+                                                      }
+                                                      if (!errorCategory && !errorSubcategory && !errorIcon){
+                                                        if (_store.state.isCreatingSubcategory) {
+                                                          Subcategory subcategory = Subcategory(
+                                                            categoryId: _store.state.categoryIndex,
+                                                            subcategoryName: _store.state.categorySubcategoryText.text,
+                                                            subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
+                                                          );
+                                                          await createSubcategory(databaseClient.db, subcategory);
+                                                        } else {
+                                                          Subcategory subcategory = Subcategory(
+                                                            subcategoryId: _store.state.categorySubcategoryId,
+                                                            categoryId: _store.state.categoryIndex,
+                                                            subcategoryName: _store.state.categorySubcategoryText.text,
+                                                            subcategoryIconId: icons_list.indexOf(_store.state.categorySubcategoryIcon.icon)
+                                                          );
+                                                          await updateSubcategory(databaseClient.db, subcategory);
+                                                        }
+                                                        _store.dispatch(NavigatePopAction());
+                                                        resetState(_store);
+                                                        Navigator.of(context).pop();
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      'VALIDATE',
+                                                      style: GoogleFonts.lato(
+                                                        fontSize: baseFontSize.text,
+                                                        color: Colors.white
+                                                      )
+                                                    ),
+                                                    color: baseColors.green,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(40.0),
+                                                    ),
+                                                  ),
+                                                ],
                                               )
-                                            );
-                                          }
+                                            ]
+                                          )
                                         )
                                       )
                                     )

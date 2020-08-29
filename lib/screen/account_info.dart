@@ -51,7 +51,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
           onWillPop: () {
             resetState(_store);
             _store.dispatch(NavigatePopAction());
-            print(_store.state);
             return Future(() => true);
           },
           /// The GestureDetector is for removing the keyboard when tapping the screen.
