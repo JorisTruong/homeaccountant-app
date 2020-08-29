@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
       case AppRoutes.home:
         return MainRoute(MyHomePage(), settings: settings);
       case AppRoutes.accounts:
-        return MainRoute(AccountsPage(), settings: settings);
+        return RightToLeftRoute(AccountsPage(), settings: settings);
       case AppRoutes.transactions:
         return MainRoute(TransactionsPage(), settings: settings);
       case AppRoutes.categories:
