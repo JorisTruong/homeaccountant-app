@@ -355,52 +355,101 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                   ),
                                                   Expanded(
                                                     flex: 13,
-                                                    child: Row(
-                                                      children: [
-                                                        Radio(
-                                                          value: true,
-                                                          groupValue: _store.state.transactionIsExpense,
-                                                          onChanged: (bool value) {
-                                                            setState(() {
-                                                              errorIsExpense = false;
-                                                            });
-                                                            _store.dispatch(TransactionIsExpense(value));
-                                                          }
-                                                        ),
-                                                        Text(
-                                                          'Expense',
-                                                          style: GoogleFonts.lato(
-                                                            fontSize: baseFontSize.text
+                                                    child: DropdownButtonHideUnderline(
+                                                      child: ButtonTheme(
+                                                        alignedDropdown: true,
+                                                        child: Card(
+                                                          color: baseColors.tertiaryColor,
+                                                          margin: EdgeInsets.zero,
+                                                          shape: RoundedRectangleBorder(
+                                                            side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.transparent)
                                                           ),
-                                                        ),
-                                                        Radio(
-                                                          value: false,
-                                                          groupValue: _store.state.transactionIsExpense,
-                                                          onChanged: (bool value) {
-                                                            setState(() {
-                                                              errorIsExpense = false;
-                                                            });
-                                                            _store.dispatch(TransactionIsExpense(value));
-                                                          }
-                                                        ),
-                                                        Text(
-                                                          'Income',
-                                                          style: GoogleFonts.lato(
-                                                            fontSize: baseFontSize.text
-                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(width: 15.0),
+                                                              Icon(Icons.exposure, size: 18.0),
+                                                              Expanded(
+                                                                child: DropdownButton<bool>(
+                                                                  icon: Icon(Icons.keyboard_arrow_down),
+                                                                  value: _store.state.transactionIsExpense,
+                                                                  hint: Text(
+                                                                    'Type',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: GoogleFonts.lato(color: baseColors.secondaryColor, fontSize: baseFontSize.text)
+                                                                  ),
+                                                                  isDense: false,
+                                                                  onTap: () {
+                                                                    if (!currentFocus.hasPrimaryFocus) {
+                                                                      currentFocus.unfocus();
+                                                                    }
+                                                                  },
+                                                                  onChanged: (bool newValue) {
+                                                                    setState(() {
+                                                                      errorIsExpense = false;
+                                                                    });
+                                                                    _store.dispatch(TransactionIsExpense(newValue));
+                                                                  },
+                                                                  items: [
+                                                                    DropdownMenuItem<bool>(
+                                                                      value: true,
+                                                                      child: Text('Expense', style: GoogleFonts.lato(fontSize: baseFontSize.text))
+                                                                    ),
+                                                                    DropdownMenuItem<bool>(
+                                                                      value: false,
+                                                                      child: Text('Income', style: GoogleFonts.lato(fontSize: baseFontSize.text))
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ),
+                                                              SizedBox(width: 15.0)
+                                                            ],
+                                                          )
                                                         )
-                                                      ],
+                                                      )
                                                     )
+//                                                    child: SingleChildScrollView(
+//                                                      scrollDirection: Axis.horizontal,
+//                                                      physics: BouncingScrollPhysics(),
+//                                                      child: Row(
+//                                                        children: [
+//                                                          Radio(
+//                                                            value: true,
+//                                                            groupValue: _store.state.transactionIsExpense,
+//                                                            onChanged: (bool value) {
+//                                                              setState(() {
+//                                                                errorIsExpense = false;
+//                                                              });
+//                                                              _store.dispatch(TransactionIsExpense(value));
+//                                                            }
+//                                                          ),
+//                                                          Text(
+//                                                            'Expense',
+//                                                            style: GoogleFonts.lato(
+//                                                              fontSize: baseFontSize.text
+//                                                            ),
+//                                                          ),
+//                                                          Radio(
+//                                                            value: false,
+//                                                            groupValue: _store.state.transactionIsExpense,
+//                                                            onChanged: (bool value) {
+//                                                              setState(() {
+//                                                                errorIsExpense = false;
+//                                                              });
+//                                                              _store.dispatch(TransactionIsExpense(value));
+//                                                            }
+//                                                          ),
+//                                                          Text(
+//                                                            'Income',
+//                                                            style: GoogleFonts.lato(
+//                                                              fontSize: baseFontSize.text
+//                                                            ),
+//                                                          )
+//                                                        ],
+//                                                      )
+//                                                    )
                                                   )
                                                 ]
                                               ),
-                                              errorIsExpense ? Text(
-                                                'Select a transaction type',
-                                                style: GoogleFonts.lato(
-                                                  color: baseColors.errorColor,
-                                                  fontSize: baseFontSize.text
-                                                ),
-                                              ) : Container(),
                                               SizedBox(height: 12.0),
                                               Row(
                                                 children: [
