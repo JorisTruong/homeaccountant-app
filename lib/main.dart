@@ -41,6 +41,9 @@ Future<void> initializeDatabase() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   await initializeDatabase();
   TextEditingController showTransactionDate = TextEditingController();
