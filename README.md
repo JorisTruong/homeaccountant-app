@@ -2,6 +2,10 @@
 
 Home Accountant is a FOSS (Free Open-Source Software) built to manage bank accounts.
 
+<img src="docs/1.jpg" width="200"/>
+&nbsp;
+<img src="docs/2.jpg" width="200"/>
+
 # How it works
 
 The application is built on multiple main pages:
@@ -62,3 +66,12 @@ Home Accountant currently uses the following libraries:
 # License
 
 Home Accountant is a free open-source software released under the AGPL (Affero General Public License).
+
+# Design
+
+The design is heavily inspired from [Gullar Babakishiyeva](https://www.behance.net/gallery/98934611/Budget-Application-for-saving-money), with her permission. Make sure to check her socials !
+* [Behance](https://www.behance.net/gullarbabakishiyeva)
+* [Dribbble](https://dribbble.com/gullarbabakishiyeva)
+* [LinkedIn](https://www.linkedin.com/in/gullarbabakishiyeva)
+* [Instagram](https://www.instagram.com/gullarbabakishiyeva)
+* [Pinterest](https://www.pinterest.com/gullarbabakishiyeva)
