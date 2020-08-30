@@ -92,11 +92,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       children: [
                         Transform.rotate(
                           angle: math.pi / 1.35,
-                          child: Icon(Icons.undo, color: baseColors.green)
+                          child: Icon(Icons.undo, color: baseColors.green, size: 16)
                         ),
                         Text(
                           transactionSummary['total_income'].toStringAsFixed(2),
-                          style: GoogleFonts.lato(fontSize: baseFontSize.text)
+                          style: GoogleFonts.lato(fontSize: baseFontSize.text2)
                         ),
                         Transform(
                           alignment: Alignment.center,
@@ -105,13 +105,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             angle: -math.pi / 4,
                             child: Transform.translate(
                               offset: Offset(0.0, -5),
-                              child: Icon(Icons.undo, color: baseColors.red)
+                              child: Icon(Icons.undo, color: baseColors.red, size: 16)
                             )
                           )
                         ),
                         Text(
                           transactionSummary['total_expenses'].toStringAsFixed(2),
-                          style: GoogleFonts.lato(fontSize: baseFontSize.text)
+                          style: GoogleFonts.lato(fontSize: baseFontSize.text2)
                         )
                       ]
                     )
@@ -264,6 +264,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ),
                   theme: ExpandableThemeData(
                     headerAlignment: ExpandablePanelHeaderAlignment.center,
+                    iconSize: 16
                   ),
                 )
               )
@@ -393,15 +394,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         FutureBuilder(
-                                          future: getTotalIncome(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                                          future: getTotalIncome(databaseClient.db, null, _store.state.accountId),
                                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
                                                 "+" + snapshot.data.toStringAsFixed(2) + " €",
                                                 style: GoogleFonts.lato(
-                                                    fontSize: baseFontSize.title2,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: baseColors.green
+                                                  fontSize: baseFontSize.title2,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: baseColors.green
                                                 ),
                                               );
                                             } else {

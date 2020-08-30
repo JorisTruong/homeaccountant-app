@@ -170,7 +170,7 @@ class PieChartCardState extends State<PieChartCard> {
                               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
                                 Transform.rotate(
                                   angle: math.pi / 1.35,
-                                  child: Icon(Icons.undo, color: baseColors.green)
+                                  child: Icon(Icons.undo, color: baseColors.green, size: 16)
                                 ),
                               if (widget.store.state.showTransactionType == 'All' || widget.store.state.showTransactionType == 'Income')
                                 Text(widget.income[index]['value'].toStringAsFixed(2), style: GoogleFonts.lato(fontSize: baseFontSize.text)),
@@ -182,7 +182,7 @@ class PieChartCardState extends State<PieChartCard> {
                                     angle: -math.pi / 4,
                                     child: Transform.translate(
                                       offset: Offset(0.0, -5),
-                                      child: Icon(Icons.undo, color: baseColors.red)
+                                      child: Icon(Icons.undo, color: baseColors.red, size: 16)
                                     )
                                   )
                                 ),
@@ -205,7 +205,7 @@ class PieChartCardState extends State<PieChartCard> {
 
   /// Chart data
   List<PieChartSectionData> showingIncomeSections(Store<AppState> store) {
-    int proportion = store.state.showTransactionType == 'All' ? 6 : 5;
+    int proportion = store.state.showTransactionType == 'All' ? 7 : 6;
     bool emptyIncome = widget.income.every((element) => element['percentage'] == 0);
     if (emptyIncome) {
       final double radius = MediaQuery.of(context).size.width/proportion;
@@ -221,15 +221,16 @@ class PieChartCardState extends State<PieChartCard> {
     } else {
       return List.generate(widget.income.length, (i) {
         final isTouched = i == touchedIndex;
-        final double fontSize = isTouched ? baseFontSize.title2 : baseFontSize.text;
-        final double radius = isTouched ? MediaQuery.of(context).size.width/proportion + 10 : MediaQuery.of(context).size.width/proportion;
+        final double fontSize = isTouched ? baseFontSize.subtitle : baseFontSize.text;
+        final double radius = isTouched ? MediaQuery.of(context).size.width/proportion + 5 : MediaQuery.of(context).size.width/proportion;
         return PieChartSectionData(
           color: getCategoryColor(i),
           value: widget.income[i]['percentage'].toDouble(),
           title: formatPercentage(widget.income[i]['percentage']),
+          titlePositionPercentageOffset: 1.35,
           radius: radius,
           titleStyle: GoogleFonts.lato(
-            fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white
+            fontSize: fontSize, fontWeight: FontWeight.bold, color: baseColors.mainColor
           ),
         );
       });
@@ -237,7 +238,7 @@ class PieChartCardState extends State<PieChartCard> {
   }
 
   List<PieChartSectionData> showingExpensesSections(Store<AppState> store) {
-    int proportion = store.state.showTransactionType == 'All' ? 6 : 5;
+    int proportion = store.state.showTransactionType == 'All' ? 7 : 6;
     bool emptyExpenses = widget.expenses.every((element) => element['percentage'] == 0);
     if (emptyExpenses) {
       final double radius = MediaQuery.of(context).size.width/proportion;
@@ -259,7 +260,7 @@ class PieChartCardState extends State<PieChartCard> {
           color: getCategoryColor(i),
           value: widget.expenses[i]['percentage'].toDouble(),
           title: formatPercentage(widget.expenses[i]['percentage']),
-          titlePositionPercentageOffset: 1.3,
+          titlePositionPercentageOffset: 1.35,
           radius: radius,
           titleStyle: GoogleFonts.lato(
             fontSize: fontSize, fontWeight: FontWeight.bold, color: baseColors.mainColor
