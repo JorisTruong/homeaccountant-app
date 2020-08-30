@@ -5,13 +5,11 @@ Home Accountant is a FOSS (Free Open-Source Software) built to manage bank accou
 # How it works
 
 The application is built on multiple main pages:
-1. The **Homepage** is where main information are displayed, like the total amount of expenses, of income, or the balance.
-2. The **Accounts page** is where you can manage your different accounts.
-3. The **Transactions page** is where we can find all the transactions. They are organized by months.
-4. The **Categories page** is where we can find all the defined categories and subcategories for a transaction.
-5. The **Graphs page** is where different graphs are displayed. Pie charts, bar charts, line charts, for more graphical information on your transactions.
+1. The **Homepage** is where most information are displayed: total balance, expenses, income; transactions grouped by day, month or year
+2. The **Graphs page** is where different pie charts are displayed. It gives info about the distribution of income and expenses by day, month or year; by categories.
+3. The **Settings page** is where accounts and subcategories can be managed.
 
-Home Accountant is also organized in accounts. That is, you can build multiple accounts and save transactions independently from other accounts. The information on the transactions page, graphs page or charts page are based on the selected account. It is also possible to selected a particular date range in which the information showed will be based on the date range.
+Home Accountant is organized in accounts. That is, you can build multiple accounts and save transactions independently from other accounts. The information on the homepage or graphs page are based on the selected account. It is also possible to selected a particular date range (day, month or year) in which the information showed will be based on the date range.
 
 Home Accountant is build using [Flutter](https://flutter.dev/) and [Redux](https://pub.dev/packages/redux) as a state management tool. You can learn more about Redux [here](https://redux.js.org/).
 
@@ -21,24 +19,21 @@ We are listing here all the improvements that are currently planned to be made f
 
 ### High priority:
 * Create a logo
+* Ability to select multiple accounts
+
 
 ### Medium priority:
-* Review the 'About Us' page
 * Add a toast on creation of an account, transaction or subcategory
-* Ability to select all accounts
-* Design the tooltip for line charts
 * Support for different languages
 * Support for multiple currencies
-* Ability to select multiple accounts
 * Import/Export option
 
 ### Low priority:
 * Research bar in Categories
 * Review navigation design
 * Filter transactions by expense or not
-* Clicking main cards in homepage navigates to transactions with eventual filters
+* Clicking main cards in homepage navigates to graphs with eventual filters
 * Add the ability to set a monthly budget amount for each category/subcategory
-* Add the ability to move graph cards between them
 * Add the ability for a transaction to be recurrent
 * Self-hosting option
 
@@ -52,7 +47,6 @@ Home Accountant currently uses the following libraries:
 * [sqflite](https://pub.dev/packages/sqflite)
 * [redux](https://pub.dev/packages/redux)
 * [flutter_redux](https://pub.dev/packages/flutter_redux)
-* [sliding_up_panel](https://pub.dev/packages/sliding_up_panel)
 * [fl_chart](https://pub.dev/packages/fl_chart)
 * [keyboard_avoider](https://pub.dev/packages/keyboard_avoider)
 * [flutter_iconpicker](https://pub.dev/packages/flutter_iconpicker)
@@ -60,6 +54,10 @@ Home Accountant currently uses the following libraries:
 * [date_util](https://pub.dev/packages/date_util)
 * [flutter_svg](https://pub.dev/packages/flutter_svg)
 * [url_launcher](https://pub.dev/packages/url_launcher)
+* [persistent_bottom_nav_bar](https://pub.dev/packages/persistent_bottom_nav_bar)
+* [google_fonts](https://pub.dev/packages/google_fonts)
+* [flutter_pagewise](https://pub.dev/packages/flutter_pagewise)
+* [expandable](https://pub.dev/packages/expandable)
 
 # License
 
