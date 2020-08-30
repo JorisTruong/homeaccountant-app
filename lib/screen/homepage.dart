@@ -14,6 +14,7 @@ import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/point_tab_bar.dart';
 import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/models.dart' as m;
 import 'package:homeaccountantapp/database/queries/categories.dart';
 import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/database/queries/transactions.dart';
@@ -141,8 +142,46 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 return Material(
                                   color: baseColors.tertiaryColor,
                                   child: ListTile(
-                                    onTap: () {
-                                      print(snapshot.data[index].transactionId);
+                                    onTap: () async {
+                                      _store.dispatch(IsCreatingTransaction(false));
+                                      TextEditingController transactionName = TextEditingController();
+                                      transactionName.text = snapshot.data[index].transactionName;
+                                      TextEditingController transactionDate = TextEditingController();
+                                      transactionDate.text = snapshot.data[index].date;
+                                      TextEditingController subcategoryText = TextEditingController();
+                                      Icon subcategoryIcon;
+                                      /// Get the icon of the category if no subcategory is selected
+                                      if (snapshot.data[index].subcategoryId != null) {
+                                        m.Subcategory subcategory = await subcategoryFromId(databaseClient.db, snapshot.data[index].subcategoryId);
+                                        subcategoryText.text = subcategory.subcategoryName;
+                                        subcategoryIcon = Icon(
+                                            icons_list[subcategory.subcategoryIconId],
+                                            color: getCategoryColor(snapshot.data[index].categoryId)
+                                        );
+                                      } else {
+                                        m.Category category = await categoryFromId(databaseClient.db, snapshot.data[index].categoryId);
+                                        subcategoryIcon = Icon(
+                                            icons_list[category.categoryIconId],
+                                            color: getCategoryColor(snapshot.data[index].categoryId)
+                                        );
+                                      }
+                                      TextEditingController transactionAmount = TextEditingController();
+                                      transactionAmount.text = snapshot.data[index].isExpense ? (-1 * snapshot.data[index].amount).toStringAsFixed(2) : snapshot.data[index].amount.toStringAsFixed(2);
+                                      TextEditingController transactionDescription = TextEditingController();
+                                      transactionDescription.text = snapshot.data[index].description;
+                                      _store.dispatch(TransactionId(snapshot.data[index].transactionId));
+                                      _store.dispatch(TransactionName(transactionName));
+                                      _store.dispatch(TransactionAccount(snapshot.data[index].accountId));
+                                      _store.dispatch(TransactionDate(transactionDate));
+                                      _store.dispatch(TransactionIsExpense(snapshot.data[index].isExpense));
+                                      _store.dispatch(SelectCategory(snapshot.data[index].categoryId));
+                                      _store.dispatch(TransactionSubcategoryId(snapshot.data[index].subcategoryId));
+                                      _store.dispatch(TransactionSubcategoryText(subcategoryText));
+                                      _store.dispatch(TransactionSelectSubcategoryIcon(subcategoryIcon));
+                                      _store.dispatch(TransactionAmount(transactionAmount));
+                                      _store.dispatch(TransactionDescription(transactionDescription));
+
+                                      _store.dispatch(NavigatePushAction(AppRoutes.transaction));
                                     },
                                     leading: Container(
                                       height: 50,
@@ -274,7 +313,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         return WillPopScope(
           onWillPop: () {
             _store.dispatch(NavigatePopAction());
-            print(_store.state);
             return Future(() => true);
           },
           /// The GestureDetector is for removing the speed dial when tapping the screen.
