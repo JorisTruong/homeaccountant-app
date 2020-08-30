@@ -22,15 +22,14 @@ Home Accountant is build using [Flutter](https://flutter.dev/) and [Redux](https
 We are listing here all the improvements that are currently planned to be made for the application.
 
 ### High priority:
-* Create a logo
 * Ability to select multiple accounts
-
-
-### Medium priority:
-* Add a toast on creation of an account, transaction or subcategory
-* Support for different languages
 * Support for multiple currencies
 * Import/Export option
+
+### Medium priority:
+* Create a logo
+* Add a toast on creation of an account, transaction or subcategory
+* Support for different languages
 
 ### Low priority:
 * Research bar in Categories
