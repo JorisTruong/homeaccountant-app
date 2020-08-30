@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/categories_card.dart';
+import 'package:homeaccountantapp/components/generic_header.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/queries/queries.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
@@ -42,74 +42,82 @@ class _SubcategoryPageState extends State<SubcategoryPage> with TickerProviderSt
             return Future(() => true);
           },
           child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  _store.dispatch(NavigatePopAction());
-                  Navigator.of(context).pop();
-                },
-              ),
-              title: Text(
-                'Choose a subcategory',
-                style: GoogleFonts.lato(
-                  fontSize: baseFontSize.title
-                ),
-              ),
-              centerTitle: true,
-              actions: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    elevation: 0,
-                    backgroundColor: baseColors.transparent,
-                    onPressed: () {
-                      _store.dispatch(IsCreatingSubcategory(true));
-                      _store.dispatch(IsSelectingSubcategory(true));
-                      _store.dispatch(NavigatePushAction(AppRoutes.category));
-                    },
-                    child: Icon(Icons.add)
-                  )
-                )
-              ],
-            ),
-            body: SingleChildScrollView(
-              padding: EdgeInsets.all(20.0),
-              child: Stack(
+            resizeToAvoidBottomPadding: false,
+            body: Center(
+              child: Column(
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 25.0),
-                        /// Only show the subcategories of the selected category
-                        child: FutureBuilder(
-                          future: Future.wait(
-                            [
-                              subcategoriesFromCategoryId(databaseClient.db, _store.state.categoryIndex),
-                              categoryFromId(databaseClient.db, _store.state.categoryIndex)
-                            ]
+                  GenericHeader('Subcategory', true, () {
+                    Navigator.of(context).pop();
+                  }),
+                  Expanded(
+                    child: Container(
+                      color: baseColors.mainColor,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)
                           ),
-                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                            if (snapshot.hasData) {
-                              return CategoryCard(
-                                _store.state.categoryIndex,
-                                snapshot.data[1],
-                                snapshot.data[0],
-                                getCategoryColor(_store.state.categoryIndex),
-                                true
-                              );
-                            } else {
-                              return Container();
-                            }
-                          }
-                        )
+                          color: Colors.white
+                        ),
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.all(20.0),
+                          child: Stack(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 25.0),
+                                    /// Only show the subcategories of the selected category
+                                    child: FutureBuilder(
+                                      future: Future.wait(
+                                        [
+                                          subcategoriesFromCategoryId(databaseClient.db, _store.state.categoryIndex),
+                                          categoryFromId(databaseClient.db, _store.state.categoryIndex)
+                                        ]
+                                      ),
+                                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return CategoryCard(
+                                            _store.state.categoryIndex,
+                                            snapshot.data[1],
+                                            snapshot.data[0],
+                                            getCategoryColor(_store.state.categoryIndex),
+                                            true
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      }
+                                    )
+                                  )
+                                ]
+                              ),
+                            ]
+                          )
+                        ),
                       )
-                    ]
-                  ),
+                    )
+                  )
                 ]
               )
-            )
+            ),
+            floatingActionButton: Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05),
+              child: FloatingActionButton(
+                heroTag: null,
+                elevation: 0,
+                backgroundColor: baseColors.mainColor,
+                onPressed: () {
+                  _store.dispatch(IsCreatingSubcategory(true));
+                  _store.dispatch(IsSelectingSubcategory(true));
+                  _store.dispatch(NavigatePushAction(AppRoutes.category));
+                },
+                child: Icon(Icons.add)
+              )
+            ),
           )
         );
       }
