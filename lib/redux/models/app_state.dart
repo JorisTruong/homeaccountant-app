@@ -28,7 +28,6 @@ class AppState {
   final List<String> route;
   final String showTransactionType;
   final TextEditingController showTransactionDate;
-  final bool visibility;
   final bool isCreatingAccount;
   final bool isCreatingTransaction;
   final bool isCreatingSubcategory;
@@ -59,7 +58,6 @@ class AppState {
     @required this.route,
     this.showTransactionType,
     this.showTransactionDate,
-    this.visibility,
     this.isCreatingAccount,
     this.isCreatingTransaction,
     this.isCreatingSubcategory,

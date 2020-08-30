@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'dart:math';
 
 import 'const.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -14,43 +13,6 @@ import 'package:homeaccountantapp/redux/models/models.dart';
 /// Retrieve the redux store from the context.
 Store<AppState> getStore(BuildContext context) {
   return StoreProvider.of<AppState>(context);
-}
-
-/// Simulate a bool with 3 values.
-/// Notably used for changing graphs/charts.
-int switchFlag(int flag, int max) {
-  if (flag == max-1) {
-    return 0;
-  } else {
-    var newFlag = flag+1;
-    return newFlag;
-  }
-}
-
-/// Get the max value of income or expense in order to scale graphs.
-/// The argument is a List of Map with keys 'income' and 'expenses'.
-/// Each value is a double.
-double getMaxIncomeExpenses(List<Map<String, dynamic>> map) {
-  var maxIncome = map.map<double>((e) => e['income']).reduce(max);
-  var maxExpenses = map.map<double>((e) => e['expenses']).reduce(max);
-  if (maxIncome > maxExpenses) {
-    return maxIncome;
-  } else {
-    return maxExpenses;
-  }
-}
-
-/// Compute the y-coordinate for the given value in a bar chart.
-double makeBarValue(double value, double maxValue) {
-  if (maxValue == 0) {
-    return 0;
-  }
-  return value * 20 / maxValue;
-}
-
-/// Retrieve the true value from the given y-coordinate in a bar chart.
-double valueFromBar(double barValue, double maxValue) {
-  return double.parse((barValue * maxValue / 20).toStringAsFixed(2));
 }
 
 /// Retrieve the color assigned to the given category index.
@@ -144,19 +106,6 @@ String getMonth(String month) {
   return '';
 }
 
-/// Get a dictionary with 'year', 'month' and 'day' keys from a date string
-Map<String, int> getDateFromString(String date) {
-  List<String> _date = date.split('-');
-  int year = int.parse(_date[0]);
-  int month = int.parse(_date[1]);
-  int day = int.parse(_date[2]);
-  return {
-    'year': year,
-    'month': month,
-    'day': day
-  };
-}
-
 /// Utils function to not display pie chart percentage when it is 0
 String formatPercentage(double percentage) {
   if (percentage == 0) {
@@ -164,17 +113,4 @@ String formatPercentage(double percentage) {
   } else {
     return percentage.toStringAsFixed(0) + '%';
   }
-}
-
-/// Returns the cumulative sum of a list
-List<double> cumulativeSum(List<double> data) {
-  List<double> cumulativeSumData = [];
-  for (int i = 0; i < data.length; i++) {
-    if (i == 0) {
-      cumulativeSumData.add(data[0]);
-    } else {
-      cumulativeSumData.add(cumulativeSumData[i-1] + data[i]);
-    }
-  }
-  return cumulativeSumData;
 }

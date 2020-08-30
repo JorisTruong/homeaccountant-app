@@ -32,7 +32,6 @@ AppState appReducer(AppState state, action) {
     route: navigationReducer(state.route, action),
     showTransactionType: showTransactionTypeReducer(state.showTransactionType, action),
     showTransactionDate: showTransactionDateReducer(state.showTransactionDate, action),
-    visibility: visibilityReducer(state.visibility, action),
     isCreatingAccount: isCreatingAccountReducer(state.isCreatingAccount, action),
     isCreatingTransaction: isCreatingTransactionReducer(state.isCreatingTransaction, action),
     isCreatingSubcategory: isCreatingSubcategoryReducer(state.isCreatingSubcategory, action),

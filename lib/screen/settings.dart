@@ -9,7 +9,7 @@ import 'package:homeaccountantapp/components/generic_header.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
-import 'package:homeaccountantapp/screen/about.dart';
+import 'package:homeaccountantapp/components/about.dart';
 
 
 class SettingsPage extends StatefulWidget {

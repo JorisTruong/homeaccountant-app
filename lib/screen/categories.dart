@@ -106,18 +106,15 @@ class _CategoriesPageState extends State<CategoriesPage> with TickerProviderStat
                 ]
               )
             ),
-            floatingActionButton: Visibility(
-              visible: _store.state.visibility,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05),
-                child: FloatingActionButton(
-                  heroTag: null,
-                  onPressed: () {
-                    _store.dispatch(IsCreatingSubcategory(true));
-                    _store.dispatch(NavigatePushAction(AppRoutes.category));
-                  },
-                  child: Icon(Icons.add),
-                ),
+            floatingActionButton: Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05),
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  _store.dispatch(IsCreatingSubcategory(true));
+                  _store.dispatch(NavigatePushAction(AppRoutes.category));
+                },
+                child: Icon(Icons.add),
               ),
             ),
           )

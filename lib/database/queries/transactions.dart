@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
-import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/database/models/models.dart' as models;
 import 'package:homeaccountantapp/database/queries/categories.dart';
 
@@ -12,20 +11,6 @@ import 'package:homeaccountantapp/database/queries/categories.dart';
 // CREATE
 Future<void> createTransaction(Database db, models.Transaction transaction) async {
   await db.insert('transactions', transaction.toMapWithoutId(), conflictAlgorithm: ConflictAlgorithm.ignore);
-}
-
-// READ
-/// Get the number of transactions of a certain account in a given date range.
-/// Used in a main card in homepage.
-Future<int> getTransactionsCount(Database db, Map<String, String> dateRange, int accountId) async {
-  int count = (await db.rawQuery(
-    'SELECT COUNT(*) as count FROM transactions WHERE date >= ? AND date <= ? AND account_id = ?',
-    [dateRange['from'], dateRange['to'], accountId]
-  ))[0]['count'];
-  if (count == null) {
-    return 0;
-  }
-  return count;
 }
 
 /// Get the transactions id of a specific subcategory id.
@@ -120,35 +105,6 @@ Future<List<Map<String, dynamic>>> readYearlyTransactions(Database db, int accou
       'total_expenses': transactions[i]['yearly_expenses']
     };
   });
-}
-
-/// Format the transactions to divide them in monthly cards.
-/// Used in the Transactions page.
-Future<Map<String, List<models.Transaction>>> getTransactions(Database db, String dateRangeType, Map<String, String> dateRange, int accountId) async {
-  // Get year
-  String year = dateRange['from'].split('-')[0];
-  if (dateRangeType == 'Year') {
-    return {
-      'January ' + year: await readTransactions(db, {'from': year + '-01-01', 'to': year + '-01-31'}, accountId),
-      'February ' + year: await readTransactions(db, {'from': year + '-02-01', 'to': year + '-02-29'}, accountId),
-      'March ' + year: await readTransactions(db, {'from': year + '-03-01', 'to': year + '-03-31'}, accountId),
-      'April ' + year: await readTransactions(db, {'from': year + '-04-01', 'to': year + '-04-30'}, accountId),
-      'May ' + year: await readTransactions(db, {'from': year + '-05-01', 'to': year + '-05-31'}, accountId),
-      'June ' + year: await readTransactions(db, {'from': year + '-06-01', 'to': year + '-06-30'}, accountId),
-      'July ' + year: await readTransactions(db, {'from': year + '-07-01', 'to': year + '-07-31'}, accountId),
-      'August ' + year: await readTransactions(db, {'from': year + '-08-01', 'to': year + '-08-31'}, accountId),
-      'September ' + year: await readTransactions(db, {'from': year + '-09-01', 'to': year + '-09-30'}, accountId),
-      'October ' + year: await readTransactions(db, {'from': year + '-10-01', 'to': year + '-10-31'}, accountId),
-      'November ' + year: await readTransactions(db, {'from': year + '-11-01', 'to': year + '-11-30'}, accountId),
-      'December ' + year: await readTransactions(db, {'from': year + '-12-01', 'to': year + '-12-31'}, accountId)
-    };
-  } else {
-    // Get month
-    String month = dateRange['from'].split('-')[1];
-    return {
-      getMonth(month) + ' ' + year: await readTransactions(db, dateRange, accountId)
-    };
-  }
 }
 
 /// Get the total amount of a certain category transactions, from a given account and a given date range
@@ -265,67 +221,6 @@ Future<double> getTotalBalance(Database db, Map<String, String> dateRange, int a
   double totalExpenses = await getTotalExpense(db, dateRange, accountId);
   double totalIncome = await getTotalIncome(db, dateRange, accountId);
   return totalIncome - totalExpenses;
-}
-
-/// Get the total amount of each categories transactions, from a given account and a given date range
-Future<List<Map<String, dynamic>>> getTransactionsAmount(Database db, Map<String, String> dateRange, int accountId) async {
-  var expensesAmount = await getExpensesAmount(db, dateRange, accountId);
-  var incomeAmount = await getIncomeAmount(db, dateRange, accountId);
-  return List.generate(expensesAmount.length, (int i) {
-    return {
-      'name': expensesAmount[i]['name'], 'expenses': expensesAmount[i]['expenses'], 'income': incomeAmount[i]['income']
-    };
-  });
-}
-
-Future<List<Map<String, dynamic>>> getDailyAmounts(Database db, Map<String, String> dateRange, int accountId, int categoryId, int isExpense) async {
-  String createDate = "WITH RECURSIVE dates(date) AS (VALUES('${dateRange["from"]}') UNION ALL SELECT date(date, '+1 day') FROM dates WHERE date < '${dateRange["to"]}')";
-  String query = createDate + ' SELECT dates.date, COALESCE(SUM(amount), 0.0) as totalAmount, is_expense FROM dates LEFT JOIN transactions ON dates.date = transactions.date';
-  List<Map<String, dynamic>> queryResult;
-  if (categoryId != -1) {
-    query = query + ' AND (category_id IS NULL OR category_id = ?)';
-    if (isExpense != -1) {
-      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY dates.date';
-      queryResult = await db.rawQuery(query, [categoryId, isExpense]);
-    } else {
-      query = query + ' GROUP BY dates.date';
-      queryResult = await db.rawQuery(query, [categoryId]);
-    }
-  } else {
-    if (isExpense != -1) {
-      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY dates.date';
-      queryResult = await db.rawQuery(query, [isExpense]);
-    } else {
-      query = query + ' GROUP BY dates.date';
-      queryResult = await db.rawQuery(query);
-    }
-  }
-  return queryResult;
-}
-
-Future<List<Map<String, dynamic>>> getMonthlyAmounts(Database db, Map<String, String> dateRange, int accountId, int categoryId, int isExpense) async {
-  String createDate = "WITH RECURSIVE dates(date) AS (VALUES('${dateRange["from"]}') UNION ALL SELECT date(date, '+1 day') FROM dates WHERE date < '${dateRange["to"]}')";
-  String query = createDate + " SELECT strftime('%m', dates.date) as month, COALESCE(SUM(amount), 0.0) as totalAmount FROM dates LEFT JOIN transactions ON dates.date = transactions.date";
-  List<Map<String, dynamic>> queryResult;
-  if (categoryId != -1) {
-    query = query + ' AND (category_id IS NULL OR category_id = ?)';
-    if (isExpense != -1) {
-      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY month';
-      queryResult = await db.rawQuery(query, [categoryId, isExpense]);
-    } else {
-      query = query + ' GROUP BY month';
-      queryResult = await db.rawQuery(query, [categoryId]);
-    }
-  } else {
-    if (isExpense != -1) {
-      query = query + ' AND (is_expense IS NULL OR is_expense = ?) GROUP BY month';
-      queryResult = await db.rawQuery(query, [isExpense]);
-    } else {
-      query = query + ' GROUP BY month';
-      queryResult = await db.rawQuery(query);
-    }
-  }
-  return queryResult;
 }
 
 // UPDATE

@@ -7,7 +7,7 @@ import 'package:homeaccountantapp/const.dart';
 
 
 ///
-/// This is the about us page.
+/// This is the about us section.
 ///
 
 

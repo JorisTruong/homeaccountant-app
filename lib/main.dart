@@ -16,8 +16,6 @@ import 'screen/transactions.dart';
 import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
 import 'screen/category_info.dart';
-import 'screen/graphs.dart';
-import 'screen/about.dart';
 import 'navigation/app_routes.dart';
 import 'navigation/route_aware_widget.dart';
 import 'package:homeaccountantapp/database/database.dart';
@@ -66,7 +64,6 @@ void main() async {
       route: [AppRoutes.home],
       showTransactionType: 'All',
       showTransactionDate: showTransactionDate,
-      visibility: true, /// Visibility of the floating button for sliding up panel
       isCreatingAccount: false, /// If we are creating an account or not
       isCreatingTransaction: false, /// If we are creating a transaction or not
       isCreatingSubcategory: false, /// If we are creating a subcategory or not
@@ -89,10 +86,6 @@ class MyApp extends StatelessWidget {
         return MainRoute(TransactionsPage(), settings: settings);
       case AppRoutes.categories:
         return RightToLeftRoute(CategoriesPage(), settings: settings);
-      case AppRoutes.graphs:
-        return MainRoute((GraphsPage()), settings: settings);
-      case AppRoutes.about:
-        return MainRoute(AboutPage(), settings: settings);
       case AppRoutes.account:
         return BottomToTopRoute(AccountInfoPage(), settings: settings);
       case AppRoutes.transaction:
