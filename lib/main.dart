@@ -12,7 +12,7 @@ import 'components/navigation_bar.dart';
 import 'screen/homepage.dart';
 import 'screen/accounts.dart';
 import 'screen/account_info.dart';
-import 'screen/transactions.dart';
+import 'screen/graphs.dart';
 import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
 import 'screen/category_info.dart';

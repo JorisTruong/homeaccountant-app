@@ -3,7 +3,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/screen/homepage.dart';
-import 'package:homeaccountantapp/screen/transactions.dart';
+import 'package:homeaccountantapp/screen/graphs.dart';
 import 'package:homeaccountantapp/screen/settings.dart';
 
 
