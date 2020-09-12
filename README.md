@@ -60,6 +60,7 @@ Home Accountant currently uses the following libraries:
 * [google_fonts](https://pub.dev/packages/google_fonts)
 * [flutter_pagewise](https://pub.dev/packages/flutter_pagewise)
 * [expandable](https://pub.dev/packages/expandable)
+* [flutter_icons](https://pub.dev/packages/flutter_icons)
 
 # License
 

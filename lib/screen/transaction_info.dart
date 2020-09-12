@@ -6,6 +6,7 @@ import 'package:redux/redux.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'dart:math' as math;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -628,7 +629,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                           border: OutlineInputBorder(borderSide: BorderSide.none),
                                                           contentPadding: EdgeInsets.only(right: 20.0),
                                                           hintText: 'Amount',
-                                                          prefixIcon: Icon(Icons.attach_money, color: baseColors.mainColor)
+                                                          prefixIcon: Icon(FontAwesome5.money_bill_alt, color: baseColors.mainColor)
                                                         ),
                                                         onChanged: (string) {
                                                           setState(() {
