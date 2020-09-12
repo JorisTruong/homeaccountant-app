@@ -9,6 +9,7 @@ class AppState {
   final int accountInfoId;
   final TextEditingController accountInfoName;
   final TextEditingController accountInfoAcronym;
+  final String accountInfoCountryIso;
   final TextEditingController transactionName;
   final int transactionAccountId;
   final TextEditingController transactionDate;
@@ -38,6 +39,7 @@ class AppState {
     this.accountInfoId,
     this.accountInfoName,
     this.accountInfoAcronym,
+    this.accountInfoCountryIso,
     this.transactionId,
     this.transactionName,
     this.transactionAccountId,

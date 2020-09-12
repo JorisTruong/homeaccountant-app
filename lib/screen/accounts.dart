@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:currency_pickers/utils/utils.dart';
+import 'package:currency_pickers/country.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -82,6 +84,7 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                                         shrinkWrap: true,
                                         itemCount: snapshot.data.length,
                                         itemBuilder: (BuildContext context, int index) {
+                                          Country country = CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[index].accountCountryIso);
                                           return Material(
                                             child: CheckboxListTile(
                                               title: Wrap(
@@ -101,8 +104,21 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                                                       color: baseColors.mainColor,
                                                       fontSize: baseFontSize.text2
                                                     )
-                                                  )
+                                                  ),
+                                                  snapshot.data[index].accountAcronym != '' ? SizedBox(height: 8) : Container()
                                                 ]
+                                              ),
+                                              subtitle: Row(
+                                                children: <Widget>[
+                                                  CurrencyPickerUtils.getDefaultFlagImage(country),
+                                                  SizedBox(
+                                                    width: 8.0,
+                                                  ),
+                                                  Text(
+                                                    "${country.currencyCode} (${country.isoCode})",
+                                                    style: GoogleFonts.lato(fontSize: baseFontSize.text)
+                                                  ),
+                                                ],
                                               ),
                                               value: selectedAccount == snapshot.data[index].accountId,
                                               onChanged: (bool newValue) {
@@ -121,6 +137,7 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                                                   _store.dispatch(AccountInfoId(snapshot.data[index].accountId));
                                                   _store.dispatch(AccountInfoName(accountName));
                                                   _store.dispatch(AccountInfoAcronym(accountAcronym));
+                                                  _store.dispatch(AccountInfoCountryIso(snapshot.data[index].accountCountryIso));
                                                   print(snapshot.data[index]);
 
                                                   _store.dispatch(NavigatePushAction(AppRoutes.account));

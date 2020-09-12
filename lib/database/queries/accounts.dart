@@ -19,7 +19,8 @@ Future<List<Account>> readAccounts(Database db) async {
     return Account(
       accountId: accounts[i]['account_id'],
       accountName: accounts[i]['account_name'],
-      accountAcronym: accounts[i]['account_acronym']
+      accountAcronym: accounts[i]['account_acronym'],
+      accountCountryIso: accounts[i]['account_country']
     );
   });
 }
@@ -31,7 +32,8 @@ Future<Account> accountFromId(Database db, int accountId) async {
     return Account(
       accountId: account[0]['account_id'],
       accountName: account[0]['account_name'],
-      accountAcronym: account[0]['account_acronym']
+      accountAcronym: account[0]['account_acronym'],
+      accountCountryIso: account[0]['account_country']
     );
   } else {
     return null;

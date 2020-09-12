@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expandable/expandable.dart';
+import 'package:currency_pickers/utils/utils.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/icons_list.dart';
@@ -15,6 +16,7 @@ import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/point_tab_bar.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/models.dart' as m;
+import 'package:homeaccountantapp/database/queries/accounts.dart';
 import 'package:homeaccountantapp/database/queries/categories.dart';
 import 'package:homeaccountantapp/database/queries/subcategories.dart';
 import 'package:homeaccountantapp/database/queries/transactions.dart';
@@ -358,11 +360,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FutureBuilder(
-                                future: getTotalBalance(databaseClient.db, null, _store.state.accountId),
-                                builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                future: Future.wait(
+                                  [
+                                    getTotalBalance(databaseClient.db, null, _store.state.accountId),
+                                    accountFromId(databaseClient.db, _store.state.accountId)
+                                  ]
+                                ),
+                                builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                                   if (snapshot.hasData) {
                                     return Text(
-                                      snapshot.data.toStringAsFixed(2) + " €",
+                                      snapshot.data[0].toStringAsFixed(2) + " " + CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[1].accountCountryIso).currencyCode,
                                       style: GoogleFonts.lato(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -410,11 +417,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         FutureBuilder(
-                                          future: getTotalIncome(databaseClient.db, null, _store.state.accountId),
-                                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                          future: Future.wait(
+                                            [
+                                              getTotalIncome(databaseClient.db, null, _store.state.accountId),
+                                              accountFromId(databaseClient.db, _store.state.accountId)
+                                            ]
+                                          ),
+                                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
-                                                "+" + snapshot.data.toStringAsFixed(2) + " €",
+                                                "+" + snapshot.data[0].toStringAsFixed(2) + " " + CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[1].accountCountryIso).currencyCode,
                                                 style: GoogleFonts.lato(
                                                   fontSize: baseFontSize.title2,
                                                   fontWeight: FontWeight.bold,
@@ -448,11 +460,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         FutureBuilder(
-                                          future: getTotalExpense(databaseClient.db, null, _store.state.accountId),
-                                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                          future: Future.wait(
+                                            [
+                                              getTotalExpense(databaseClient.db, null, _store.state.accountId),
+                                              accountFromId(databaseClient.db, _store.state.accountId)
+                                            ]
+                                          ),
+                                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
-                                                "-" + snapshot.data.toStringAsFixed(2) + " €",
+                                                "-" + snapshot.data[0].toStringAsFixed(2) + " " + CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[1].accountCountryIso).currencyCode,
                                                 style: GoogleFonts.lato(
                                                     fontSize: baseFontSize.title2,
                                                     fontWeight: FontWeight.bold,

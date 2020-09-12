@@ -24,6 +24,12 @@ class AccountInfoAcronym {
   AccountInfoAcronym(this.accountInfoAcronym);
 }
 
+class AccountInfoCountryIso {
+  final String accountInfoCountryIso;
+
+  AccountInfoCountryIso(this.accountInfoCountryIso);
+}
+
 class UpdateDateRangeType {
   final String dateRangeType;
 

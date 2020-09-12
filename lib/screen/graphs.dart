@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:currency_pickers/utils/utils.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -10,6 +11,7 @@ import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/components/pie_chart.dart';
 import 'package:homeaccountantapp/components/year_picker.dart' as yp;
 import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/queries/accounts.dart';
 import 'package:homeaccountantapp/database/queries/transactions.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -75,11 +77,16 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FutureBuilder(
-                              future: getTotalBalance(databaseClient.db, _store.state.dateRange, _store.state.accountId),
-                              builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                              future: Future.wait(
+                                [
+                                  getTotalBalance(databaseClient.db, _store.state.dateRange, _store.state.accountId),
+                                  accountFromId(databaseClient.db, _store.state.accountId)
+                                ]
+                              ),
+                              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                 if (snapshot.hasData) {
                                   return Text(
-                                    snapshot.data.toStringAsFixed(2) + " €",
+                                    snapshot.data[0].toStringAsFixed(2) + " " + CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[1].accountCountryIso).currencyCode,
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,

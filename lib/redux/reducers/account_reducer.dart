@@ -7,6 +7,7 @@ final accountIdReducer = TypedReducer<int, ChangeAccount>(_accountIdReducer);
 final accountInfoIdReducer = TypedReducer<int, AccountInfoId>(_accountInfoIdReducer);
 final accountInfoNameReducer = TypedReducer<TextEditingController, AccountInfoName>(_accountInfoNameReducer);
 final accountInfoAcronymReducer = TypedReducer<TextEditingController, AccountInfoAcronym>(_accountInfoAcronymReducer);
+final accountInfoCurrencyRenducer = TypedReducer<String, AccountInfoCountryIso>(_accountInfoCurrencyReducer);
 
 int _accountIdReducer(int accountId, ChangeAccount action) {
   return action.accountId;
@@ -22,4 +23,8 @@ TextEditingController _accountInfoNameReducer(TextEditingController accountInfoN
 
 TextEditingController _accountInfoAcronymReducer(TextEditingController accountInfoAcronym, AccountInfoAcronym action) {
   return action.accountInfoAcronym;
+}
+
+String _accountInfoCurrencyReducer(String accountInfoCurrency, AccountInfoCountryIso action) {
+  return action.accountInfoCountryIso;
 }

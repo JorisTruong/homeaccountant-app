@@ -408,46 +408,6 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         )
                                                       )
                                                     )
-//                                                    child: SingleChildScrollView(
-//                                                      scrollDirection: Axis.horizontal,
-//                                                      physics: BouncingScrollPhysics(),
-//                                                      child: Row(
-//                                                        children: [
-//                                                          Radio(
-//                                                            value: true,
-//                                                            groupValue: _store.state.transactionIsExpense,
-//                                                            onChanged: (bool value) {
-//                                                              setState(() {
-//                                                                errorIsExpense = false;
-//                                                              });
-//                                                              _store.dispatch(TransactionIsExpense(value));
-//                                                            }
-//                                                          ),
-//                                                          Text(
-//                                                            'Expense',
-//                                                            style: GoogleFonts.lato(
-//                                                              fontSize: baseFontSize.text
-//                                                            ),
-//                                                          ),
-//                                                          Radio(
-//                                                            value: false,
-//                                                            groupValue: _store.state.transactionIsExpense,
-//                                                            onChanged: (bool value) {
-//                                                              setState(() {
-//                                                                errorIsExpense = false;
-//                                                              });
-//                                                              _store.dispatch(TransactionIsExpense(value));
-//                                                            }
-//                                                          ),
-//                                                          Text(
-//                                                            'Income',
-//                                                            style: GoogleFonts.lato(
-//                                                              fontSize: baseFontSize.text
-//                                                            ),
-//                                                          )
-//                                                        ],
-//                                                      )
-//                                                    )
                                                   )
                                                 ]
                                               ),

@@ -1,9 +1,13 @@
+import 'package:currency_pickers/countries.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:currency_pickers/utils/utils.dart';
+import 'package:currency_pickers/country.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -31,11 +35,13 @@ class AccountInfoPage extends StatefulWidget {
 class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderStateMixin {
   FocusScopeNode currentFocus;
   bool errorAccount = false;
+  bool errorCurrency = false;
 
   void resetState(Store<AppState> _store) {
     _store.dispatch(AccountInfoId(null));
     _store.dispatch(AccountInfoName(TextEditingController()));
     _store.dispatch(AccountInfoAcronym(TextEditingController()));
+    _store.dispatch(AccountInfoCountryIso(null));
     _store.dispatch(IsCreatingAccount(false));
   }
 
@@ -149,7 +155,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                               controller: _store.state.accountInfoName,
                                                               style: GoogleFonts.lato(fontSize: baseFontSize.text),
                                                               decoration: InputDecoration(
-                                                                errorText: errorAccount ? 'Cannot be null' : null,
+                                                                errorText: errorAccount ? '' : null,
                                                                 errorStyle: GoogleFonts.lato(height: 0),
                                                                 isDense: false,
                                                                 alignLabelWithHint: true,
@@ -215,13 +221,83 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                       ]
                                                     ),
                                                     SizedBox(height: 12.0),
-                                                    _store.state.categorySubcategoryIcon == null ? SizedBox(height: 12.0) : Column(
+                                                    Row(
                                                       children: [
-                                                        SizedBox(height: 12.0),
-                                                        _store.state.categorySubcategoryIcon
+                                                        /// Dropdown to select the current
+                                                        Expanded(
+                                                          flex: 7,
+                                                          child: Text(
+                                                            'Currency',
+                                                            style: GoogleFonts.lato(
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: baseFontSize.text
+                                                            ),
+                                                          )
+                                                        ),
+                                                        Expanded(
+                                                          flex: 13,
+                                                          child: DropdownButtonHideUnderline(
+                                                            child: ButtonTheme(
+                                                              alignedDropdown: true,
+                                                              child: Card(
+                                                                color: baseColors.tertiaryColor,
+                                                                margin: EdgeInsets.zero,
+                                                                shape: RoundedRectangleBorder(
+                                                                  side: BorderSide(color: errorCurrency ? baseColors.errorColor : baseColors.transparent)
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    _store.state.accountInfoCountryIso == null ? SizedBox(width: 15.0) : Container(),
+                                                                    _store.state.accountInfoCountryIso == null ? Icon(MaterialCommunityIcons.currency_sign, size: 18.0) : Container(),
+                                                                    Expanded(
+                                                                      child: DropdownButton<Country>(
+                                                                        icon: Icon(Icons.keyboard_arrow_down),
+                                                                        value: _store.state.accountInfoCountryIso == null ? null : CurrencyPickerUtils.getCountryByIsoCode(_store.state.accountInfoCountryIso),
+                                                                        hint: Text(
+                                                                          'Currency',
+                                                                          textAlign: TextAlign.center,
+                                                                          style: GoogleFonts.lato(color: baseColors.secondaryColor, fontSize: baseFontSize.text)
+                                                                        ),
+                                                                        isDense: false,
+                                                                        onTap: () {
+                                                                          if (!currentFocus.hasPrimaryFocus) {
+                                                                            currentFocus.unfocus();
+                                                                          }
+                                                                        },
+                                                                        onChanged: (Country newValue) {
+                                                                          setState(() {
+                                                                            errorCurrency = false;
+                                                                          });
+                                                                          _store.dispatch(AccountInfoCountryIso(newValue.isoCode));
+                                                                        },
+                                                                        items: List.generate(countryList.length, (int index) {
+                                                                          return DropdownMenuItem<Country>(
+                                                                            value: countryList[index],
+                                                                            child: Row(
+                                                                              children: <Widget>[
+                                                                                CurrencyPickerUtils.getDefaultFlagImage(countryList[index]),
+                                                                                SizedBox(
+                                                                                  width: 8.0,
+                                                                                ),
+                                                                                Text(
+                                                                                  "${countryList[index].currencyCode} (${countryList[index].isoCode})",
+                                                                                  style: GoogleFonts.lato(fontSize: baseFontSize.text)
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        })
+                                                                      )
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              )
+                                                            )
+                                                          )
+                                                        )
                                                       ]
                                                     ),
-                                                    SizedBox(height: 24.0),
+                                                    SizedBox(height: 36.0),
                                                     /// Validate and cancel the operation
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -313,18 +389,25 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                                 errorAccount = true;
                                                               });
                                                             }
-                                                            if (!errorAccount){
+                                                            if (_store.state.accountInfoCountryIso == null || _store.state.accountInfoCountryIso == '') {
+                                                              setState(() {
+                                                                errorCurrency = true;
+                                                              });
+                                                            }
+                                                            if (!errorAccount && !errorCurrency) {
                                                               if (_store.state.isCreatingAccount) {
                                                                 Account account = Account(
                                                                   accountName: _store.state.accountInfoName.text,
-                                                                  accountAcronym: _store.state.accountInfoAcronym.text
+                                                                  accountAcronym: _store.state.accountInfoAcronym.text,
+                                                                  accountCountryIso: _store.state.accountInfoCountryIso
                                                                 );
                                                                 await createAccount(databaseClient.db, account);
                                                               } else {
                                                                 Account account = Account(
                                                                   accountId: _store.state.accountInfoId,
                                                                   accountName: _store.state.accountInfoName.text,
-                                                                  accountAcronym: _store.state.accountInfoAcronym.text
+                                                                  accountAcronym: _store.state.accountInfoAcronym.text,
+                                                                  accountCountryIso: _store.state.accountInfoCountryIso
                                                                 );
                                                                 await updateAccount(databaseClient.db, account);
                                                               }
