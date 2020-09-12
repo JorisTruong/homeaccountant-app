@@ -68,7 +68,8 @@ Future<List<Map<String, dynamic>>> readDailyTransactions(Database db, int accoun
     return {
       'date': transactions[i]['date'],
       'total_income': transactions[i]['daily_income'],
-      'total_expenses': transactions[i]['daily_expenses']
+      'total_expenses': transactions[i]['daily_expenses'],
+      'total_balance': transactions[i]['daily_income'] + transactions[i]['daily_expenses']
     };
   });
 }
@@ -85,7 +86,8 @@ Future<List<Map<String, dynamic>>> readMonthlyTransactions(Database db, int acco
     return {
       'date': transactions[i]['year'].toString() + '-' + transactions[i]['month'].toString(),
       'total_income': transactions[i]['monthly_income'],
-      'total_expenses': transactions[i]['monthly_expenses']
+      'total_expenses': transactions[i]['monthly_expenses'],
+      'total_balance': transactions[i]['monthly_income'] + transactions[i]['monthly_expenses']
     };
   });
 }
@@ -102,7 +104,8 @@ Future<List<Map<String, dynamic>>> readYearlyTransactions(Database db, int accou
     return {
       'date': transactions[i]['year'].toString(),
       'total_income': transactions[i]['yearly_income'],
-      'total_expenses': transactions[i]['yearly_expenses']
+      'total_expenses': transactions[i]['yearly_expenses'],
+      'total_balance': transactions[i]['yearly_income'] + transactions[i]['yearly_expenses']
     };
   });
 }

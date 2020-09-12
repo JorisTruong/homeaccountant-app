@@ -86,32 +86,48 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         style: GoogleFonts.lato(fontSize: baseFontSize.text2)
                       ) :
                       null,
-                    trailing: Wrap(
-                      spacing: 12,
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Transform.rotate(
-                          angle: math.pi / 1.35,
-                          child: Icon(Icons.undo, color: baseColors.green, size: 16)
+                        Wrap(
+                          spacing: 12,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Icon(Icons.compare_arrows, color: baseColors.blue, size: 16),
+                            Text(
+                              (transactionSummary['total_balance'] > 0 ? '+' : '') + transactionSummary['total_balance'].toStringAsFixed(2),
+                              style: GoogleFonts.lato(fontSize: baseFontSize.text2)
+                            ),
+                          ]
                         ),
-                        Text(
-                          transactionSummary['total_income'].toStringAsFixed(2),
-                          style: GoogleFonts.lato(fontSize: baseFontSize.text2)
-                        ),
-                        Transform(
-                          alignment: Alignment.center,
-                          transform: Matrix4.rotationY(math.pi),
-                          child: Transform.rotate(
-                            angle: -math.pi / 4,
-                            child: Transform.translate(
-                              offset: Offset(0.0, -5),
-                              child: Icon(Icons.undo, color: baseColors.red, size: 16)
+                        Wrap(
+                          spacing: 12,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Transform.rotate(
+                              angle: math.pi / 1.35,
+                              child: Icon(Icons.undo, color: baseColors.green, size: 16)
+                            ),
+                            Text(
+                              '+' + transactionSummary['total_income'].toStringAsFixed(2),
+                              style: GoogleFonts.lato(fontSize: baseFontSize.text2)
+                            ),
+                            Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(math.pi),
+                              child: Transform.rotate(
+                                angle: -math.pi / 4,
+                                child: Transform.translate(
+                                  offset: Offset(0.0, -5),
+                                  child: Icon(Icons.undo, color: baseColors.red, size: 16)
+                                )
+                              )
+                            ),
+                            Text(
+                              transactionSummary['total_expenses'].toStringAsFixed(2),
+                              style: GoogleFonts.lato(fontSize: baseFontSize.text2)
                             )
-                          )
-                        ),
-                        Text(
-                          transactionSummary['total_expenses'].toStringAsFixed(2),
-                          style: GoogleFonts.lato(fontSize: baseFontSize.text2)
+                          ]
                         )
                       ]
                     )
