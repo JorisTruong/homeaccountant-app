@@ -25,6 +25,7 @@ We are listing here all the improvements that are currently planned to be made f
 * Ability to select multiple accounts
 * Support for multiple currencies
 * Import/Export option
+* Add the ability for a transaction to be recurrent
 
 ### Medium priority:
 * Create a logo
@@ -33,11 +34,9 @@ We are listing here all the improvements that are currently planned to be made f
 
 ### Low priority:
 * Research bar in Categories
-* Review navigation design
 * Filter transactions by expense or not
 * Clicking main cards in homepage navigates to graphs with eventual filters
 * Add the ability to set a monthly budget amount for each category/subcategory
-* Add the ability for a transaction to be recurrent
 * Self-hosting option
 
 # Issues
