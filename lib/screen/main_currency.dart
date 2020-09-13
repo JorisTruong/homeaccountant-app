@@ -5,12 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:currency_pickers/utils/utils.dart';
 import 'package:currency_pickers/country.dart';
 import 'package:currency_pickers/currency_picker_dialog.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/generic_header.dart';
+import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/queries/main_currency.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -146,14 +147,12 @@ class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProvider
                                                             border: OutlineInputBorder(borderSide: BorderSide.none),
                                                             contentPadding: EdgeInsets.only(right: 20.0),
                                                             hintText: 'Currency',
-                                                            prefixIcon: _store.state.mainCountryIso == null ?
-                                                              Icon(MaterialCommunityIcons.currency_sign, size: 18.0, color: baseColors.mainColor) :
-                                                              Column(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: [
-                                                                  CurrencyPickerUtils.getDefaultFlagImage(CurrencyPickerUtils.getCountryByIsoCode(_store.state.mainCountryIso)),
-                                                                ]
-                                                              ),
+                                                            prefixIcon: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                CurrencyPickerUtils.getDefaultFlagImage(CurrencyPickerUtils.getCountryByIsoCode(_store.state.mainCountryIso)),
+                                                              ]
+                                                            ),
                                                           ),
                                                           onTap: () {
                                                             showDialog(
@@ -166,7 +165,13 @@ class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProvider
                                                                   searchInputDecoration: InputDecoration(hintText: 'Search...'),
                                                                   isSearchable: true,
                                                                   title: Text('Select your currency'),
-                                                                  onValuePicked: (Country country) {
+                                                                  onValuePicked: (Country country) async {
+                                                                    Map<String, dynamic> updatedMainCurrency = {
+                                                                      'id': 0,
+                                                                      'country_iso': country.isoCode,
+                                                                      'currency': country.currencyCode
+                                                                    };
+                                                                    await updateMainCurrency(databaseClient.db, updatedMainCurrency);
                                                                     _store.dispatch(MainCountryIso(country.isoCode));
                                                                     TextEditingController currency = TextEditingController();
                                                                     currency.text = "${country.currencyCode} (${country.isoCode})";

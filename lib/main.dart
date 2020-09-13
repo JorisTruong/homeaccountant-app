@@ -19,7 +19,8 @@ import 'screen/category_info.dart';
 import 'screen/main_currency.dart';
 import 'navigation/app_routes.dart';
 import 'navigation/route_aware_widget.dart';
-import 'package:homeaccountantapp/database/database.dart';
+import 'database/database.dart';
+import 'database/queries/main_currency.dart';
 import 'redux/models/models.dart';
 import 'redux/reducers/app_reducer.dart';
 import 'redux/middleware/navigation_middleware.dart';
@@ -49,8 +50,9 @@ void main() async {
   await initializeDatabase();
   TextEditingController showTransactionDate = TextEditingController();
   showTransactionDate.text = DateTime.now().toString().substring(0, 7);
+  Map<String, dynamic> mainCurrency = await readMainCurrency(databaseClient.db);
   TextEditingController mainCurrencyText = TextEditingController();
-  mainCurrencyText.text = 'EUR (FR)';
+  mainCurrencyText.text = '${mainCurrency["currency"]} (${mainCurrency["country_iso"]})';
 
   final store = Store<AppState>(
     appReducer,
@@ -58,7 +60,7 @@ void main() async {
       accountId: 1,
       accountInfoName: TextEditingController(),
       accountInfoAcronym: TextEditingController(),
-      mainCountryIso: 'FR',
+      mainCountryIso: mainCurrency["country_iso"],
       mainCurrencyText: mainCurrencyText,
       transactionName: TextEditingController(),
       transactionDate: TextEditingController(),

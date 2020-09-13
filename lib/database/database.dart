@@ -49,7 +49,21 @@ class DatabaseClient {
         'FOREIGN KEY (subcategory_id) REFERENCES subcategories (subcategory_id)' +
       ')'
     );
+    database.execute(
+      'CREATE TABLE main_currency(id INTEGER PRIMARY KEY, country_iso TEXT, currency TEXT)'
+    );
     return null;
+  }
+
+  Future<void> initializeMainCurrency(Database db) async {
+    Map<String, dynamic> mainCurrency = {
+      'id': 0,
+      'country_iso': 'FR',
+      'currency': 'EUR'
+    };
+    Batch batch = db.batch();
+    batch.insert('main_currency', mainCurrency);
+    batch.commit();
   }
 
   Future<void> initializeAccounts(Database db) async {
@@ -246,6 +260,7 @@ class DatabaseClient {
       join(await getDatabasesPath(), 'home_accountant.db'),
       onCreate: (db, version) async {
         await createTables(db);
+        await initializeMainCurrency(db);
         await initializeAccounts(db);
         await initializeCategories(db);
         await initializeSubcategories(db);
