@@ -134,10 +134,15 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                                                   accountName.text = snapshot.data[index].accountName;
                                                   TextEditingController accountAcronym = TextEditingController();
                                                   accountAcronym.text = snapshot.data[index].accountAcronym;
+                                                  TextEditingController accountCurrency = TextEditingController();
+                                                  Country country = CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[index].accountCountryIso);
+                                                  accountCurrency.text = "${country.currencyCode} (${country.isoCode})";
                                                   _store.dispatch(AccountInfoId(snapshot.data[index].accountId));
                                                   _store.dispatch(AccountInfoName(accountName));
                                                   _store.dispatch(AccountInfoAcronym(accountAcronym));
                                                   _store.dispatch(AccountInfoCountryIso(snapshot.data[index].accountCountryIso));
+                                                  _store.dispatch(AccountInfoCurrencyText(accountCurrency));
+
                                                   print(snapshot.data[index]);
 
                                                   _store.dispatch(NavigatePushAction(AppRoutes.account));

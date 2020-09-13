@@ -1,6 +1,7 @@
 # 1.0.1 (2020-??-??)
 
 * Added balance
+* Can choose a currency for each account
 
 # 1.0.0 (2020-08-30)
 

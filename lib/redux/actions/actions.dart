@@ -30,6 +30,12 @@ class AccountInfoCountryIso {
   AccountInfoCountryIso(this.accountInfoCountryIso);
 }
 
+class AccountInfoCurrencyText {
+  final TextEditingController accountInfoCurrencyText;
+
+  AccountInfoCurrencyText(this.accountInfoCurrencyText);
+}
+
 class UpdateDateRangeType {
   final String dateRangeType;
 

@@ -1,4 +1,3 @@
-import 'package:currency_pickers/countries.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,6 +6,7 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:currency_pickers/utils/utils.dart';
 import 'package:currency_pickers/country.dart';
+import 'package:currency_pickers/currency_picker_dialog.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:homeaccountantapp/const.dart';
@@ -42,8 +42,19 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
     _store.dispatch(AccountInfoName(TextEditingController()));
     _store.dispatch(AccountInfoAcronym(TextEditingController()));
     _store.dispatch(AccountInfoCountryIso(null));
+    _store.dispatch(AccountInfoCurrencyText(TextEditingController()));
     _store.dispatch(IsCreatingAccount(false));
   }
+
+  Widget _buildDialogItem(Country country) => Row(
+    children: <Widget>[
+      CurrencyPickerUtils.getDefaultFlagImage(country),
+      SizedBox(width: 8.0),
+      Text("${country.currencyCode}"),
+      SizedBox(width: 8.0),
+      Flexible(child: Text(country.name))
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -221,78 +232,78 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                       ]
                                                     ),
                                                     SizedBox(height: 12.0),
+                                                    /// Select the currency
                                                     Row(
                                                       children: [
-                                                        /// Dropdown to select the current
                                                         Expanded(
                                                           flex: 7,
                                                           child: Text(
                                                             'Currency',
                                                             style: GoogleFonts.lato(
                                                               fontWeight: FontWeight.bold,
-                                                              fontSize: baseFontSize.text
+                                                              fontSize: baseFontSize.text,
                                                             ),
                                                           )
                                                         ),
                                                         Expanded(
                                                           flex: 13,
-                                                          child: DropdownButtonHideUnderline(
-                                                            child: ButtonTheme(
-                                                              alignedDropdown: true,
-                                                              child: Card(
-                                                                color: baseColors.tertiaryColor,
-                                                                margin: EdgeInsets.zero,
-                                                                shape: RoundedRectangleBorder(
-                                                                  side: BorderSide(color: errorCurrency ? baseColors.errorColor : baseColors.transparent)
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              color: baseColors.tertiaryColor,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors.grey.withOpacity(0.35),
+                                                                  spreadRadius: 0,
+                                                                  blurRadius: 0,
+                                                                  offset: Offset(1, 1), // changes position of shadow
                                                                 ),
-                                                                child: Row(
-                                                                  children: [
-                                                                    _store.state.accountInfoCountryIso == null ? SizedBox(width: 15.0) : Container(),
-                                                                    _store.state.accountInfoCountryIso == null ? Icon(MaterialCommunityIcons.currency_sign, size: 18.0) : Container(),
-                                                                    Expanded(
-                                                                      child: DropdownButton<Country>(
-                                                                        icon: Icon(Icons.keyboard_arrow_down),
-                                                                        value: _store.state.accountInfoCountryIso == null ? null : CurrencyPickerUtils.getCountryByIsoCode(_store.state.accountInfoCountryIso),
-                                                                        hint: Text(
-                                                                          'Currency',
-                                                                          textAlign: TextAlign.center,
-                                                                          style: GoogleFonts.lato(color: baseColors.secondaryColor, fontSize: baseFontSize.text)
-                                                                        ),
-                                                                        isDense: false,
-                                                                        onTap: () {
-                                                                          if (!currentFocus.hasPrimaryFocus) {
-                                                                            currentFocus.unfocus();
-                                                                          }
-                                                                        },
-                                                                        onChanged: (Country newValue) {
-                                                                          setState(() {
-                                                                            errorCurrency = false;
-                                                                          });
-                                                                          _store.dispatch(AccountInfoCountryIso(newValue.isoCode));
-                                                                        },
-                                                                        items: List.generate(countryList.length, (int index) {
-                                                                          return DropdownMenuItem<Country>(
-                                                                            value: countryList[index],
-                                                                            child: Row(
-                                                                              children: <Widget>[
-                                                                                CurrencyPickerUtils.getDefaultFlagImage(countryList[index]),
-                                                                                SizedBox(
-                                                                                  width: 8.0,
-                                                                                ),
-                                                                                Text(
-                                                                                  "${countryList[index].currencyCode} (${countryList[index].isoCode})",
-                                                                                  style: GoogleFonts.lato(fontSize: baseFontSize.text)
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          );
-                                                                        })
-                                                                      )
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                              )
-                                                            )
+                                                              ],
+                                                            ),
+                                                            child: TextField(
+                                                              readOnly: true,
+                                                              controller: _store.state.accountInfoCurrencyText,
+                                                              style: GoogleFonts.lato(fontSize: baseFontSize.text),
+                                                              decoration: InputDecoration(
+                                                                isDense: true,
+                                                                alignLabelWithHint: true,
+                                                                border: OutlineInputBorder(borderSide: BorderSide.none),
+                                                                contentPadding: EdgeInsets.only(right: 20.0),
+                                                                hintText: 'Currency',
+                                                                prefixIcon: _store.state.accountInfoCountryIso == null ?
+                                                                  Icon(MaterialCommunityIcons.currency_sign, size: 18.0, color: baseColors.mainColor) :
+                                                                  Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      CurrencyPickerUtils.getDefaultFlagImage(CurrencyPickerUtils.getCountryByIsoCode(_store.state.accountInfoCountryIso)),
+                                                                    ]
+                                                                  ),
+                                                              ),
+                                                              onTap: () {
+                                                                if (!currentFocus.hasPrimaryFocus) {
+                                                                  currentFocus.unfocus();
+                                                                }
+                                                                showDialog(
+                                                                  context: context,
+                                                                  builder: (context) => Theme(
+                                                                    data: Theme.of(context).copyWith(primaryColor: baseColors.mainColor),
+                                                                    child: CurrencyPickerDialog(
+                                                                      titlePadding: EdgeInsets.all(8.0),
+                                                                      searchCursorColor: baseColors.mainColor,
+                                                                      searchInputDecoration: InputDecoration(hintText: 'Search...'),
+                                                                      isSearchable: true,
+                                                                      title: Text('Select your currency'),
+                                                                      onValuePicked: (Country country) {
+                                                                        _store.dispatch(AccountInfoCountryIso(country.isoCode));
+                                                                        TextEditingController currency = TextEditingController();
+                                                                        currency.text = "${country.currencyCode} (${country.isoCode})";
+                                                                        _store.dispatch(AccountInfoCurrencyText(currency));
+                                                                      },
+                                                                      itemBuilder: _buildDialogItem
+                                                                    )
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
                                                           )
                                                         )
                                                       ]
