@@ -2,6 +2,7 @@
 
 * Added balance
 * Can choose a currency for each account
+* Added main currency page
 
 # 1.0.0 (2020-08-30)
 

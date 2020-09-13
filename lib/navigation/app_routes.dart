@@ -8,4 +8,5 @@ class AppRoutes {
   static const transaction = '/transaction';
   static const category = '/category';
   static const subcategory = '/subcategory';
+  static const mainCurrency = '/main_currency';
 }

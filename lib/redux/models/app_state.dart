@@ -11,6 +11,8 @@ class AppState {
   final TextEditingController accountInfoAcronym;
   final String accountInfoCountryIso;
   final TextEditingController accountInfoCurrencyText;
+  final String mainCountryIso;
+  final TextEditingController mainCurrencyText;
   final TextEditingController transactionName;
   final int transactionAccountId;
   final TextEditingController transactionDate;
@@ -42,6 +44,8 @@ class AppState {
     this.accountInfoAcronym,
     this.accountInfoCountryIso,
     this.accountInfoCurrencyText,
+    this.mainCountryIso,
+    this.mainCurrencyText,
     this.transactionId,
     this.transactionName,
     this.transactionAccountId,

@@ -16,6 +16,7 @@ import 'screen/graphs.dart';
 import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
 import 'screen/category_info.dart';
+import 'screen/main_currency.dart';
 import 'navigation/app_routes.dart';
 import 'navigation/route_aware_widget.dart';
 import 'package:homeaccountantapp/database/database.dart';
@@ -48,6 +49,8 @@ void main() async {
   await initializeDatabase();
   TextEditingController showTransactionDate = TextEditingController();
   showTransactionDate.text = DateTime.now().toString().substring(0, 7);
+  TextEditingController mainCurrencyText = TextEditingController();
+  mainCurrencyText.text = 'EUR (FR)';
 
   final store = Store<AppState>(
     appReducer,
@@ -55,6 +58,8 @@ void main() async {
       accountId: 1,
       accountInfoName: TextEditingController(),
       accountInfoAcronym: TextEditingController(),
+      mainCountryIso: 'FR',
+      mainCurrencyText: mainCurrencyText,
       transactionName: TextEditingController(),
       transactionDate: TextEditingController(),
       categorySubcategoryText: TextEditingController(),
@@ -97,6 +102,8 @@ class MyApp extends StatelessWidget {
         return BottomToTopRoute(CategoryInfoPage(), settings: settings);
       case AppRoutes.subcategory:
         return BottomToTopRoute(SubcategoryPage(), settings: settings);
+      case AppRoutes.mainCurrency:
+        return RightToLeftRoute(MainCurrencyPage(), settings: settings);
       default:
         return MainRoute(MyHomePage(), settings: settings);
     }

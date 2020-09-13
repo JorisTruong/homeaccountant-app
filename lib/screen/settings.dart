@@ -74,6 +74,15 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                                           _store.dispatch(NavigatePushAction(AppRoutes.categories));
                                         },
                                       )
+                                    ),
+                                    Card(
+                                      child: ListTile(
+                                        title: Text('Main Currency'),
+                                        trailing: Icon(Icons.keyboard_arrow_right),
+                                        onTap: () {
+                                          _store.dispatch(NavigatePushAction(AppRoutes.mainCurrency));
+                                        },
+                                      )
                                     )
                                   ],
                                 ),

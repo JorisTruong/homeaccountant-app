@@ -14,6 +14,8 @@ AppState appReducer(AppState state, action) {
     accountInfoAcronym: accountInfoAcronymReducer(state.accountInfoAcronym, action),
     accountInfoCountryIso: accountInfoCurrencyReducer(state.accountInfoCountryIso, action),
     accountInfoCurrencyText: accountInfoCurrencyTextReducer(state.accountInfoCurrencyText, action),
+    mainCountryIso: mainCountryIsoReducer(state.mainCountryIso, action),
+    mainCurrencyText: mainCurrencyTextReducer(state.mainCurrencyText, action),
     transactionId: transactionIdReducer(state.transactionId, action),
     transactionName: transactionNameReducer(state.transactionName, action),
     transactionAccountId: transactionAccountIdReducer(state.transactionAccountId, action),

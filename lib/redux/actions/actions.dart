@@ -36,6 +36,18 @@ class AccountInfoCurrencyText {
   AccountInfoCurrencyText(this.accountInfoCurrencyText);
 }
 
+class MainCountryIso {
+  final String mainCountryIso;
+
+  MainCountryIso(this.mainCountryIso);
+}
+
+class MainCurrencyText {
+  final TextEditingController mainCurrencyText;
+
+  MainCurrencyText(this.mainCurrencyText);
+}
+
 class UpdateDateRangeType {
   final String dateRangeType;
 
