@@ -1,6 +1,6 @@
 # 1.0.1 (2020-??-??)
 
-* Added balance
+* Added balance in transactions
 * Can choose a currency for each account
 * Added main currency page
 
