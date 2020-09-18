@@ -620,7 +620,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                         controller: _store.state.transactionAmount,
                                                         style: GoogleFonts.lato(fontSize: baseFontSize.text),
                                                         decoration: InputDecoration(
-                                                          errorText: errorDate ? '' : null,
+                                                          errorText: errorAmount ? '' : null,
                                                           errorStyle: GoogleFonts.lato(height: 0),
                                                           isDense: true,
                                                           alignLabelWithHint: true,
