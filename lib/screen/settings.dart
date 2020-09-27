@@ -77,10 +77,19 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                                     ),
                                     Card(
                                       child: ListTile(
-                                        title: Text('Main Currency'),
+                                        title: Text('Main currency'),
                                         trailing: Icon(Icons.keyboard_arrow_right),
                                         onTap: () {
                                           _store.dispatch(NavigatePushAction(AppRoutes.mainCurrency));
+                                        },
+                                      )
+                                    ),
+                                    Card(
+                                      child: ListTile(
+                                        title: Text('Exchange rates'),
+                                        trailing: Icon(Icons.keyboard_arrow_right),
+                                        onTap: () {
+                                          _store.dispatch(NavigatePushAction(AppRoutes.exchangeRates));
                                         },
                                       )
                                     )

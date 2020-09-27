@@ -17,6 +17,7 @@ import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
 import 'screen/category_info.dart';
 import 'screen/main_currency.dart';
+import 'screen/exchange_rates.dart';
 import 'navigation/app_routes.dart';
 import 'navigation/route_aware_widget.dart';
 import 'database/database.dart';
@@ -106,6 +107,8 @@ class MyApp extends StatelessWidget {
         return BottomToTopRoute(SubcategoryPage(), settings: settings);
       case AppRoutes.mainCurrency:
         return RightToLeftRoute(MainCurrencyPage(), settings: settings);
+      case AppRoutes.exchangeRates:
+        return RightToLeftRoute(ExchangeRatesPage(), settings: settings);
       default:
         return MainRoute(MyHomePage(), settings: settings);
     }

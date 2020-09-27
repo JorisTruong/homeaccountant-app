@@ -52,6 +52,15 @@ class DatabaseClient {
     database.execute(
       'CREATE TABLE main_currency(id INTEGER PRIMARY KEY, country_iso TEXT, currency TEXT)'
     );
+    database.execute(
+      'CREATE TABLE exchange_rates(' +
+        'exchange_rate_id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+        '`from` TEXT,' +
+        '`to` TEXT,' +
+        'rate REAL,' +
+        '`date` TEXT' +
+      ')'
+    );
     return null;
   }
 

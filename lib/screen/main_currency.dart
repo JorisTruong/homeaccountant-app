@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:currency_pickers/utils/utils.dart';
 import 'package:currency_pickers/country.dart';
 import 'package:currency_pickers/currency_picker_dialog.dart';
+import 'package:currency_pickers/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:homeaccountantapp/const.dart';
@@ -30,7 +30,7 @@ class MainCurrencyPage extends StatefulWidget {
 }
 
 class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProviderStateMixin {
-  String exchangeRatesApi = 'https://exchangeratesapi.io/';
+  String exchangeRateLink = 'https://exchangerate.host/';
 
   Widget _buildDialogItem(Country country) => Row(
     children: <Widget>[
@@ -59,7 +59,7 @@ class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProvider
             body: Center(
               child: Column(
                 children: [
-                  GenericHeader('Main Currency', true, () {
+                  GenericHeader('Main currency', true, () {
                     _store.dispatch(NavigatePopAction());
                     Navigator.of(context).pop();
                   }),
@@ -210,7 +210,7 @@ class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProvider
                                                       ),
                                                       SizedBox(height: 12),
                                                       Text(
-                                                        "Conversions are performed using an open-source projet, Exchange Rates API. The applied exchange rates are published by the European Central Bank. You can find more info about the project here: ",
+                                                        "Conversions are performed using an open-source projet, Exchange rates API. The applied exchange rates are published by financial data providers and banks, including the European Central Bank. You can find more info about the project here: ",
                                                         style: GoogleFonts.lato(
                                                           color: baseColors.mainColor,
                                                           fontSize: baseFontSize.subtitle
@@ -220,7 +220,7 @@ class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProvider
                                                       SizedBox(height: 12),
                                                       InkWell(
                                                         child: Text(
-                                                          exchangeRatesApi,
+                                                          exchangeRateLink,
                                                           style: GoogleFonts.lato(
                                                             color: baseColors.blue,
                                                             fontSize: baseFontSize.subtitle
@@ -228,10 +228,10 @@ class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProvider
                                                           textAlign: TextAlign.center,
                                                         ),
                                                         onTap: () async {
-                                                          if (await canLaunch(exchangeRatesApi)) {
-                                                            await launch(exchangeRatesApi);
+                                                          if (await canLaunch(exchangeRateLink)) {
+                                                            await launch(exchangeRateLink);
                                                           } else {
-                                                            throw 'Could not launch $exchangeRatesApi';
+                                                            throw 'Could not launch $exchangeRateLink';
                                                           }
                                                         },
                                                       )
