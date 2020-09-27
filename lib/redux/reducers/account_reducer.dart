@@ -3,14 +3,14 @@ import 'package:redux/redux.dart';
 
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 
-final accountIdReducer = TypedReducer<int, ChangeAccount>(_accountIdReducer);
+final accountIdReducer = TypedReducer<List<int>, ChangeAccount>(_accountIdReducer);
 final accountInfoIdReducer = TypedReducer<int, AccountInfoId>(_accountInfoIdReducer);
 final accountInfoNameReducer = TypedReducer<TextEditingController, AccountInfoName>(_accountInfoNameReducer);
 final accountInfoAcronymReducer = TypedReducer<TextEditingController, AccountInfoAcronym>(_accountInfoAcronymReducer);
 final accountInfoCurrencyReducer = TypedReducer<String, AccountInfoCountryIso>(_accountInfoCurrencyReducer);
 final accountInfoCurrencyTextReducer = TypedReducer<TextEditingController, AccountInfoCurrencyText>(_accountInfoCurrencyTextReducer);
 
-int _accountIdReducer(int accountId, ChangeAccount action) {
+List<int> _accountIdReducer(List<int> accountId, ChangeAccount action) {
   return action.accountId;
 }
 

@@ -359,9 +359,13 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                                             );
                                                                           } else {
                                                                             await deleteAccount(databaseClient.db, _store.state.accountInfoId);
-                                                                            if (_store.state.accountInfoId == _store.state.accountId) {
-                                                                              Account baseAccount = (await readAccounts(databaseClient.db))[0];
-                                                                              _store.dispatch(ChangeAccount(baseAccount.accountId));
+                                                                            if (_store.state.accountId.contains(_store.state.accountInfoId)) {
+                                                                              _store.state.accountId.remove(_store.state.accountInfoId);
+                                                                              if (_store.state.accountId.length < 1) {
+                                                                                Account baseAccount = (await readAccounts(databaseClient.db))[0];
+                                                                                _store.state.accountId.add(baseAccount.accountId);
+                                                                              }
+                                                                              _store.dispatch(ChangeAccount(_store.state.accountId));
                                                                             }
                                                                             resetState(_store);
                                                                             _store.dispatch(NavigatePopAction());

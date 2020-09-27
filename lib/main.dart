@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:homeaccountantapp/screen/subcategory.dart';
-import 'package:homeaccountantapp/utils.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:redux_persist/redux_persist.dart';
+import 'package:redux_persist_flutter/redux_persist_flutter.dart';
 
 import 'components/navigation_bar.dart';
 import 'screen/homepage.dart';
@@ -16,6 +16,7 @@ import 'screen/graphs.dart';
 import 'screen/transaction_info.dart';
 import 'screen/categories.dart';
 import 'screen/category_info.dart';
+import 'screen/subcategory.dart';
 import 'screen/main_currency.dart';
 import 'screen/exchange_rates.dart';
 import 'navigation/app_routes.dart';
@@ -26,6 +27,7 @@ import 'redux/models/models.dart';
 import 'redux/reducers/app_reducer.dart';
 import 'redux/middleware/navigation_middleware.dart';
 import 'const.dart';
+import 'utils.dart';
 
 ///
 /// This is the entry point of the application.
@@ -55,10 +57,17 @@ void main() async {
   TextEditingController mainCurrencyText = TextEditingController();
   mainCurrencyText.text = '${mainCurrency["currency"]} (${mainCurrency["country_iso"]})';
 
+  final persistor = Persistor<AppState>(
+    storage: FlutterStorage(),
+    serializer: JsonSerializer<AppState>(AppState.fromJson),
+  );
+
+  final initialState = await persistor.load();
+
   final store = Store<AppState>(
     appReducer,
     initialState: AppState(
-      accountId: 1,
+      accountId: initialState == null ? [1] : initialState.accountId,
       accountInfoName: TextEditingController(),
       accountInfoAcronym: TextEditingController(),
       mainCountryIso: mainCurrency["country_iso"],
@@ -80,7 +89,7 @@ void main() async {
       isCreatingSubcategory: false, /// If we are creating a subcategory or not
       isSelectingSubcategory: false, /// If we are currently selecting a subcategory from the transactions page
     ),
-    middleware: createNavigationMiddleware()
+    middleware: createNavigationMiddleware(persistor)
   );
 
   runApp(StoreProvider(store: store, child: MyApp()));

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ChangeAccount {
-  final int accountId;
+  final List<int> accountId;
 
   ChangeAccount(this.accountId);
 }

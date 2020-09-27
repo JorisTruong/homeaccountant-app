@@ -44,7 +44,7 @@ class DatabaseClient {
         'description TEXT,' +
         'category_id INTEGER,' +
         'subcategory_id INTEGER,' +
-        'FOREIGN KEY (account_id) REFERENCES accounts (account_id),' +
+        'FOREIGN KEY (account_id) REFERENCES accounts (account_id) ON DELETE CASCADE,' +
         'FOREIGN KEY (category_id) REFERENCES categories (category_id),' +
         'FOREIGN KEY (subcategory_id) REFERENCES subcategories (subcategory_id)' +
       ')'

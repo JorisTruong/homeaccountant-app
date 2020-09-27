@@ -26,8 +26,8 @@ Future<List<Account>> readAccounts(Database db) async {
 }
 
 // READ ONE
-Future<Account> accountFromId(Database db, int accountId) async {
-  final List<Map<String, dynamic>> account = (await db.rawQuery('SELECT * FROM accounts WHERE account_id=?', [accountId]));
+Future<Account> accountFromId(Database db, List<int> accountId) async {
+  final List<Map<String, dynamic>> account = (await db.rawQuery('SELECT * FROM accounts WHERE account_id IN (${accountId.map((e) => '?').join(', ')})', [...accountId]));
   if (account.length > 0) {
     return Account(
       accountId: account[0]['account_id'],

@@ -212,7 +212,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                           color: baseColors.tertiaryColor,
                                                           margin: EdgeInsets.zero,
                                                           shape: RoundedRectangleBorder(
-                                                              side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.transparent)
+                                                              side: BorderSide(color: errorAccount ? baseColors.errorColor : baseColors.transparent)
                                                           ),
                                                           child: Row(
                                                             children: [
@@ -363,7 +363,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                           color: baseColors.tertiaryColor,
                                                           margin: EdgeInsets.zero,
                                                           shape: RoundedRectangleBorder(
-                                                            side: BorderSide(color: errorCategory ? baseColors.errorColor : baseColors.transparent)
+                                                            side: BorderSide(color: errorIsExpense ? baseColors.errorColor : baseColors.transparent)
                                                           ),
                                                           child: Row(
                                                             children: [

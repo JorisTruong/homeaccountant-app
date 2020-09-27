@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 class AppState {
-  final int accountId;
+  final List<int> accountId;
   final int transactionId;
   final int accountInfoId;
   final TextEditingController accountInfoName;
@@ -75,5 +75,21 @@ class AppState {
   @override
   String toString() {
     return 'AppState: {accountId: $accountId, dateRange: $dateRange, route: $route}';
+  }
+
+  static AppState fromJson(dynamic json) {
+    if (json == null) {
+      return null;
+    } else {
+      return AppState(
+        accountId: json["accountId"].cast<int>()
+      );
+    }
+  }
+
+  dynamic toJson() {
+    return {
+      'accountId': accountId
+    };
   }
 }
