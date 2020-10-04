@@ -85,8 +85,20 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                               ),
                               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                                 if (snapshot.hasData) {
+                                  String currency = '';
+                                  String firstCurrency = CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[1][0].accountCountryIso).currencyCode;
+                                  if (snapshot.data[1].length != 1) {
+                                    List<dynamic> allSameCurrency = snapshot.data[1].map((account) => CurrencyPickerUtils.getCountryByIsoCode(account.accountCountryIso).currencyCode == firstCurrency).toList();
+                                    if (allSameCurrency.contains(false)) {
+                                      currency = CurrencyPickerUtils.getCountryByIsoCode(_store.state.mainCountryIso).currencyCode;
+                                    } else {
+                                      currency = firstCurrency;
+                                    }
+                                  } else {
+                                    currency = firstCurrency;
+                                  }
                                   return Text(
-                                    snapshot.data[0].toStringAsFixed(2) + " " + CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[1].accountCountryIso).currencyCode,
+                                    snapshot.data[0].toStringAsFixed(2) + " " + currency,
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,

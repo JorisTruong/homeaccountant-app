@@ -26,15 +26,17 @@ Future<List<Account>> readAccounts(Database db) async {
 }
 
 // READ ONE
-Future<Account> accountFromId(Database db, List<int> accountId) async {
-  final List<Map<String, dynamic>> account = (await db.rawQuery('SELECT * FROM accounts WHERE account_id IN (${accountId.map((e) => '?').join(', ')})', [...accountId]));
-  if (account.length > 0) {
-    return Account(
-      accountId: account[0]['account_id'],
-      accountName: account[0]['account_name'],
-      accountAcronym: account[0]['account_acronym'],
-      accountCountryIso: account[0]['account_country']
-    );
+Future<List<Account>> accountFromId(Database db, List<int> accountId) async {
+  final List<Map<String, dynamic>> accounts = (await db.rawQuery('SELECT * FROM accounts WHERE account_id IN (${accountId.map((e) => '?').join(', ')})', [...accountId]));
+  if (accounts.length > 0) {
+    return List.generate(accounts.length, (i) {
+      return Account(
+        accountId: accounts[i]['account_id'],
+        accountName: accounts[i]['account_name'],
+        accountAcronym: accounts[i]['account_acronym'],
+        accountCountryIso: accounts[i]['account_country']
+      );
+    });
   } else {
     return null;
   }

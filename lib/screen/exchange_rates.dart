@@ -15,7 +15,9 @@ import 'package:homeaccountantapp/components/generic_header.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/exchange_rate.dart';
+import 'package:homeaccountantapp/database/models/accounts.dart';
 import 'package:homeaccountantapp/database/queries/exchange_rate.dart';
+import 'package:homeaccountantapp/database/queries/accounts.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
 
@@ -56,7 +58,6 @@ class _ExchangeRatesPageState extends State<ExchangeRatesPage> with TickerProvid
         return WillPopScope(
           onWillPop: () {
             _store.dispatch(NavigatePopAction());
-            print(_store.state);
             return Future(() => true);
           },
           child: Scaffold(
@@ -119,7 +120,7 @@ class _ExchangeRatesPageState extends State<ExchangeRatesPage> with TickerProvid
                                                 crossAxisAlignment: WrapCrossAlignment.center,
                                                 children: [
                                                   Text(
-                                                    'Rate: ' + snapshot.data[index].rate.toStringAsFixed(2),
+                                                    'Rate: ' + snapshot.data[index].rate.toString(),
                                                     style: GoogleFonts.lato(
                                                       color: baseColors.mainColor,
                                                       fontSize: baseFontSize.subtitle,
@@ -175,8 +176,19 @@ class _ExchangeRatesPageState extends State<ExchangeRatesPage> with TickerProvid
                                                               FlatButton(
                                                                 child: Text('Confirm'),
                                                                 onPressed: () async {
-                                                                  await deleteExchangeRate(databaseClient.db, snapshot.data[index].exchangeRateId);
-                                                                  Navigator.of(context).pop();
+                                                                  List<Account> selectedAccounts = await accountFromId(databaseClient.db, _store.state.accountId);
+                                                                  Set<String> currencies = selectedAccounts.map((account) => CurrencyPickerUtils.getCountryByIsoCode(account.accountCountryIso).currencyCode).toSet();
+                                                                  ExchangeRate exchangeRate = snapshot.data[index];
+                                                                  if (currencies.contains(exchangeRate.from) && exchangeRate.to == CurrencyPickerUtils.getCountryByIsoCode(_store.state.mainCountryIso).currencyCode) {
+                                                                    Fluttertoast.showToast(
+                                                                      msg: 'You cannot delete this exchange rate as a selected account uses it.',
+                                                                      backgroundColor: baseColors.mainColor,
+                                                                      textColor: Colors.white
+                                                                    );
+                                                                  } else {
+                                                                    await deleteExchangeRate(databaseClient.db, exchangeRate.exchangeRateId);
+                                                                    Navigator.of(context).pop();
+                                                                  }
                                                                   setState((){});
                                                                 },
                                                               )
@@ -359,8 +371,6 @@ class _ExchangeRatesPageState extends State<ExchangeRatesPage> with TickerProvid
                               );
                             } else {
                               http.Response apiResponse = await http.get('https://api.exchangerate.host/convert?from=${from.text}&to=${to.text}');
-                              print(apiResponse);
-                              print(apiResponse.body);
                               Map<String, dynamic> apiResponseJson = json.decode(apiResponse.body);
                               double rate = apiResponseJson['info']['rate'];
                               ExchangeRate newExchangeRate = ExchangeRate(

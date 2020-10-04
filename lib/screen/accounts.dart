@@ -4,6 +4,8 @@ import 'package:redux/redux.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:currency_pickers/utils/utils.dart';
 import 'package:currency_pickers/country.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -11,7 +13,9 @@ import 'package:homeaccountantapp/components/generic_header.dart';
 import 'package:homeaccountantapp/components/loading_component.dart';
 import 'package:homeaccountantapp/database/database.dart';
 import 'package:homeaccountantapp/database/models/accounts.dart';
+import 'package:homeaccountantapp/database/models/exchange_rate.dart';
 import 'package:homeaccountantapp/database/queries/accounts.dart';
+import 'package:homeaccountantapp/database/queries/exchange_rate.dart';
 import 'package:homeaccountantapp/navigation/app_routes.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -121,18 +125,38 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                                               ],
                                             ),
                                             value: selectedAccount.contains(snapshot.data[index].accountId),
-                                            onChanged: (bool newValue) {
+                                            onChanged: (bool newValue) async {
                                               int selectedAccountId = snapshot.data[index].accountId;
-                                              setState(() {
-                                                if (_store.state.accountId.contains(selectedAccountId)) {
-                                                  if (_store.state.accountId.length > 1) {
-                                                    _store.state.accountId.remove(selectedAccountId);
-                                                  }
-                                                } else {
-                                                  _store.state.accountId.add(selectedAccountId);
+                                              if (_store.state.accountId.contains(selectedAccountId)) {
+                                                if (_store.state.accountId.length > 1) {
+                                                  _store.state.accountId.remove(selectedAccountId);
                                                 }
-                                                _store.dispatch(ChangeAccount(_store.state.accountId));
-                                              });
+                                              } else {
+                                                _store.state.accountId.add(selectedAccountId);
+                                              }
+                                              List<Account> selectedAccounts = await accountFromId(databaseClient.db, _store.state.accountId);
+                                              if (_store.state.accountId.length > 1) {
+                                                Set<String> currencies = selectedAccounts.map((account) => CurrencyPickerUtils.getCountryByIsoCode(account.accountCountryIso).currencyCode).toSet();
+                                                if (currencies.length > 1) {
+                                                  currencies.forEach((currency) async {
+                                                    String mainCurrency = CurrencyPickerUtils.getCountryByIsoCode(_store.state.mainCountryIso).currencyCode;
+                                                    ExchangeRate exchangeRate = await readExchangeRate(databaseClient.db, currency, mainCurrency);
+                                                    if (exchangeRate == null) {
+                                                      http.Response apiResponse = await http.get('https://api.exchangerate.host/convert?from=$currency&to=$mainCurrency');
+                                                      Map<String, dynamic> apiResponseJson = json.decode(apiResponse.body);
+                                                      double rate = apiResponseJson['info']['rate'];
+                                                      ExchangeRate newExchangeRate = ExchangeRate(
+                                                        from: currency,
+                                                        to: mainCurrency,
+                                                        rate: rate,
+                                                        date: DateTime.now().toString().substring(0, 10)
+                                                      );
+                                                      await createExchangeRate(databaseClient.db, newExchangeRate);
+                                                    }
+                                                  });
+                                                }
+                                              }
+                                              _store.dispatch(ChangeAccount(_store.state.accountId));
                                             },
                                             secondary: InkWell(
                                               onTap: () {
@@ -149,8 +173,6 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                                                 _store.dispatch(AccountInfoAcronym(accountAcronym));
                                                 _store.dispatch(AccountInfoCountryIso(snapshot.data[index].accountCountryIso));
                                                 _store.dispatch(AccountInfoCurrencyText(accountCurrency));
-
-                                                print(snapshot.data[index]);
 
                                                 _store.dispatch(NavigatePushAction(AppRoutes.account));
                                               },

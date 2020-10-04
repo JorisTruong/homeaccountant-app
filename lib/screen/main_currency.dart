@@ -6,11 +6,17 @@ import 'package:currency_pickers/country.dart';
 import 'package:currency_pickers/currency_picker_dialog.dart';
 import 'package:currency_pickers/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
 import 'package:homeaccountantapp/components/generic_header.dart';
 import 'package:homeaccountantapp/database/database.dart';
+import 'package:homeaccountantapp/database/models/accounts.dart';
+import 'package:homeaccountantapp/database/models/exchange_rate.dart';
+import 'package:homeaccountantapp/database/queries/accounts.dart';
+import 'package:homeaccountantapp/database/queries/exchange_rate.dart';
 import 'package:homeaccountantapp/database/queries/main_currency.dart';
 import 'package:homeaccountantapp/redux/actions/actions.dart';
 import 'package:homeaccountantapp/redux/models/models.dart';
@@ -176,6 +182,27 @@ class _MainCurrencyPageState extends State<MainCurrencyPage> with TickerProvider
                                                                     TextEditingController currency = TextEditingController();
                                                                     currency.text = "${country.currencyCode} (${country.isoCode})";
                                                                     _store.dispatch(MainCurrencyText(currency));
+
+                                                                    List<Account> selectedAccounts = await accountFromId(databaseClient.db, _store.state.accountId);
+                                                                    Set<String> currencies = selectedAccounts.map((account) => CurrencyPickerUtils.getCountryByIsoCode(account.accountCountryIso).currencyCode).toSet();
+                                                                    if (currencies.length > 1) {
+                                                                      currencies.forEach((currency) async {
+                                                                        String mainCurrency = CurrencyPickerUtils.getCountryByIsoCode(_store.state.mainCountryIso).currencyCode;
+                                                                        ExchangeRate exchangeRate = await readExchangeRate(databaseClient.db, currency, mainCurrency);
+                                                                        if (exchangeRate == null && currency != mainCurrency) {
+                                                                          http.Response apiResponse = await http.get('https://api.exchangerate.host/convert?from=$currency&to=$mainCurrency');
+                                                                          Map<String, dynamic> apiResponseJson = json.decode(apiResponse.body);
+                                                                          double rate = apiResponseJson['info']['rate'];
+                                                                          ExchangeRate newExchangeRate = ExchangeRate(
+                                                                              from: currency,
+                                                                              to: mainCurrency,
+                                                                              rate: rate,
+                                                                              date: DateTime.now().toString().substring(0, 10)
+                                                                          );
+                                                                          await createExchangeRate(databaseClient.db, newExchangeRate);
+                                                                        }
+                                                                      });
+                                                                    }
                                                                   },
                                                                   itemBuilder: _buildDialogItem
                                                                 )
