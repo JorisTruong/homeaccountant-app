@@ -148,7 +148,6 @@ class _TransactionsPageState extends State<TransactionsPage> with TickerProvider
                                                           showYearDatePicker(context, _store);
                                                         }
                                                       }
-                                                      _store.dispatch(UpdateDateRangeType(newValue));
                                                     },
                                                     items: [
                                                       DropdownMenuItem<String>(
@@ -360,6 +359,7 @@ Future<dynamic> showDayDatePicker(BuildContext context, Store<AppState> _store) 
             TextEditingController showTransactionDate = TextEditingController();
             showTransactionDate.text = datePeriod.toString().substring(0, 10);
             _store.dispatch(ShowTransactionDate(showTransactionDate));
+            _store.dispatch(UpdateDateRangeType('Day'));
             Navigator.of(context).pop();
           },
         ),
@@ -393,6 +393,7 @@ Future<dynamic> showMonthDatePicker(BuildContext context, Store<AppState> _store
             TextEditingController showTransactionDate = TextEditingController();
             showTransactionDate.text = datePeriod.toString().substring(0, 7);
             _store.dispatch(ShowTransactionDate(showTransactionDate));
+            _store.dispatch(UpdateDateRangeType('Month'));
             Navigator.of(context).pop();
           },
         ),
@@ -429,6 +430,7 @@ Future<dynamic> showYearDatePicker(BuildContext context, Store<AppState> _store)
                 TextEditingController showTransactionDate = TextEditingController();
                 showTransactionDate.text = datePeriod.toString().substring(0, 4);
                 _store.dispatch(ShowTransactionDate(showTransactionDate));
+                _store.dispatch(UpdateDateRangeType('Year'));
                 Navigator.of(context).pop();
               },
             )

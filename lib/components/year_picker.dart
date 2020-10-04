@@ -75,7 +75,7 @@ class _YearPickerState extends State<YearPicker> {
               child: isSelected ?
                 RaisedButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    widget.onChanged(DateTime(year, widget.selectedDate.month, widget.selectedDate.day));
                   },
                   child: Text(
                     year.toString(),
