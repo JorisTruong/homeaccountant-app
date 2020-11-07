@@ -140,18 +140,20 @@ class _AccountsPageState extends State<AccountsPage> with TickerProviderStateMix
                                                 if (currencies.length > 1) {
                                                   currencies.forEach((currency) async {
                                                     String mainCurrency = CurrencyPickerUtils.getCountryByIsoCode(_store.state.mainCountryIso).currencyCode;
-                                                    ExchangeRate exchangeRate = await readExchangeRate(databaseClient.db, currency, mainCurrency);
-                                                    if (exchangeRate == null) {
-                                                      http.Response apiResponse = await http.get('https://api.exchangerate.host/convert?from=$currency&to=$mainCurrency');
-                                                      Map<String, dynamic> apiResponseJson = json.decode(apiResponse.body);
-                                                      double rate = apiResponseJson['info']['rate'];
-                                                      ExchangeRate newExchangeRate = ExchangeRate(
-                                                        from: currency,
-                                                        to: mainCurrency,
-                                                        rate: rate,
-                                                        date: DateTime.now().toString().substring(0, 10)
-                                                      );
-                                                      await createExchangeRate(databaseClient.db, newExchangeRate);
+                                                    if (currency != mainCurrency) {
+                                                      ExchangeRate exchangeRate = await readExchangeRate(databaseClient.db, currency, mainCurrency);
+                                                      if (exchangeRate == null) {
+                                                        http.Response apiResponse = await http.get('https://api.exchangerate.host/convert?from=$currency&to=$mainCurrency');
+                                                        Map<String, dynamic> apiResponseJson = json.decode(apiResponse.body);
+                                                        double rate = apiResponseJson['info']['rate'].toDouble();
+                                                        ExchangeRate newExchangeRate = ExchangeRate(
+                                                          from: currency,
+                                                          to: mainCurrency,
+                                                          rate: rate,
+                                                          date: DateTime.now().toString().substring(0, 10)
+                                                        );
+                                                        await createExchangeRate(databaseClient.db, newExchangeRate);
+                                                      }
                                                     }
                                                   });
                                                 }
