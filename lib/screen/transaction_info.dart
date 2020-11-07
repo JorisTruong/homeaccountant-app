@@ -7,6 +7,7 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'dart:math' as math;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:currency_pickers/currency_pickers.dart';
 
 import 'package:homeaccountantapp/const.dart';
 import 'package:homeaccountantapp/utils.dart';
@@ -575,26 +576,40 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                           ),
                                                         ],
                                                       ),
-                                                      child: TextField(
-                                                        inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
-                                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                        controller: _store.state.transactionAmount,
-                                                        style: GoogleFonts.lato(fontSize: baseFontSize.text),
-                                                        decoration: InputDecoration(
-                                                          errorText: errorAmount ? '' : null,
-                                                          errorStyle: GoogleFonts.lato(height: 0),
-                                                          isDense: true,
-                                                          alignLabelWithHint: true,
-                                                          errorBorder: OutlineInputBorder(borderSide: BorderSide(color: baseColors.errorColor)),
-                                                          border: OutlineInputBorder(borderSide: BorderSide.none),
-                                                          contentPadding: EdgeInsets.only(right: 20.0),
-                                                          hintText: 'Amount',
-                                                          prefixIcon: Icon(FontAwesome5.money_bill_alt, color: baseColors.mainColor)
-                                                        ),
-                                                        onChanged: (string) {
-                                                          setState(() {
-                                                            errorAmount = false;
-                                                          });
+                                                      child: FutureBuilder(
+                                                        future: accountFromId(databaseClient.db, [_store.state.transactionAccountId]),
+                                                        builder: (BuildContext context, AsyncSnapshot<List<Account>> snapshot) {
+                                                          return TextField(
+                                                            inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
+                                                            keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                            controller: _store.state.transactionAmount,
+                                                            style: GoogleFonts.lato(fontSize: baseFontSize.text),
+                                                            decoration: InputDecoration(
+                                                              errorText: errorAmount ? '' : null,
+                                                              errorStyle: GoogleFonts.lato(height: 0),
+                                                              isDense: true,
+                                                              alignLabelWithHint: true,
+                                                              errorBorder: OutlineInputBorder(borderSide: BorderSide(color: baseColors.errorColor)),
+                                                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                                                              contentPadding: EdgeInsets.only(right: 20.0),
+                                                              hintText: 'Amount',
+                                                              prefixIcon: Icon(FontAwesome5.money_bill_alt, color: baseColors.mainColor),
+                                                              suffixIcon: snapshot.hasData ?
+                                                                Padding(
+                                                                  padding: EdgeInsets.all(15),
+                                                                  child: Text(
+                                                                    CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[0].accountCountryIso).currencyCode,
+                                                                    style: TextStyle(color: baseColors.mainColor.withOpacity(0.6)),
+                                                                  )
+                                                                ):
+                                                                Text('')
+                                                            ),
+                                                            onChanged: (string) {
+                                                              setState(() {
+                                                                errorAmount = false;
+                                                              });
+                                                            }
+                                                          );
                                                         }
                                                       )
                                                     )
