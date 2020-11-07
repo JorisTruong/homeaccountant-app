@@ -14,7 +14,8 @@ class DatabaseClient {
         'account_id INTEGER PRIMARY KEY AUTOINCREMENT,' +
         'account_name TEXT,' +
         'account_acronym TEXT,' +
-        'account_country TEXT' +
+        'account_country TEXT,' +
+        'account_currency TEXT'
       ')'
     );
     database.execute(
@@ -80,7 +81,8 @@ class DatabaseClient {
       accountId: 1,
       accountName: 'Account 1',
       accountAcronym: 'ACC1',
-      accountCountryIso: 'FR'
+      accountCountryIso: 'FR',
+      accountCurrency: 'EUR'
     );
     Batch batch = db.batch();
     batch.insert('accounts', basicAccount.toMap());
