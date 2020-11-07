@@ -14,18 +14,18 @@ The application is built on multiple main pages:
 3. The **Settings page** is where accounts and subcategories can be managed.
 
 Home Accountant is organized in accounts. That is, you can build multiple accounts and save transactions independently from other accounts. The information on the homepage or graphs page are based on the selected account. It is also possible to selected a particular date range (day, month or year) in which the information showed will be based on the date range.
+Multiple currencies are supported, when multiple accounts from different currencies are selected. The application uses a **main currency**, where all transactions amount will be displayed using an exchange rate towards the **main currency**. For these exchange rates, we are using [exchangerate.host](https://exchangerate.host/).
 
-Home Accountant is build using [Flutter](https://flutter.dev/) and [Redux](https://pub.dev/packages/redux) as a state management tool. You can learn more about Redux [here](https://redux.js.org/).
+Home Accountant is built using [Flutter](https://flutter.dev/) and [Redux](https://pub.dev/packages/redux) as a state management tool. You can learn more about Redux [here](https://redux.js.org/).
 
 # Roadmap
 
 We are listing here all the improvements that are currently planned to be made for the application.
 
 ### High priority:
-* Ability to select multiple accounts
-* Support for multiple currencies
 * Import/Export option
 * Add the ability for a transaction to be recurrent
+* Add transfers between accounts (automatically add expense for one, income for the other)
 
 ### Medium priority:
 * Create a logo
@@ -61,6 +61,10 @@ Home Accountant currently uses the following libraries:
 * [flutter_pagewise](https://pub.dev/packages/flutter_pagewise)
 * [expandable](https://pub.dev/packages/expandable)
 * [flutter_icons](https://pub.dev/packages/flutter_icons)
+* [currency_pickers](https://pub.dev/packages/currency_pickers)
+* [fluttertoast](https://pub.dev/packages/fluttertoast)
+* [redux_persist](https://pub.dev/packages/redux_persist)
+* [redux_persist_flutter](https://pub.dev/packages/redux_persist_flutter)
 
 # License
 
