@@ -51,7 +51,8 @@ class _NavigationBarState extends State<NavigationBar> {
       items: _navBarsItems(),
       screens: _buildScreens(),
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(30.0)
+        borderRadius: BorderRadius.circular(30.0),
+        colorBehindNavBar: baseColors.mainColor
       ),
       confineInSafeArea: true,
       handleAndroidBackButtonPress: true,

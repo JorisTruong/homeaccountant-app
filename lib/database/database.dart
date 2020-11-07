@@ -92,8 +92,8 @@ class DatabaseClient {
   Future<void> initializeCategories(Database db) async {
     Category income = Category(
       categoryId: 0,
-      categoryName: 'Income',
-      categoryIconId: 601
+      categoryName: 'Work',
+      categoryIconId: 979
     );
     Category food = Category(
       categoryId: 1,
