@@ -414,7 +414,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                                 Account account = Account(
                                                                   accountName: _store.state.accountInfoName.text,
                                                                   accountAcronym: _store.state.accountInfoAcronym.text,
-                                                                  accountCountryIso: _store.state.accountInfoCountryIso
+                                                                  accountCountryIso: _store.state.accountInfoCountryIso,
+                                                                  accountCurrency: CurrencyPickerUtils.getCountryByIsoCode(_store.state.accountInfoCountryIso).currencyCode
                                                                 );
                                                                 await createAccount(databaseClient.db, account);
                                                               } else {
@@ -422,7 +423,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> with TickerProviderSt
                                                                   accountId: _store.state.accountInfoId,
                                                                   accountName: _store.state.accountInfoName.text,
                                                                   accountAcronym: _store.state.accountInfoAcronym.text,
-                                                                  accountCountryIso: _store.state.accountInfoCountryIso
+                                                                  accountCountryIso: _store.state.accountInfoCountryIso,
+                                                                  accountCurrency: CurrencyPickerUtils.getCountryByIsoCode(_store.state.accountInfoCountryIso).currencyCode
                                                                 );
                                                                 await updateAccount(databaseClient.db, account);
                                                               }
