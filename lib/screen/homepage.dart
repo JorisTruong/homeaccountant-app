@@ -149,11 +149,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return FutureBuilder(
-                            future: snapshot.data[index].subcategoryId == null ?
-                              categoryFromId(databaseClient.db, snapshot.data[index].categoryId) :
+                            future: snapshot.data[index]['subcategoryId'] == null ?
+                              categoryFromId(databaseClient.db, snapshot.data[index]['categoryId']) :
                               Future.wait([
-                                categoryFromId(databaseClient.db, snapshot.data[index].categoryId),
-                                subcategoryFromId(databaseClient.db, snapshot.data[index].subcategoryId)
+                                categoryFromId(databaseClient.db, snapshot.data[index]['categoryId']),
+                                subcategoryFromId(databaseClient.db, snapshot.data[index]['subcategoryId'])
                               ]),
                             builder: (BuildContext context, AsyncSnapshot<dynamic> tags) {
                               if (tags.hasData) {
@@ -163,37 +163,37 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     onTap: () async {
                                       _store.dispatch(IsCreatingTransaction(false));
                                       TextEditingController transactionName = TextEditingController();
-                                      transactionName.text = snapshot.data[index].transactionName;
+                                      transactionName.text = snapshot.data[index]['transactionName'];
                                       TextEditingController transactionDate = TextEditingController();
-                                      transactionDate.text = snapshot.data[index].date;
+                                      transactionDate.text = snapshot.data[index]['date'];
                                       TextEditingController subcategoryText = TextEditingController();
                                       Icon subcategoryIcon;
                                       /// Get the icon of the category if no subcategory is selected
-                                      if (snapshot.data[index].subcategoryId != null) {
-                                        m.Subcategory subcategory = await subcategoryFromId(databaseClient.db, snapshot.data[index].subcategoryId);
+                                      if (snapshot.data[index]['subcategoryId'] != null) {
+                                        m.Subcategory subcategory = await subcategoryFromId(databaseClient.db, snapshot.data[index]['subcategoryId']);
                                         subcategoryText.text = subcategory.subcategoryName;
                                         subcategoryIcon = Icon(
                                             icons_list[subcategory.subcategoryIconId],
-                                            color: getCategoryColor(snapshot.data[index].categoryId)
+                                            color: getCategoryColor(snapshot.data[index]['categoryId'])
                                         );
                                       } else {
-                                        m.Category category = await categoryFromId(databaseClient.db, snapshot.data[index].categoryId);
+                                        m.Category category = await categoryFromId(databaseClient.db, snapshot.data[index]['categoryId']);
                                         subcategoryIcon = Icon(
                                             icons_list[category.categoryIconId],
-                                            color: getCategoryColor(snapshot.data[index].categoryId)
+                                            color: getCategoryColor(snapshot.data[index]['categoryId'])
                                         );
                                       }
                                       TextEditingController transactionAmount = TextEditingController();
-                                      transactionAmount.text = snapshot.data[index].isExpense ? (-1 * snapshot.data[index].amount).toStringAsFixed(2) : snapshot.data[index].amount.toStringAsFixed(2);
+                                      transactionAmount.text = snapshot.data[index]['isExpense'] ? (-1 * snapshot.data[index]['amount']).toStringAsFixed(2) : snapshot.data[index]['amount'].toStringAsFixed(2);
                                       TextEditingController transactionDescription = TextEditingController();
-                                      transactionDescription.text = snapshot.data[index].description;
-                                      _store.dispatch(TransactionId(snapshot.data[index].transactionId));
+                                      transactionDescription.text = snapshot.data[index]['description'];
+                                      _store.dispatch(TransactionId(snapshot.data[index]['transactionId']));
                                       _store.dispatch(TransactionName(transactionName));
-                                      _store.dispatch(TransactionAccount(snapshot.data[index].accountId));
+                                      _store.dispatch(TransactionAccount(snapshot.data[index]['accountId']));
                                       _store.dispatch(TransactionDate(transactionDate));
-                                      _store.dispatch(TransactionIsExpense(snapshot.data[index].isExpense));
-                                      _store.dispatch(SelectCategory(snapshot.data[index].categoryId));
-                                      _store.dispatch(TransactionSubcategoryId(snapshot.data[index].subcategoryId));
+                                      _store.dispatch(TransactionIsExpense(snapshot.data[index]['isExpense']));
+                                      _store.dispatch(SelectCategory(snapshot.data[index]['categoryId']));
+                                      _store.dispatch(TransactionSubcategoryId(snapshot.data[index]['subcategoryId']));
                                       _store.dispatch(TransactionSubcategoryText(subcategoryText));
                                       _store.dispatch(TransactionSelectSubcategoryIcon(subcategoryIcon));
                                       _store.dispatch(TransactionAmount(transactionAmount));
@@ -210,17 +210,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         crossAxisAlignment: WrapCrossAlignment.center,
                                         alignment: WrapAlignment.center,
                                         children: [
-                                          snapshot.data[index].subcategoryId == null ?
+                                          snapshot.data[index]['subcategoryId'] == null ?
                                           Icon(
-                                            snapshot.data[index].subcategoryId == null ? icons_list[tags.data.categoryIconId] : icons_list[tags.data[0].categoryIconId],
-                                            color: getCategoryColor(snapshot.data[index].categoryId),
+                                            snapshot.data[index]['subcategoryId'] == null ? icons_list[tags.data.categoryIconId] : icons_list[tags.data[0].categoryIconId],
+                                            color: getCategoryColor(snapshot.data[index]['categoryId']),
                                           )
                                           :
                                           Icon(
                                             icons_list[tags.data[1].subcategoryIconId],
-                                            color: getCategoryColor(snapshot.data[index].categoryId)
+                                            color: getCategoryColor(snapshot.data[index]['categoryId'])
                                           ),
-                                          snapshot.data[index].subcategoryId == null ?
+                                          snapshot.data[index]['subcategoryId'] == null ?
                                           Text(
                                             tags.data.categoryName,
                                             style: GoogleFonts.lato(
@@ -235,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                               fontSize: baseFontSize.text2
                                             )
                                           ),
-                                          snapshot.data[index].subcategoryId == null ? Container() :
+                                          snapshot.data[index]['subcategoryId'] == null ? Container() :
                                           Text(
                                             tags.data[1].subcategoryName,
                                             style: GoogleFonts.lato(
@@ -247,24 +247,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       )
                                     ),
                                     title: Text(
-                                      snapshot.data[index].transactionName,
+                                      snapshot.data[index]['transactionName'],
                                       style: GoogleFonts.lato(
                                         color: baseColors.mainColor,
                                         fontSize: baseFontSize.text,
                                         fontWeight: FontWeight.bold
                                       )
                                     ),
-                                    subtitle: snapshot.data[index].description == '' ? null : Text(
-                                      snapshot.data[index].description,
+                                    subtitle: snapshot.data[index]['description'] == '' ? null : Text(
+                                      snapshot.data[index]['description'],
                                       style: GoogleFonts.lato(
                                         color: baseColors.mainColor,
                                         fontSize: baseFontSize.text
                                       )
                                     ),
                                     trailing: Text(
-                                      (snapshot.data[index].isExpense ? '' : '+') + snapshot.data[index].amount.toStringAsFixed(2),
+                                      (snapshot.data[index]['isExpense'] ? '' : '+') + snapshot.data[index]['adjustedAmount'].toStringAsFixed(2),
                                       style: GoogleFonts.lato(
-                                        color: snapshot.data[index].isExpense ? baseColors.red : baseColors.green,
+                                        color: snapshot.data[index]['isExpense'] ? baseColors.red : baseColors.green,
                                         fontSize: baseFontSize.text,
                                         fontWeight: FontWeight.bold
                                       )
