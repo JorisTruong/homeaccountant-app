@@ -1,5 +1,5 @@
 name: homeaccountantapp
-description: A bank manager app.
+description: Home Accountant is built to manage bank accounts. It lets you create accounts, add transactions, organize them into categories and subcategories. It also provides various kinds of charts and graphs to help having a better understanding of your expenses.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.1.0+3
+version: 1.1.0+4
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
