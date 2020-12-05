@@ -596,7 +596,7 @@ class _TransactionInfoPageState extends State<TransactionInfoPage> with TickerPr
                                                               prefixIcon: Icon(FontAwesome5.money_bill_alt, color: baseColors.mainColor),
                                                               suffixIcon: snapshot.hasData ?
                                                                 Padding(
-                                                                  padding: EdgeInsets.all(15),
+                                                                  padding: EdgeInsets.only(top: 15, bottom: 15),
                                                                   child: Text(
                                                                     CurrencyPickerUtils.getCountryByIsoCode(snapshot.data[0].accountCountryIso).currencyCode,
                                                                     style: TextStyle(color: baseColors.mainColor.withOpacity(0.6)),
