@@ -362,7 +362,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               FutureBuilder(
                                 future: Future.wait(
                                   [
-                                    getTotalBalance(databaseClient.db, null, _store.state.accountId),
+                                    _store.state.balance == 'Today\'s balance' ?
+                                      getTotalBalance(databaseClient.db, dateToDateRange('Day', DateTime.now()), _store.state.accountId) :
+                                        _store.state.balance == 'This month\'s balance' ?
+                                          getTotalBalance(databaseClient.db, dateToDateRange('Month', DateTime.now()), _store.state.accountId) :
+                                          _store.state.balance == 'This year\'s balance' ?
+                                            getTotalBalance(databaseClient.db, dateToDateRange('Year', DateTime.now()), _store.state.accountId) :
+                                            getTotalBalance(databaseClient.db, null, _store.state.accountId),
                                     accountFromId(databaseClient.db, _store.state.accountId)
                                   ]
                                 ),
@@ -401,17 +407,45 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "Total balance",
-                                style: GoogleFonts.lato(
-                                  color: baseColors.borderColor,
-                                  fontSize: baseFontSize.subtitle
+                              PopupMenuButton<String>(
+                                onSelected: (String newValue) {
+                                  _store.dispatch(ChangeBalance(newValue));
+                                },
+                                itemBuilder: (context) {
+                                  return balances.map((item) {
+                                    return PopupMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: GoogleFonts.lato(
+                                          color: baseColors.mainColor,
+                                          fontSize: baseFontSize.subtitle,
+                                        )
+                                      )
+                                    );
+                                  }).toList();
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      _store.state.balance,
+                                      style: GoogleFonts.lato(
+                                        color: baseColors.borderColor,
+                                        fontSize: baseFontSize.subtitle,
+                                      )
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_down,
+                                      color: baseColors.borderColor,
+                                    ),
+                                  ]
                                 )
                               )
                             ]
                           ),
                           SizedBox(
-                            height: 24
+                            height: 12
                           ),
                           Flexible(
                             child: Row(

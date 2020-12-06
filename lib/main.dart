@@ -82,6 +82,7 @@ void main() async {
       selectedDate: DateTime.now(),
       dateRange: dateToDateRange('Month', DateTime.now()),
       route: [AppRoutes.home],
+      balance : 'This month\'s balance',
       showTransactionType: 'All',
       showTransactionDate: showTransactionDate,
       isCreatingAccount: false, /// If we are creating an account or not

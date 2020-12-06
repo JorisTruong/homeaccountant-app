@@ -8,6 +8,13 @@ List options = [
   {'name': 'Settings', 'icon': Icons.settings}
 ];
 
+List balances = [
+  'Today\'s balance',
+  'This month\'s balance',
+  'This year\'s balance',
+  'Total balance'
+];
+
 class BaseColors {
   Color mainColor = Colors.grey[850];
   Color secondaryColor = Colors.grey[650];

@@ -150,6 +150,12 @@ class TransactionDescription {
   TransactionDescription(this.description);
 }
 
+class ChangeBalance {
+  final String balance;
+
+  ChangeBalance(this.balance);
+}
+
 class ShowTransactionType {
   final String showTransactionType;
 

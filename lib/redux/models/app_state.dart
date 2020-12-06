@@ -30,6 +30,7 @@ class AppState {
   final DateTime selectedDate;
   final Map<String, String> dateRange;
   final List<String> route;
+  final String balance;
   final String showTransactionType;
   final TextEditingController showTransactionDate;
   final bool isCreatingAccount;
@@ -64,6 +65,7 @@ class AppState {
     this.selectedDate,
     @required this.dateRange,
     @required this.route,
+    this.balance,
     this.showTransactionType,
     this.showTransactionDate,
     this.isCreatingAccount,
@@ -82,7 +84,9 @@ class AppState {
       return null;
     } else {
       return AppState(
-        accountId: json["accountId"].cast<int>()
+        accountId: json["accountId"].cast<int>(),
+        dateRange: json["dateRange"].cast<String>(),
+        route: json["route"].cast<String>()
       );
     }
   }

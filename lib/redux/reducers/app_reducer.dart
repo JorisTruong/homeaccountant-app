@@ -34,6 +34,7 @@ AppState appReducer(AppState state, action) {
     selectedDate: selectedDateReducer(state.selectedDate, action),
     dateRange: dateReducer(state.dateRange, action),
     route: navigationReducer(state.route, action),
+    balance: changeBalanceReducer(state.balance, action),
     showTransactionType: showTransactionTypeReducer(state.showTransactionType, action),
     showTransactionDate: showTransactionDateReducer(state.showTransactionDate, action),
     isCreatingAccount: isCreatingAccountReducer(state.isCreatingAccount, action),

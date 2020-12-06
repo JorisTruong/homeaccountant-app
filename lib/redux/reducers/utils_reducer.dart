@@ -9,6 +9,7 @@ final isCreatingSubcategoryReducer = TypedReducer<bool, IsCreatingSubcategory>(_
 final isSelectingSubcategoryReducer = TypedReducer<bool, IsSelectingSubcategory>(_isSelectingSubcategoryReducer);
 final mainCountryIsoReducer = TypedReducer<String, MainCountryIso>(_mainCountryIsoReducer);
 final mainCurrencyTextReducer = TypedReducer<TextEditingController, MainCurrencyText>(_mainCurrencyTextReducer);
+final changeBalanceReducer = TypedReducer<String, ChangeBalance>(_changeBalanceReducer);
 
 bool _isCreatingAccountReducer(bool isCreating, IsCreatingAccount action) {
   return action.isCreatingAccount;
@@ -32,4 +33,8 @@ String _mainCountryIsoReducer(String mainCountryIso, MainCountryIso action) {
 
 TextEditingController _mainCurrencyTextReducer(TextEditingController mainCurrencyText, MainCurrencyText action) {
   return action.mainCurrencyText;
+}
+
+String _changeBalanceReducer(String balance, ChangeBalance action) {
+  return action.balance;
 }
