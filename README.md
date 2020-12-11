@@ -1,5 +1,7 @@
 # Home Accountant
 
+<a href="https://play.google.com/store/apps/details?id=com.joristruong.homeaccountantapp" target="_blank" rel="noreferrer"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=60px /></a>
+
 Home Accountant is a FOSS (Free Open-Source Software) built to manage bank accounts.
 
 <img src="docs/1.jpg" width="200"/>
